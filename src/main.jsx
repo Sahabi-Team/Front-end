@@ -32,7 +32,7 @@ const theme = createTheme({
       contrastText: '#FFFFFF',
     },
     background: {
-      default: '#F5F5F5', // رنگ پس‌زمینه پیش‌فرض
+      default: '#F7F7F7', // رنگ پس‌زمینه پیش‌فرض
       paper: '#FFFFFF',   // رنگ پس‌زمینه کامپوننت‌ها
     },
     text: {
