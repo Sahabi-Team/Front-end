@@ -7,6 +7,7 @@ import { RtlProvider } from './utils/RTLProvider.jsx';
 import './index.css'
 import App from './App.jsx'
 import SignInSide from './pages/SignIn.jsx'
+import FAQPage from './pages/FAQ.jsx';
 
 const theme = createTheme({
   direction: "rtl",
@@ -27,7 +28,7 @@ const theme = createTheme({
       contrastText: '#FFFFFF',
     },
     background: {
-      default: '#F5F5F5', // رنگ پس‌زمینه پیش‌فرض
+      default: '#F7F7F7', // رنگ پس‌زمینه پیش‌فرض
       paper: '#FFFFFF',   // رنگ پس‌زمینه کامپوننت‌ها
     },
     text: {
@@ -45,6 +46,7 @@ createRoot(document.getElementById('root')).render(
           <Routes>
             <Route path="/" element={<App />} />
             <Route path="/login" element={<SignInSide />} />
+            <Route path="/FAQ" element={<FAQPage />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
