@@ -11,7 +11,6 @@ import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
-import ForgotPassword from "../modals/ForgotPassword";
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from "../CustomIcons";
 import { BorderAll } from "@mui/icons-material";
 import PersonIcon from "@mui/icons-material/Person";
@@ -24,6 +23,7 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
+import SuccessfulModal from "../modals/SuccessfulModal"
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -44,11 +44,12 @@ export default function SignInCard() {
   const [usernameErrorMessage, setUsernameErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
-  const [open, setOpen] = React.useState(false);
   const [openErrorModal, setOpenErrorModal] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const [rememberMe, setRememberMe] = React.useState(false);
+  const [successmessage,setSuccessMessage] = React.useState("");
+  const [opensuccessfulmodal,setOpenSuccessfulModal] = React.useState(false);
   
 
   const navigate = useNavigate();
@@ -61,9 +62,6 @@ export default function SignInCard() {
     navigate("/signup"); // تغییر مسیر به /askforemail
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -72,10 +70,12 @@ export default function SignInCard() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/client_auth/login/",
+        "http://127.0.0.1:8000/api/auth/login/",
         {
-          email: username,
-          password: password,
+         
+            "username": username,
+            "password": password
+       
         },
         {
           headers: {
@@ -83,7 +83,10 @@ export default function SignInCard() {
           },
         }
       );
-
+       
+      setSuccessMessage("خوش آمدید");
+      setOpenSuccessfulModal(true);
+      
       localStorage.setItem("access_token", response.data.access);
       localStorage.setItem("refresh_token", response.data.refresh);
 
@@ -99,6 +102,8 @@ export default function SignInCard() {
       // هدایت کاربر به داشبورد یا صفحه اصلی
       window.location.href = "/dashboard";
     } catch (error) {
+      setErrorMessage("نام کاربری یا رمز عبور اشتباه است.");
+          setOpenErrorModal(true);
       if (error.response) {
         if (error.response.status === 401) {
           setErrorMessage("نام کاربری یا رمز عبور اشتباه است.");
@@ -116,18 +121,21 @@ export default function SignInCard() {
   const handleCloseErrorModal = () => {
     setOpenErrorModal(false); // بستن مودال
   };
+  const handleCloseSuccessfulModal = () => {
+    setOpenSuccessfulModal(false); // بستن مودال
+  };
 
   const validateInputs = () => {
     let isValid = true;
     if (username) {
-      if (!/\S+@\S+\.\S+/.test(username)) {
-        setUsernameError(true);
-        setUsernameErrorMessage("نام کاربری نامعتبر است.");
-        isValid = false;
-      } else {
+      // if (!/\S+@\S+\.\S+/.test(username)) {
+      //   setUsernameError(true);
+      //   setUsernameErrorMessage("نام کاربری نامعتبر است.");
+      //   isValid = false;
+      // } else {
         setUsernameError(false);
         setUsernameErrorMessage("");
-      }
+    //  }
     } else {
       setUsernameError(true);
       setUsernameErrorMessage("لطفا نام کاربری خود را وارد کنید.");
@@ -341,7 +349,7 @@ export default function SignInCard() {
           onChange={handleRememberMeChange}/>}
           label="مرا به خاطر بسپار"
         />
-        <ForgotPassword open={open} handleClose={handleClose} />
+      
         <Box
           display="flex"
           justifyContent="center" // وسط‌چین کردن افقی
@@ -457,6 +465,11 @@ export default function SignInCard() {
           open={openErrorModal}
           onClose={handleCloseErrorModal}
           errorMessage={errorMessage}
+        />
+        <SuccessfulModal
+         open={opensuccessfulmodal}
+         onClose={handleCloseSuccessfulModal}
+         successMessage={successmessage}
         />
     </Card>
   );

@@ -22,6 +22,9 @@ import { useNavigate } from "react-router";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import ErrorModal from "../modals/ErrorModal";
+import SuccessfulModal from "../modals/SuccessfulModal";
+import axios from "axios";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -50,11 +53,21 @@ export default function SignUpCard() {
   const [confirmpasswordError, setConfirmpasswordError] = React.useState(false);
   const [confirmpasswordErrorMessage, setConfirmpasswordErrorMessage] =
     React.useState("");
-  const [open, setOpen] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
+  const [successmessage, setSuccessMessage] = React.useState("");
+  const [opensuccessfulmodal, setOpenSuccessfulModal] = React.useState(false);
+  const [openErrorModal, setOpenErrorModal] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
 
 
   const navigate = useNavigate();
+
+  const handleCloseErrorModal = () => {
+    setOpenErrorModal(false); // بستن مودال
+  };
+  const handleCloseSuccessfulModal = () => {
+    setOpenSuccessfulModal(false); // بستن مودال
+  };
 
   const handlechangeusername = (event) => {
     setUsername(event.target.value);
@@ -66,7 +79,6 @@ export default function SignUpCard() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
 
   const handlechangepassword = (event) => {
     setPassword(event.target.value);
@@ -85,15 +97,15 @@ export default function SignUpCard() {
 
   const validateusername = (input) => {
     if (input && input != "") {
-      if (!/\S+@\S+\.\S+/.test(input)) {
-        setUsernameError(true);
-        setUsernameErrorMessage("نام کاربری نامعتبر است");
-        return false;
-      } else {
-        setUsernameError(false);
-        setUsernameErrorMessage("");
-        return true;
-      }
+      // if (!/\S+@\S+\.\S+/.test(input)) {
+      //   setUsernameError(true);
+      //   setUsernameErrorMessage("نام کاربری نامعتبر است");
+      //   return false;
+      // } else {
+      setUsernameError(false);
+      setUsernameErrorMessage("");
+      return true;
+      // }
     } else {
       setUsernameError(true);
       setUsernameErrorMessage("این فیلد ضروری است.");
@@ -161,18 +173,50 @@ export default function SignUpCard() {
     navigate("/signin"); // تغییر مسیر به /askforemail
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    validateInputs();
+    if (!validateInputs()) return;
+
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/auth/register/", // آدرس API ثبت‌نام
+        
+          {
+            "username": username,
+            "email": email,
+            "password": password,
+            "phone_number": " ",
+            "role": "trainee"
+        }
+        ,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        setSuccessMessage("تبریک\nشما با موفقیت ثبت نام شدید.");
+        setOpenSuccessfulModal(true);
+        // console.log("User registered successfully:", response.data.user);
+      }
+    } catch (error) {
+      if (error.response) {
+        // اگر سرور پاسخ دهد اما خطایی وجود داشته باشد
+        setErrorMessage("ثبت نام ناموفق بود\nدوباره امتحان کنید.");
+        setOpenErrorModal(true);
+        // setError(error.response.data.errors || "Registration failed");
+        // setSuccessMessage(null);
+      } else {
+        // اگر مشکلی در ارتباط با سرور وجود داشته باشد
+        setErrorMessage("خطای سرور\n دوباره تلاش کنید");
+        setOpenErrorModal(true);
+        // setError("An error occurred while registering. Please try again.");
+        // setSuccessMessage(null);
+      }
+    }
   };
 
   const validateInputs = () => {
@@ -340,7 +384,7 @@ export default function SignUpCard() {
             helperText={passwordErrorMessage}
             name="password"
             placeholder="رمز عبور"
-            type= {showPassword? 'text' : 'password'}
+            type={showPassword ? "text" : "password"}
             id="password"
             autoComplete="current-password"
             required
@@ -564,6 +608,16 @@ export default function SignUpCard() {
           ثبت نام با حساب گوگل
         </Button>
       </Box>
+      <ErrorModal
+          open={openErrorModal}
+          onClose={handleCloseErrorModal}
+          errorMessage={errorMessage}
+        />
+        <SuccessfulModal
+         open={opensuccessfulmodal}
+         onClose={handleCloseSuccessfulModal}
+         successMessage={successmessage}
+        />
     </Card>
   );
 }
