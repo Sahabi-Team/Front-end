@@ -100,7 +100,7 @@ export default function SignInCard() {
       }
 
       // هدایت کاربر به داشبورد یا صفحه اصلی
-      window.location.href = "/dashboard";
+      // window.location.href = "/dashboard";
     } catch (error) {
       setErrorMessage("نام کاربری یا رمز عبور اشتباه است.");
           setOpenErrorModal(true);
