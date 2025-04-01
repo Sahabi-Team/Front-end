@@ -7,6 +7,9 @@ import { RtlProvider } from './utils/RTLProvider.jsx';
 import './index.css'
 import App from './App.jsx'
 import SignInSide from './pages/SignIn.jsx'
+import AskforEmail from './pages/AskforEmail.jsx'
+import SignUp from './pages/Signup.jsx'
+import ResetPassword from './pages/ResetPassword.jsx';
 
 const theme = createTheme({
   direction: "rtl",
@@ -44,7 +47,11 @@ createRoot(document.getElementById('root')).render(
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<App />} />
-            <Route path="/login" element={<SignInSide />} />
+            <Route path="/signin" element={<SignInSide />} />
+            <Route path="/askforemail" element={<AskforEmail />} />
+            <Route path="/signup" element={<SignUp/>} />
+            <Route path="/resetpassword" element={<ResetPassword/>} />
+
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

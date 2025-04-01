@@ -24,30 +24,27 @@ function ForgotPassword({ open, handleClose }) {
         },
       }}
     >
-      <DialogTitle>Reset password</DialogTitle>
+      <DialogTitle>فراموشی رمز عبور</DialogTitle>
       <DialogContent
         sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%' }}
       >
-        <DialogContentText>
-          Enter your account&apos;s email address, and we&apos;ll send you a link to
-          reset your password.
-        </DialogContentText>
+        
         <OutlinedInput
           autoFocus
           required
           margin="dense"
           id="email"
           name="email"
-          label="Email address"
-          placeholder="Email address"
+          label="ایمیل"
+          placeholder="ایمیل"
           type="email"
           fullWidth
         />
       </DialogContent>
       <DialogActions sx={{ pb: 3, px: 3 }}>
-        <Button onClick={handleClose}>Cancel</Button>
+        <Button onClick={handleClose}>لغو</Button>
         <Button variant="contained" type="submit">
-          Continue
+          ادامه
         </Button>
       </DialogActions>
     </Dialog>

@@ -1,19 +1,15 @@
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Stack from '@mui/material/Stack';
-import SignInCard from '../components/signin/SignInCard';
-import SignIn_img from '../components/signin/SignIn_img'
-import { Box , Container, Paper} from '@mui/material';
-import './SignIn.css'
+import SignUpCard from '../components/signup/SignUpCard';
+import { Box , Paper} from '@mui/material';
+import SignUp_img from '../components/signup/SignUp_img'
 
-
-
-export default function Sign_in(props) {
+export default function Sign_up(props) {
   return (
    
     <>
-    
-      <Paper elevation={20} sx={{borderRadius : '30px 30px 30px 30px'}} >
+    <Paper elevation={20} sx={{borderRadius : '30px 30px 30px 30px'}} >
       
       <CssBaseline enableColorScheme />
       <Stack
@@ -43,11 +39,11 @@ export default function Sign_in(props) {
             }}
           >
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <SignIn_img  />
+            <SignUp_img/>
             </Box>
             
              
-             <SignInCard />
+             <SignUpCard/>
              
            
             
@@ -55,9 +51,6 @@ export default function Sign_in(props) {
         </Stack>
       </Stack>
       </Paper>
-     
-   
- 
     </>
   );
 }
