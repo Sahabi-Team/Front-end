@@ -1,8 +1,12 @@
 import React from 'react';
 import Footer from '../components/Footer.jsx';
+import Navbar from '../components/Navbar.jsx';
+
 const HomePage = () => {
   return (
+    
     <div style={{ padding: '20px' }}>
+      <Navbar></Navbar>
       <h1>به صفحه اصلی خوش آمدید</h1>
       <p>این یک نمونه محتوا برای تست اسکرول و نمایش فوتر است.</p>
       <div style={{ height: '800px', backgroundColor: '#f4f4f4', marginTop: '20px' }}>
