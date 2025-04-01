@@ -6,13 +6,12 @@ import SignIn_img from '../components/signin/SignIn_img'
 import { Box , Paper} from '@mui/material';
 import './SignIn.css'
 
-
 export default function Sign_in(props) {
   return (
    
     <>
     <Paper elevation={20} sx={{borderRadius : '30px 30px 30px 30px'}} >
-      
+      <Navbar/>
       <CssBaseline enableColorScheme />
       <Stack
         direction="column"
@@ -52,6 +51,7 @@ export default function Sign_in(props) {
           </Stack>
         </Stack>
       </Stack>
+      <Footer/>
       </Paper>
     </>
   );
