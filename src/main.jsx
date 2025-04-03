@@ -10,6 +10,7 @@ import SignInSide from './pages/SignIn.jsx'
 import AskforEmail from './pages/AskforEmail.jsx'
 import SignUp from './pages/Signup.jsx'
 import ResetPassword from './pages/ResetPassword.jsx';
+import BodyBuildingTest from './pages/BodyBuildingTest.jsx';
 
 const theme = createTheme({
   direction: "rtl",
@@ -42,7 +43,7 @@ const theme = createTheme({
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    {/* <RtlProvider> */}
+    <RtlProvider>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Routes>
@@ -51,10 +52,11 @@ createRoot(document.getElementById('root')).render(
             <Route path="/askforemail" element={<AskforEmail />} />
             <Route path="/signup" element={<SignUp/>} />
             <Route path="/resetpassword" element={<ResetPassword/>} />
+            <Route path="/test" element={<BodyBuildingTest />} />
 
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
-    {/* </RtlProvider> */}
+    </RtlProvider>
   </StrictMode>
 )
