@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Stepper, Step, StepLabel, Button, Card, CardContent, Container, Box, Divider } from "@mui/material";
 import CssBaseline from '@mui/material/CssBaseline';
 import Step1 from "../components/BodyBuildingTest/Step1";
+import Step2 from "../components/BodyBuildingTest/Step2";
 
 const steps = ["مشخصات اولیه", "هدفت چیه؟", "کدوم بیماری را داری؟", "آمادگی جسمانیت الان در چه سطحیه؟"];
 
@@ -27,6 +28,8 @@ const BodyBuildingTest = () => {
     switch (activeStep) {
       case 0:
         return <Step1 setIsFormValid={setIsFormValid} />;
+      case 1:
+        return <Step2 setIsFormValid={setIsFormValid} />;
       default:
         return <p>محتوای این مرحله هنوز اضافه نشده</p>;
     }
