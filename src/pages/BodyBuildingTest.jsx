@@ -3,6 +3,7 @@ import { Stepper, Step, StepLabel, Button, Card, CardContent, Container, Box, Di
 import CssBaseline from '@mui/material/CssBaseline';
 import Step1 from "../components/BodyBuildingTest/Step1";
 import Step2 from "../components/BodyBuildingTest/Step2";
+import Step3 from "../components/BodyBuildingTest/Step3";
 
 const steps = ["مشخصات اولیه", "هدفت چیه؟", "کدوم بیماری را داری؟", "آمادگی جسمانیت الان در چه سطحیه؟"];
 
@@ -30,13 +31,15 @@ const BodyBuildingTest = () => {
         return <Step1 setIsFormValid={setIsFormValid} />;
       case 1:
         return <Step2 setIsFormValid={setIsFormValid} />;
+      case 2:
+        return <Step3 />;
       default:
         return <p>محتوای این مرحله هنوز اضافه نشده</p>;
     }
   };
 
   return (
-    <Container maxWidth="sm" sx={{ mt: 5 }}>
+    <Container maxWidth={activeStep === 2 ? false : "sm"} sx={{ mt: 5, maxWidth: "800px" }}>
       <CssBaseline enableColorScheme />
       <Card sx={{ p: 3, borderRadius: 3, boxShadow: 3 }}>
         <CardContent>
@@ -51,7 +54,7 @@ const BodyBuildingTest = () => {
             ))}
           </Stepper>
 
-          <Divider sx={{ my: 3 }} />
+          <Divider sx={{ my: 5 }} />
 
           {ContentOfStep()}
 
