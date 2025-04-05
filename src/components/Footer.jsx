@@ -5,46 +5,36 @@ import { Instagram, Telegram, LinkedIn, Twitter } from '@mui/icons-material';
 import logo from '../assets/Logo/Logo3.svg';
 
 const Footer = () => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  const handleScroll = () => {
-    const scrollPosition = window.innerHeight + window.scrollY;
-    const pageHeight = document.body.scrollHeight;
-
-    if (scrollPosition >= pageHeight - 50) {
-      setIsVisible(true);
-    } else {
-      setIsVisible(false);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
+ 
   return (
     <Box
       sx={{
-        display: isVisible ? 'block' : 'none',
+        display:'flex',
         background: 'linear-gradient(to bottom, #007941 85%, #00A358 100%)',
         color: 'white',
         textAlign: 'center',
-        position: 'fixed',
+      
         bottom: 0,
-        left: 0,
+       left: 0,
+       right:0,
         width: '100%',
-        zIndex: 1000,
-        paddingBottom: '10px',
+        zIndex: 800,
+        paddingBottom: '50px',
+        margintop:'auto',
+        justifyContent:'center',
+        alignItems:'center',
+         position: 'relative'
+         
       }}
     >
+      
         <Box sx={{ width: '100%', overflow: 'hidden', position: 'absolute', top: '-30px' }}>
     <svg viewBox="0 0 500 150" preserveAspectRatio="none" style={{ height: '60px', width: '100%' }}>
         <path d="M0,10 C150,180 350,-60 500,40 L500,150 L0,150 Z" style={{ fill: '#007941' }} />
     </svg>
     </Box>
-
-      <Grid container justifyContent="center" sx={{ position: 'relative', paddingTop: '60px' }}>
+     
+      <Grid container justifyContent="center" sx={{ position: 'relative', paddingTop: '60px' , px: 0 }}>
         <Grid item xs={12}>
           <Typography variant="h4">وقت یه شروع جدیده :)</Typography>
         </Grid>
@@ -54,13 +44,13 @@ const Footer = () => {
         </Grid>
 
         <Grid item xs={12} md={6} container justifyContent="space-between" alignItems="center">
-          <Box sx={{ textAlign: 'left' }}>
+          <Box sx={{ textAlign: 'right' }}>
             <Typography>
               <LocationOn sx={{ marginRight: 1 }} />
               نشانی: دانشگاه علم و صنعت - دپارتمان مهندسی کامپیوتر
             </Typography>
             <Typography sx={{ marginTop: 2 }}>
-              <Phone sx={{ marginRight: 0.5 }} /> 021-12345678
+              <Phone sx={{ marginRight: 1 }} /> 021-12345678
             </Typography>
           </Box>
           <Box>
@@ -87,13 +77,17 @@ const Footer = () => {
           </Grid>
         </Grid>
       </Grid>
+      
+      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', position: 'absolute', bottom: 10 }}>
+  <Typography variant="body2" sx={{ color: '#DADBD8' }}>
+    کلیه حقوق این سایت متعلق به مجموعه سحابی می‌باشد
+  </Typography>
+</Box>
 
-      <Typography variant="body2"   sx={{ color: '#DADBD8',margin: '30px 0' }}>
-        کلیه حقوق این سایت متعلق به مجموعه سحابی می‌باشد
-      </Typography>
+
+    
     </Box>
   );
 };
 
-export default Footer;
-
+export default Footer
