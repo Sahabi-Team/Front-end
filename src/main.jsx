@@ -11,6 +11,7 @@ import AskforEmail from './pages/AskforEmail.jsx'
 import SignUp from './pages/Signup.jsx'
 import ResetPassword from './pages/ResetPassword.jsx';
 import BodyBuildingTest from './pages/BodyBuildingTest.jsx';
+import EditProfile from './pages/ClientProfile.jsx';
 
 const theme = createTheme({
   direction: "rtl",
@@ -53,6 +54,7 @@ createRoot(document.getElementById('root')).render(
             <Route path="/signup" element={<SignUp/>} />
             <Route path="/resetpassword" element={<ResetPassword/>} />
             <Route path="/test" element={<BodyBuildingTest />} />
+            <Route path="/edit" element={<EditProfile />} />
 
           </Routes>
         </BrowserRouter>

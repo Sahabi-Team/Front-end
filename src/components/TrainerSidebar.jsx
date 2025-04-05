@@ -29,7 +29,7 @@ const Sidebar = () => {
                     alignItems: "center",
                     paddingTop: "20px",
                     right: 0,
-                    left: "auto",
+                    
                     direction: "rtl",
                     position: "fixed",
                     top: "76px",
@@ -39,7 +39,7 @@ const Sidebar = () => {
                     overflowY: "hidden"
                 }
             }}
-            anchor="right"
+          
         >
             <List sx={{ color: "black", width: "100%" }}>
                 <ListItem button component={Link} to="/dashboard" sx={{ textAlign: "right", color: "#00A359" }}>
