@@ -42,10 +42,7 @@ createRoot(document.getElementById('root')).render(
     {/* <RtlProvider> */}
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<App />} />
-           
-          </Routes>
+        <App />
         </BrowserRouter>
       </ThemeProvider>
     {/* </RtlProvider> */}

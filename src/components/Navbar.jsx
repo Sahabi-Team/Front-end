@@ -155,6 +155,8 @@ const drawer = (
           justifyContent: "space-between",
           alignItems: "center",
           flexDirection: isMobile ? "row" : "row-reverse",
+          zIndex: 1000,
+          
         }}
       >
         <Toolbar style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -225,18 +227,19 @@ const drawer = (
                   >
                     <button
                       style={{
-                        color: "#2D2E2E",
+                        color: "black",
                         background:"#F7F7F7",
-                        fontWeight: "bold",
                         fontSize: "1.1rem",
                         padding: "5px 50px",
                         display: "flex",
                         alignItems: "center",
                         gap: "5px",
                         border: "none",
+                        fontFamily: "Vazirmatn", 
                       }}
                       onClick={() => {
                         if (item === "سوالات متداول") navigate("/FAQ");
+                         if(item === "لیست مربی‌ها") navigate("/coaches");
                       }}
                     >
                       {item}

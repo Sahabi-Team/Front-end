@@ -1,15 +1,19 @@
 import React from 'react'
-import HomePage from './pages/HomePage';
+
 import { Routes, Route } from 'react-router-dom';
+
+import Edit from "./pages/EditProfile";
+
 
 function App() {
   return (
     <>
+      <Routes>
+
     
-     <Routes>
-        <Route path="/" element={<HomePage />} />
-      </Routes>
-    
+      <Route path="/edit/*" element={<Edit />} /> 
+ 
+    </Routes>
     </>
   )
 }
