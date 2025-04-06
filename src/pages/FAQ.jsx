@@ -3,6 +3,8 @@ import { Container, Box, Typography } from "@mui/material";
 import CssBaseline from '@mui/material/CssBaseline';
 import AccordionItem from "../components/FAQ/Accordion";
 import FAQ_Image from "../assets/imgs/FAQ.png";
+import Navbar from "../components/Navbar"
+import Footer from "../components/Footer";
 
 const Questions = [
   { question: "برای انجام تمرین‌های ورزشی حتما باید باشگاه برم؟", answer: "خیر، این شما هستید که محل تمرینتون رو انتخاب می‌کنید و ما با توجه به اون بهتون برنامه ورزشی می‌دیم. خیالتون راحت هم تو خونه هم تو باشگاه می‌تونید ورزش کنید." },
@@ -19,14 +21,16 @@ const Questions = [
 function FAQPage() {
   return (
     <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column"}}>
+      <Navbar />
       <CssBaseline enableColorScheme />
-      <Container maxWidth="md" sx={{flexGrow: 1, mt: 4, background: "#FFFFFF"}}>
+      <Container maxWidth="md" sx={{flexGrow: 1, mt: 3, p: 6, background: "#FFFFFF"}}>
         <img src={FAQ_Image} alt="FAQ_Image" style={{maxWidth: "100%", height: "auto"}} />
         <Typography fontSize={40} fontWeight={700} m={3}>سوالی داری؟</Typography>
         {Questions.map((faq, index) => (
           <AccordionItem key={index} question={faq.question} answer={faq.answer} />
         ))}
       </Container>
+      <Footer />
     </Box>
   );
 }
