@@ -97,10 +97,8 @@ const EditProfile = () => {
                     backgroundColor: "#F9F9F9", // پس‌زمینه کادر باید سفید یا روشن باشد
                     width: '90%', // عرض ریسپانسیو  
                     minheight: '170vh', 
-                   height: { xs: '220vh',  md: '130vh' }, 
+                    height: { xs: '220vh',  md: '130vh' }, 
                     marginTop: '130px', // Space for the navbar  
-                    marginRight: '80px', 
-                    marginLeft:'80px',
                     marginBottom: '30px', // فاصله از پایین  
                 }}  
             >  
@@ -207,13 +205,14 @@ const EditProfile = () => {
                     </div>
 
                     {/* ✅ فرم اطلاعات (سمت راست) */}
-                    <div style={{ flex: 1, flexDirection: "column", alignItems: "flex-end"  }}>
+                    <div style={{ flex: 1, flexDirection: "column", display: "flex"  }}>
                         <form onSubmit={handleSubmit} >  
                           <label style={{
                             fontSize: "16px",
                             color: "black",
                             marginBottom: "5px",
                             textAlign: "right"
+                            , display: "block"
                         }}>
                             نام و نام خانوادگی
                         </label>
@@ -233,10 +232,10 @@ const EditProfile = () => {
                             marginBottom: "20px", 
                             "& .MuiOutlinedInput-root": {
                                 "& fieldset": { border: "none" }, // حذف حاشیه
-                                textAlign: "right",
+                               
                             },
                             "& .MuiInputBase-input": {
-                                textAlign: "right", // متن راست‌چین
+                                // متن راست‌چین
                                 padding: "12px",
                             },
                             }}
@@ -248,6 +247,7 @@ const EditProfile = () => {
                             marginBottom: "5px",
                             textAlign: "right",
                             marginBottom:"10px",
+                             display: "block"
                         }}>
                            نام کاربری 
                         </label>
@@ -267,10 +267,10 @@ const EditProfile = () => {
                             marginBottom: "20px", 
                             "& .MuiOutlinedInput-root": {
                                 "& fieldset": { border: "none" }, // حذف حاشیه
-                                textAlign: "right",
+                                
                             },
                             "& .MuiInputBase-input": {
-                                textAlign: "right", // متن راست‌چین
+                                
                                 padding: "12px",
                             },
                             }}
@@ -280,6 +280,7 @@ const EditProfile = () => {
                             color: "black",
                             marginBottom: "5px",
                             textAlign: "right"
+                              , display: "block"
                         }}>
                           ایمیل
                         </label>
@@ -300,19 +301,22 @@ const EditProfile = () => {
                             marginBottom: "20px", 
                             "& .MuiOutlinedInput-root": {
                                 "& fieldset": { border: "none" }, // حذف حاشیه
-                                textAlign: "right",
+                              
                             },
                             "& .MuiInputBase-input": {
-                                textAlign: "right", // متن راست‌چین
+                              
                                 padding: "12px",
                             },
                             }}
                         />
+                         
+                
                         <label style={{
                             fontSize: "16px",
                             color: "black",
                             marginBottom: "5px",
                             textAlign: "right"
+                              , display: "block"
 
                         }}>
                              تلفن
@@ -334,10 +338,10 @@ const EditProfile = () => {
                             marginBottom: "20px", 
                             "& .MuiOutlinedInput-root": {
                                 "& fieldset": { border: "none" }, // حذف حاشیه
-                                textAlign: "right",
+                                textAlign: "left",
                             },
                             "& .MuiInputBase-input": {
-                                textAlign: "right", // متن راست‌چین
+                                textAlign: "left", // متن راست‌چین
                                 padding: "12px",
                             },
                             }}
@@ -347,6 +351,7 @@ const EditProfile = () => {
                             color: "black",
                             marginBottom: "5px",
                             textAlign: "right"
+                              , display: "block"
                         }}>
                                     رمز عبور
 
@@ -367,10 +372,10 @@ const EditProfile = () => {
                             marginBottom: "20px", 
                             "& .MuiOutlinedInput-root": {
                                 "& fieldset": { border: "none" }, // حذف حاشیه
-                                textAlign: "right",
+                               
                             },
                             "& .MuiInputBase-input": {
-                                textAlign: "right", // متن راست‌چین
+                              
                                 padding: "12px",
                             },
                             }}

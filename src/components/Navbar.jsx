@@ -71,8 +71,9 @@ const drawer = (
               backgroundColor: "#FFFFFF",
               textAlign: "center",
               display: "flex",
-              justifyContent: "space-between",
+             justifyContent: "space-between",
               alignItems: "center",
+             // anchor:"right"
             }}
             onClick={() => {
               if (item === "سوالات متداول") navigate("/FAQ");
@@ -131,14 +132,14 @@ const drawer = (
     <ListItem
       button
       style={{ marginTop: "20px", border: "2px solid green", borderRadius: "10px", color: "green", textAlign: "center" }}
-      onClick={() => navigate("/login")}
+      onClick={() => navigate("/signin")}
     >
       <ListItemText primary="ورود" />
     </ListItem>
     <ListItem
       button
       style={{ marginTop: "10px", backgroundColor: "green", color: "white", borderRadius: "10px", textAlign: "center" }}
-      onClick={() => navigate("/free-test")}
+      onClick={() => navigate("/test")}
     >
       <ListItemText primary="تست رایگان" />
     </ListItem>
@@ -157,6 +158,7 @@ const drawer = (
           alignItems: "center",
           flexDirection: isMobile ? "row" : "row-reverse",
           zIndex: 1000,
+          
           
         }}
       >
@@ -197,7 +199,7 @@ const drawer = (
                       padding: "10px 35px",
                       boxShadow: "0 4px 8px rgba(1,1,1,1.2)",
                     }}
-                    onClick={() => navigate("/free-test")}
+                    onClick={() => navigate("/test")}
                   >
                     تست رایگان
                   </Button>
@@ -210,7 +212,7 @@ const drawer = (
                       padding: "10px 30px",
                       boxShadow: "0 4px 8px rgba(1,1,1,1.2)",
                     }}
-                    onClick={() => navigate("/login")}
+                    onClick={() => navigate("/signin")}
                   >
                     ورود
                   </Button>
@@ -323,7 +325,7 @@ const drawer = (
       </AppBar>
 
       {/* نوبار موبایل */}
-      <Drawer anchor="right" open={mobileOpen} onClose={handleDrawerToggle}>
+      <Drawer anchor="left" open={mobileOpen} onClose={handleDrawerToggle}>
         {drawer}
       </Drawer>
     </>

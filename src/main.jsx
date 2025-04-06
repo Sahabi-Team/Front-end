@@ -44,7 +44,7 @@ const theme = createTheme({
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RtlProvider>
+    <RtlProvider> 
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Routes>
@@ -54,11 +54,11 @@ createRoot(document.getElementById('root')).render(
             <Route path="/signup" element={<SignUp/>} />
             <Route path="/resetpassword" element={<ResetPassword/>} />
             <Route path="/test" element={<BodyBuildingTest />} />
-            <Route path="/edit" element={<EditProfile />} />
+            <Route path="/editprofile" element={<EditProfile />} />
 
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
-    </RtlProvider>
+      </RtlProvider>  
   </StrictMode>
 )

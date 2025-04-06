@@ -13,7 +13,7 @@ const Footer = () => {
         background: 'linear-gradient(to bottom, #007941 85%, #00A358 100%)',
         color: 'white',
         textAlign: 'center',
-      
+        flexDirection: 'column',
         bottom: 0,
        left: 0,
        right:0,
@@ -23,7 +23,8 @@ const Footer = () => {
         margintop:'auto',
         justifyContent:'center',
         alignItems:'center',
-         position: 'relative'
+         position: 'relative',
+         
          
       }}
     >
