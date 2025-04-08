@@ -10,6 +10,7 @@ import SignInSide from './pages/SignIn.jsx'
 import AskforEmail from './pages/AskforEmail.jsx'
 import SignUp from './pages/Signup.jsx'
 import ResetPassword from './pages/ResetPassword.jsx';
+import Home from './pages/Home.jsx'
 
 const theme = createTheme({
   direction: "rtl",
@@ -51,6 +52,7 @@ createRoot(document.getElementById('root')).render(
             <Route path="/askforemail" element={<AskforEmail />} />
             <Route path="/signup" element={<SignUp/>} />
             <Route path="/resetpassword" element={<ResetPassword/>} />
+            <Route path='/home' element={<Home/>}></Route>
 
           </Routes>
         </BrowserRouter>
