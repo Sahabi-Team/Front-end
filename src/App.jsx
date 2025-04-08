@@ -1,10 +1,11 @@
 import React from 'react'
+import { Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
     <>
-      <h1>صفحه لاگین: login/</h1>
-      <h1>صفحه سوالات متداول: FAQ/</h1>
+    
+    
     </>
   )
 }

@@ -10,6 +10,9 @@ import SignInSide from './pages/SignIn.jsx'
 import AskforEmail from './pages/AskforEmail.jsx'
 import SignUp from './pages/Signup.jsx'
 import ResetPassword from './pages/ResetPassword.jsx';
+import BodyBuildingTest from './pages/BodyBuildingTest.jsx';
+import EditProfile from './pages/ClientProfile.jsx';
+import FAQPage from './pages/FAQ.jsx';
 import Home from './pages/Home.jsx'
 
 const theme = createTheme({
@@ -31,7 +34,7 @@ const theme = createTheme({
       contrastText: '#FFFFFF',
     },
     background: {
-      default: '#F5F5F5', // رنگ پس‌زمینه پیش‌فرض
+      default: '#F7F7F7', // رنگ پس‌زمینه پیش‌فرض
       paper: '#FFFFFF',   // رنگ پس‌زمینه کامپوننت‌ها
     },
     text: {
@@ -43,7 +46,7 @@ const theme = createTheme({
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    {/* <RtlProvider> */}
+    <RtlProvider> 
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Routes>
@@ -52,11 +55,14 @@ createRoot(document.getElementById('root')).render(
             <Route path="/askforemail" element={<AskforEmail />} />
             <Route path="/signup" element={<SignUp/>} />
             <Route path="/resetpassword" element={<ResetPassword/>} />
+            <Route path="/test" element={<BodyBuildingTest />} />
+            <Route path="/editprofile" element={<EditProfile />} />
+            <Route path="/FAQ" element={<FAQPage />} />
             <Route path='/home' element={<Home/>}></Route>
 
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
-    {/* </RtlProvider> */}
+      </RtlProvider>  
   </StrictMode>
 )
