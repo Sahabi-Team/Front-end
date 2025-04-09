@@ -8,6 +8,7 @@ import {
   } from "@mui/material";
   import React from "react";
   import BannerCard from "../components/home/BannerCard";
+  import NavBar from "../components/home/NavbarCard";
   
   export default function Home() {
     return (
@@ -27,7 +28,7 @@ import {
           <BannerCard />
         </Box>
         
-    {/* <NavBar/> */}
+    <NavBar/>
       </Box>
     );
   }
