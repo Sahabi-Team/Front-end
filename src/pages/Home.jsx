@@ -74,7 +74,24 @@ export default function Home() {
         </Typography>
       </Box>
      
- 
+      <Box
+  sx={{
+    height: '4px',
+    width: '40%',
+    ml: '30%', // تنظیم موقعیت افقی
+    mt: 45,
+    backgroundImage: 'linear-gradient(to right, transparent, #8BC34A, #4CAF50, #8BC34A, transparent)',
+    borderRadius: '3px',
+    boxShadow: '0 2px 12px rgba(76, 175, 80, 0.4)'
+  }}
+/>
+
+
+
+
+
+
+
 
     </Box>
   );
