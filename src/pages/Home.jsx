@@ -1,3 +1,5 @@
+import { useInView } from 'react-intersection-observer';
+import CountUp from 'react-countup';
 import { 
   CssBaseline, 
   Box, 
@@ -8,10 +10,32 @@ import {
 import React from "react";
 import BannerCard from "../components/home/BannerCard";
 import NavBar from "../components/home/NavbarCard";
-
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import PersonIcon from '@mui/icons-material/Person';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+
+const AnimatedCounter = ({ end, duration = 2 }) => {
+  // محاسبه گام و مدت زمان بر اساس مقدار نهایی
+  let step = 10
+  if(end>100){step = 10;}
+  if(end>500){step =50;}
+  if(end>1000){step = 100;}
+  const adjustedDuration = end > 500 ? 
+    Math.min(duration, end / 500) : // برای اعداد بزرگ سرعت بیشتری دارد
+    duration;
+
+  return (
+    <CountUp
+      end={end}
+      duration={adjustedDuration}
+      separator=","
+      decimals={0}
+      useEasing={true}
+      start={0}
+      step={step}
+    />
+  );
+};
 
 export default function Home() {
   return (
@@ -44,7 +68,6 @@ export default function Home() {
           variant="h3" 
           sx={{
             fontWeight: 'bold',
-           
             fontSize:{xs:'140%',sm:'200%',md:'200%',lg:'250%'},
             lineHeight: 1.2,
             mb: 2
@@ -78,132 +101,126 @@ export default function Home() {
       </Box>
      
       <Box
-  sx={{
-    height: '4px',
-    width: '40%',
-    ml: '30%', // تنظیم موقعیت افقی
-    mt: 45,
-    backgroundImage: 'linear-gradient(to right, transparent, #8BC34A, #4CAF50, #8BC34A, transparent)',
-    borderRadius: '3px',
-    boxShadow: '0 2px 12px rgba(76, 175, 80, 0.4)'
-  }}
-/>
+        sx={{
+          height: '4px',
+          width: '40%',
+          ml: '30%',
+          mt: 45,
+          backgroundImage: 'linear-gradient(to right, transparent, #8BC34A, #4CAF50, #8BC34A, transparent)',
+          borderRadius: '3px',
+          boxShadow: '0 2px 12px rgba(76, 175, 80, 0.4)'
+        }}
+      />
 
-
-
-
-
-
-{/* Stats Section */}
-<Box sx={{ 
-  mt: '7rem', 
-  px: 2,
-  display: 'flex',
-  justifyContent: 'center'
-}}>
-  <Stack 
-    direction={{ xs: 'column', sm: 'row' }}
-    spacing={{ xs: 3, sm: 3, md: 10, lg: 20, xl: 40 }}
-    justifyContent="center"
-    alignItems="center"
-    sx={{
-      width: '100%',
-      maxWidth: 1200,
-      textAlign: 'center',
-    }}
-  >
-    {/* Item 1 - Programs */}
-    <Box sx={{ 
-      minWidth: 100,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    }}>
-      <Typography variant="h4" sx={{ 
-        color: 'success.main',
-        fontWeight: 'bold',
-        mb: 1,
-        fontSize: { xs: '1.5rem', sm: '2.2rem' }
+      {/* Stats Section */}
+      <Box sx={{ 
+        mt: '7rem', 
+        px: 2,
+        display: 'flex',
+        justifyContent: 'center'
       }}>
-        +۳۰۰
-      </Typography>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Typography variant="body2" sx={{ 
-          color: 'text.secondary',
-          fontSize: { xs: '0.9rem', sm: '1rem' }
-        }}>
-          برنامه نوشته شده
-        </Typography>
-        <FitnessCenterIcon sx={{ 
-          color: 'success.light',
-          fontSize: '1.2rem',
-          mr: 1,
-        }}/>
-      </Box>
-    </Box>
+        <Stack 
+          direction={{ xs: 'column', sm: 'row' }}
+          spacing={{ xs: 3, sm: 3, md: 10, lg: 20, xl: 40 }}
+          justifyContent="center"
+          alignItems="center"
+          sx={{
+            width: '100%',
+            maxWidth: 1200,
+            textAlign: 'center',
+          }}
+        >
+          {/* Item 1 - Programs */}
+          <Box sx={{ 
+            minWidth: 100,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}>
+            <Typography variant="h4" sx={{ 
+              
+              fontWeight: 'bold',
+              mb: 1,
+              fontSize: { xs: '1.5rem', sm: '2.2rem' }
+            }}>
+              +<AnimatedCounter end={300} duration={5} />
+            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography variant="body2" sx={{ 
+                color: 'text.secondary',
+                fontSize: { xs: '0.9rem', sm: '1rem' }
+              }}>
+                برنامه نوشته شده
+              </Typography>
+              <FitnessCenterIcon sx={{ 
+                color: 'success.light',
+                fontSize: '1.2rem',
+                mr: 1,
+              }}/>
+            </Box>
+          </Box>
 
-    {/* Item 2 - Users */}
-    <Box sx={{ 
-      minWidth: 100,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    }}>
-      <Typography variant="h4" sx={{ 
-        color: 'success.main',
-        fontWeight: 'bold',
-        mb: 1,
-        fontSize: { xs: '1.5rem', sm: '2.2rem' }
-      }}>
-        +۱۳۵۰
-      </Typography>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Typography variant="body2" sx={{ 
-          color: 'text.secondary',
-          fontSize: { xs: '0.9rem', sm: '1rem' }
-        }}>
-          کاربر
-        </Typography>
-        <PersonIcon sx={{ 
-          color: 'info.main',
-          fontSize: '1.2rem',
-          mr: 1,
-        }}/>
-      </Box>
-    </Box>
+          {/* Item 2 - Users */}
+          <Box sx={{ 
+            minWidth: 100,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}>
+            <Typography variant="h4" sx={{ 
+             
+              fontWeight: 'bold',
+              mb: 1,
+              fontSize: { xs: '1.5rem', sm: '2.2rem' }
+            }}>
+              +<AnimatedCounter end={1350} duration={10} />
+            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography variant="body2" sx={{ 
+                color: 'text.secondary',
+                fontSize: { xs: '0.9rem', sm: '1rem' }
+              }}>
+                کاربر
+              </Typography>
+              <PersonIcon sx={{ 
+                color: 'info.main',
+                fontSize: '1.2rem',
+                mr: 1,
+              }}/>
+            </Box>
+          </Box>
 
-    {/* Item 3 - Coaches */}
-    <Box sx={{ 
-      minWidth: 100,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    }}>
-      <Typography variant="h4" sx={{ 
-        color: 'success.main',
-        fontWeight: 'bold',
-        mb: 1,
-        fontSize: { xs: '1.5rem', sm: '2.2rem' }
-      }}>
-        +۲۷
-      </Typography>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Typography variant="body2" sx={{ 
-          color: 'text.secondary',
-          fontSize: { xs: '0.9rem', sm: '1rem' }
-        }}>
-          مربی آماده
-        </Typography>
-        <StarBorderIcon sx={{ 
-          color: 'warning.main',
-          fontSize: '1.2rem',
-          mr: 1,
-        }}/>
+          {/* Item 3 - Coaches */}
+          <Box sx={{ 
+            minWidth: 100,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}>
+            <Typography variant="h4" sx={{ 
+             
+              fontWeight: 'bold',
+              mb: 1,
+              fontSize: { xs: '1.5rem', sm: '2.2rem' }
+            }}>
+              +<AnimatedCounter end={27} duration={5} />
+            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography variant="body2" sx={{ 
+                color: 'text.secondary',
+                fontSize: { xs: '0.9rem', sm: '1rem' }
+              }}>
+                مربی آماده
+              </Typography>
+              <StarBorderIcon sx={{ 
+                color: 'warning.main',
+                fontSize: '1.2rem',
+                mr: 1,
+              }}/>
+            </Box>
+          </Box>
+        </Stack>
       </Box>
-    </Box>
-  </Stack>
-</Box>
-
     </Box>
   );
 }
