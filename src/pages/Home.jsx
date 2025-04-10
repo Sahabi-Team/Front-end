@@ -8,7 +8,10 @@ import {
 import React from "react";
 import BannerCard from "../components/home/BannerCard";
 import NavBar from "../components/home/NavbarCard";
-import SportsGymnasticsIcon from '@mui/icons-material/SportsGymnastics';
+
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import PersonIcon from '@mui/icons-material/Person';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 
 export default function Home() {
   return (
@@ -91,7 +94,115 @@ export default function Home() {
 
 
 
+{/* Stats Section */}
+<Box sx={{ 
+  mt: '7rem', 
+  px: 2,
+  display: 'flex',
+  justifyContent: 'center'
+}}>
+  <Stack 
+    direction={{ xs: 'column', sm: 'row' }}
+    spacing={{ xs: 3, sm: 3, md: 10, lg: 20, xl: 40 }}
+    justifyContent="center"
+    alignItems="center"
+    sx={{
+      width: '100%',
+      maxWidth: 1200,
+      textAlign: 'center',
+    }}
+  >
+    {/* Item 1 - Programs */}
+    <Box sx={{ 
+      minWidth: 100,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    }}>
+      <Typography variant="h4" sx={{ 
+        color: 'success.main',
+        fontWeight: 'bold',
+        mb: 1,
+        fontSize: { xs: '1.5rem', sm: '2.2rem' }
+      }}>
+        +۳۰۰
+      </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Typography variant="body2" sx={{ 
+          color: 'text.secondary',
+          fontSize: { xs: '0.9rem', sm: '1rem' }
+        }}>
+          برنامه نوشته شده
+        </Typography>
+        <FitnessCenterIcon sx={{ 
+          color: 'success.light',
+          fontSize: '1.2rem',
+          mr: 1,
+        }}/>
+      </Box>
+    </Box>
 
+    {/* Item 2 - Users */}
+    <Box sx={{ 
+      minWidth: 100,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    }}>
+      <Typography variant="h4" sx={{ 
+        color: 'success.main',
+        fontWeight: 'bold',
+        mb: 1,
+        fontSize: { xs: '1.5rem', sm: '2.2rem' }
+      }}>
+        +۱۳۵۰
+      </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Typography variant="body2" sx={{ 
+          color: 'text.secondary',
+          fontSize: { xs: '0.9rem', sm: '1rem' }
+        }}>
+          کاربر
+        </Typography>
+        <PersonIcon sx={{ 
+          color: 'info.main',
+          fontSize: '1.2rem',
+          mr: 1,
+        }}/>
+      </Box>
+    </Box>
+
+    {/* Item 3 - Coaches */}
+    <Box sx={{ 
+      minWidth: 100,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    }}>
+      <Typography variant="h4" sx={{ 
+        color: 'success.main',
+        fontWeight: 'bold',
+        mb: 1,
+        fontSize: { xs: '1.5rem', sm: '2.2rem' }
+      }}>
+        +۲۷
+      </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Typography variant="body2" sx={{ 
+          color: 'text.secondary',
+          fontSize: { xs: '0.9rem', sm: '1rem' }
+        }}>
+          مربی آماده
+        </Typography>
+        <StarBorderIcon sx={{ 
+          color: 'warning.main',
+          fontSize: '1.2rem',
+          mr: 1,
+        }}/>
+      </Box>
+    </Box>
+  </Stack>
+</Box>
 
     </Box>
   );
