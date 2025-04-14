@@ -10,6 +10,8 @@ import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import PersonIcon from "@mui/icons-material/Person";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import patternImage from "../assets/imgs/home/Background_Page.png";
+import FeaturesGrid from "../components/home/Featured_Grid";
+import GreenGradientBar from '../components/home/Seprator'
 
 const AnimatedCounter = ({ end, duration = 2 }) => {
   // محاسبه گام و مدت زمان بر اساس مقدار نهایی
@@ -325,19 +327,39 @@ export default function Home() {
         }}
       />
 
-      
-
       <FullWidthRepeatingBackground
         imageUrl={patternImage}
         repeatDirection="repeat-y"
       >
-        <Box sx={{ p: 0 }}>
-         {/* Remaining content will be placed here */}
+        <Box
+          sx={{
+            p: 0,
+            pt: { xs: 4, md: 8 }, // فاصله از بالای بک‌گراند
+            pb: { xs: 6, md: 10 }, // فاصله از پایین بک‌گراند
+          }}
+        >
+          <FeaturesGrid />
 
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: { xs: "5%", sm: "5%", md: "5%" }, // تغییر margin بر اساس سایز صفحه
+            }}
+          >
+            <Typography
+              variant="h4"
+              sx={{
+                fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" }, // تغییر سایز فونت
+                fontWeight: "bold", // در صورت نیاز
+                textAlign: "center", // برای اطمینان از وسطچین بودن متن
+              }}
+            >
+             مربی های برتر
+            </Typography>
+          </Box>
 
-          
-
-
+          <GreenGradientBar animated colors={["#ff9800", "#ff5722", "#ff9800"]} />
 
         </Box>
       </FullWidthRepeatingBackground>
