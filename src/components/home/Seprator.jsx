@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, keyframes } from "@mui/material";
 
-// انیمیشن رفت‌و‌برگشتی برای گرادینت
+
 const slide = keyframes`
   0% {
     background-position: 300% 0;
