@@ -11,7 +11,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import patternImage from "../assets/imgs/home/Background_Page.png";
 import FeaturesGrid from "../components/home/Featured_Grid";
-import GreenGradientBar from '../components/home/Seprator'
+import GreenGradientBar from "../components/home/Seprator";
 
 const AnimatedCounter = ({ end, duration = 2 }) => {
   // محاسبه گام و مدت زمان بر اساس مقدار نهایی
@@ -150,7 +150,7 @@ export default function Home() {
           ml: "30%",
           mt: 45,
           backgroundImage:
-            "linear-gradient(to right, transparent, #8BC34A, #4CAF50, #8BC34A, transparent)",
+            "linear-gradient(to right, transparent, #009e57, #009e57, #009e57, transparent)",
           borderRadius: "3px",
           boxShadow: "0 2px 12px rgba(76, 175, 80, 0.4)",
         }}
@@ -314,17 +314,9 @@ export default function Home() {
         </Typography>
       </Box>
 
-      <Box
-        sx={{
-          height: "4px",
-          width: "10%",
-          ml: "45%",
-          mt: 3,
-          backgroundImage:
-            "linear-gradient(to right, transparent, #8BC34A, #4CAF50, #8BC34A, transparent)",
-          borderRadius: "3px",
-          boxShadow: "0 2px 12px rgba(76, 175, 80, 0.4)",
-        }}
+      <GreenGradientBar
+        animated={true}
+        colors={["#009e57", "#009e57", "#009e57"]}
       />
 
       <FullWidthRepeatingBackground
@@ -355,12 +347,14 @@ export default function Home() {
                 textAlign: "center", // برای اطمینان از وسطچین بودن متن
               }}
             >
-             مربی های برتر
+              مربی های برتر
             </Typography>
           </Box>
 
-          <GreenGradientBar animated colors={["#ff9800", "#ff5722", "#ff9800"]} />
-
+          <GreenGradientBar
+            animated
+            colors={["#ff9800", "#ff5722", "#ff9800"]}
+          />
         </Box>
       </FullWidthRepeatingBackground>
     </Box>

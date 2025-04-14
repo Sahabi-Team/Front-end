@@ -27,6 +27,11 @@ const features = [
     text: "هر روز کاری که کردی رو ثبت کن تا آخر دوره‌ات بتونی یه آنالیز خوب از خودت داشته باشی !!!",
     image: analyticsImg,
   },
+  {
+    title: "2برقرقآنالیز دوره ای",
+    text: "هر روز کاری که کردی رو ثبت کن تا آخر دوره‌ات بتونی یه آنالیز خوب از خودت داشته باشی !!!",
+    image: analyticsImg,
+  },
 ];
 
 const OrangeBar = ({ position, alignFarRight = false }) => {

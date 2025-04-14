@@ -1,13 +1,13 @@
 import React from "react";
 import { Box, keyframes } from "@mui/material";
 
-// انیمیشن برای گرادینت در حال حرکت
+// انیمیشن رفت‌و‌برگشتی برای گرادینت
 const slide = keyframes`
   0% {
-    background-position: 200% 0;
+    background-position: 300% 0;
   }
   100% {
-    background-position: -200% 0;
+    background-position: -300% 0;
   }
 `;
 
@@ -30,10 +30,12 @@ const GreenGradientBar = ({
         mt: marginTop,
         ml: marginLeft,
         backgroundImage: gradient,
-        backgroundSize: "200% auto",
-        animation: animated ? `${slide} 3s linear infinite` : "none",
+        backgroundSize: "400% auto",
+        animation: animated
+          ? `${slide} 5s ease-in-out infinite alternate`
+          : "none",
         borderRadius: "3px",
-        boxShadow: `0 2px 12px ${colors[1]}66`, // رنگ دوم با شفافیت
+        boxShadow: `0 2px 12px ${colors[1]}66`,
       }}
     />
   );
