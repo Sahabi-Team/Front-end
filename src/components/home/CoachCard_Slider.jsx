@@ -1,5 +1,5 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useEffect } from 'react';
+import { useEffect } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -12,68 +12,152 @@ import {
   Autoplay,
 } from "swiper/modules";
 import CoachCard from "./TrainerCard";
-import { useMediaQuery, Box, Grid, IconButton } from "@mui/material";
+import { useMediaQuery, Box, Grid, IconButton, Stack } from "@mui/material";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 
 export default function CoachSlider({ coaches }) {
   const isMediumOrLarger = useMediaQuery((theme) => theme.breakpoints.up("md"));
   const swiperRef = useRef(null);
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (swiperRef.current) {
-        swiperRef.current?.swiper.autoplay?.restart();
-      }
-    };
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     if (swiperRef.current) {
+  //       swiperRef.current?.swiper.autoplay?.restart();
+  //     }
+  //   };
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  //   window.addEventListener("resize", handleResize);
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, []);
 
   if (!isMediumOrLarger) {
     return (
-    
-       
+      <Stack
+        direction="column"
+        alignItems="center"
+        spacing={3}
+        sx={{ my: 4, width: "100%", }}
+      >
+        <Swiper
+          ref={swiperRef}
+          loop={true}
+          centeredSlides={true}
+          autoplay={{
+            delay: 3500,
+            disableOnInteraction: false,
+          }}
+          pagination={{ clickable: true }}
+          speed={800}
+          grabCursor={true}
+          modules={[Pagination, Autoplay]}
+          breakpoints={{
+            0: { slidesPerView: 1, spaceBetween: 24 },
+            480: { slidesPerView: 1.1, spaceBetween: 24 },
+            720: { slidesPerView: 1.5, spaceBetween: "1%" },
+            768: { slidesPerView: 1.5, spaceBetween: "1%" },
+          }}
+          style={{
+            paddingBottom: "40px",
+            width: "100%",
+            overflow: "hidden",
+          }}
+        >
+          {coaches.map((coach, index) => (
+            <SwiperSlide key={index} className="three-d-slide">
+              <Box className="three-d-card">
+                <CoachCard {...coach} />
+              </Box>
+            </SwiperSlide>
+          ))}
+        </Swiper>
 
-       
-          <Swiper
-            ref={swiperRef}
-            slidesPerView={1}
-            loop={true}
-            spaceBetween={16}
-            autoplay={{
-              delay: 3500,
-              disableOnInteraction: false,
+        <Box display="flex" justifyContent="center" gap={2}>
+          <IconButton
+            onClick={() => swiperRef.current?.swiper.slidePrev()}
+            sx={{
+              backgroundColor: "primary.main",
+              color: "white",
+              "&:hover": {
+                backgroundColor: "primary.dark",
+                transform: "scale(1.1)",
+              },
+              transition: "all 0.3s ease",
+              boxShadow: 3,
+              width: 40,
+              height: 40,
             }}
-            pagination={{ clickable: true }}
-            navigation={false}
-            modules={[Pagination, Navigation, Autoplay]}
-            style={{ paddingBottom: "24px" }}
           >
-            {coaches.map((coach, index) => (
-              <SwiperSlide key={index}>
-                <div
-                  style={{
-                    backgroundColor: "#fff",
-                    borderRadius: "16px",
-                    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                    padding: "12px",
-                    marginInline: "auto",
-                    
-                  }}
-                >
-                  <CoachCard {...coach} />
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-       
+            <ChevronLeft fontSize="medium" />
+          </IconButton>
 
+          <IconButton
+            onClick={() => swiperRef.current?.swiper.slideNext()}
+            sx={{
+              backgroundColor: "primary.main",
+              color: "white",
+              "&:hover": {
+                backgroundColor: "primary.dark",
+                transform: "scale(1.1)",
+              },
+              transition: "all 0.3s ease",
+              boxShadow: 3,
+              width: 40,
+              height: 40,
+            }}
+          >
+            <ChevronRight fontSize="medium" />
+          </IconButton>
+        </Box>
 
-    
+        {/* استایل‌های سه‌بعدی */}
+        <style jsx>{`
+          .three-d-slide {
+            display: flex;
+            justify-content: center;
+            perspective: 1200px;
+          }
+
+          .three-d-card {
+            background-color: #fff;
+            border-radius: 16px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            padding: 16px;
+            width: 390px; /* Default width */
+            transition: all 0.5s ease;
+            transform-style: preserve-3d;
+          }
+
+          /* Responsive width using media queries */
+          @media (min-width: 600px) {
+            /* sm breakpoint */
+            .three-d-card {
+              width: 407px;
+            }
+          }
+
+          .swiper-slide-active .three-d-card {
+            transform: scale(1.05) rotateY(0deg);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+          }
+
+          .swiper-slide-prev .three-d-card {
+            transform: scale(0.9) rotateY(15deg);
+            opacity: 0.8;
+          }
+
+          .swiper-slide-next .three-d-card {
+            transform: scale(0.9) rotateY(-15deg);
+            opacity: 0.8;
+          }
+
+          .three-d-card:hover {
+            transform: scale(1.06) rotateY(5deg);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2);
+          }
+        `}</style>
+      </Stack>
     );
   }
-  
 
   return (
     <Grid container spacing={2} sx={{ alignItems: "center", my: 4 }}>
