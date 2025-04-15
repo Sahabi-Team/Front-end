@@ -206,7 +206,7 @@ export default function CoachSlider({ coaches }) {
             }}
             pagination={{ clickable: true }}
             modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
-            style={{ paddingBottom: "40px" }}
+            style={{ paddingBottom: "40px"}}
             breakpoints={{
               0: { slidesPerView: 1, spaceBetween: 16 },
               640: { slidesPerView: 1.2, spaceBetween: 20 },

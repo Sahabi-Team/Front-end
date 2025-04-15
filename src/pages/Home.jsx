@@ -5,6 +5,8 @@ import React from "react";
 import BannerCard from "../components/home/BannerCard";
 import NavBar from "../components/home/NavbarCard";
 //  import NavBar from "../components/Navbar";
+import Button from '@mui/material/Button';
+import { styled } from '@mui/material/styles';
 
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import PersonIcon from "@mui/icons-material/Person";
@@ -14,6 +16,26 @@ import FeaturesGrid from "../components/home/Featured_Grid";
 import GreenGradientBar from "../components/home/Seprator";
 import CoachCard from "../components/home/TrainerCard";
 import CoachSlider from "../components/home/CoachCard_Slider";
+
+
+const FullListButton = styled(Button)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
+  color: 'white',
+  padding: '10px 20px',
+  borderRadius: '8px',
+  fontWeight: 'bold',
+  '&:hover': {
+    backgroundColor: theme.palette.primary.dark,
+  },
+}));
+
+const CoachListButton = () => {
+  return (
+    <FullListButton variant="contained" sx={{ml:2}}>
+      مشاهده لیست کامل مربی‌ها
+    </FullListButton>
+  );
+};
 
 const coaches = [
   {
@@ -419,7 +441,6 @@ export default function Home() {
           />
 
           {/* add coaches here  */}
-          {/* add coaches here */}
           <Box
             sx={{
               mt: 5,
@@ -431,6 +452,9 @@ export default function Home() {
           >
             <CoachSlider coaches={coaches} />
           </Box>
+          
+          <CoachListButton/>
+
         </Box>
       </FullWidthRepeatingBackground>
     </Box>
