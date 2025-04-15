@@ -5,8 +5,8 @@ import React from "react";
 import BannerCard from "../components/home/BannerCard";
 import NavBar from "../components/home/NavbarCard";
 //  import NavBar from "../components/Navbar";
-import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
+import Button from "@mui/material/Button";
+import { styled } from "@mui/material/styles";
 
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import PersonIcon from "@mui/icons-material/Person";
@@ -16,22 +16,22 @@ import FeaturesGrid from "../components/home/Featured_Grid";
 import GreenGradientBar from "../components/home/Seprator";
 import CoachCard from "../components/home/TrainerCard";
 import CoachSlider from "../components/home/CoachCard_Slider";
-
+import CommentCard from "../components/home/CommentCard";
 
 const FullListButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
-  color: 'white',
-  padding: '10px 20px',
-  borderRadius: '8px',
-  fontWeight: 'bold',
-  '&:hover': {
+  color: "white",
+  padding: "10px 20px",
+  borderRadius: "8px",
+  fontWeight: "bold",
+  "&:hover": {
     backgroundColor: theme.palette.primary.dark,
   },
 }));
 
 const CoachListButton = () => {
   return (
-    <FullListButton variant="contained" sx={{ml:2}}>
+    <FullListButton variant="contained" sx={{ ml: 2 }}>
       مشاهده لیست کامل مربی‌ها
     </FullListButton>
   );
@@ -415,46 +415,87 @@ export default function Home() {
         >
           <FeaturesGrid />
 
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              marginTop: { xs: "5%", sm: "5%", md: "5%" }, // تغییر margin بر اساس سایز صفحه
-            }}
-          >
-            <Typography
-              variant="h4"
+          {/* coach part */}
+          <Box>
+            <Box
               sx={{
-                fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" }, // تغییر سایز فونت
-                fontWeight: "bold", // در صورت نیاز
-                textAlign: "center", // برای اطمینان از وسطچین بودن متن
+                display: "flex",
+                justifyContent: "center",
+                marginTop: { xs: "5%", sm: "5%", md: "5%" }, // تغییر margin بر اساس سایز صفحه
               }}
             >
-              مربی های برتر
-            </Typography>
-          </Box>
-          <GreenGradientBar
-            animated
-            colors={["#ff9800", "#ff5722", "#ff9800"]}
-            width="15%"
-            marginLeft="42.7%"
-          />
+              <Typography
+                variant="h4"
+                sx={{
+                  fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" }, // تغییر سایز فونت
+                  fontWeight: "bold", // در صورت نیاز
+                  textAlign: "center", // برای اطمینان از وسطچین بودن متن
+                }}
+              >
+                مربی های برتر
+              </Typography>
+            </Box>
+            <GreenGradientBar
+              animated
+              colors={["#ff9800", "#ff5722", "#ff9800"]}
+              width="15%"
+              marginLeft="42.7%"
+            />
 
-          {/* add coaches here  */}
-          <Box
-            sx={{
-              mt: 5,
-              px: { xs: 1, md: 2 },
-              display: "flex",
-              justifyContent: "center",
-              width: "100%",
-            }}
-          >
-            <CoachSlider coaches={coaches} />
-          </Box>
-          
-          <CoachListButton/>
+            {/* add coaches here  */}
+            <Box
+              sx={{
+                mt: 5,
+                px: { xs: 1, md: 2 },
+                display: "flex",
+                justifyContent: "center",
+                width: "100%",
+              }}
+            >
+              <CoachSlider coaches={coaches} />
+            </Box>
 
+            <CoachListButton />
+          </Box>
+
+          {/* {your comments part} */}
+          <Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: { xs: "10%", sm: "10%", md: "10%" }, // تغییر margin بر اساس سایز صفحه
+              }}
+            >
+              <Typography
+                variant="h4"
+                sx={{
+                  fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" }, // تغییر سایز فونت
+                  fontWeight: "bold", // در صورت نیاز
+                  textAlign: "center", // برای اطمینان از وسطچین بودن متن
+                }}
+              >
+                نظرات شما
+              </Typography>
+            </Box>
+            <GreenGradientBar
+              animated
+              colors={["#ff9800", "#ff5722", "#ff9800"]}
+              width="15%"
+              marginLeft="42.7%"
+            />
+
+            {/* Comments Part Here */}
+            <CommentCard
+              name="محسن معین فر"
+              avatar="https://via.placeholder.com/150" // آدرس عکس واقعی مربی رو اینجا بذار
+              role="کشتی گیر"
+              rating={5}
+              comment="گرفتن برنامه از جیمی‌فیتو خیلی بهم کمک کرد چون میتونستم هر حرکتی که بلد نیستم رو از لیست حرکات ورزشی ببینم و دیدن آنالیز کلی بهم انگیزه زیادی برای ادامه دادن میداد!"
+              showLeftPin={true}
+              showRightPin={true}
+            />
+          </Box>
         </Box>
       </FullWidthRepeatingBackground>
     </Box>
