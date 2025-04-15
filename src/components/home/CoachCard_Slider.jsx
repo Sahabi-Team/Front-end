@@ -19,23 +19,23 @@ export default function CoachSlider({ coaches }) {
   const isMediumOrLarger = useMediaQuery((theme) => theme.breakpoints.up("md"));
   const swiperRef = useRef(null);
 
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     if (swiperRef.current) {
-  //       swiperRef.current?.swiper.autoplay?.restart();
-  //     }
-  //   };
+  useEffect(() => {
+    const handleResize = () => {
+      if (swiperRef.current) {
+        swiperRef.current?.swiper.autoplay?.restart();
+      }
+    };
 
-  //   window.addEventListener("resize", handleResize);
-  //   return () => window.removeEventListener("resize", handleResize);
-  // }, []);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   if (!isMediumOrLarger) {
     return (
       <Stack
         direction="column"
         alignItems="center"
-        spacing={3}
+        spacing={1}
         sx={{ my: 4, width: "100%", }}
       >
         <Swiper
@@ -52,12 +52,12 @@ export default function CoachSlider({ coaches }) {
           modules={[Pagination, Autoplay]}
           breakpoints={{
             0: { slidesPerView: 1, spaceBetween: 24 },
-            480: { slidesPerView: 1.1, spaceBetween: 24 },
-            720: { slidesPerView: 1.5, spaceBetween: "1%" },
-            768: { slidesPerView: 1.5, spaceBetween: "1%" },
+            480: { slidesPerView: 1, spaceBetween: 24 },
+            720: { slidesPerView: 1.5, spaceBetween: "-%5" },
+            768: { slidesPerView: 1.5, spaceBetween: "-7%" },
           }}
           style={{
-            paddingBottom: "40px",
+            paddingBottom: "50px",
             width: "100%",
             overflow: "hidden",
           }}
@@ -71,7 +71,7 @@ export default function CoachSlider({ coaches }) {
           ))}
         </Swiper>
 
-        <Box display="flex" justifyContent="center" gap={2}>
+        <Box display="flex" justifyContent="center" gap={1}>
           <IconButton
             onClick={() => swiperRef.current?.swiper.slidePrev()}
             sx={{
