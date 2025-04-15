@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   AppBar,
   Toolbar,
@@ -26,12 +26,18 @@ import {
 } from "@mui/icons-material";
 import Vazneh from '../../assets/imgs/home/vazneh.png';
 
-const TransparentAppBar = styled(AppBar)(({ theme }) => ({
+const TransparentAppBar = styled(AppBar, {
+  shouldForwardProp: (prop) => prop !== 'isScrolled',
+})(({ theme, isScrolled }) => ({
   width: "100%",
-  backgroundColor: "transparent",
-  boxShadow: "none",
+  backgroundColor: isScrolled
+    ? "rgba(255, 255, 255, 0.7)"
+    : "transparent",
+  backdropFilter: isScrolled ? "blur(10px)" : "none",
+  boxShadow: isScrolled ? "0 4px 10px rgba(0, 0, 0, 0.1)" : "none",
   borderRadius: "12px",
   direction: "rtl",
+  transition: "background-color 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease",
 }));
 
 const GradientButton = styled(Button)(({ theme }) => ({
@@ -81,6 +87,17 @@ const LogoImage = styled('img')(({ theme }) => ({
 const BeautifulAppBar = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 30);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const [anchorElPrograms, setAnchorElPrograms] = useState(null);
   const [anchorElMovements, setAnchorElMovements] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -130,11 +147,9 @@ const BeautifulAppBar = () => {
         <ListItem button onClick={() => handleMenuItemClick("coaches")}>
           <ListItemText primary="لیست مربی ها" />
         </ListItem>
-        
         <ListItem button onClick={() => handleMenuItemClick("faq")}>
           <ListItemText primary="سوالات متداول" />
         </ListItem>
-        
         <ListItem button onClick={handleProgramsMobileClick}>
           <ListItemText primary="برنامه‌های ورزشی" />
           {openProgramsMobile ? <ExpandLess /> : <ExpandMore />}
@@ -152,7 +167,6 @@ const BeautifulAppBar = () => {
             </ListItem>
           </List>
         </Collapse>
-        
         <ListItem button onClick={handleMovementsMobileClick}>
           <ListItemText primary="بانک حرکات ورزشی" />
           {openMovementsMobile ? <ExpandLess /> : <ExpandMore />}
@@ -183,14 +197,12 @@ const BeautifulAppBar = () => {
 
   return (
     <>
-      <TransparentAppBar>
-      
+      <TransparentAppBar isScrolled={isScrolled}>
         <Toolbar sx={{ justifyContent: "space-between" }}>
-        <LogoImage src={Vazneh} alt="لوگو وزنه" />
+          <LogoImage src={Vazneh} alt="لوگو وزنه" />
           {isMobile ? (
             <>
-              <Box sx={{ display: 'flex', alignItems: 'center' ,ml : '5rem'}}>
-                
+              <Box sx={{ display: 'flex', alignItems: 'center', ml: '5rem' }}>
                 <Box>
                   <GradientButton variant="contained">تست رایگان</GradientButton>
                   <OutlineButton variant="outlined">ورود</OutlineButton>
@@ -208,12 +220,9 @@ const BeautifulAppBar = () => {
             </>
           ) : (
             <>
-              <Box sx={{ display: "flex", gap: {md:1,lg:7,xl : 20}, marginRight: { md: '-5rem', lg: '-5rem' }, alignItems: 'center' }}>
-                
+              <Box sx={{ display: "flex", gap: { md: 1, lg: 7, xl: 20 }, marginRight: { md: '-5rem', lg: '-5rem' }, alignItems: 'center' }}>
                 <Button onClick={() => handleMenuItemClick("coaches")}>لیست مربی ها</Button>
                 <Button onClick={() => handleMenuItemClick("faq")}>سوالات متداول</Button>
-                
-                {/* منوی برنامه‌های ورزشی */}
                 <Box>
                   <Button
                     endIcon={<KeyboardArrowDown />}
@@ -230,14 +239,8 @@ const BeautifulAppBar = () => {
                     anchorEl={anchorElPrograms}
                     open={Boolean(anchorElPrograms)}
                     onClose={handleCloseMenu}
-                    anchorOrigin={{
-                      vertical: "bottom",
-                      horizontal: "right",
-                    }}
-                    transformOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
-                    }}
+                    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                    transformOrigin={{ vertical: "top", horizontal: "right" }}
                     PaperProps={{
                       sx: {
                         mt: 1,
@@ -259,8 +262,6 @@ const BeautifulAppBar = () => {
                     </MenuItem>
                   </Menu>
                 </Box>
-
-                {/* منوی بانک حرکات ورزشی */}
                 <Box>
                   <Button
                     endIcon={<KeyboardArrowDown />}
@@ -277,14 +278,8 @@ const BeautifulAppBar = () => {
                     anchorEl={anchorElMovements}
                     open={Boolean(anchorElMovements)}
                     onClose={handleCloseMenu}
-                    anchorOrigin={{
-                      vertical: "bottom",
-                      horizontal: "right",
-                    }}
-                    transformOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
-                    }}
+                    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                    transformOrigin={{ vertical: "top", horizontal: "right" }}
                     PaperProps={{
                       sx: {
                         mt: 1,
@@ -308,9 +303,7 @@ const BeautifulAppBar = () => {
                     </MenuItem>
                   </Menu>
                 </Box>
-
               </Box>
-
               <Box>
                 <GradientButton variant="contained">تست رایگان</GradientButton>
                 <OutlineButton variant="outlined">ورود</OutlineButton>
@@ -320,15 +313,13 @@ const BeautifulAppBar = () => {
         </Toolbar>
       </TransparentAppBar>
 
-      {/* منوی همبرگری برای موبایل */}
+      {/* دراور موبایل */}
       <Box component="nav">
         <Drawer
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true,
-          }}
+          ModalProps={{ keepMounted: true }}
           sx={{
             display: { xs: "block", md: "none" },
             "& .MuiDrawer-paper": { boxSizing: "border-box", width: 250 },
