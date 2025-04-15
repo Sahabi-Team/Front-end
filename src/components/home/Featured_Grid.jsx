@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { motion, useInView } from "framer-motion";
-import Typewriter from "typewriter-effect/dist/core";
+// import Typewriter from "typewriter-effect/dist/core";
 import coachImg from "../../assets/imgs/home/coach-selection.svg";
 import chatImg from "../../assets/imgs/home/chat-with-coach.svg";
 import analyticsImg from "../../assets/imgs/home/progress-analytics.svg";
@@ -78,13 +78,13 @@ const FeatureBlock = ({ title, text, image, index }) => {
   const [typed, setTyped] = useState(false);
 
   useEffect(() => {
-    if (isInView && !typed) {
-      const instance = new Typewriter(`#typewriter-${index}`, {
-        delay: 25,
-      });
-      instance.typeString(text).start();
-      setTyped(true);
-    }
+    // if (isInView && !typed) {
+    //   const instance = new Typewriter(`#typewriter-${index}`, {
+    //     delay: 25,
+    //   });
+    //   instance.typeString(text).start();
+    //   setTyped(true);
+    // }
   }, [isInView, text, typed, index]);
 
   const alignFarRight = index % 2 !== 0;
@@ -154,7 +154,7 @@ const FeatureBlock = ({ title, text, image, index }) => {
           {title}
         </Typography>
         <Typography
-          id={`typewriter-${index}`}
+          // id={`typewriter-${index}`}
           sx={{ mt: 2, fontSize: "1.1rem", lineHeight: 2.2 }}
         ></Typography>
       </Box>

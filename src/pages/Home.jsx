@@ -12,8 +12,8 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import patternImage from "../assets/imgs/home/Background_Page.png";
 import FeaturesGrid from "../components/home/Featured_Grid";
 import GreenGradientBar from "../components/home/Seprator";
-import CoachCard from '../components/home/TrainerCard'
-
+import CoachCard from "../components/home/TrainerCard";
+import CoachSlider from "../components/home/CoachCard_Slider";
 
 const coaches = [
   {
@@ -21,7 +21,23 @@ const coaches = [
     specialty: "ورزش های استقامتی",
     experience: 5,
     price: 530000,
-    rating: 4.9,
+    rating: 4.5,
+    image: "https://i.pravatar.cc/150?img=10",
+  },
+  {
+    name: "محمود سیخل",
+    specialty: "ورزش های استقامتی",
+    experience: 5,
+    price: 530000,
+    rating: 4.5,
+    image: "https://i.pravatar.cc/150?img=10",
+  },
+  {
+    name: "محمود سیخل",
+    specialty: "ورزش های استقامتی",
+    experience: 5,
+    price: 530000,
+    rating: 4.5,
     image: "https://i.pravatar.cc/150?img=10",
   },
   {
@@ -29,7 +45,7 @@ const coaches = [
     specialty: "تناسب اندام",
     experience: 7,
     price: 450000,
-    rating: 2,
+    rating: 3.5,
     image: "https://i.pravatar.cc/150?img=47",
   },
   {
@@ -39,6 +55,22 @@ const coaches = [
     price: 600000,
     rating: 5.0,
     image: "https://i.pravatar.cc/150?img=1",
+  },
+  {
+    name: "محمود سیخل",
+    specialty: "ورزش های استقامتی",
+    experience: 5,
+    price: 530000,
+    rating: 4.5,
+    image: "https://i.pravatar.cc/150?img=10",
+  },
+  {
+    name: "محمود سیخل",
+    specialty: "ورزش های استقامتی",
+    experience: 5,
+    price: 530000,
+    rating: 4.5,
+    image: "https://i.pravatar.cc/150?img=10",
   },
 ];
 
@@ -386,22 +418,18 @@ export default function Home() {
             marginLeft="42.7%"
           />
 
-          <Box p={4} sx={{ bgcolor: "#f9f9f9" }}>
-            <Typography variant="h5" mb={3}>
-              مربیان برتر
-            </Typography>
-            <Box
-              display="flex"
-              gap={3}
-              flexWrap="wrap"
-              justifyContent="center"
-              alignItems="stretch"
-            >
-              {coaches.map((coach, index) => (
-                <CoachCard key={index} {...coach} />
-              ))}
-            </Box>
-
+          {/* add coaches here  */}
+          {/* add coaches here */}
+          <Box
+            sx={{
+              mt: 5,
+              px: { xs: 1, md: 2 },
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+            }}
+          >
+            <CoachSlider coaches={coaches} />
           </Box>
         </Box>
       </FullWidthRepeatingBackground>
