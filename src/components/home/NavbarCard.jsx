@@ -24,20 +24,27 @@ import {
   ExpandMore,
   ExpandLess,
 } from "@mui/icons-material";
-import Vazneh from '../../assets/imgs/home/vazneh.png';
+import Vazneh from "../../assets/imgs/home/vazneh.png";
 
 const TransparentAppBar = styled(AppBar, {
-  shouldForwardProp: (prop) => prop !== 'isScrolled',
+  shouldForwardProp: (prop) => prop !== "isScrolled",
 })(({ theme, isScrolled }) => ({
   width: "100%",
-  backgroundColor: isScrolled
-    ? "rgba(255, 255, 255, 0.7)"
-    : "transparent",
+  backgroundColor: isScrolled ? "rgba(0, 68, 27, 0.7)" : "transparent",
   backdropFilter: isScrolled ? "blur(10px)" : "none",
   boxShadow: isScrolled ? "0 4px 10px rgba(0, 0, 0, 0.1)" : "none",
-  borderRadius: "12px",
+  borderRadius: "0 0 12px 12px",
   direction: "rtl",
-  transition: "background-color 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease",
+  transition:
+    "background-color 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease",
+}));
+
+const CustomTextButton = styled(Button)(({ theme }) => ({
+  color: "black", // رنگ متن
+  fontWeight: "bold",
+  "&:hover": {
+    backgroundColor: "rgba(28, 31, 209, 0.1)", // رنگ پس‌زمینه در حالت هاور
+  },
 }));
 
 const GradientButton = styled(Button)(({ theme }) => ({
@@ -75,12 +82,12 @@ const OutlineButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const LogoImage = styled('img')(({ theme }) => ({
-  height: '40px',
-  width: 'auto',
+const LogoImage = styled("img")(({ theme }) => ({
+  height: "40px",
+  width: "auto",
   marginRight: theme.spacing(2),
-  [theme.breakpoints.down('sm')]: {
-    height: '30px',
+  [theme.breakpoints.down("sm")]: {
+    height: "30px",
   },
 }));
 
@@ -140,7 +147,7 @@ const BeautifulAppBar = () => {
 
   const drawer = (
     <Box sx={{ width: 250, padding: 2 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+      <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
         <LogoImage src={Vazneh} alt="لوگو وزنه" />
       </Box>
       <List>
@@ -150,19 +157,37 @@ const BeautifulAppBar = () => {
         <ListItem button onClick={() => handleMenuItemClick("faq")}>
           <ListItemText primary="سوالات متداول" />
         </ListItem>
+        {/* <CustomTextButton onClick={() => handleMenuItemClick("coaches")}>
+          لیست مربی ها
+        </CustomTextButton>
+        <CustomTextButton onClick={() => handleMenuItemClick("faq")}>
+          سوالات متداول
+        </CustomTextButton> */}
         <ListItem button onClick={handleProgramsMobileClick}>
           <ListItemText primary="برنامه‌های ورزشی" />
           {openProgramsMobile ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
         <Collapse in={openProgramsMobile} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("diet")}>
+            <ListItem
+              button
+              sx={{ pl: 4 }}
+              onClick={() => handleMenuItemClick("diet")}
+            >
               <ListItemText primary="برنامه غذایی" />
             </ListItem>
-            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("abs")}>
+            <ListItem
+              button
+              sx={{ pl: 4 }}
+              onClick={() => handleMenuItemClick("abs")}
+            >
               <ListItemText primary="برنامه شکم و پهلو" />
             </ListItem>
-            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("custom")}>
+            <ListItem
+              button
+              sx={{ pl: 4 }}
+              onClick={() => handleMenuItemClick("custom")}
+            >
               <ListItemText primary="برنامه اختصاصی" />
             </ListItem>
           </List>
@@ -173,16 +198,32 @@ const BeautifulAppBar = () => {
         </ListItem>
         <Collapse in={openMovementsMobile} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("chest")}>
+            <ListItem
+              button
+              sx={{ pl: 4 }}
+              onClick={() => handleMenuItemClick("chest")}
+            >
               <ListItemText primary="حرکات سینه" />
             </ListItem>
-            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("abs-exercises")}>
+            <ListItem
+              button
+              sx={{ pl: 4 }}
+              onClick={() => handleMenuItemClick("abs-exercises")}
+            >
               <ListItemText primary="حرکات شکم و پهلو" />
             </ListItem>
-            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("legs")}>
+            <ListItem
+              button
+              sx={{ pl: 4 }}
+              onClick={() => handleMenuItemClick("legs")}
+            >
               <ListItemText primary="حرکات پا" />
             </ListItem>
-            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("shoulders")}>
+            <ListItem
+              button
+              sx={{ pl: 4 }}
+              onClick={() => handleMenuItemClick("shoulders")}
+            >
               <ListItemText primary="حرکات سرشانه" />
             </ListItem>
           </List>
@@ -202,9 +243,11 @@ const BeautifulAppBar = () => {
           <LogoImage src={Vazneh} alt="لوگو وزنه" />
           {isMobile ? (
             <>
-              <Box sx={{ display: 'flex', alignItems: 'center', ml: '5rem' }}>
+              <Box sx={{ display: "flex", alignItems: "center", ml: "5rem" }}>
                 <Box>
-                  <GradientButton variant="contained">تست رایگان</GradientButton>
+                  <GradientButton variant="contained">
+                    تست رایگان
+                  </GradientButton>
                   <OutlineButton variant="outlined">ورود</OutlineButton>
                 </Box>
               </Box>
@@ -220,9 +263,23 @@ const BeautifulAppBar = () => {
             </>
           ) : (
             <>
-              <Box sx={{ display: "flex", gap: { md: 1, lg: 7, xl: 20 }, marginRight: { md: '-5rem', lg: '-5rem' }, alignItems: 'center' }}>
-                <Button onClick={() => handleMenuItemClick("coaches")}>لیست مربی ها</Button>
-                <Button onClick={() => handleMenuItemClick("faq")}>سوالات متداول</Button>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: { md: 1, lg: 7, xl: 20 },
+                  marginRight: { md: "-5rem", lg: "-5rem" },
+                  alignItems: "center",
+                }}
+              >
+                <CustomTextButton
+                  onClick={() => handleMenuItemClick("coaches")}
+                >
+                  لیست مربی ها
+                </CustomTextButton>
+                <CustomTextButton onClick={() => handleMenuItemClick("faq")}>
+                  سوالات متداول
+                </CustomTextButton>
+
                 <Box>
                   <Button
                     endIcon={<KeyboardArrowDown />}
@@ -292,7 +349,9 @@ const BeautifulAppBar = () => {
                     <MenuItem onClick={() => handleMenuItemClick("chest")}>
                       <Typography width="100%">حرکات سینه</Typography>
                     </MenuItem>
-                    <MenuItem onClick={() => handleMenuItemClick("abs-exercises")}>
+                    <MenuItem
+                      onClick={() => handleMenuItemClick("abs-exercises")}
+                    >
                       <Typography width="100%">حرکات شکم و پهلو</Typography>
                     </MenuItem>
                     <MenuItem onClick={() => handleMenuItemClick("legs")}>
