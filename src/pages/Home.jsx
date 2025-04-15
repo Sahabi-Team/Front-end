@@ -17,6 +17,8 @@ import GreenGradientBar from "../components/home/Seprator";
 import CoachCard from "../components/home/TrainerCard";
 import CoachSlider from "../components/home/CoachCard_Slider";
 import CommentCard from "../components/home/CommentCard";
+import SiteComments from "../components/home/SiteComments";
+import Footer from "../components/Footer";
 
 const FullListButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
@@ -460,24 +462,27 @@ export default function Home() {
 
           {/* {your comments part} */}
           <Box>
+            {/* عنوان */}
             <Box
               sx={{
                 display: "flex",
                 justifyContent: "center",
-                marginTop: { xs: "10%", sm: "10%", md: "10%" }, // تغییر margin بر اساس سایز صفحه
+                marginTop: { xs: "10%", sm: "10%", md: "10%" },
               }}
             >
               <Typography
                 variant="h4"
                 sx={{
-                  fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" }, // تغییر سایز فونت
-                  fontWeight: "bold", // در صورت نیاز
-                  textAlign: "center", // برای اطمینان از وسطچین بودن متن
+                  fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
+                  fontWeight: "bold",
+                  textAlign: "center",
                 }}
               >
                 نظرات شما
               </Typography>
             </Box>
+
+            {/* نوار گرادیانی زیبا */}
             <GreenGradientBar
               animated
               colors={["#ff9800", "#ff5722", "#ff9800"]}
@@ -485,19 +490,43 @@ export default function Home() {
               marginLeft="42.7%"
             />
 
-            {/* Comments Part Here */}
-            <CommentCard
-              name="محسن معین فر"
-              avatar="https://via.placeholder.com/150" // آدرس عکس واقعی مربی رو اینجا بذار
-              role="کشتی گیر"
-              rating={5}
-              comment="گرفتن برنامه از جیمی‌فیتو خیلی بهم کمک کرد چون میتونستم هر حرکتی که بلد نیستم رو از لیست حرکات ورزشی ببینم و دیدن آنالیز کلی بهم انگیزه زیادی برای ادامه دادن میداد!"
-              showLeftPin={true}
-              showRightPin={true}
-            />
+            {/* قرار دادن کامپوننت وسط صفحه */}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 10,
+              }}
+            >
+              <SiteComments />
+            </Box>
           </Box>
+
+          {/* Contact with us */}
+          <Box sx={{ height: 200 }}></Box>
         </Box>
       </FullWidthRepeatingBackground>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
+          width: "100vw",
+          overflowX: "hidden",
+          alignContent:"center",
+          marginLeft:-4,
+          marginBottom:-5,
+          
+        }}
+      >
+        {/* محتوا */}
+        <Box sx={{ flex: 1 }}>
+          {/* بخش‌های مختلف صفحه، مثل hero, slider و ... */}
+        </Box>
+
+        <Footer />
+      </Box>
     </Box>
   );
 }
