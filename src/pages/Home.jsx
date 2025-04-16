@@ -522,7 +522,7 @@ export default function Home() {
       >
         {/* محتوا */}
         <Box sx={{ flex: 1 }}>
-          {/* بخش‌های مختلف صفحه، مثل hero, slider و ... */}
+         
         </Box>
 
         <Footer />
