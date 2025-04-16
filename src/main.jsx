@@ -50,7 +50,7 @@ createRoot(document.getElementById('root')).render(
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<App />} />
+            <Route path="/" element={<Home />} />
             <Route path="/signin" element={<SignInSide />} />
             <Route path="/askforemail" element={<AskforEmail />} />
             <Route path="/signup" element={<SignUp/>} />
@@ -58,7 +58,6 @@ createRoot(document.getElementById('root')).render(
             <Route path="/test" element={<BodyBuildingTest />} />
             <Route path="/editprofile" element={<EditProfile />} />
             <Route path="/FAQ" element={<FAQPage />} />
-            <Route path='/home' element={<Home/>}></Route>
 
           </Routes>
         </BrowserRouter>
