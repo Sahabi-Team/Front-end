@@ -5,7 +5,6 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import { createTheme, ThemeProvider } from '@mui/material';
 import { RtlProvider } from './utils/RTLProvider.jsx';
 import './index.css'
-import App from './App.jsx'
 import SignInSide from './pages/SignIn.jsx'
 import AskforEmail from './pages/AskforEmail.jsx'
 import SignUp from './pages/Signup.jsx'
