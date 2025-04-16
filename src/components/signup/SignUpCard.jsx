@@ -180,13 +180,15 @@ export default function SignUpCard() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/auth/register/", // آدرس API ثبت‌نام
+        "https://ighader.pythonanywhere.com/api/auth/register/", // آدرس API ثبت‌نام
         
           {
+            "first_name" : "Mo",
+            "last_name" : "Bayani",
             "username": username,
             "email": email,
             "password": password,
-            "phone_number": " ",
+            "phone_number": "+14155552671",
             "role": "trainee"
         }
         ,
