@@ -13,6 +13,7 @@ import BodyBuildingTest from './pages/BodyBuildingTest.jsx';
 import EditProfile from './pages/ClientProfile.jsx';
 import FAQPage from './pages/FAQ.jsx';
 import Home from './pages/Home.jsx'
+import TestResultPage from './pages/TestResultPage.jsx';
 
 const theme = createTheme({
   direction: "rtl",
