@@ -58,7 +58,7 @@ createRoot(document.getElementById('root')).render(
             <Route path="/test" element={<BodyBuildingTest />} />
             <Route path="/editprofile" element={<EditProfile />} />
             <Route path="/FAQ" element={<FAQPage />} />
-            <Route path="/Test_Result" element={<TestResultPage />} />
+            <Route path="/test_result" element={<TestResultPage />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
