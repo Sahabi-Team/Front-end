@@ -2,6 +2,7 @@
 import React from 'react';
 import { Box, Container, Grid } from '@mui/material';
 import GoalTimelineCard from '../components/TestResult/GoalTimeLineCard';
+import CommunityCard from '../components/TestResult/CommunityCard';
 
 const TestResultPage = () => {
   return (
@@ -9,9 +10,8 @@ const TestResultPage = () => {
       <Box sx={{ py: 4 }}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
-            <GoalTimelineCard 
-              weeks={12}
-              days={90}
+            <CommunityCard 
+                memberCount={299}
             />
           </Grid>
         </Grid>

@@ -27,7 +27,7 @@ const GoalTimelineCard = ({ weeks = 12, days = 90 }) => {
 
   return (
     <GreenCard>
-      <CardContent sx={{ textAlign: 'left' }}>
+      <CardContent sx={{ textAlign: 'center' }}>
         <Typography variant="h6" component="div" sx={{ mb: 1, fontWeight: 'bold' }}>
           زمان رسیدن به هدف :
         </Typography>
