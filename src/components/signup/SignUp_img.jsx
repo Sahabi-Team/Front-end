@@ -1,6 +1,6 @@
 import { Box, Card, CardMedia, Paper } from '@mui/material'
 import React from 'react'
-import img from '../../assets/imgs/SignUp.png'
+import img from '../../assets/imgs/SignIn.png'
 
 export default function BuilderCom() {
   return (
