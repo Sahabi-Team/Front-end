@@ -5,11 +5,10 @@ import { styled } from '@mui/material/styles';
 const GreenCard = styled(Card)(({ theme }) => ({
   borderRadius: 16,
   boxShadow: '0px 3px 15px rgba(0, 0, 0, 0.1)',
-  margin: '10px auto',
+  margin: '10px 0',
   padding: '8px',
   backgroundColor: '#fff',
-  direction: 'rtl',
-  maxWidth: '800px',
+  direction: 'rtl'
 }));
 
 const InfoRow = styled(Box)(({ theme }) => ({
