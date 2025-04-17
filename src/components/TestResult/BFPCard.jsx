@@ -138,7 +138,78 @@ const BFPGauge = ({ value = 15.3 }) => {
   );
 };
 
-const BFPCard = ({ bfpValue = 15.3 }) => {
+// Helper function to get status and message based on BFP value and gender
+const getBFPStatus = (bfpValue, gender = 'male') => {
+  if (gender === 'male') {
+    if (bfpValue < 6) {
+      return {
+        color: '#ef4444', // red
+        message: 'درصد چربی بدنت خیلی پایینه و در محدوده خطرناک قرار داره. باید با یک رژیم غذایی مناسب و متعادل، درصد چربی رو افزایش بدی',
+        shortMessage: 'خیلی پایین و خطرناک'
+      };
+    } else if (bfpValue >= 6 && bfpValue < 14) {
+      return {
+        color: '#eab308', // yellow
+        message: 'درصد چربی بدنت کمه. با یک برنامه تغذیه‌ای متعادل می‌تونی به محدوده سالم برسی',
+        shortMessage: 'پایین‌تر از حد نرمال'
+      };
+    } else if (bfpValue >= 14 && bfpValue <= 20) {
+      return {
+        color: '#22c55e', // green
+        message: 'تبریک! درصد چربی بدنت در محدوده ایده‌آل و سالم قرار داره. با ادامه تمرینات و تغذیه مناسب این شرایط رو حفظ کن',
+        shortMessage: 'ایده‌آل و سالم'
+      };
+    } else if (bfpValue > 20 && bfpValue <= 25) {
+      return {
+        color: '#f97316', // orange
+        message: 'درصد چربی بدنت کمی بالاتر از حد نرماله. با ورزش منظم و رژیم غذایی مناسب می‌تونی به محدوده ایده‌آل برسی',
+        shortMessage: 'کمی بالاتر از حد نرمال'
+      };
+    } else {
+      return {
+        color: '#ef4444', // red
+        message: 'درصد چربی بدنت خیلی بالاست. توصیه می‌کنیم حتماً با یک متخصص تغذیه مشورت کنی و برنامه ورزشی منظم داشته باشی',
+        shortMessage: 'خیلی بالاتر از حد نرمال'
+      };
+    }
+  } else { // female
+    if (bfpValue < 14) {
+      return {
+        color: '#ef4444',
+        message: 'درصد چربی بدنت خیلی پایینه و در محدوده خطرناک قرار داره. باید با یک رژیم غذایی مناسب و متعادل، درصد چربی رو افزایش بدی',
+        shortMessage: 'خیلی پایین و خطرناک'
+      };
+    } else if (bfpValue >= 14 && bfpValue < 21) {
+      return {
+        color: '#eab308',
+        message: 'درصد چربی بدنت کمه. با یک برنامه تغذیه‌ای متعادل می‌تونی به محدوده سالم برسی',
+        shortMessage: 'پایین‌تر از حد نرمال'
+      };
+    } else if (bfpValue >= 21 && bfpValue <= 27) {
+      return {
+        color: '#22c55e',
+        message: 'تبریک! درصد چربی بدنت در محدوده ایده‌آل و سالم قرار داره. با ادامه تمرینات و تغذیه مناسب این شرایط رو حفظ کن',
+        shortMessage: 'ایده‌آل و سالم'
+      };
+    } else if (bfpValue > 27 && bfpValue <= 32) {
+      return {
+        color: '#f97316',
+        message: 'درصد چربی بدنت کمی بالاتر از حد نرماله. با ورزش منظم و رژیم غذایی مناسب می‌تونی به محدوده ایده‌آل برسی',
+        shortMessage: 'کمی بالاتر از حد نرمال'
+      };
+    } else {
+      return {
+        color: '#ef4444',
+        message: 'درصد چربی بدنت خیلی بالاست. توصیه می‌کنیم حتماً با یک متخصص تغذیه مشورت کنی و برنامه ورزشی منظم داشته باشی',
+        shortMessage: 'خیلی بالاتر از حد نرمال'
+      };
+    }
+  }
+};
+
+const BFPCard = ({ bfpValue = 15.3, gender = 'male' }) => {
+  const status = getBFPStatus(bfpValue, gender);
+
   return (
     <GreenCard>
       <Box sx={{ p: 2 }}>
@@ -162,28 +233,32 @@ const BFPCard = ({ bfpValue = 15.3 }) => {
         <BFPGauge value={bfpValue} />
         
         {/* Status Section */}
-        <Box sx={{ mt: 3 }}>
+        <Box sx={{ mt: 2.5 }}>
           <Typography 
             variant="body1" 
             sx={{ 
-              color: '#057542',
-              fontSize: '1rem',
-              textAlign: 'left'
+              color: status.color,
+              fontSize: '1.1rem',
+              textAlign: 'left',
+              fontWeight: 'bold',
+              mb: 1
             }}
           >
-            میزان چربی بدنت بین ۱۴-۲۰ درصده و نرماله
+            {status.shortMessage}
           </Typography>
           
           <Typography 
             variant="body2" 
             sx={{ 
+              fontWeight:'bold',
               mt: 2,
               textAlign: 'left',
               fontSize: '0.9rem',
-              lineHeight: 1.8
+              lineHeight: 1.8,
+              color:'#000'
             }}
           >
-            با ورزش کردن و به برنامه ورزشی و غذایی اصولی میتونی عضلات رو بیشتر کنی و تناسب اندام بهتری داشته باشی
+            {status.message}
           </Typography>
         </Box>
       </Box>
