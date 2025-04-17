@@ -87,7 +87,7 @@ const TestResultPage = () => {
           sx={{ mb: 2, border: 'none' }}
         >
           <Box sx={{ width: { xs: '100%', md: '50%' }, border: 'none' }}>
-            <BFPCard bfpValue={15.3} />
+            <BFPCard bfpValue={30} />
           </Box>
           <Box sx={{ width: { xs: '100%', md: '50%' }, border: 'none' }}>
             <BMICard bmiValue={10} />
