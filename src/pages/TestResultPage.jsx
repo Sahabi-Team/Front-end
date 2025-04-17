@@ -33,25 +33,31 @@ const TestResultPage = () => {
   };
   
   return (
-      <Box sx={{ backgroundColor: '#f7f7f7', minHeight: '100vh', py: 4 }}>
+    <Box sx={{ 
+      backgroundColor: '#f7f7f7', 
+      minHeight: '100vh', 
+      py: 4,
+      border: 'none',
+      outline: 'none'
+    }}>
       <Navbar sx={{position: '',top:0,left:0,right:0,zIndex:1000}}/> 
       <Container maxWidth="md">
-        {/* Added Persian text at the top */}
-        
-      <Box sx={{ 
-        mb: 3,
-        p: 2,
-        textAlign: 'center'  // Center all content
-      }}>
-        <Box sx={{
+        <Box sx={{ 
+          mb: 3,
+          p: 2,
+          textAlign: 'center',
+          border: 'none'
+        }}>
+          <Box sx={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',  // Center horizontally
-            mb: 1  // Margin bottom for the title row
+            justifyContent: 'center',
+            mb: 1,
+            border: 'none'
           }}>
             <Avatar sx={{ 
-              bgcolor: '#00AF66',  // Green color
-              mr: 1  // Margin right to separate from text
+              bgcolor: '#00AF66',
+              mr: 1
             }}>
               <AssignmentIcon />
             </Avatar>
@@ -74,17 +80,17 @@ const TestResultPage = () => {
         {/* Test Results */}
         <UserInfoCard userInfo={userInfo} />
 
-        {/* BMI and BFP section - Replaced Grid with Stack */}
+        {/* BMI and BFP section */}
         <Stack 
           direction={{ xs: 'column', md: 'row' }} 
           spacing={2} 
-          sx={{ mb: 2 }}
+          sx={{ mb: 2, border: 'none' }}
         >
-          <Box sx={{ width: { xs: '100%', md: '50%' } }}>
+          <Box sx={{ width: { xs: '100%', md: '50%' }, border: 'none' }}>
             <BFPCard bfpValue={15.3} />
           </Box>
-          <Box sx={{ width: { xs: '100%', md: '50%' } }}>
-            <BMICard bmiValue={21.5} />
+          <Box sx={{ width: { xs: '100%', md: '50%' }, border: 'none' }}>
+            <BMICard bmiValue={10} />
           </Box>
         </Stack>
         
@@ -94,9 +100,8 @@ const TestResultPage = () => {
         {/* Community section */}
         <CommunityCard memberCount={11210} />
 
-        
         {/* Coach List Button */}
-        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3, mb: 5 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3, mb: 5, border: 'none' }}>
           <GreenChip 
             label="لیست مربی ها" 
             sx={{ 

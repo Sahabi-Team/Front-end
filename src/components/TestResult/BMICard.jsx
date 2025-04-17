@@ -9,6 +9,7 @@ const GreenCard = styled(Card)(({ theme }) => ({
   margin: '10px 0',
   padding: '8px',
   backgroundColor: '#fff',
+  direction: 'rtl',
 }));
 
 const StatusChip = styled(Chip)(({ color }) => ({
@@ -17,6 +18,7 @@ const StatusChip = styled(Chip)(({ color }) => ({
   fontWeight: 'bold',
   borderRadius: 16,
   padding: '0 8px',
+  direction: 'rtl',
 }));
 
 const BMIArrow = styled(Box)(({ left }) => ({
@@ -28,7 +30,8 @@ const BMIArrow = styled(Box)(({ left }) => ({
   alignItems: 'center',
   gap: '8px', // Increased gap for more spacing
   zIndex: 1,
-  marginTop: '-24px', // Pull up arrow for better spacing from scale
+  marginTop: '-24px', // 
+  direction: 'rtl', // Pull up arrow for better spacing from scale
 }));
 
 // BMI ranges and their corresponding colors and labels
@@ -57,10 +60,10 @@ const BMICard = ({ bmiValue = 21.5, weight = 76, recommendedWeight = { min: 70, 
   const arrowPosition = calculatePosition(bmiValue);
 
   return (
-    <GreenCard>
+    <GreenCard >
       <CardContent>
         {/* Right-aligned header */}
-        <Box sx={{ textAlign: 'right', mb: 4 }}>
+        <Box sx={{ textAlign: 'left', mb: 4 }}>
           <Typography variant="h6" component="div" sx={{ fontWeight: 'bold', direction: 'rtl' }}>
             :BMI وضعیت شاخص
           </Typography>
@@ -70,65 +73,66 @@ const BMICard = ({ bmiValue = 21.5, weight = 76, recommendedWeight = { min: 70, 
         </Box>
         
         {/* BMI Scale with Arrow */}
-        <Box sx={{ px: 2, position: 'relative', mt: 8, mb: 6 }}> {/* Increased margin for better spacing */}
-          {/* Arrow and Status */}
-          <BMIArrow left={arrowPosition}>
-            <NorthIcon sx={{ color: bmiStatus.color, fontSize: 32 }} />
-            <StatusChip 
-              label={bmiStatus.label} 
-              size="small" 
-              color="primary"
-              sx={{ 
-                backgroundColor: bmiStatus.color, 
-                padding: '16px 8px' 
-              }} 
-            />
-          </BMIArrow>
-
-
-
+        <Box sx={{ px: 2, position: 'relative', mt: 6, mb: 10 }}> {/* Increased margin for better spacing */}
+          
           {/* Fixed color sections */}
-          <Box sx={{ 
-            height: '12px',
-            borderRadius: '6px',
-            display: 'flex',
-            overflow: 'hidden',
-            marginTop: '32px' // Add space between arrow and scale
-          }}>
-            {/* Colors from right to left: cyan, green, orange, red */}
-            <Box sx={{ flex: 1, backgroundColor: '#00BCD4', height: '100%' }} />
-            <Box sx={{ flex: 1, backgroundColor: '#4CAF50', height: '100%' }} />
-            <Box sx={{ flex: 1, backgroundColor: '#FF9800', height: '100%' }} />
-            <Box sx={{ flex: 1, backgroundColor: '#F44336', height: '100%' }} />
+          <Box>
+            <Box sx={{ 
+              height: '12px',
+              borderRadius: '6px',
+              display: 'flex',
+              overflow: 'hidden',
+              marginTop: '32px' // Add space between arrow and scale
+            }}>
+              {/* Colors from right to left: cyan, green, orange, red */}
+              <Box sx={{ flex: 1, backgroundColor: '#00BCD4', height: '100%' }} />
+              <Box sx={{ flex: 1, backgroundColor: '#4CAF50', height: '100%' }} />
+              <Box sx={{ flex: 1, backgroundColor: '#FF9800', height: '100%' }} />
+              <Box sx={{ flex: 1, backgroundColor: '#F44336', height: '100%' }} />
+            </Box>
           </Box>
+          
+          {/* Scale Values - Left to Right */}
+          <Box sx={{ 
+            display: 'flex', 
+            justifyContent: 'relative', 
+            px: 1, 
+            mt: 1,
+            direction: 'rtl' // Explicitly set LTR direction for numbers
+          }}>
+            <Typography variant="body2" sx={{ color: '#00BCD4' ,position:'relative',left:'-70px'}}>
+              18.5
+            </Typography>
+            <Typography variant="body2" sx={{ color: '#4CAF50' ,position:'relative',left:'-120px'}}>
+              25.0
+            </Typography>
+            <Typography variant="body2" sx={{ color: '#FF9800' ,position:'relative',left:'-175px'}}>
+              30.0
+            </Typography>
+            <Typography variant="body2" sx={{ color: '#F44336' ,position:'relative',left:'-230px'}}>
+              +40
+            </Typography>
+          </Box>
+
+          {/* Arrow and Status */}
+          <BMIArrow right={arrowPosition}>
+            <NorthIcon sx={{ color: bmiStatus.color, fontSize: 32 }} />
+              <StatusChip 
+                label={bmiValue.toFixed(1)} // Show the number instead of just the label
+                size="small" 
+                color="primary"
+                sx={{ 
+                  backgroundColor: bmiStatus.color, 
+                  padding: '8px 12px',
+                  fontWeight: 'bold'
+                }} 
+                />
+          </BMIArrow>
         </Box>
-        
-        {/* Scale Values - Left to Right */}
-        <Box sx={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          px: 1, 
-          mt: 1,
-          direction: 'ltr' // Explicitly set LTR direction for numbers
-        }}>
-          <Typography variant="body2" sx={{ color: '#00BCD4' }}>
-            18.5
-          </Typography>
-          <Typography variant="body2" sx={{ color: '#4CAF50' }}>
-            25.0
-          </Typography>
-          <Typography variant="body2" sx={{ color: '#FF9800' }}>
-            30.0
-          </Typography>
-          <Typography variant="body2" sx={{ color: '#F44336' }}>
-            +35
-          </Typography>
-        </Box>
-        
         {/* Status Text - RTL with fixed format */}
         <Typography 
           variant="body1" 
-          align="center" 
+          align="right" 
           sx={{ 
             mt: 4, 
             fontWeight: 'bold', 
@@ -136,7 +140,7 @@ const BMICard = ({ bmiValue = 21.5, weight = 76, recommendedWeight = { min: 70, 
             direction: 'rtl' 
           }}
         >
-          شاخص توده بدنی شما {bmiValue} هست و وزن شما در حالت {bmiStatus.label} قرار داره
+          شاخص توده بدنی شما {bmiValue} هست و وزن شما در حالت {bmiStatus.label} قرار داره 
         </Typography>
         
         {/* Recommended Weight Chip */}
@@ -145,7 +149,7 @@ const BMICard = ({ bmiValue = 21.5, weight = 76, recommendedWeight = { min: 70, 
             label={`وزن پیشنهادی : ${recommendedWeight.min}-${recommendedWeight.max} کیلوگرم`}
             color="primary"
             sx={{ 
-              backgroundColor: bmiStatus.color,
+              backgroundColor:'#00AF66',
               padding: '20px 12px' 
             }} 
           />
