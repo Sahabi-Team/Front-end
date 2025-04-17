@@ -23,7 +23,8 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
-import SuccessfulModal from "../modals/SuccessfulModal"
+import SuccessfulModal from "../modals/SuccessfulModal";
+import HomeIcon from '@mui/icons-material/Home';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -48,12 +49,10 @@ export default function SignInCard() {
   const [errorMessage, setErrorMessage] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const [rememberMe, setRememberMe] = React.useState(false);
-  const [successmessage,setSuccessMessage] = React.useState("");
-  const [opensuccessfulmodal,setOpenSuccessfulModal] = React.useState(false);
-  
+  const [successmessage, setSuccessMessage] = React.useState("");
+  const [opensuccessfulmodal, setOpenSuccessfulModal] = React.useState(false);
 
   const navigate = useNavigate();
-
 
   const handleForgotPasswordClick = () => {
     navigate("/askforemail"); // تغییر مسیر به /askforemail
@@ -62,20 +61,17 @@ export default function SignInCard() {
     navigate("/signup"); // تغییر مسیر به /askforemail
   };
 
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if(!validateInputs())return;
+    if (!validateInputs()) return;
 
     try {
       const response = await axios.post(
         "https://ighader.pythonanywhere.com/api/auth/login/",
         {
-         
-            "username": username,
-            "password": password
-      
+          username: username,
+          password: password,
         },
         {
           headers: {
@@ -83,10 +79,10 @@ export default function SignInCard() {
           },
         }
       );
-       
+
       setSuccessMessage("خوش آمدید");
       setOpenSuccessfulModal(true);
-      
+
       localStorage.setItem("access_token", response.data.access);
       localStorage.setItem("refresh_token", response.data.refresh);
 
@@ -103,7 +99,7 @@ export default function SignInCard() {
       // window.location.href = "/dashboard";
     } catch (error) {
       setErrorMessage("نام کاربری یا رمز عبور اشتباه است.");
-          setOpenErrorModal(true);
+      setOpenErrorModal(true);
       if (error.response) {
         if (error.response.status === 401) {
           setErrorMessage("نام کاربری یا رمز عبور اشتباه است.");
@@ -133,9 +129,9 @@ export default function SignInCard() {
       //   setUsernameErrorMessage("نام کاربری نامعتبر است.");
       //   isValid = false;
       // } else {
-        setUsernameError(false);
-        setUsernameErrorMessage("");
-    //  }
+      setUsernameError(false);
+      setUsernameErrorMessage("");
+      //  }
     } else {
       setUsernameError(true);
       setUsernameErrorMessage("لطفا نام کاربری خود را وارد کنید.");
@@ -179,15 +175,32 @@ export default function SignInCard() {
   const handleRememberMeChange = (event) => {
     setRememberMe(event.target.checked); // به‌روزرسانی وضعیت "مرا به خاطر بسپار"
   };
+  const handleHomeClick = () => {
+    navigate('/'); // تغییر مسیر به صفحه اصلی
+  };
 
   return (
     <Card
       variant="outlined"
       sx={{
         height: "40.7rem",
-        borderRadius: { md: "30px 0 0 30px", xs: "30px 30px 30px 30px" },
+        borderRadius: { md: "0 30px 30px 0", xs: "30px 30px 30px 30px" },
       }}
     >
+      <IconButton
+        onClick={handleHomeClick}
+        sx={{
+          position: "absolute",
+          top:5,
+          right:10,
+          color: "primary.main",
+          "&:hover": {
+            backgroundColor: "rgba(0, 163, 89, 0.1)",
+          },
+        }}
+      >
+        <HomeIcon />
+      </IconButton>
       <Typography
         component="h2"
         variant="h4"
@@ -345,11 +358,17 @@ export default function SignInCard() {
         </FormControl>
         <FormControlLabel
           sx={{ marginRight: "-0.6rem", marginTop: "1rem" }}
-          control={<Checkbox value="remember" color="primary"  checked={rememberMe}
-          onChange={handleRememberMeChange}/>}
+          control={
+            <Checkbox
+              value="remember"
+              color="primary"
+              checked={rememberMe}
+              onChange={handleRememberMeChange}
+            />
+          }
           label="مرا به خاطر بسپار"
         />
-      
+
         <Box
           display="flex"
           justifyContent="center" // وسط‌چین کردن افقی
@@ -392,7 +411,7 @@ export default function SignInCard() {
           onClick={handleForgotPasswordClick}
           variant="body2"
           sx={{
-            border : 'none',
+            border: "none",
             marginTop: "1rem",
             textAlign: "center",
             textDecoration: "none", // حذف خط زیر لینک
@@ -415,7 +434,7 @@ export default function SignInCard() {
             <Link
               component="button"
               variant="body2"
-              onClick = {handleSignupClick}
+              onClick={handleSignupClick}
               sx={{
                 alignSelf: "center",
                 textDecoration: "none",
@@ -461,16 +480,16 @@ export default function SignInCard() {
           ورود با حساب گوگل
         </Button>
       </Box>
-        <ErrorModal
-          open={openErrorModal}
-          onClose={handleCloseErrorModal}
-          errorMessage={errorMessage}
-        />
-        <SuccessfulModal
-         open={opensuccessfulmodal}
-         onClose={handleCloseSuccessfulModal}
-         successMessage={successmessage}
-        />
+      <ErrorModal
+        open={openErrorModal}
+        onClose={handleCloseErrorModal}
+        errorMessage={errorMessage}
+      />
+      <SuccessfulModal
+        open={opensuccessfulmodal}
+        onClose={handleCloseSuccessfulModal}
+        successMessage={successmessage}
+      />
     </Card>
   );
 }
