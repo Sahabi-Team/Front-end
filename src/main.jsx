@@ -13,6 +13,7 @@ import BodyBuildingTest from './pages/BodyBuildingTest.jsx';
 import EditProfile from './pages/ClientProfile.jsx';
 import FAQPage from './pages/FAQ.jsx';
 import Home from './pages/Home.jsx'
+import Exercise_Detail from './pages/Exercise_Detail.jsx';
 
 const theme = createTheme({
   direction: "rtl",
@@ -57,7 +58,7 @@ createRoot(document.getElementById('root')).render(
             <Route path="/test" element={<BodyBuildingTest />} />
             <Route path="/editprofile" element={<EditProfile />} />
             <Route path="/FAQ" element={<FAQPage />} />
-
+            <Route path="/exercisedetail" element={<Exercise_Detail />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
