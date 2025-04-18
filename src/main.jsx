@@ -5,7 +5,6 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import { createTheme, ThemeProvider } from '@mui/material';
 import { RtlProvider } from './utils/RTLProvider.jsx';
 import './index.css'
-import App from './App.jsx'
 import SignInSide from './pages/SignIn.jsx'
 import AskforEmail from './pages/AskforEmail.jsx'
 import SignUp from './pages/Signup.jsx'
@@ -13,6 +12,7 @@ import ResetPassword from './pages/ResetPassword.jsx';
 import BodyBuildingTest from './pages/BodyBuildingTest.jsx';
 import EditProfile from './pages/ClientProfile.jsx';
 import FAQPage from './pages/FAQ.jsx';
+import Home from './pages/Home.jsx'
 import ExercisesPage from './pages/ListofExercises.jsx';
 import ClientSidebar from './components/ClientSidebar.jsx';
 import TreinerSidebar from './components/TrainerSidebar.jsx';
@@ -68,7 +68,7 @@ const MainApp = () => {
       {renderSidebar()}
       <div className="content">
         <Routes>
-          <Route path="/" element={<App />} />
+          <Route path="/" element={<Home />} />
           <Route path="/signin" element={<SignInSide />} />
           <Route path="/askforemail" element={<AskforEmail />} />
           <Route path="/signup" element={<SignUp />} />

@@ -25,6 +25,8 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import ErrorModal from "../modals/ErrorModal";
 import SuccessfulModal from "../modals/SuccessfulModal";
 import axios from "axios";
+import HomeIcon from '@mui/icons-material/Home';
+
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -183,10 +185,12 @@ export default function SignUpCard() {
         "https://ighader.pythonanywhere.com/api/auth/register/", // آدرس API ثبت‌نام
         
           {
+            "first_name" : "Mo",
+            "last_name" : "Bayani",
             "username": username,
             "email": email,
             "password": password,
-            "phone_number": " ",
+            "phone_number": "+14155552671",
             "role": "trainee"
         }
         ,
@@ -229,15 +233,32 @@ export default function SignUpCard() {
       return true;
     return false;
   };
+  const handleHomeClick = () => {
+    navigate('/'); // تغییر مسیر به صفحه اصلی
+  };
 
   return (
     <Card
       variant="outlined"
       sx={{
         height: "40.7rem",
-        borderRadius: { md: "30px 0 0 30px", xs: "30px 30px 30px 30px" },
+        borderRadius: { md: "0 30px 30px 0", xs: "30px 30px 30px 30px" },
       }}
     >
+       <IconButton
+        onClick={handleHomeClick}
+        sx={{
+          position: "absolute",
+           top:55,
+          right:438.5,
+          color: "primary.main",
+          "&:hover": {
+            backgroundColor: "rgba(0, 163, 89, 0.1)",
+          },
+        }}
+      >
+        <HomeIcon />
+      </IconButton>
       <Typography
         component="h2"
         variant="h4"
