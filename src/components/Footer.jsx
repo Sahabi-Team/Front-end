@@ -24,7 +24,9 @@ const Footer = () => {
         justifyContent:'center',
         alignItems:'center',
          position: 'relative',
-         
+         marginLeft:4,
+         marginRight:0,
+         marginBottom:-5
          
       }}
     >
@@ -44,13 +46,13 @@ const Footer = () => {
           <Divider sx={{ backgroundColor: '#DADBD8', margin: '20px 0', width: '60%', height: '2px' }} />
         </Grid>
 
-        <Grid item xs={12} md={6} container justifyContent="space-between" alignItems="center">
+        <Grid item xs={12} md={6} container justifyContent="space-between" alignItems="center"sx={{ px: { xs: 3,} }}>
           <Box sx={{ textAlign: 'right' }}>
             <Typography>
               <LocationOn sx={{ marginRight: 1 }} />
               نشانی: دانشگاه علم و صنعت - دپارتمان مهندسی کامپیوتر
             </Typography>
-            <Typography sx={{ marginTop: 2 }}>
+            <Typography sx={{ marginTop: 2,textAlign:"left" }}>
               <Phone sx={{ marginRight: 1 }} /> 021-12345678
             </Typography>
           </Box>
@@ -64,12 +66,12 @@ const Footer = () => {
           <Divider sx={{ backgroundColor: '#DADBD8', margin: '20px 0', width: '60%', height: '2px' }} />
         </Grid>
 
-        <Grid item xs={12} md={6} container justifyContent="space-between" alignItems="center">
+        <Grid item xs={12} md={6} container justifyContent="space-between" alignItems="center"sx={{ px: { xs: 3,} }}>
           <Link href="#" color="inherit" sx={{ margin: '0 10px' }}>درباره ما</Link>
-          <Link href="#" color="inherit" sx={{ margin: '0 10px' }}>سوالات متداول</Link>
+          <Link href="/FAQ" color="inherit" sx={{ margin: '0 10px' }}>سوالات متداول</Link>
           <Link href="#" color="inherit">ارتباط با ما</Link>
 
-          <Grid item xs={12} sm={6} container justifyContent="flex-end" alignItems="center">
+          <Grid item xs={12} sm={6} container justifyContent="flex-start" alignItems="center"sx={{ px: { xs: 3,} }}>
             <Typography sx={{ color: '#DADBD8' }}>شبکه‌های اجتماعی</Typography>
             <IconButton href="#" color="inherit"><Telegram /></IconButton>
             <IconButton href="#" color="inherit"><Twitter /></IconButton>

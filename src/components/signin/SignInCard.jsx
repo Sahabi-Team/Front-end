@@ -23,7 +23,8 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
-import SuccessfulModal from "../modals/SuccessfulModal"
+import SuccessfulModal from "../modals/SuccessfulModal";
+import Navbar from "../Navbar"
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -70,7 +71,7 @@ export default function SignInCard() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/auth/login/",
+        "https://ighader.pythonanywhere.com/api/auth/login/",
         {
          
             "username": username,
@@ -86,9 +87,11 @@ export default function SignInCard() {
        
       setSuccessMessage("خوش آمدید");
       setOpenSuccessfulModal(true);
-      
-      localStorage.setItem("access_token", response.data.access);
-      localStorage.setItem("refresh_token", response.data.refresh);
+
+      localStorage.setItem("access_token",  response.data.tokens.access);
+      localStorage.setItem("refresh_token", response.data.tokens.refresh);
+    
+      navigate("/");
 
       // ذخیره اطلاعات ورود در localStorage اگر "مرا به خاطر بسپار" فعال باشد
       if (rememberMe) {
@@ -181,6 +184,8 @@ export default function SignInCard() {
   };
 
   return (
+    <>
+   <Navbar />
     <Card
       variant="outlined"
       sx={{
@@ -472,5 +477,6 @@ export default function SignInCard() {
          successMessage={successmessage}
         />
     </Card>
+    </>
   );
 }

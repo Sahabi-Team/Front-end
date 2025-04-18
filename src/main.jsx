@@ -1,4 +1,4 @@
-import React from 'react'
+import React , {  useEffect ,useState,useContext}from 'react'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from "react-router";
@@ -13,6 +13,12 @@ import ResetPassword from './pages/ResetPassword.jsx';
 import BodyBuildingTest from './pages/BodyBuildingTest.jsx';
 import EditProfile from './pages/ClientProfile.jsx';
 import FAQPage from './pages/FAQ.jsx';
+import ExercisesPage from './pages/ListofExercises.jsx';
+import ClientSidebar from './components/ClientSidebar.jsx';
+import TreinerSidebar from './components/TrainerSidebar.jsx';
+import GuestSidebar from './components/GuestSidebar.jsx';
+import { AuthContext ,AuthProvider} from './contexts/AuthContext';
+import ChangePasswordClient from './pages/ChangePasswordClient.jsx';
 
 const theme = createTheme({
   direction: "rtl",
@@ -43,24 +49,51 @@ const theme = createTheme({
   },
 });
 
+
+const MainApp = () => {
+  const { userInfo } = useContext(AuthContext); // استفاده از اطلاعات کاربری از Context
+
+  const renderSidebar = () => {
+    if (userInfo?.usertype === 'trainer') {
+      return <TreinerSidebar />;
+    } else if (userInfo?.usertype === 'trainee') {
+      return <ClientSidebar />;
+    } else {
+      return <GuestSidebar />;
+    }
+  };
+
+  return (
+    <div className="main-layout">
+      {renderSidebar()}
+      <div className="content">
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/signin" element={<SignInSide />} />
+          <Route path="/askforemail" element={<AskforEmail />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/resetpassword" element={<ResetPassword />} />
+          <Route path="/test" element={<BodyBuildingTest />} />
+          <Route path="/editprofile" element={<EditProfile />} />
+          <Route path="/FAQ" element={<FAQPage />} />
+          <Route path='/exercises' element={<ExercisesPage />} />
+          <Route path='/changepassword' element={<ChangePasswordClient />} />
+        </Routes>
+      </div>
+    </div>
+  );
+};
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RtlProvider> 
+    <RtlProvider>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<App />} />
-            <Route path="/signin" element={<SignInSide />} />
-            <Route path="/askforemail" element={<AskforEmail />} />
-            <Route path="/signup" element={<SignUp/>} />
-            <Route path="/resetpassword" element={<ResetPassword/>} />
-            <Route path="/test" element={<BodyBuildingTest />} />
-            <Route path="/editprofile" element={<EditProfile />} />
-            <Route path="/FAQ" element={<FAQPage />} />
-
-          </Routes>
+        <AuthProvider> 
+          <MainApp />
+          </AuthProvider>
         </BrowserRouter>
       </ThemeProvider>
-      </RtlProvider>  
+    </RtlProvider>
   </StrictMode>
-)
+);

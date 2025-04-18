@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState ,useContext} from "react";
 import {
   AppBar,
   Toolbar,
@@ -17,6 +17,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/Logo/Logo.svg";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { AuthContext } from '../contexts/AuthContext.jsx';
 
 const Navbar = () => {
   const theme = useTheme();
@@ -25,8 +26,10 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState("");
   const [isSubmenuOpen, setIsSubmenuOpen] = useState({});
+  const { userInfo } = useContext(AuthContext);
 
 
+  
   // تابع برای باز و بسته کردن نوبار موبایل
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -66,6 +69,7 @@ const drawer = (
           <ListItem
             button
             style={{
+              cursor: 'pointer',
               margin: "10px 0",
               borderRadius: "10px",
               backgroundColor: "#FFFFFF",
@@ -93,12 +97,17 @@ const drawer = (
           {item === "بانک حرکات ورزشی" && (
             <Collapse in={open} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                {["حرکات سینه", "حرکات شکم و پهلو", "حرکات پا", "حرکات سرشانه", "حرکات زیر بغل"].map((subItem, subIndex) => (
+                {["حرکات سینه ", "حرکات شکم و پهلو ", "حرکات پا ", "حرکات سرشانه ", "حرکات زیر بغل "].map((subItem, subIndex) => (
                   <ListItem
                     button
                     key={subIndex}
                     style={{  borderRadius: "10px",paddingLeft: "30px", backgroundColor: "#e8e8e8", marginBottom: "5px", textAlign: "center" }}
-                    onClick={() => navigate(`/exercise-bank/${subIndex}`)}
+                    onClick={() => {
+                      const muscleName = subItem.replace("حرکات", "").trim();
+                      navigate("/exercises", {
+                        state: { muscle: muscleName }
+                      });
+                    }}
                   >
                     <ListItemText primary={subItem} />
                   </ListItem>
@@ -129,13 +138,14 @@ const drawer = (
     })}
 
     {/* گزینه‌های انتهایی */}
-    <ListItem
+    {!userInfo&&
+    <ListItem 
       button
       style={{ marginTop: "20px", border: "2px solid green", borderRadius: "10px", color: "green", textAlign: "center" }}
       onClick={() => navigate("/signin")}
     >
       <ListItemText primary="ورود" />
-    </ListItem>
+    </ListItem>}
     <ListItem
       button
       style={{ marginTop: "10px", backgroundColor: "green", color: "white", borderRadius: "10px", textAlign: "center" }}
@@ -158,7 +168,7 @@ const drawer = (
           alignItems: "center",
           flexDirection: isMobile ? "row" : "row-reverse",
           zIndex: 1000,
-          
+          //height:"11vh",
           
         }}
       >
@@ -202,8 +212,8 @@ const drawer = (
                     onClick={() => navigate("/test")}
                   >
                     تست رایگان
-                  </Button>
-                  <Button
+                  </Button> 
+                   { !userInfo&& <Button
                     style={{
                       backgroundColor: "#00A359",
                       color: "white",
@@ -215,7 +225,7 @@ const drawer = (
                     onClick={() => navigate("/signin")}
                   >
                     ورود
-                  </Button>
+                  </Button>}
                 </div>
 
                  {/* بخش چپ: لینک‌های دیگر */}
@@ -230,6 +240,7 @@ const drawer = (
                   >
                     <button
                       style={{
+                        cursor: 'pointer',
                         color: "black",
                         background:"#F7F7F7",
                         fontSize: "1.1rem",
@@ -294,12 +305,19 @@ const drawer = (
                           zIndex: 10,
                         }}
                       >
-                        {["حرکات سینه", "حرکات شکم و پهلو", "حرکات پا", "حرکات سرشانه", "حرکات زیر بغل"].map(
+                        {["حرکات سینه ", "حرکات شکم و پهلو ", "حرکات پا ", "حرکات سرشانه ", "حرکات زیر بغل "].map(
                           (subItem, subIndex) => (
                             <div
                               key={subIndex}
                               style={{ padding: "5px", cursor: "pointer" ,color:"#2D2E2E"}}
-                              onClick={() => navigate(`/exercise-bank/${subIndex + 1}`)}
+                              onClick={() => {
+                                const muscleName = subItem.replace("حرکات", "").trim();
+                                navigate("/exercises", {
+                                  state: { muscle: muscleName }
+                                });
+                              }}
+                              
+                              
                             >
                               {subItem}
                             </div>
