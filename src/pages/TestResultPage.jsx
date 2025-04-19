@@ -8,6 +8,7 @@ import GoalTimelineCard from '../components/TestResult/GoalTimeLineCard';
 import CommunityCard from '../components/TestResult/CommunityCard';
 import UserInfoCard from '../components/TestResult/UserInfoCard';
 import Navbar from '../components/home/NavbarCard';
+import BackGround from '../assets/imgs/green_background.svg';
 
 const GreenChip = styled(Chip)(({ theme }) => ({
   backgroundColor: '#00AF66',
@@ -16,6 +17,29 @@ const GreenChip = styled(Chip)(({ theme }) => ({
   borderRadius: 16,
   padding: '0 8px',
 }));
+
+
+const BackgroundBox = styled('div')({
+  position: 'relative',
+  minHeight: '100vh',
+  padding: '24px',
+  backgroundColor: '#fff',
+  '&::before': {
+    content: '""',
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundImage: `url(${BackGround})`,
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    opacity: 0.1,
+    zIndex: -1
+  }
+});
+
 
 const TestResultPage = () => {
   // User info data
@@ -33,13 +57,8 @@ const TestResultPage = () => {
   };
   
   return (
-    <Box sx={{ 
-      backgroundColor: '#f7f7f7', 
-      minHeight: '100vh', 
-      py: 4,
-      border: 'none',
-      outline: 'none'
-    }}>
+    <BackgroundBox>
+    <Box >
       <Navbar sx={{position: '',top:0,left:0,right:0,zIndex:1000}}/> 
       <Container maxWidth="md">
         <Box sx={{ 
@@ -94,11 +113,11 @@ const TestResultPage = () => {
           </Box>
         </Stack>
         
-        {/* Goal Timeline */}
+        {/* Goal Timeline
         <GoalTimelineCard weeks={12} days={90} />
         
         {/* Community section */}
-        <CommunityCard memberCount={11210} />
+        <CommunityCard memberCount={11210} /> */}
 
         {/* Coach List Button */}
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3, mb: 5, border: 'none' }}>
@@ -118,6 +137,7 @@ const TestResultPage = () => {
         </Box>
       </Container>
     </Box>
+    </BackgroundBox>
   );
 };
 

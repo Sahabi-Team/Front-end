@@ -4,9 +4,9 @@
   font-family: "Vazirmatn", system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  /* max-width: 1800px !important;
-  width: 100% !important; */
-  color-scheme: light dark;
+  max-width: 1800px !important;
+  width: 100% !important;
+  color-scheme: '#f7f7f7';
   color: rgba(255, 255, 255, 0.87);
  
 
