@@ -117,7 +117,7 @@ const TestResultPage = () => {
         <GoalTimelineCard weeks={12} days={90} />
         
         {/* Community section */}
-        <CommunityCard memberCount={11210} /> */}
+        <CommunityCard memberCount={11210} /> 
 
         {/* Coach List Button */}
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3, mb: 5, border: 'none' }}>
