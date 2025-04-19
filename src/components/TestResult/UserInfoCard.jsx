@@ -37,7 +37,7 @@ const UserInfoCard = ({ userInfo }) => {
     weight: 76,
     targetWeight: 80,
     age: 30,
-    availableTime: '۳-۵ روز در هفته',
+    availableTime: '۳-۵',
     trainingLocation: 'باشگاه',
     targetMuscles: 'جلو بازو-پشت بازو- سینه',
     fitnessGoal: 'تناسب اندام - کاهش وزن',
@@ -62,16 +62,16 @@ const UserInfoCard = ({ userInfo }) => {
             gap: 2
           }}>
             <InfoRow>
-                <InfoValue>{info.age}</InfoValue>
+                <InfoValue>{info.age.toLocaleString('fa-IR')}</InfoValue>
                 <InfoLabel>: سن</InfoLabel>
             </InfoRow>
             <InfoRow>
-              <InfoValue>{info.weight}</InfoValue>
-              <InfoLabel>: وزن</InfoLabel>
+              <InfoValue>{info.weight.toLocaleString('fa-IR')}</InfoValue>
+              <InfoLabel>: وزن(کیلوگرم)</InfoLabel>
             </InfoRow>
             <InfoRow>
-              <InfoValue>{info.height}</InfoValue>
-              <InfoLabel>: قد</InfoLabel>
+              <InfoValue>{info.height.toLocaleString('fa-IR')}</InfoValue>
+              <InfoLabel>: قد(سانتی متر)</InfoLabel>
             </InfoRow>
 
           </Box>
@@ -88,11 +88,11 @@ const UserInfoCard = ({ userInfo }) => {
             <InfoLabel>:مکان تمرین</InfoLabel>
             </InfoRow>
             <InfoRow>
-              <InfoValue>{info.targetWeight}</InfoValue>
+              <InfoValue>{info.targetWeight.toLocaleString('fa-IR')}</InfoValue>
               <InfoLabel>: وزن هدف</InfoLabel>
             </InfoRow>
             <InfoRow>
-              <InfoValue>{info.availableTime}</InfoValue>
+              <InfoValue>{info.availableTime.toLocaleString('fa-IR')}</InfoValue>
               <InfoLabel>: وقت موجود</InfoLabel>
             </InfoRow>
           </Box>

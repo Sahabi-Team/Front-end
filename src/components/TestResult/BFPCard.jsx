@@ -130,8 +130,8 @@ const BFPGauge = ({ value = 15.3 }) => {
         mt: -2,
         textAlign: 'center' 
       }}>
-        <Typography variant="h6" fontWeight="bold">
-          {displayValue.toFixed(1)}
+        <Typography variant="h6" fontWeight="bold" >
+          {displayValue.toLocaleString('fa-IR')}
         </Typography>
       </Box>
     </Box>

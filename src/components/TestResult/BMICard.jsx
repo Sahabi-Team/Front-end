@@ -100,17 +100,17 @@ const BMICard = ({ bmiValue = 21.5, weight = 76, recommendedWeight = { min: 70, 
             mt: 1,
             direction: 'rtl' // Explicitly set LTR direction for numbers
           }}>
-            <Typography variant="body2" sx={{ color: '#00BCD4' ,position:'relative',left:'-70px'}}>
-              18.5
+            <Typography variant="body2" sx={{ color: '#00BCD4' ,position:'relative',left:'-65px'}}>
+              ۱۸.۵
             </Typography>
             <Typography variant="body2" sx={{ color: '#4CAF50' ,position:'relative',left:'-120px'}}>
-              25.0
+              ۲۵.۰
             </Typography>
-            <Typography variant="body2" sx={{ color: '#FF9800' ,position:'relative',left:'-175px'}}>
-              30.0
+            <Typography variant="body2" sx={{ color: '#FF9800' ,position:'relative',left:'-180px'}}>
+              ۳۰.۰
             </Typography>
-            <Typography variant="body2" sx={{ color: '#F44336' ,position:'relative',left:'-230px'}}>
-              +40
+            <Typography variant="body2" sx={{ color: '#F44336' ,position:'relative',left:'-240px'}}>
+              +۴۰
             </Typography>
           </Box>
 
@@ -118,7 +118,7 @@ const BMICard = ({ bmiValue = 21.5, weight = 76, recommendedWeight = { min: 70, 
           <BMIArrow right={arrowPosition}>
             <NorthIcon sx={{ color: bmiStatus.color, fontSize: 32 }} />
               <StatusChip 
-                label={bmiValue.toFixed(1)} // Show the number instead of just the label
+                label={bmiValue.toLocaleString('fa-IR')} // Show the number instead of just the label
                 size="small" 
                 color="primary"
                 sx={{ 
@@ -140,13 +140,13 @@ const BMICard = ({ bmiValue = 21.5, weight = 76, recommendedWeight = { min: 70, 
             direction: 'rtl' 
           }}
         >
-          شاخص توده بدنی شما {bmiValue} هست و وزن شما در حالت {bmiStatus.label} قرار داره 
+          شاخص توده بدنی شما {bmiValue.toLocaleString('fa-IR')} هست و وزن شما در حالت {bmiStatus.label} قرار داره 
         </Typography>
         
         {/* Recommended Weight Chip */}
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
           <StatusChip 
-            label={`وزن پیشنهادی : ${recommendedWeight.min}-${recommendedWeight.max} کیلوگرم`}
+            label={`وزن پیشنهادی : ${recommendedWeight.min.toLocaleString('fa-IR')}-${recommendedWeight.max.toLocaleString('fa-IR')} کیلوگرم`}
             color="primary"
             sx={{ 
               backgroundColor:'#00AF66',

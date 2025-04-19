@@ -87,13 +87,16 @@ const TestResultPage = () => {
             }}>
               <Avatar sx={{ 
                 bgcolor: '#00AF66',
-                mr: 1
+                mr: 1,
+                mt: 10
+
               }}>
                 <AssignmentIcon />
               </Avatar>
               <Typography variant="h4" component="div" sx={{ 
                 fontWeight: 'bold',
-                color: '#000'
+                color: '#000',
+                mt: 10
               }}>
                 نتیجه تست بدنسازی
               </Typography>
