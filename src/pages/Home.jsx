@@ -511,20 +511,15 @@ export default function Home() {
         sx={{
           display: "flex",
           flexDirection: "column",
-          minHeight: "100vh",
+          // minHeight: "100vh",
           width: "100vw",
-          overflowX: "hidden",
-          alignContent:"center",
-          marginLeft:-4,
-          marginBottom:-5,
-          
+          // overflowX: "hidden",
+          alignContent: "center",
+          marginLeft: -8,
+          marginTop : 15,
+          // marginBottom: -5,
         }}
       >
-        {/* محتوا */}
-        <Box sx={{ flex: 1 }}>
-         
-        </Box>
-
         <Footer />
       </Box>
     </Box>
