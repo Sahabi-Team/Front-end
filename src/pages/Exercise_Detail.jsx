@@ -13,22 +13,10 @@ export default function Exercise_Detail() {
       <Navbar showInitialBorder={true} />
       <CssBaseline enableColorScheme />
       <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          minHeight: "100vh",
-          width: "100vw",
-          overflowX: "hidden",
-          alignContent: "center",
-          marginLeft: -4,
-          marginBottom: -5,
-        }}
-      >
-        <Box
           sx={{
             flex: 1,
             marginTop: 9,
-            marginBottom: 20,
+            marginBottom: 10,
             paddingLeft: 5,
             paddingRight: 5,
           }}
@@ -90,7 +78,19 @@ export default function Exercise_Detail() {
             </Box>
           </Box>
         </Box>
-
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          // minHeight: "100vh",
+          width: "100vw",
+          // overflowX: "hidden",
+          alignContent: "center",
+          marginLeft: -8,
+          marginTop : 15,
+          // marginBottom: -5,
+        }}
+      >
         <Footer />
       </Box>
     </>

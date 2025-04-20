@@ -19,6 +19,7 @@ import TreinerSidebar from './components/TrainerSidebar.jsx';
 import GuestSidebar from './components/GuestSidebar.jsx';
 import { AuthContext ,AuthProvider} from './contexts/AuthContext';
 import ChangePasswordClient from './pages/ChangePasswordClient.jsx';
+import ExerciseDetail from './pages/Exercise_Detail.jsx'
 
 const theme = createTheme({
   direction: "rtl",
@@ -102,6 +103,8 @@ createRoot(document.getElementById('root')).render(
           <Route path="/FAQ" element={<FAQPage />} />
           <Route path='/exercises' element={<ExercisesPage />} />
           <Route path='/changepassword' element={<ChangePasswordClient />} />
+          <Route path='/exercisedetail' element={<ExerciseDetail/>} />
+
         </Routes>
 
          
