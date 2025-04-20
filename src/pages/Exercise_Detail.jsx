@@ -72,7 +72,7 @@ export default function Exercise_Detail() {
             </Stack>
           </Box>
           <Box sx={{ mt: 2 }}>
-            <ExerciseCard exerciseId={2} />
+            <ExerciseCard exerciseId={1} />
             <Box sx={{ mt: 7 }}>
               <Contactus />
             </Box>
