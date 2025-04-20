@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   Box,
@@ -8,64 +8,104 @@ import {
   List,
   ListItem,
   ListItemText,
+  CircularProgress,
 } from "@mui/material";
 
-import img from "../../assets/imgs/builder_background.jpg"; // مسیر تصویر
+import img from "../../assets/imgs/builder_background.jpg";
 
-const ExerciseCard = () => {
+const ExerciseCard = ({ exerciseId }) => {
+  const [exerciseData, setExerciseData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchExercise = async () => {
+      try {
+        const res = await fetch(
+          `https://ighader.pythonanywhere.com/api/exercises/exercises/${exerciseId}/`,
+          {
+            headers: {
+              accept: "application/json",
+            },
+          }
+        );
+        const data = await res.json();
+        setExerciseData(data);
+      } catch (error) {
+        console.error("خطا در دریافت اطلاعات:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchExercise();
+  }, [exerciseId]);
+
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" p={4}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (!exerciseData || !exerciseData.name) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" p={4} minHeight={300}>
+        <Typography color="textSecondary" variant="h6">
+          اطلاعاتی برای این حرکت یافت نشد.
+        </Typography>
+      </Box>
+    );
+  }
+
   const infoTable = [
-    ["سطح حرکت", "مبتدی"],
-    ["عضلات درگیر", "زیر بغل و پشت"],
-    ["نوع تمرین", "قدرتی"],
-    ["محل تمرین", "باشگاه"],
-    ["وسایل مورد نیاز", "ماشین (لوازم باشگاه)"],
+    ["سطح حرکت", exerciseData.difficulty],
+    [
+      "عضلات درگیر",
+      exerciseData.muscle_groups?.map((m) => m.name).join("، ") || "",
+    ],
+    [
+      "نوع تمرین",
+      exerciseData.tags?.map((tag) => tag.name).join("، ") || "",
+    ],
+    [
+      "محل تمرین",
+      exerciseData.workoutplaces?.map((wp) => wp.name).join("، ") || "",
+    ],
+    [
+      "وسایل مورد نیاز",
+      exerciseData.equipments?.map((eq) => eq.name).join("، ") || "",
+    ],
   ];
 
-  const steps = [
-    "وزنه مناسب روی دستگاه قرار دهید!",
-    "ارتفاع صندلی را به گونه ای تنظیم کنید که دسته‌ها هم سطح سینه‌تان قرار بگیرند.",
-    "دسته‌های باز دستگاه را طبق تصویر بگیرید.",
-    "همزمان با کشیدن دسته‌ها به سمت خود، شانه‌ها را به سمت عقب ببرید و آرنج خود را خم کنید.",
-    "در آخرین نقطه بازو حرکت اندکی مکث کرده و سپس به آرامی به حالت شروع بازگردید.",
-    "در تکرارهای بیشتر دسته‌ها را در نقاط پایان بازه حرکت متوقف نکنید تا فشار ناشی از انجام حرکت دائما روی ماهیچه باشد.",
-  ];
+  const steps = exerciseData.description
+    ? exerciseData.description.split("\n").filter(Boolean)
+    : ["توضیحاتی ثبت نشده است."];
 
   return (
     <Card sx={{ borderRadius: 4, p: 2, boxShadow: 4 }}>
       <Stack direction="row" spacing={2} flexWrap="wrap">
-        {/* ستون چپ: جدول و توضیحات */}
-     
-
-        {/* ستون راست: تصویر بک‌گراند */}
-        <Box
+        <Stack
+          direction={"column"}
           sx={{
             flex: 1,
             borderRadius: 3,
             overflow: "hidden",
             boxShadow: 2,
-            minHeight: 400, // ارتفاع ثابت برای نمایش مناسب تصویر
-            position: "relative",
+            minHeight: 400,
           }}
         >
-          {/* تصویر به صورت بک‌گراند */}
           <Box
             sx={{
-              position: "absolute",
-              top: 0,
-              right: 0,
-              bottom: 0,
-              left: 0,
-              backgroundImage: `url(${img})`,
-              backgroundSize: "cover", // یا "contain" اگر نمی‌خوای تصویر برش بخوره
+              flex: 1,
+              backgroundImage: `url(${exerciseData.images?.[0]?.image || img})`,
+              backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
             }}
           />
-          {/* عنوان روی تصویر */}
           <Box
             sx={{
-              position: "relative",
-              zIndex: 1,
               width: "100%",
               bgcolor: "rgba(255,255,255,0.8)",
               textAlign: "center",
@@ -73,12 +113,12 @@ const ExerciseCard = () => {
             }}
           >
             <Typography variant="body1" fontWeight="bold">
-              اج دست باز
+              {exerciseData.name || "بدون عنوان"}
             </Typography>
           </Box>
-        </Box>
+        </Stack>
+
         <Stack spacing={2} flex={1} minWidth={300}>
-          {/* جدول مشخصات */}
           <Box
             sx={{
               border: "1px solid #ccc",
@@ -119,7 +159,6 @@ const ExerciseCard = () => {
             </Grid>
           </Box>
 
-          {/* نحوه انجام حرکت */}
           <Box
             sx={{
               borderRadius: 3,
