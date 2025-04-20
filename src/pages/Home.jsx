@@ -1,7 +1,7 @@
 import { useInView } from "react-intersection-observer";
 import CountUp from "react-countup";
 import { CssBaseline, Box, Typography, Divider, Stack } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import BannerCard from "../components/home/BannerCard";
 import NavBar from "../components/home/NavbarCard";
 //  import NavBar from "../components/Navbar";
@@ -19,6 +19,7 @@ import CoachSlider from "../components/home/CoachCard_Slider";
 import CommentCard from "../components/home/CommentCard";
 import SiteComments from "../components/home/SiteComments";
 import Footer from "../components/Footer";
+import { useEffect } from "react";
 
 const FullListButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
@@ -38,6 +39,8 @@ const CoachListButton = () => {
     </FullListButton>
   );
 };
+
+
 
 const coaches = [
   {
@@ -164,6 +167,43 @@ function FullWidthRepeatingBackground({
 }
 
 export default function Home() {
+
+ 
+  const [total_clients, setNum1] = useState(null);
+  const [total_trainers, setNum2] = useState(null);
+  const [total_wp, setNum3] = useState(null);
+  const [loading, setLoading] = useState(true);
+ // useState
+  useEffect(() => {
+    const fetchNumbers = async () => {
+      try {
+        const [res1, res2, res3] = await Promise.all([
+          fetch("https://ighader.pythonanywhere.com/api/analytics/total-clients/"),
+          fetch("https://ighader.pythonanywhere.com/api/analytics/total-trainers/"),
+          fetch("https://ighader.pythonanywhere.com/api/analytics/total-workout-plans/"),
+        ]);
+
+        const [data1, data2, data3] = await Promise.all([
+          res1.json(),
+          res2.json(),
+          res3.json(),
+        ]);
+
+        setNum1(parseInt(data1.total_clients));
+        setNum2(parseInt(data2.total_trainers));
+        setNum3(parseInt(data3.total_workout_plans));
+      } catch (error) {
+        console.error("خطا در دریافت اعداد:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNumbers();
+  }, []);
+
+  console.log(total_clients);
+
   return (
     <Box>
       <CssBaseline />
@@ -278,7 +318,7 @@ export default function Home() {
                 fontSize: { xs: "1.5rem", sm: "2.2rem" },
               }}
             >
-              +<AnimatedCounter end={300} duration={5} />
+              <AnimatedCounter end={total_wp} duration={5} />
             </Typography>
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Typography
@@ -317,7 +357,7 @@ export default function Home() {
                 fontSize: { xs: "1.5rem", sm: "2.2rem" },
               }}
             >
-              +<AnimatedCounter end={1350} duration={10} />
+              <AnimatedCounter end={total_clients} duration={10} />
             </Typography>
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Typography
@@ -356,7 +396,7 @@ export default function Home() {
                 fontSize: { xs: "1.5rem", sm: "2.2rem" },
               }}
             >
-              +<AnimatedCounter end={27} duration={5} />
+              <AnimatedCounter end={total_trainers} duration={5} />
             </Typography>
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Typography
