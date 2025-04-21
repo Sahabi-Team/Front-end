@@ -39,7 +39,11 @@ export default function CoachSlider() {
           experience: item.experience_years,
           price: 0, // اگر از API نیومده، مقدار پیش‌فرض
           rating: item.rating,
-          image: item.profile_picture || "https://i.pravatar.cc/150?img=10", // پیش‌فرض در صورت نبودن عکس
+          image: item.profile_picture || null, // پیش‌فرض در صورت نبودن عکس
+
+        
+
+
         }));
         setCoaches(formatted);
         setLoading(false);
