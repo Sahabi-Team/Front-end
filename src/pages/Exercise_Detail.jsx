@@ -78,21 +78,7 @@ export default function Exercise_Detail() {
             </Box>
           </Box>
         </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          // minHeight: "100vh",
-          width: "100vw",
-          // overflowX: "hidden",
-          alignContent: "center",
-          marginLeft: -8,
-          marginTop : 15,
-          // marginBottom: -5,
-        }}
-      >
-        <Footer />
-      </Box>
+      <Footer />
     </>
   );
 }
