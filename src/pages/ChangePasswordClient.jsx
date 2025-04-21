@@ -132,7 +132,7 @@ function ResetPassword() {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <CssBaseline />
       <Container maxWidth="sm" sx={{ my: 6 ,mt:10,mr:45}}>
         <Card elevation={20}>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, } from "react";
 import {
   AppBar,
   Toolbar,
@@ -10,6 +10,7 @@ import {
   Typography,
   Divider,
   useMediaQuery,
+  
   useTheme,
   IconButton,
   Drawer,
@@ -28,6 +29,8 @@ import {
 import Vazneh from "../../assets/imgs/home/vazneh.png";
 // import { isUserLoggedIn } from "../../utils/auth.js";
 import AvatarBox from "./AvatarBox.jsx";
+import { useNavigate } from "react-router-dom"; // import useNavigate
+
 
 const TransparentAppBar = styled(AppBar, {
   shouldForwardProp: (prop) =>
@@ -110,6 +113,20 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
   const [openProgramsMobile, setOpenProgramsMobile] = useState(false);
   const [openMovementsMobile, setOpenMovementsMobile] = useState(false);
 
+  const navigate = useNavigate();
+
+  const handleFreeTestClick = () => {
+    navigate("/test");
+  };
+
+  const handlesigninclick = () => {
+    navigate("/signin");
+  };
+
+  const handlefaqclick = () => {
+    navigate("/faq");
+  }
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 30);
@@ -132,10 +149,11 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
   };
 
   const handleMenuItemClick = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+    // const element = document.getElementById(sectionId);
+    // if (element) {
+    //   element.scrollIntoView({ behavior: "smooth" });
+    // }
+    if(sectionId=="faq")navigate("faq/");
     handleCloseMenu();
     setMobileOpen(false);
   };
@@ -341,14 +359,14 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
             <>
               <Box sx={{ display: "flex", alignItems: "center", ml: "5rem" }}>
                 <Stack direction={"row"}>
-                  <GradientButton variant="contained">
+                  <GradientButton variant="contained" onClick={handleFreeTestClick}>
                     تست رایگان
                   </GradientButton>
                   {isLoggedIn ? (
                     <AvatarBox />
                   ) : (
                     // <div>salam</div>
-                    <OutlineButton variant="outlined">ورود</OutlineButton>
+                    <OutlineButton variant="outlined" onClick={handlesigninclick}>ورود</OutlineButton>
                   )}
                 </Stack>
               </Box>
@@ -464,12 +482,12 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
                 </Box>
               </Box>
               <Stack direction={"row"}>
-                <GradientButton variant="contained">تست رایگان</GradientButton>
+                <GradientButton variant="contained" onClick={handleFreeTestClick}>تست رایگان</GradientButton>
                 {isLoggedIn ? (
                   <AvatarBox />
                 ) : (
                   // <div>salam</div>
-                  <OutlineButton variant="outlined">ورود</OutlineButton>
+                  <OutlineButton variant="outlined" onClick={handlesigninclick}>ورود</OutlineButton>
                 )}
               </Stack>
             </>

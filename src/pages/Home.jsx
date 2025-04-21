@@ -400,8 +400,9 @@ export default function Home() {
             pb: { xs: 6, md: 10 }, // فاصله از پایین بک‌گراند
           }}
         >
-          <FeaturesGrid />
-
+          <Box sx={{mt:-10}}><FeaturesGrid />
+          </Box>
+          
           {/* coach part */}
           <Box>
             <Box
