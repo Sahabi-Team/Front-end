@@ -1,10 +1,10 @@
-import React from "react"
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
+import React, { useRef } from "react";
 import {
   Navigation,
   Pagination,
@@ -40,10 +40,6 @@ export default function CoachSlider() {
           price: 0, // اگر از API نیومده، مقدار پیش‌فرض
           rating: item.rating,
           image: item.profile_picture || null, // پیش‌فرض در صورت نبودن عکس
-
-        
-
-
         }));
         setCoaches(formatted);
         setLoading(false);
@@ -58,6 +54,7 @@ export default function CoachSlider() {
     const handleResize = () => {
       if (swiperRef.current) {
         swiperRef.current?.swiper.autoplay?.stop();
+
         swiperRef.current?.swiper.autoplay?.start();
       }
     };
@@ -73,7 +70,6 @@ export default function CoachSlider() {
       </Box>
     );
   }
-  
 
   if (!isMediumOrLarger) {
     return (
@@ -119,50 +115,82 @@ export default function CoachSlider() {
         <Box display="flex" justifyContent="center" gap={1}>
           <IconButton
             onClick={() => swiperRef.current?.swiper.slidePrev()}
-            sx={navButtonStyles}
+            sx={{
+              backgroundColor: "primary.main",
+              color: "white",
+              "&:hover": {
+                backgroundColor: "primary.dark",
+                transform: "scale(1.1)",
+              },
+              transition: "all 0.3s ease",
+              boxShadow: 3,
+              width: 40,
+              height: 40,
+            }}
           >
             <ChevronRight fontSize="medium" />
           </IconButton>
+
           <IconButton
             onClick={() => swiperRef.current?.swiper.slideNext()}
-            sx={navButtonStyles}
+            sx={{
+              backgroundColor: "primary.main",
+              color: "white",
+              "&:hover": {
+                backgroundColor: "primary.dark",
+                transform: "scale(1.1)",
+              },
+              transition: "all 0.3s ease",
+              boxShadow: 3,
+              width: 40,
+              height: 40,
+            }}
           >
             <ChevronLeft fontSize="medium" />
           </IconButton>
         </Box>
 
+        {/* استایل‌های سه‌بعدی */}
         <style jsx>{`
           .three-d-slide {
             display: flex;
             justify-content: center;
             perspective: 1200px;
           }
+
           .three-d-card {
             background-color: #fff;
             border-radius: 16px;
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
             padding: 16px;
-            width: 390px;
+            width: 390px; /* Default width */
             transition: all 0.5s ease;
             transform-style: preserve-3d;
           }
+
+          /* Responsive width using media queries */
           @media (min-width: 600px) {
+            /* sm breakpoint */
             .three-d-card {
               width: 407px;
             }
           }
+
           .swiper-slide-active .three-d-card {
             transform: scale(1.05) rotateY(0deg);
             box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
           }
+
           .swiper-slide-prev .three-d-card {
             transform: scale(0.9) rotateY(15deg);
             opacity: 0.8;
           }
+
           .swiper-slide-next .three-d-card {
             transform: scale(0.9) rotateY(-15deg);
             opacity: 0.8;
           }
+
           .three-d-card:hover {
             transform: scale(1.06) rotateY(5deg);
             box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2);
@@ -173,95 +201,125 @@ export default function CoachSlider() {
   }
 
   return (
-    <Grid container spacing={2} sx={{ alignItems: "center", my: 4 }}>
-      <Grid item xs={1} sx={{ display: "flex", justifyContent: "flex-end" }}>
-        <IconButton onClick={() => swiperRef.current?.swiper.slidePrev()} sx={navButtonStyles}>
-          <ChevronRight fontSize="large" />
-        </IconButton>
-      </Grid>
-      <Grid item xs={10}>
-        <Box sx={{ width: "100%", px: 2 }}>
-          <Swiper
-            ref={swiperRef}
-            effect="coverflow"
-            grabCursor={true}
-            centeredSlides={true}
-            loop={true}
-            autoplay={{
-              delay: 3000,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-              waitForTransition: true,
-            }}
-            coverflowEffect={{
-              rotate: 40,
-              stretch: -20,
-              depth: 150,
-              modifier: 1.5,
-              slideShadows: true,
-            }}
-            pagination={{ clickable: true }}
-            modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
-            style={{ paddingBottom: "40px" }}
-            breakpoints={{
-              0: { slidesPerView: 1, spaceBetween: 16 },
-              640: { slidesPerView: 1.2, spaceBetween: 20 },
-              768: { slidesPerView: 2, spaceBetween: 50 },
-              1024: { slidesPerView: "auto", spaceBetween: 60 },
-            }}
-          >
-            {coaches.map((coach, index) => (
-              <SwiperSlide
-                key={index}
-                style={{
-                  width: "100%",
-                  maxWidth: "380px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <div
-                  style={{
-                    backgroundColor: "#fff",
-                    borderRadius: "16px",
-                    boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
-                    padding: "16px",
-                    transition: "transform 0.3s ease",
-                  }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.transform = "scale(1.05)")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.transform = "scale(1)")
-                  }
-                >
-                  <CoachCard {...coach} />
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </Box>
-      </Grid>
-      <Grid item xs={1} sx={{ display: "flex", justifyContent: "flex-start" }}>
-        <IconButton onClick={() => swiperRef.current?.swiper.slideNext()} sx={navButtonStyles}>
-          <ChevronLeft fontSize="large" />
-        </IconButton>
-      </Grid>
-    </Grid>
+    <Stack
+  direction="row"
+  alignItems="center"
+  justifyContent="center"
+  spacing={2}
+  sx={{ my: 4, width: "100%" ,px:2}}
+>
+  {/* Prev */}
+  <IconButton
+    onClick={() => swiperRef.current?.swiper.slidePrev()}
+    sx={{
+      backgroundColor: "primary.main",
+      color: "white",
+      "&:hover": { backgroundColor: "primary.dark", transform: "scale(1.1)" },
+      transition: "all 0.3s ease",
+      boxShadow: 3,
+      width: 40,
+      height: 40,
+      zIndex: 10,
+    }}
+  >
+    <ChevronRight fontSize="medium" />
+  </IconButton>
+
+  {/* Swiper */}
+  <Box sx={{ flex: 1, minWidth: 0, maxWidth: "100%", overflow: "hidden" }}>
+    <Swiper
+      ref={swiperRef}
+      loop={true}
+      centeredSlides={true}
+      autoplay={{
+        delay: 3500,
+        disableOnInteraction: false,
+      }}
+      pagination={{ clickable: true }}
+      speed={800}
+      grabCursor={true}
+      modules={[Pagination, Autoplay]}
+      breakpoints={{
+        0: { slidesPerView: 2, spaceBetween: -100 },
+        768: { slidesPerView: 1.6 , spaceBetween: 24 },
+        1024: { slidesPerView: 1.9, spaceBetween: 24 },
+        1300: { slidesPerView: 2.3, spaceBetween: 24 },
+        1500: { slidesPerView: 2.5, spaceBetween: 24 },
+
+
+        1600: { slidesPerView: 3, spaceBetween: 24 },
+
+      }}
+      style={{
+        paddingBottom: "50px",
+        width: "100%",
+      }}
+    >
+      {coaches.map((coach, index) => (
+        <SwiperSlide key={index} className="three-d-slide">
+          <Box className="three-d-card">
+            <CoachCard {...coach} />
+          </Box>
+        </SwiperSlide>
+      ))}
+    </Swiper>
+  </Box>
+
+  {/* Next */}
+  <IconButton
+    onClick={() => swiperRef.current?.swiper.slideNext()}
+    sx={{
+      backgroundColor: "primary.main",
+      color: "white",
+      "&:hover": { backgroundColor: "primary.dark", transform: "scale(1.1)" },
+      transition: "all 0.3s ease",
+      boxShadow: 3,
+      width: 40,
+      height: 40,
+      zIndex: 10,
+    }}
+  >
+    <ChevronLeft fontSize="medium" />
+  </IconButton>
+
+  <style jsx>{`
+    .three-d-slide {
+      display: flex;
+      justify-content: center;
+      perspective: 1200px;
+    }
+
+    .three-d-card {
+      background-color: #fff;
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      padding: 16px;
+      width: 407px;
+      transition: all 0.5s ease;
+      transform-style: preserve-3d;
+    }
+
+    .swiper-slide-active .three-d-card {
+      transform: scale(1.05) rotateY(0deg);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+    }
+
+    .swiper-slide-prev .three-d-card {
+      transform: scale(0.9) rotateY(15deg);
+      opacity: 0.8;
+    }
+
+    .swiper-slide-next .three-d-card {
+      transform: scale(0.9) rotateY(-15deg);
+      opacity: 0.8;
+    }
+
+    .three-d-card:hover {
+      transform: scale(1.06) rotateY(5deg);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2);
+    }
+  `}</style>
+</Stack>
+
   );
 }
-
-
-const navButtonStyles = {
-  backgroundColor: "primary.main",
-  color: "white",
-  "&:hover": {
-    backgroundColor: "primary.dark",
-    transform: "scale(1.1)",
-  },
-  transition: "all 0.3s ease",
-  boxShadow: 3,
-  width: 56,
-  height: 56,
-};
