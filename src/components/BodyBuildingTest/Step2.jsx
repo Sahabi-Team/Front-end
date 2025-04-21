@@ -1,23 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Box, MenuItem, TextField} from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMoreRounded';
 
-const Step2 = ({setIsFormValid}) => {
-  const [formData, setFormData] = useState({
-    goal: "",
-    focusArea: "",
-    equipment: "",
-    workoutDays: "",
-  });
-
+const Step2 = ({data, setData, setIsFormValid}) => {
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setData({ ...data, [e.target.name]: e.target.value });
   };
 
   useEffect(() => {
-    const isValid = formData.goal && formData.focusArea && formData.equipment && formData.workoutDays;
+    const isValid = data.goal && data.focusArea && data.equipment && data.workoutDays;
     setIsFormValid(isValid);
-  }, [formData, setIsFormValid]);
+  }, [data]);
+
 
   return (
       <Box display="flex" flexWrap="wrap" justifyContent="space-between" gap="24px">
@@ -25,7 +19,7 @@ const Step2 = ({setIsFormValid}) => {
           select
           label="هدفت از ورزش"
           name="goal"
-          value={formData.goal}
+          value={data.goal}
           onChange={handleChange}
           sx={{flex: "1 1 45%", minWidth: "200px", '& .MuiOutlinedInput-root': {borderRadius: '28px'}}}
           slotProps={{select: {IconComponent: ExpandMoreIcon, sx: {"& .MuiSelect-icon": {color: "#00A359", fontSize: "28px"}}}}}
@@ -39,7 +33,7 @@ const Step2 = ({setIsFormValid}) => {
           select
           label="عضو مورد تمرکز"
           name="focusArea"
-          value={formData.focusArea}
+          value={data.focusArea}
           onChange={handleChange}
           sx={{flex: "1 1 45%", minWidth: "200px", '& .MuiOutlinedInput-root': {borderRadius: '28px'}}}
           slotProps={{select: {IconComponent: ExpandMoreIcon, sx: {"& .MuiSelect-icon": {color: "#00A359", fontSize: "28px"}}}}}
@@ -53,7 +47,7 @@ const Step2 = ({setIsFormValid}) => {
           select
           label="وسایل بدنسازی چی داری"
           name="equipment"
-          value={formData.equipment}
+          value={data.equipment}
           onChange={handleChange}
           sx={{flex: "1 1 45%", minWidth: "200px", '& .MuiOutlinedInput-root': {borderRadius: '28px'}}}
           slotProps={{select: {IconComponent: ExpandMoreIcon, sx: {"& .MuiSelect-icon": {color: "#00A359", fontSize: "28px"}}}}}
@@ -69,14 +63,14 @@ const Step2 = ({setIsFormValid}) => {
           select
           label="در هفته چقدر وقت داری"
           name="workoutDays"
-          value={formData.workoutDays}
+          value={data.workoutDays}
           onChange={handleChange}
           sx={{flex: "1 1 45%", minWidth: "200px", '& .MuiOutlinedInput-root': {borderRadius: '28px'}}}
           slotProps={{select: {IconComponent: ExpandMoreIcon, sx: {"& .MuiSelect-icon": {color: "#00A359", fontSize: "28px"}}}}}
         >
-          <MenuItem value="۱ الی ۲ روز">۱ الی ۲ روز</MenuItem>
-          <MenuItem value="۳ الی ۴ روز">۳ الی ۴ روز</MenuItem>
-          <MenuItem value="۵ الی ۶ روز">۵ الی ۶ روز</MenuItem>
+          <MenuItem value="1 الی 2 روز">1 الی 2 روز</MenuItem>
+          <MenuItem value="3 الی 4 روز">3 الی 4 روز</MenuItem>
+          <MenuItem value="5 الی 6 روز">5 الی 6 روز</MenuItem>
         </TextField>
       </Box>
   );

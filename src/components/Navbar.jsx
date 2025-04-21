@@ -168,6 +168,7 @@ const drawer = (
           alignItems: "center",
           flexDirection: isMobile ? "row" : "row-reverse",
           zIndex: 1000,
+          maxHeight: "100px",
           //height:"11vh",
           
         }}
@@ -208,6 +209,7 @@ const drawer = (
                       fontWeight: "bold",
                       padding: "10px 35px",
                       boxShadow: "0 4px 8px rgba(1,1,1,1.2)",
+                      maxHeight: "50px",
                     }}
                     onClick={() => navigate("/test")}
                   >
@@ -221,6 +223,7 @@ const drawer = (
                       fontWeight: "bold",
                       padding: "10px 30px",
                       boxShadow: "0 4px 8px rgba(1,1,1,1.2)",
+                      maxHeight: "50px",
                     }}
                     onClick={() => navigate("/signin")}
                   >

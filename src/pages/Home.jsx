@@ -492,21 +492,7 @@ export default function Home() {
           <Box sx={{ height: 200 }}></Box>
         </Box>
       </FullWidthRepeatingBackground>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          // minHeight: "100vh",
-          width: "100vw",
-          // overflowX: "hidden",
-          alignContent: "center",
-          marginLeft: -8,
-          marginTop: 15,
-          // marginBottom: -5,
-        }}
-      >
-        <Footer />
-      </Box>
+      <Footer />
     </Box>
   );
 }
