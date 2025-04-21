@@ -57,7 +57,8 @@ export default function CoachSlider() {
   useEffect(() => {
     const handleResize = () => {
       if (swiperRef.current) {
-        swiperRef.current?.swiper.autoplay?.restart();
+        swiperRef.current?.swiper.autoplay?.stop();
+        swiperRef.current?.swiper.autoplay?.start();
       }
     };
 
@@ -72,6 +73,7 @@ export default function CoachSlider() {
       </Box>
     );
   }
+  
 
   if (!isMediumOrLarger) {
     return (
@@ -249,6 +251,7 @@ export default function CoachSlider() {
     </Grid>
   );
 }
+
 
 const navButtonStyles = {
   backgroundColor: "primary.main",
