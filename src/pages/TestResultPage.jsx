@@ -2,14 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { Box, Container, Chip, Stack, Avatar, Typography, Button } from '@mui/material';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { styled } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { getLatestTest } from '../services/testService';
 import BMICard from '../components/TestResult/BMICard';
 import BFPCard from '../components/TestResult/BFPCard';
 import GoalTimelineCard from '../components/TestResult/GoalTimeLineCard';
 import CommunityCard from '../components/TestResult/CommunityCard';
 import UserInfoCard from '../components/TestResult/UserInfoCard';
 import Navbar from '../components/home/NavbarCard';
-import BackGround from '../assets/imgs/green_background.svg';
 import subtract from '../assets/imgs/Subtract.png';
+
+// Helper function to calculate BMI
+const calculateBMI = (weight, height) => {
+  // Convert height from cm to m
+  const heightInMeters = height / 100;
+  return (weight / (heightInMeters * heightInMeters)).toFixed(1);
+};
+
+// Helper function to calculate BFP (Body Fat Percentage)
+const calculateBFP = (bmi, age, gender) => {
+  // This is a simplified calculation - you might want to use a more accurate formula
+  const baseBFP = (1.20 * bmi) + (0.23 * age) - (10.8 * (gender === 'male' ? 1 : 0)) - 5.4;
+  return Math.max(0, Math.min(100, baseBFP)).toFixed(1);
+};
 
 const GreenChip = styled(Chip)(({ theme }) => ({
   backgroundColor: '#00AF66',
@@ -59,39 +75,74 @@ function BackgroundPattern({ imageUrl, children, repeatDirection = "repeat-y" })
 }
 
 const TestResultPage = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  
-  // User info data
-  const userInfo = {
-    gender: 'مرد',
-    height: 178,
-    weight: 76,
-    targetWeight: 80,
-    age: 30,
-    availableTime: '۳-۵ روز در هفته',
-    trainingLocation: 'باشگاه',
-    targetMuscles: 'جلو بازو-پشت بازو- سینه',
-    fitnessGoal: 'تناسب اندام - کاهش وزن',
-    medicalConditions: 'تنگی نفس - کف پای صاف'
+  const navigate = useNavigate();
+  const { user, loading: authLoading } = useAuth();
+  const [testData, setTestData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (!authLoading && user) {
+      const fetchTestData = async () => {
+        try {
+          const data = await getLatestTest();
+          if (data && data.length > 0) {
+            const latestTest = data[0];
+            // Calculate BMI and BFP
+            const bmi = calculateBMI(latestTest.weight, latestTest.height);
+            const bfp = calculateBFP(bmi, 25, 'male'); // Assuming male for now, you might want to get gender from user data
+            
+            setTestData({
+              ...latestTest,
+              bmi,
+              bfp
+            });
+          }
+        } catch (error) {
+          setError('خطا در دریافت اطلاعات');
+          console.error('Error fetching test data:', error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchTestData();
+    } else {
+      setLoading(false);
+    }
+  }, [user, authLoading]);
+
+  const handleLoginClick = () => {
+    navigate('/signin', { state: { from: '/test_result' } });
   };
 
-  const handleLogin = () => {
-    // Here you would typically handle authentication
-    // For now, we'll just set the state to simulate login
-    setIsAuthenticated(true);
-  };
-  
+  if (loading || authLoading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+        <Typography>در حال بارگذاری...</Typography>
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+        <Typography color="error">{error}</Typography>
+      </Box>
+    );
+  }
+
   return (
     <BackgroundPattern imageUrl={subtract} repeatDirection="repeat-y">
       <Box sx={{ position: 'relative', minHeight: '100vh' }}>
         <Navbar sx={{ position: 'sticky', top: 0, left: 0, right: 0, zIndex: 1000 }}/>
         
-        {/* This is the content that will be blurred */}
         <Container maxWidth="md" sx={{ 
-          filter: isAuthenticated ? 'none' : 'blur(8px)',
-          pointerEvents: isAuthenticated ? 'auto' : 'none',
-          userSelect: isAuthenticated ? 'auto' : 'none',
-          transition: 'filter 0.3s ease-in-out'
+          filter: user ? 'none' : 'blur(8px)',
+          pointerEvents: user ? 'auto' : 'none',
+          userSelect: user ? 'auto' : 'none',
+          transition: 'filter 0.3s ease-in-out',
+          padding: '24px'
         }}>
           <Box sx={{ 
             mb: 3,
@@ -132,27 +183,31 @@ const TestResultPage = () => {
           </Box>
                 
           {/* Test Results */}
-          <UserInfoCard userInfo={userInfo} />
+          {testData && (
+            <>
+              <UserInfoCard userInfo={testData} />
 
-          {/* BMI and BFP section */}
-          <Stack 
-            direction={{ xs: 'column', md: 'row' }} 
-            spacing={2} 
-            sx={{ mb: 2, border: 'none' }}
-          >
-            <Box sx={{ width: { xs: '100%', md: '50%' }, border: 'none' }}>
-              <BFPCard bfpValue={30} />
-            </Box>
-            <Box sx={{ width: { xs: '100%', md: '50%' }, border: 'none' }}>
-              <BMICard bmiValue={10} />
-            </Box>
-          </Stack>
-          
-          {/* Goal Timeline*/}
-          <GoalTimelineCard weeks={12} days={90} />
-          
-          {/* Community section */}
-          <CommunityCard memberCount={11210} />
+              {/* BMI and BFP section */}
+              <Stack 
+                direction={{ xs: 'column', md: 'row' }} 
+                spacing={2} 
+                sx={{ mb: 2, border: 'none' }}
+              >
+                <Box sx={{ width: { xs: '100%', md: '50%' }, border: 'none' }}>
+                  <BFPCard bfpValue={testData.bfp} />
+                </Box>
+                <Box sx={{ width: { xs: '100%', md: '50%' }, border: 'none' }}>
+                  <BMICard bmiValue={testData.bmi} />
+                </Box>
+              </Stack>
+              
+              {/* Goal Timeline*/}
+              <GoalTimelineCard weeks={12} days={90} />
+              
+              {/* Community section */}
+              <CommunityCard memberCount={11210} />
+            </>
+          )}
 
           {/* Coach List Button */}
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3, mb: 5, border: 'none' }}>
@@ -171,9 +226,9 @@ const TestResultPage = () => {
             />
           </Box>
         </Container>
-        
-        {/* Login Overlay - shown when not authenticated */}
-        {!isAuthenticated && (
+
+        {/* Login Overlay */}
+        {!user && (
           <Box
             sx={{
               position: 'absolute',
@@ -222,9 +277,9 @@ const TestResultPage = () => {
               <GreenButton
                 fullWidth
                 variant="contained"
-                onClick={handleLogin}
+                onClick={handleLoginClick}
               >
-                ورود
+                ورود به حساب کاربری
               </GreenButton>
             </Box>
           </Box>

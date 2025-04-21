@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from "react-router";
 import { createTheme, ThemeProvider } from '@mui/material';
 import { RtlProvider } from './utils/RTLProvider.jsx';
+import { AuthProvider } from './context/AuthContext';
 import './index.css'
 import SignInSide from './pages/SignIn.jsx'
 import AskforEmail from './pages/AskforEmail.jsx'
@@ -48,20 +49,22 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <RtlProvider> 
       <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/signin" element={<SignInSide />} />
-            <Route path="/askforemail" element={<AskforEmail />} />
-            <Route path="/signup" element={<SignUp/>} />
-            <Route path="/resetpassword" element={<ResetPassword/>} />
-            <Route path="/test" element={<BodyBuildingTest />} />
-            <Route path="/editprofile" element={<EditProfile />} />
-            <Route path="/FAQ" element={<FAQPage />} />
-            <Route path="/test_result" element={<TestResultPage />} />
-          </Routes>
-        </BrowserRouter>
+        <AuthProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/signin" element={<SignInSide />} />
+              <Route path="/askforemail" element={<AskforEmail />} />
+              <Route path="/signup" element={<SignUp/>} />
+              <Route path="/resetpassword" element={<ResetPassword/>} />
+              <Route path="/test" element={<BodyBuildingTest />} />
+              <Route path="/editprofile" element={<EditProfile />} />
+              <Route path="/FAQ" element={<FAQPage />} />
+              <Route path="/test_result" element={<TestResultPage />} />
+            </Routes>
+          </BrowserRouter>
+        </AuthProvider>
       </ThemeProvider>
-      </RtlProvider>  
+    </RtlProvider>  
   </StrictMode>
 )
