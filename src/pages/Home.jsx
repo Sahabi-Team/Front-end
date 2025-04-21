@@ -42,65 +42,6 @@ const CoachListButton = () => {
 
 
 
-const coaches = [
-  {
-    name: "محمود سیخل",
-    specialty: "ورزش های استقامتی",
-    experience: 5,
-    price: 530000,
-    rating: 4.5,
-    image: "https://i.pravatar.cc/150?img=10",
-  },
-  {
-    name: "محمود سیخل",
-    specialty: "ورزش های استقامتی",
-    experience: 5,
-    price: 530000,
-    rating: 4.5,
-    image: "https://i.pravatar.cc/150?img=10",
-  },
-  {
-    name: "محمود سیخل",
-    specialty: "ورزش های استقامتی",
-    experience: 5,
-    price: 530000,
-    rating: 4.5,
-    image: "https://i.pravatar.cc/150?img=10",
-  },
-  {
-    name: "زهرا احمدی",
-    specialty: "تناسب اندام",
-    experience: 7,
-    price: 450000,
-    rating: 3.5,
-    image: "https://i.pravatar.cc/150?img=47",
-  },
-  {
-    name: "علی رضایی",
-    specialty: "بدنسازی پیشرفته",
-    experience: 10,
-    price: 600000,
-    rating: 5.0,
-    image: "https://i.pravatar.cc/150?img=1",
-  },
-  {
-    name: "محمود سیخل",
-    specialty: "ورزش های استقامتی",
-    experience: 5,
-    price: 530000,
-    rating: 4.5,
-    image: "https://i.pravatar.cc/150?img=10",
-  },
-  {
-    name: "محمود سیخل",
-    specialty: "ورزش های استقامتی",
-    experience: 5,
-    price: 530000,
-    rating: 4.5,
-    image: "https://i.pravatar.cc/150?img=10",
-  },
-];
-
 const AnimatedCounter = ({ end, duration = 2 }) => {
   // محاسبه گام و مدت زمان بر اساس مقدار نهایی
   let step = 10;
@@ -167,20 +108,24 @@ function FullWidthRepeatingBackground({
 }
 
 export default function Home() {
-
- 
   const [total_clients, setNum1] = useState(null);
   const [total_trainers, setNum2] = useState(null);
   const [total_wp, setNum3] = useState(null);
   const [loading, setLoading] = useState(true);
- // useState
+  // useState
   useEffect(() => {
     const fetchNumbers = async () => {
       try {
         const [res1, res2, res3] = await Promise.all([
-          fetch("https://ighader.pythonanywhere.com/api/analytics/total-clients/"),
-          fetch("https://ighader.pythonanywhere.com/api/analytics/total-trainers/"),
-          fetch("https://ighader.pythonanywhere.com/api/analytics/total-workout-plans/"),
+          fetch(
+            "https://ighader.pythonanywhere.com/api/analytics/total-clients/"
+          ),
+          fetch(
+            "https://ighader.pythonanywhere.com/api/analytics/total-trainers/"
+          ),
+          fetch(
+            "https://ighader.pythonanywhere.com/api/analytics/total-workout-plans/"
+          ),
         ]);
 
         const [data1, data2, data3] = await Promise.all([
@@ -202,7 +147,7 @@ export default function Home() {
     fetchNumbers();
   }, []);
 
-  console.log(total_clients);
+
 
   return (
     <Box>
@@ -494,7 +439,7 @@ export default function Home() {
                 width: "100%",
               }}
             >
-              <CoachSlider coaches={coaches} />
+              <CoachSlider />
             </Box>
 
             <CoachListButton />
@@ -556,7 +501,7 @@ export default function Home() {
           // overflowX: "hidden",
           alignContent: "center",
           marginLeft: -8,
-          marginTop : 15,
+          marginTop: 15,
           // marginBottom: -5,
         }}
       >

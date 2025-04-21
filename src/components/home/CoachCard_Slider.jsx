@@ -1,10 +1,10 @@
+import React from "react"
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
-import React, { useRef } from "react";
 import {
   Navigation,
   Pagination,
@@ -12,12 +12,47 @@ import {
   Autoplay,
 } from "swiper/modules";
 import CoachCard from "./TrainerCard";
-import { useMediaQuery, Box, Grid, IconButton, Stack } from "@mui/material";
+import {
+  useMediaQuery,
+  Box,
+  Grid,
+  IconButton,
+  Stack,
+  CircularProgress,
+} from "@mui/material";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 
-export default function CoachSlider({ coaches }) {
+export default function CoachSlider() {
   const isMediumOrLarger = useMediaQuery((theme) => theme.breakpoints.up("md"));
   const swiperRef = useRef(null);
+  const [coaches, setCoaches] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // داده‌ها رو از API می‌گیریم
+  useEffect(() => {
+    fetch("https://ighader.pythonanywhere.com/api/trainer/trainers/filter/")
+      .then((res) => res.json())
+      .then((data) => {
+        const formatted = data.map((item) => ({
+          name: item.name,
+          specialty: item.expertise,
+          experience: item.experience_years,
+          price: 0, // اگر از API نیومده، مقدار پیش‌فرض
+          rating: item.rating,
+          image: item.profile_picture || null, // پیش‌فرض در صورت نبودن عکس
+
+        
+
+
+        }));
+        setCoaches(formatted);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching coaches:", error);
+        setLoading(false);
+      });
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -30,13 +65,21 @@ export default function CoachSlider({ coaches }) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" py={6}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
   if (!isMediumOrLarger) {
     return (
       <Stack
         direction="column"
         alignItems="center"
         spacing={1}
-        sx={{ my: 4, width: "100%", }}
+        sx={{ my: 4, width: "100%" }}
       >
         <Swiper
           ref={swiperRef}
@@ -74,82 +117,50 @@ export default function CoachSlider({ coaches }) {
         <Box display="flex" justifyContent="center" gap={1}>
           <IconButton
             onClick={() => swiperRef.current?.swiper.slidePrev()}
-            sx={{
-              backgroundColor: "primary.main",
-              color: "white",
-              "&:hover": {
-                backgroundColor: "primary.dark",
-                transform: "scale(1.1)",
-              },
-              transition: "all 0.3s ease",
-              boxShadow: 3,
-              width: 40,
-              height: 40,
-            }}
-          >
-            <ChevronLeft fontSize="medium" />
-          </IconButton>
-
-          <IconButton
-            onClick={() => swiperRef.current?.swiper.slideNext()}
-            sx={{
-              backgroundColor: "primary.main",
-              color: "white",
-              "&:hover": {
-                backgroundColor: "primary.dark",
-                transform: "scale(1.1)",
-              },
-              transition: "all 0.3s ease",
-              boxShadow: 3,
-              width: 40,
-              height: 40,
-            }}
+            sx={navButtonStyles}
           >
             <ChevronRight fontSize="medium" />
           </IconButton>
+          <IconButton
+            onClick={() => swiperRef.current?.swiper.slideNext()}
+            sx={navButtonStyles}
+          >
+            <ChevronLeft fontSize="medium" />
+          </IconButton>
         </Box>
 
-        {/* استایل‌های سه‌بعدی */}
         <style jsx>{`
           .three-d-slide {
             display: flex;
             justify-content: center;
             perspective: 1200px;
           }
-
           .three-d-card {
             background-color: #fff;
             border-radius: 16px;
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
             padding: 16px;
-            width: 390px; /* Default width */
+            width: 390px;
             transition: all 0.5s ease;
             transform-style: preserve-3d;
           }
-
-          /* Responsive width using media queries */
           @media (min-width: 600px) {
-            /* sm breakpoint */
             .three-d-card {
               width: 407px;
             }
           }
-
           .swiper-slide-active .three-d-card {
             transform: scale(1.05) rotateY(0deg);
             box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
           }
-
           .swiper-slide-prev .three-d-card {
             transform: scale(0.9) rotateY(15deg);
             opacity: 0.8;
           }
-
           .swiper-slide-next .three-d-card {
             transform: scale(0.9) rotateY(-15deg);
             opacity: 0.8;
           }
-
           .three-d-card:hover {
             transform: scale(1.06) rotateY(5deg);
             box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2);
@@ -161,28 +172,11 @@ export default function CoachSlider({ coaches }) {
 
   return (
     <Grid container spacing={2} sx={{ alignItems: "center", my: 4 }}>
-      {/* ستون چپ - دکمه قبلی */}
       <Grid item xs={1} sx={{ display: "flex", justifyContent: "flex-end" }}>
-        <IconButton
-          onClick={() => swiperRef.current?.swiper.slidePrev()}
-          sx={{
-            backgroundColor: "primary.main",
-            color: "white",
-            "&:hover": {
-              backgroundColor: "primary.dark",
-              transform: "scale(1.1)",
-            },
-            transition: "all 0.3s ease",
-            boxShadow: 3,
-            width: 56,
-            height: 56,
-          }}
-        >
-          <ChevronLeft fontSize="large" />
+        <IconButton onClick={() => swiperRef.current?.swiper.slidePrev()} sx={navButtonStyles}>
+          <ChevronRight fontSize="large" />
         </IconButton>
       </Grid>
-
-      {/* ستون وسط - اسلایدر */}
       <Grid item xs={10}>
         <Box sx={{ width: "100%", px: 2 }}>
           <Swiper
@@ -194,8 +188,8 @@ export default function CoachSlider({ coaches }) {
             autoplay={{
               delay: 3000,
               disableOnInteraction: false,
-              pauseOnMouseEnter: true, // اختیاری: هنگام هاور ماوس متوقف شود
-              waitForTransition: true, // صبر کند تا ترنزیشن کامل شود
+              pauseOnMouseEnter: true,
+              waitForTransition: true,
             }}
             coverflowEffect={{
               rotate: 40,
@@ -206,7 +200,7 @@ export default function CoachSlider({ coaches }) {
             }}
             pagination={{ clickable: true }}
             modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
-            style={{ paddingBottom: "40px"}}
+            style={{ paddingBottom: "40px" }}
             breakpoints={{
               0: { slidesPerView: 1, spaceBetween: 16 },
               640: { slidesPerView: 1.2, spaceBetween: 20 },
@@ -247,27 +241,24 @@ export default function CoachSlider({ coaches }) {
           </Swiper>
         </Box>
       </Grid>
-
-      {/* ستون راست - دکمه بعدی */}
       <Grid item xs={1} sx={{ display: "flex", justifyContent: "flex-start" }}>
-        <IconButton
-          onClick={() => swiperRef.current?.swiper.slideNext()}
-          sx={{
-            backgroundColor: "primary.main",
-            color: "white",
-            "&:hover": {
-              backgroundColor: "primary.dark",
-              transform: "scale(1.1)",
-            },
-            transition: "all 0.3s ease",
-            boxShadow: 3,
-            width: 56,
-            height: 56,
-          }}
-        >
-          <ChevronRight fontSize="large" />
+        <IconButton onClick={() => swiperRef.current?.swiper.slideNext()} sx={navButtonStyles}>
+          <ChevronLeft fontSize="large" />
         </IconButton>
       </Grid>
     </Grid>
   );
 }
+
+const navButtonStyles = {
+  backgroundColor: "primary.main",
+  color: "white",
+  "&:hover": {
+    backgroundColor: "primary.dark",
+    transform: "scale(1.1)",
+  },
+  transition: "all 0.3s ease",
+  boxShadow: 3,
+  width: 56,
+  height: 56,
+};
