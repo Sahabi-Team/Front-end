@@ -15,7 +15,7 @@ const ExerciseCard = ({ id, name, images, equipment, tags, muscle_group }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/exercise/${id}`);
+    navigate(`/exercisedetail/${id}`);
   };
 
   const imageUrl = images && images.length > 0 ? images[0].image : '';
