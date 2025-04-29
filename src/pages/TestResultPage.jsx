@@ -1,5 +1,5 @@
-import React from 'react';
-import { Box, Container, Chip, Stack, Avatar, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Container, Chip, Stack, Avatar, Typography, CircularProgress } from '@mui/material';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { styled } from '@mui/material/styles';
 import BMICard from '../components/TestResult/BMICard';
@@ -10,6 +10,7 @@ import UserInfoCard from '../components/TestResult/UserInfoCard';
 import Navbar from '../components/home/NavbarCard';
 import BackGround from '../assets/imgs/green_background.svg';
 import subtract from '../assets/imgs/Subtract.png';
+import axios from 'axios';
 
 const GreenChip = styled(Chip)(({ theme }) => ({
   backgroundColor: '#00AF66',
@@ -53,18 +54,98 @@ function BackgroundPattern({ imageUrl, children, repeatDirection = "repeat-y" })
 }
 
 const TestResultPage = () => {
+  const [testData, setTestData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [memberCount, setMemberCount] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch test data
+        const testResponse = await axios.get('https://ighader.pythonanywhere.com/api/tests/my-tests/');
+        if (testResponse.data && testResponse.data.length > 0) {
+          setTestData(testResponse.data[0]);
+        }
+
+        // Fetch member count
+        const memberResponse = await axios.get('https://ighader.pythonanywhere.com/api/analytics/total-clients/');
+        setMemberCount(memberResponse.data.total_clients || 0);
+
+        setLoading(false);
+      } catch (err) {
+        setError('خطا در دریافت اطلاعات');
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <Typography color="error">{error}</Typography>
+      </Box>
+    );
+  }
+
+  if (!testData) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <Typography>اطلاعات تست یافت نشد</Typography>
+      </Box>
+    );
+  }
+
+  // Calculate BMI
+  const calculateBMI = (weight, height) => {
+    const heightInMeters = height / 100;
+    return (weight / (heightInMeters * heightInMeters)).toFixed(1);
+  };
+
+  // Calculate Body Fat Percentage (BFP)
+  // Using the Deurenberg formula: BFP = 1.2 × BMI + 0.23 × Age - 10.8 × gender - 5.4
+  // where gender is 1 for male and 0 for female
+  const calculateBFP = (bmi, age, gender) => {
+    const genderValue = gender === 'مرد' ? 1 : 0;
+    const bfp = (1.2 * bmi) + (0.23 * age) - (10.8 * genderValue) - 5.4;
+    return Math.max(0, Math.min(100, bfp.toFixed(1))); // Ensure BFP is between 0 and 100
+  };
+
+  // Calculate goal timeline
+  const calculateGoalTimeline = (currentWeight, targetWeight) => {
+    const weightDifference = Math.abs(currentWeight - targetWeight);
+    // Assuming healthy weight loss/gain of 0.5-1 kg per week
+    const weeks = Math.max(4, Math.ceil(weightDifference / 0.5)); // Minimum 2 weeks, even if weight difference is 0
+    const days = weeks * 7;
+    return { weeks, days };
+  };
+
+  const bmi = calculateBMI(testData.weight, testData.height);
+  const bfp = calculateBFP(bmi, new Date().getFullYear() - new Date(testData.birth_date).getFullYear(), 'مرد');
+  const { weeks, days } = calculateGoalTimeline(testData.weight, testData.goal_weight);
+
   // User info data
   const userInfo = {
-    gender: 'مرد',
-    height: 178,
-    weight: 76,
-    targetWeight: 80,
-    age: 30,
-    availableTime: '۳-۵ روز در هفته',
-    trainingLocation: 'باشگاه',
-    targetMuscles: 'جلو بازو-پشت بازو- سینه',
-    fitnessGoal: 'تناسب اندام - کاهش وزن',
-    medicalConditions: 'تنگی نفس - کف پای صاف'
+    gender: 'مرد', // You might want to add this to your API
+    height: testData.height,
+    weight: testData.weight,
+    targetWeight: testData.goal_weight,
+    age: new Date().getFullYear() - new Date(testData.birth_date).getFullYear(),
+    availableTime: testData.workout_days,
+    trainingLocation: testData.equipment,
+    targetMuscles: testData.focus_area,
+    fitnessGoal: testData.goal,
+    medicalConditions: testData.diseases
   };
   
   return (
@@ -89,7 +170,6 @@ const TestResultPage = () => {
                 bgcolor: '#00AF66',
                 mr: 1,
                 mt: 10
-
               }}>
                 <AssignmentIcon />
               </Avatar>
@@ -120,18 +200,18 @@ const TestResultPage = () => {
             sx={{ mb: 2, border: 'none' }}
           >
             <Box sx={{ width: { xs: '100%', md: '50%' }, border: 'none' }}>
-              <BFPCard bfpValue={30} />
+              <BFPCard bfpValue={bfp} />
             </Box>
             <Box sx={{ width: { xs: '100%', md: '50%' }, border: 'none' }}>
-              <BMICard bmiValue={10} />
+              <BMICard bmiValue={bmi} />
             </Box>
           </Stack>
           
           {/* Goal Timeline*/}
-          <GoalTimelineCard weeks={12} days={90} />
+          <GoalTimelineCard weeks={weeks} days={days} />
           
           {/* Community section */}
-          <CommunityCard memberCount={11210} />
+          <CommunityCard memberCount={memberCount} />
 
           {/* Coach List Button */}
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3, mb: 5, border: 'none' }}>

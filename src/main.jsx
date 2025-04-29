@@ -104,8 +104,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="/exercises" element={<ExercisesPage />} />
               <Route path="/changepassword" element={<ChangePasswordClient />} />
               <Route path="/exercisedetail/:id" element={<ExerciseDetail />} />
-
-            <Route path="/test_result" element={<TestResultPage />} />
+              <Route path="/test_result" element={<TestResultPage />} />
             </Routes>
           </AuthProvider>
         </BrowserRouter>
