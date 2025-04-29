@@ -11,7 +11,7 @@ const GreenCard = styled(Card)(({ theme }) => ({
   backgroundColor: '#fff',
   direction:'rtl'
 }));
-
+// shape of the bfp part of the card
 const GradientCircle = ({ value }) => {
   const [currentValue, setCurrentValue] = useState(0);
 
