@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useContext} from "react";
 import { Link } from "react-router-dom";
 import {
     Drawer, List, ListItem, ListItemIcon, ListItemText, Divider,
@@ -7,10 +7,10 @@ import {
 import {
     Home, Add, Notifications, Edit, ExitToApp, Mail
 } from "@mui/icons-material";
-
+import { AuthContext } from '../contexts/AuthContext.jsx';
 const Sidebar = () => {
     const [isHovered, setIsHovered] = useState(false);
-
+    const { userInfo, logout } = useContext(AuthContext);
     return (
        
          <Drawer
@@ -21,7 +21,7 @@ const Sidebar = () => {
                         width: isHovered ? 250 : 80,
                         flexShrink: 0,
                         "& .MuiDrawer-paper": {
-                            width: isHovered ? 250 : 80,
+                            width: isHovered ?230 : 64,
                             transition: "width 0.3s ease",
                             boxSizing: "border-box",
                             backgroundColor: "#F7F7F7",
@@ -69,10 +69,12 @@ const Sidebar = () => {
         
                     </List>
                     <div style={{ marginTop: "auto", marginBottom: "150px", width: "100%" }}>
-                <ListItem button component={Link} to="/">
-                    <ListItemIcon sx={{ minWidth: "40px" }}><ExitToApp /></ListItemIcon>
-                    {isHovered && <ListItemText primary="خروج" sx={{color:"black" }} />}
-                </ListItem>
+                 {userInfo && (
+                                <ListItem button onClick={logout}>
+                                    <ListItemIcon sx={{ minWidth: "40px" }}><ExitToApp /></ListItemIcon>
+                                    {isHovered && <ListItemText primary="خروج" sx={{color:"black" }} />}
+                                </ListItem>
+                                )}
             </div>
                 </Drawer>
     );

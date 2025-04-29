@@ -83,8 +83,10 @@ export default function SignInCard() {
       setSuccessMessage("خوش آمدید");
       setOpenSuccessfulModal(true);
 
-      localStorage.setItem("access_token", response.data.access);
-      localStorage.setItem("refresh_token", response.data.refresh);
+      localStorage.setItem("access_token",  response.data.tokens.access);
+      localStorage.setItem("refresh_token", response.data.tokens.refresh);
+    
+      navigate("/");
 
       // ذخیره اطلاعات ورود در localStorage اگر "مرا به خاطر بسپار" فعال باشد
       if (rememberMe) {
@@ -180,6 +182,8 @@ export default function SignInCard() {
   };
 
   return (
+    <>
+   
     <Card
       variant="outlined"
       sx={{
@@ -491,5 +495,6 @@ export default function SignInCard() {
         successMessage={successmessage}
       />
     </Card>
+    </>
   );
 }

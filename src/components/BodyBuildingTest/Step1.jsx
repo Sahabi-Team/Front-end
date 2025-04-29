@@ -5,10 +5,9 @@ import { AdapterMomentJalaali } from "@mui/x-date-pickers/AdapterMomentJalaali";
 import moment from "moment-jalaali";
 import "moment/locale/fa";
 
-moment.loadPersian({ usePersianDigits: true, dialect: "persian-modern" });
+moment.loadPersian({ /*usePersianDigits: true,*/ dialect: "persian-modern" });
 
-const Step1 = ({setIsFormValid}) => {
-  const [formData, setFormData] = useState({ height: "", weight: "", goalWeight: "", birthDate: null });
+const Step1 = ({data, setData, setIsFormValid}) => {
   const [errors, setErrors] = useState({ height: false, weight: false, goalWeight: false, birthDate: false });
 
   const handleChange = (e) => {
@@ -23,20 +22,21 @@ const Step1 = ({setIsFormValid}) => {
     }
 
     setErrors(newErrors);
-    setFormData({ ...formData, [name]: value });
+    setData({ ...data, [name]: value });
   };
 
   useEffect(() => {
-    const isValid = formData.height && formData.weight && formData.goalWeight && formData.birthDate && !Object.values(errors).some((err) => err);
+    const isValid = data.height && data.weight && data.goalWeight && data.birthDate && !Object.values(errors).some((err) => err);
     setIsFormValid(isValid);
-  }, [formData, setIsFormValid]);
+  }, [data]);
+
 
   return (
       <Box display="flex" flexWrap="wrap" justifyContent="space-between" gap="24px">
         <TextField
           label="وزن الان (کیلوگرم)"
           name="weight"
-          value={formData.weight}
+          value={data.weight}
           onChange={handleChange}
           error={errors.weight}
           helperText={errors.weight ? "لطفا یک عدد، حداکثر با یک رقم اعشار وارد کنید" : ""}
@@ -45,7 +45,7 @@ const Step1 = ({setIsFormValid}) => {
         <TextField
           label="وزن هدف (کیلوگرم)"
           name="goalWeight"
-          value={formData.goalWeight}
+          value={data.goalWeight}
           onChange={handleChange}
           error={errors.goalWeight}
           helperText={errors.goalWeight ? "لطفا یک عدد، حداکثر با یک رقم اعشار وارد کنید" : ""}
@@ -54,7 +54,7 @@ const Step1 = ({setIsFormValid}) => {
         <TextField
           label="قد (سانتی‌متر)"
           name="height"
-          value={formData.height}
+          value={data.height}
           onChange={handleChange}
           error={errors.height}
           helperText={errors.height ? "لطفاً یک عدد صحیح وارد کنید" : ""}
@@ -63,8 +63,8 @@ const Step1 = ({setIsFormValid}) => {
         <LocalizationProvider dateAdapter={AdapterMomentJalaali}>
           <DatePicker
             label="تاریخ تولد (شمسی)"
-            value={formData.birthDate}
-            onChange={(newValue) => setFormData({ ...formData, birthDate: newValue })}
+            value={data.birthDate}
+            onChange={(newValue) => setData({ ...data, birthDate: newValue })}
             maxDate={moment().subtract(18, "years")}
             openTo="year"
             slotProps={{

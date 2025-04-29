@@ -4,7 +4,6 @@ import Stack from "@mui/material/Stack";
 import SignInCard from "../components/signin/SignInCard";
 import SignIn_img from "../components/signin/SignIn_img";
 import { Box, Container, Paper } from "@mui/material";
-import "./SignIn.css";
 import NavBar from "../components/home/NavbarCard";
 // import Container from '@mui/material/Container';
 import Footer from "../components/Footer";
@@ -14,20 +13,7 @@ export default function Sign_in(props) {
     <>
       {/* <NavBar /> */}
       <CssBaseline enableColorScheme />
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          minHeight: "100vh",
-          width: "100vw",
-          overflowX: "hidden",
-          alignContent: "center",
-          marginLeft: -4,
-          marginBottom: -5,
-        }}
-      >
-        {/* محتوا */}
-        <Box sx={{ flex: 1 }}>
+     
 
         <Container
         sx={{
@@ -86,11 +72,7 @@ export default function Sign_in(props) {
           </Stack>
         </Paper>
       </Container>
-
-        </Box>
-          
-        <Footer />
-      </Box>
+      <Footer />
     </>
   );
 }

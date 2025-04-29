@@ -8,25 +8,11 @@ import Footer from "../components/Footer";
 
 export default function Sign_up(props) {
   return (
-   
+   <>
     
-   
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          minHeight: "100vh",
-          width: "100vw",
-          overflowX: "hidden",
-          alignContent: "center",
-          marginLeft: -4,
-          marginBottom: -5,
-        }}
-      >
-         <CssBaseline enableColorScheme />
-        {/* محتوا */}
-        <Box sx={{ flex: 1 }}>
-
+            <CssBaseline enableColorScheme />
+      
+    
         <Container
         sx={{
           display: "flex",
@@ -79,8 +65,7 @@ export default function Sign_up(props) {
       </Stack>
       </Paper>
       </Container>
-      </Box>
-      <Footer/>
-   </Box>
+      <Footer />
+      </>
   );
 }

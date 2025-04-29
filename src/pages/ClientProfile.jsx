@@ -1,12 +1,14 @@
 
-import React, { useState,useEffect  } from "react";  
+import React, { useState,useEffect ,useContext } from "react";  
 import { TextField, Button, Avatar, Paper, Typography } from "@mui/material";  
-import Sidebar from '../components/ClientSidebar.jsx'; // مسیر درست را تنظیم کنید
 import { Routes, Route,useNavigate } from "react-router-dom";
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
+import { profileAPI } from '../services/ClientProfileApi.jsx';
+import { AuthContext } from '../contexts/AuthContext.jsx';
 
 const EditProfile = () => { 
+   const { userInfo } = useContext(AuthContext);
         const navigate = useNavigate();
         const [userData, setUserData] = useState({  
             fullName: "",  
@@ -15,9 +17,49 @@ const EditProfile = () => {
             phone: "",  
             password: "********",  // رمز عبور پیش‌فرض نمایش داده نمی‌شود
         });  
-    
         const [profileImage, setProfileImage] = useState(null);
         const [errors, setErrors] = useState({});
+        const [isLoading, setIsLoading] = useState(false);
+        const [apiError, setApiError] = useState(null);
+        const [successMessage, setSuccessMessage] = useState(null);
+        const [profileImageUrl, setProfileImageUrl] = useState(null); // برای نمایش
+
+      
+        // دریافت اطلاعات اولیه کاربر
+      useEffect(() => {
+          const fetchUserProfile = async () => {
+            try {
+            
+
+            const response = await profileAPI.getProfile();
+              console.log(response.data);
+              setUserData({
+                fullName: response.data.user.name || "",
+                username: response.data.user.username || "",
+                email: response.data.user.email || "",
+                phone: response.data.user.phone_number|| "",
+                password: "********"
+              });
+             if (response.data.user.profile_picture) {
+               setProfileImageUrl(`https://ighader.pythonanywhere.com${response.data.user.profile_picture}`);
+}
+            } catch (error) {
+                console.error("Fetch profile error:", error);
+                setApiError("خطا در دریافت اطلاعات پروفایل");
+            } finally {
+              setIsLoading(false);
+            }
+          };
+      
+          fetchUserProfile();
+        }, []);
+
+        useEffect(() => {
+            if (!userInfo) {
+              navigate('/signin');
+            }
+          }, [userInfo, navigate]);
+            
     
         const handleChange = (e) => {  
             const { name, value } = e.target;  
@@ -41,9 +83,9 @@ const EditProfile = () => {
             ? "" : "نام کاربری باید حداقل ۳ کاراکتر باشد!";
 
            
-            if (userData.email) {
-                tempErrors.email = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(userData.email) ? "" : "ایمیل معتبر نیست!";
-            }
+            
+            tempErrors.email = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(userData.email) ? "" : "ایمیل معتبر نیست!";
+            
     
             if (userData.phone) {
                 tempErrors.phone = /^\d{10,11}$/.test(userData.phone) ? "" : "شماره تلفن معتبر نیست!";
@@ -53,62 +95,145 @@ const EditProfile = () => {
             return Object.values(tempErrors).every((x) => x === ""); 
         };
     
-        const handleSubmit = (e) => {  
-            e.preventDefault();  
-            if (validate()) {  
-                console.log("Profile data submitted: ", userData);  
-            }
-        }; 
+        const handleSubmit = async(e) => {  
+            e.preventDefault();
     
-        const handleFileChange = (e) => {  
+            if (!validate()) return;
+        
+            try {
+              setIsLoading(true);
+              
+              const formData = new FormData();
+              formData.append('email', userData.email);
+              formData.append('username', userData.username);
+              formData.append('phone_number', userData.phone);
+              formData.append('name', userData.fullName);
+              
+              if (profileImage) {
+                formData.append('profile_picture', profileImage); // اینجا فایل باید فرستاده بشه
+              } else if (profileImageUrl === null) {
+                formData.append('delete_profile_picture', true);
+              }
+              
+              await profileAPI.updateProfile(formData);
+            
+        
+              setSuccessMessage("اطلاعات با موفقیت به‌روزرسانی شد");
+              setTimeout(() => setSuccessMessage(null), 3000);
+            } catch (error) {
+                let tempErrors = { ...errors }; // ⬅️ این خط حتماً باید اول داخل catch باشه
+            
+                if (error.response) {
+                    console.log("Status:", error.response.status);
+                    console.log("Data:", error.response.data);
+                    console.log("Headers:", error.response.headers);
+            
+                    // بررسی خطاهای مربوط به فیلدها
+                    if (error.response.status === 400) {
+                        if (error.response.data.username) {
+                            tempErrors.username = "نام کاربری تکراری است !";
+                        }
+            
+                        if (error.response.data.email) {
+                            tempErrors.email = error.response.data.email[0];
+                        }
+            
+                        if (error.response.data.phone_number) {
+                            tempErrors.phone = error.response.data.phone_number[0];
+                        }
+            
+                        if (!tempErrors.username && !tempErrors.email && !tempErrors.phone) {
+                            tempErrors.apiError = "خطا در به‌روزرسانی پروفایل";
+                        }
+                    } else {
+                        tempErrors.apiError = "خطای ناشناخته‌ای رخ داده است";
+                    }
+                } else if (error.request) {
+                    console.log("No response received:", error.request);
+                    tempErrors.apiError = "پاسخی از سرور دریافت نشد";
+                } else {
+                    console.log("Error setting up request:", error.message);
+                    tempErrors.apiError = "خطا در تنظیم درخواست";
+                }
+            
+                setErrors(tempErrors);
+            } finally {
+                setIsLoading(false);
+            }
+            
+              
+          };
+         
+          const handleFileChange =async (e) => {  
             const file = e.target.files[0];
             if (file) {
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                    setProfileImage(reader.result);
-                };
-                reader.readAsDataURL(file);
+              setProfileImage(file); // فایل برای آپلود
+              setProfileImageUrl(URL.createObjectURL(file)); // نمایش پیش‌نمایش
+              await profileAPI.uploadAvatar(file);
             }
-        };  
+          };
+          
+        const handleRemoveImage = async () => {
+            try {
+              // 1. حذف عکس از سرور
+              await profileAPI.deleteAvatar();
+              
+              // 2. به‌روزرسانی وضعیت محلی
+              setProfileImage(null);
+              setProfileImageUrl(null); // حذف نمایشی
+              // 3. نمایش پیام موفقیت
+              setSuccessMessage("عکس پروفایل با موفقیت حذف شد");
+              setTimeout(() => setSuccessMessage(null), 3000);
+              
+            } catch (error) {
+              console.error("حذف عکس ناموفق بود:", error);
+              setApiError("خطا در حذف عکس پروفایل");
+            }
+          };
     
-        const handleRemoveImage = () => {
-            setProfileImage(null);
-        };
-    
+  if (isLoading) {
+    return <div>
+         <Navbar />
+        در حال بارگذاری...
+        </div>;
+  }
+
 
     return ( 
         <div >
         <div style={{   
             display: 'flex',  
-            justifyContent: 'center',  
+            justifyContent: 'flex-end',  
             alignItems: 'stretch',  
             background: '#E2E2E2',
-            width:"100%",
+            width:"90%",
            minheight: "160vh",
+           marginRight:"75px"
          
         }}>  
-           <Sidebar />
+          
            <Navbar />
             <Paper   
                 elevation={3}   
                 sx={{   
                     padding: 4,  
                     borderRadius: 6,  
-                    backgroundColor: "#F9F9F9", // پس‌زمینه کادر باید سفید یا روشن باشد
+                   // backgroundColor: "#F9F9F9", // پس‌زمینه کادر باید سفید یا روشن باشد
                     width: '90%', // عرض ریسپانسیو  
-                    minheight: '170vh', 
-                    height: { xs: '220vh',  md: '130vh' }, 
-                    marginTop: '130px', // Space for the navbar  
-                    marginBottom: '30px', // فاصله از پایین  
+                   // minheight: '170vh', 
+                    height: { xs: '200vh',  md: '115vh' }, 
+                    marginTop: '80px', // Space for the navbar  
+                  //  marginBottom: '30px', // فاصله از پایین  
                 }}  
             >  
             <div style={{ 
                       
-                        padding: '25px', 
+                        padding: '10px', 
                         textAlign: 'center', 
                         display: 'flex', 
                         justifyContent: 'space-between', 
-                        alignItems: 'center' 
+                        alignItems: 'center',
+                         
                     }} >
                 
                  {/* متن ویرایش اطلاعات در سمت راست */}
@@ -131,7 +256,7 @@ const EditProfile = () => {
                {/* فریم بالا با دو رنگ: سبز و نارنجی */}
                <div style={{ 
                         background: 'linear-gradient(to bottom, #009451 0%, #D07C28 100%)',
-                        padding: '40px', 
+                        padding: '30px', 
                         borderRadius: '8px 8px 8px 8px', 
                         textAlign: 'center' 
                     }}>
@@ -147,7 +272,9 @@ const EditProfile = () => {
                     justifyContent: 'space-between',
                     flexWrap: 'wrap',
                     gap: '100px',
-                    padding: '100px'
+                    padding: '20px',
+                    
+                    
                 }}>
                     
 
@@ -158,12 +285,13 @@ const EditProfile = () => {
                        alignItems: 'center', // آواتار وسط چین افقی
                        justifyContent: 'center', // آواتار وسط چین عمودی اگر لازم شد
                        width: '250px',
-                       padding: '20px',
+                       marginLeft:"100px",
+                       marginTop:"70px"
                        
                       
                     }}>
                         <Avatar 
-                            src={profileImage} 
+                            src={profileImageUrl} 
                             sx={{ width: 200, height: 200, bgcolor: "#ccc",  marginBottom: "30px" ,marginTop:"20px"}} 
                         />
                         <input 
@@ -206,7 +334,7 @@ const EditProfile = () => {
 
                     {/* ✅ فرم اطلاعات (سمت راست) */}
                     <div style={{ flex: 1, flexDirection: "column", display: "flex"  }}>
-                        <form onSubmit={handleSubmit} >  
+                        <form onSubmit={handleSubmit}style={{ width: "80%" }} >  
                           <label style={{
                             fontSize: "16px",
                             color: "black",
@@ -230,6 +358,8 @@ const EditProfile = () => {
                             borderRadius: "8px", // گوشه‌های گرد
                             marginTop:'10px',
                             marginBottom: "20px", 
+                            textAlign: 'right',
+                            
                             "& .MuiOutlinedInput-root": {
                                 "& fieldset": { border: "none" }, // حذف حاشیه
                                
@@ -246,7 +376,6 @@ const EditProfile = () => {
                             color: "black",
                             marginBottom: "5px",
                             textAlign: "right",
-                            marginBottom:"10px",
                              display: "block"
                         }}>
                            نام کاربری 
@@ -382,7 +511,7 @@ const EditProfile = () => {
                         />
                            
                             <Button type="submit" variant="contained" sx={{ backgroundColor: "#D9F1DE", color: "#00A359", marginTop: 2 }} 
-                            onClick={() => window.location.href = "/changePassword"}> 
+                            onClick={() => window.location.href = "/changepassword"}> 
                                 تغییر رمز عبور  
                             </Button>  
                         </form>  
