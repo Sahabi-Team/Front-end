@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, Box, Typography, Button } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import { keyframes } from "@mui/system";
+import { keyframes } from "@mui/system";        
 
 // Keyframes for the checkmark animation
 const checkmarkAnimation = keyframes`

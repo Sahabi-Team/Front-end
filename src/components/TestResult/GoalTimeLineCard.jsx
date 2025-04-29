@@ -41,7 +41,7 @@ const GoalTimelineCard = ({ weeks = 12, days = 90 }) => {
         </Typography>
         
         <Typography variant="body2" align="right" sx={{ mt: 2, fontSize: '0.9rem' }}>
-          به طور کلی برای رسیدن به هدفی که تعیین کردی به ۱۲ هفته نیاز داری ولی با توجه به روند ورزش کردن و شرایط این مقدار میتونه کمی بیشتر یا کمتر بشه.
+          به طور کلی برای رسیدن به هدفی که تعیین کردی به {weeks.toLocaleString('fa-IR')} هفته نیاز داری ولی با توجه به روند ورزش کردن و شرایط این مقدار میتونه کمی بیشتر یا کمتر بشه.
         </Typography>
       </CardContent>
     </GreenCard>

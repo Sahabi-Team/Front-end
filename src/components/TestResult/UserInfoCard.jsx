@@ -17,6 +17,7 @@ const InfoRow = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   marginBottom: '12px',
   gap: '6px',
+  width: '100%',
 }));
 
 const InfoLabel = styled(Typography)(({ theme }) => ({
@@ -31,20 +32,7 @@ const InfoValue = styled(Typography)(({ theme }) => ({
 }));
 
 const UserInfoCard = ({ userInfo }) => {
-  const defaultUserInfo = {
-    gender: 'مرد',
-    height: 178,
-    weight: 76,
-    targetWeight: 80,
-    age: 30,
-    availableTime: '۳-۵',
-    trainingLocation: 'باشگاه',
-    targetMuscles: 'جلو بازو-پشت بازو- سینه',
-    fitnessGoal: 'تناسب اندام - کاهش وزن',
-    medicalConditions: 'تنگی نفس - کف پای صاف'
-  };
-
-  const info = { ...defaultUserInfo, ...userInfo };
+  const info = userInfo || {};
 
   return (
     <GreenCard>
@@ -54,41 +42,50 @@ const UserInfoCard = ({ userInfo }) => {
         </Typography>
 
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+          {/* First Row - Age, Weight, Height */}
           <Box sx={{ 
             display: 'flex', 
-            justifyContent: 'space-between', 
-            mb: 0,
-            '& > div': { flex: 1 },
-            gap: 2
+            flexDirection: { xs: 'column', sm: 'row' },
+            gap: 2,
+            '& > div': { 
+              flex: 1,
+              width: { xs: '100%', sm: '33.33%' }
+            }
           }}>
             <InfoRow>
-                <InfoValue>{info.age.toLocaleString('fa-IR')}</InfoValue>
-                <InfoLabel>: سن</InfoLabel>
+              <InfoValue>سال </InfoValue>
+              <InfoValue>{info.age.toLocaleString('fa-IR')}</InfoValue>
+              <InfoLabel>: سن</InfoLabel>
             </InfoRow>
             <InfoRow>
-              <InfoValue>{info.weight.toLocaleString('fa-IR')}</InfoValue>
-              <InfoLabel>: وزن(کیلوگرم)</InfoLabel>
+              <InfoValue>کیلوگرم </InfoValue>
+              <InfoValue>{info.weight.toLocaleString('fa-IR')} </InfoValue>
+              <InfoLabel>: وزن</InfoLabel>
             </InfoRow>
             <InfoRow>
-              <InfoValue>{info.height.toLocaleString('fa-IR')}</InfoValue>
-              <InfoLabel>: قد(سانتی متر)</InfoLabel>
+              <InfoValue>سانتی متر </InfoValue>
+              <InfoValue>{info.height.toLocaleString('fa-IR')}  </InfoValue>
+              <InfoLabel>: قد</InfoLabel>
             </InfoRow>
-
           </Box>
 
+          {/* Second Row - Training Location, Target Weight, Available Time */}
           <Box sx={{ 
             display: 'flex', 
-            justifyContent: 'space-between', 
-            mb: 0,
-            '& > div': { flex: 1 },
-            gap: 2
+            flexDirection: { xs: 'column', sm: 'row' },
+            gap: 2,
+            '& > div': { 
+              flex: 1,
+              width: { xs: '100%', sm: '33.33%' }
+            }
           }}>
             <InfoRow>
-            <InfoValue>{info.trainingLocation}</InfoValue>
-            <InfoLabel>:مکان تمرین</InfoLabel>
+              <InfoValue>{info.trainingLocation}</InfoValue>
+              <InfoLabel>:وسیله تمرین</InfoLabel>
             </InfoRow>
             <InfoRow>
-              <InfoValue>{info.targetWeight.toLocaleString('fa-IR')}</InfoValue>
+              <InfoValue>کیلوگرم </InfoValue>
+              <InfoValue>{info.targetWeight.toLocaleString('fa-IR')} </InfoValue>
               <InfoLabel>: وزن هدف</InfoLabel>
             </InfoRow>
             <InfoRow>
@@ -97,7 +94,7 @@ const UserInfoCard = ({ userInfo }) => {
             </InfoRow>
           </Box>
 
-
+          {/* Single Row Items */}
           <InfoRow>
             <InfoValue>{info.targetMuscles}</InfoValue>
             <InfoLabel>:عضلات هدف</InfoLabel>

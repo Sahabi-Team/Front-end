@@ -8,9 +8,10 @@ import GoalTimelineCard from '../components/TestResult/GoalTimeLineCard';
 import CommunityCard from '../components/TestResult/CommunityCard';
 import UserInfoCard from '../components/TestResult/UserInfoCard';
 import Navbar from '../components/home/NavbarCard';
-import BackGround from '../assets/imgs/green_background.svg';
+import BackGround from '../assets/imgs/Subtract.png';
 import subtract from '../assets/imgs/Subtract.png';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const GreenChip = styled(Chip)(({ theme }) => ({
   backgroundColor: '#00AF66',
@@ -58,14 +59,28 @@ const TestResultPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [memberCount, setMemberCount] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const token = localStorage.getItem("access_token");
+        
+
+        // Create axios instance with default headers
+        const api = axios.create({
+          headers: {
+            'accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
         // Fetch test data
-        const testResponse = await axios.get('https://ighader.pythonanywhere.com/api/tests/my-tests/');
+        const testResponse = await api.get('https://ighader.pythonanywhere.com/api/tests/my-tests/');
         if (testResponse.data && testResponse.data.length > 0) {
           setTestData(testResponse.data[0]);
+        } else {
+          setError('هیچ تستی یافت نشد');
         }
 
         // Fetch member count
@@ -74,7 +89,14 @@ const TestResultPage = () => {
 
         setLoading(false);
       } catch (err) {
-        setError('خطا در دریافت اطلاعات');
+        console.error('API Error:', err);
+        if (err.response?.status === 401) {
+          // Token is invalid or expired
+          localStorage.removeItem('access_token');
+          navigate('/signin');
+        } else {
+          setError('خطا در دریافت اطلاعات');
+        }
         setLoading(false);
       }
     };
@@ -140,7 +162,7 @@ const TestResultPage = () => {
     height: testData.height,
     weight: testData.weight,
     targetWeight: testData.goal_weight,
-    age: new Date().getFullYear() - new Date(testData.birth_date).getFullYear(),
+    age: new Date().getFullYear() - new Date(testData.birth_date).getFullYear()-621,
     availableTime: testData.workout_days,
     trainingLocation: testData.equipment,
     targetMuscles: testData.focus_area,
