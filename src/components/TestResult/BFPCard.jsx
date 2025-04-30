@@ -63,7 +63,7 @@ const GradientCircle = ({ value }) => {
 
         {/* Arrow centered at bottom */}
         <g 
-          transform={`translate(120, 100) rotate(${rotation})`}
+          transform={`translate(105, 100) rotate(${rotation})`}
           style={{
             transition: 'transform 1.5s cubic-bezier(0.4, 0, 0.2, 1)',
           }}

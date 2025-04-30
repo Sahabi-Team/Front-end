@@ -140,7 +140,7 @@ const TestResultPage = () => {
   const calculateBFP = (bmi, age, gender) => {
     const genderValue = gender === 'مرد' ? 1 : 0;
     const bfp = (1.2 * bmi) + (0.23 * age) - (10.8 * genderValue) - 5.4;
-    return Math.max(0, Math.min(100, bfp.toFixed(1))); // Ensure BFP is between 0 and 100
+    return Math.max(0, Math.min(45, bfp.toFixed(1))); // Ensure BFP is between 0 and 100
   };
 
   // Calculate goal timeline
@@ -153,7 +153,7 @@ const TestResultPage = () => {
   };
 
   const bmi = calculateBMI(testData.weight, testData.height);
-  const bfp = calculateBFP(bmi, new Date().getFullYear() - new Date(testData.birth_date).getFullYear(), 'مرد');
+  const bfp = calculateBFP(bmi, new Date().getFullYear() - new Date(testData.birth_date).getFullYear()-621, 'مرد');
   const { weeks, days } = calculateGoalTimeline(testData.weight, testData.goal_weight);
 
   // User info data
@@ -191,14 +191,14 @@ const TestResultPage = () => {
               <Avatar sx={{ 
                 bgcolor: '#00AF66',
                 mr: 1,
-                mt: 10
+                mt: 15
               }}>
                 <AssignmentIcon />
               </Avatar>
               <Typography variant="h4" component="div" sx={{ 
                 fontWeight: 'bold',
                 color: '#000',
-                mt: 10
+                mt: 15
               }}>
                 نتیجه تست بدنسازی
               </Typography>
@@ -225,7 +225,7 @@ const TestResultPage = () => {
               <BFPCard bfpValue={bfp} />
             </Box>
             <Box sx={{ width: { xs: '100%', md: '50%' }, border: 'none' }}>
-              <BMICard bmiValue={bmi} />
+              <BMICard bmiValue={bmi} height={userInfo.height} />
             </Box>
           </Stack>
           
