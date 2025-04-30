@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, InputBase, IconButton, Typography, Avatar, Divider, Chip } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import EmailIcon from '@mui/icons-material/Email';
@@ -10,6 +10,7 @@ import Sidebar from '../components/TrainerSidebar';
 
 const TrainerStudentsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [filteredStudents, setFilteredStudents] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   // Mock data - replace with your actual data
@@ -26,49 +27,121 @@ const TrainerStudentsPage = () => {
     { id: 10, name: 'امیرمحمد نیلی', status: 'در انتظار تکمیل', avatar: '/api/placeholder/35/35' },
   ];
 
+  // Filter students when search query changes
+  useEffect(() => {
+    const filtered = students.filter(student =>
+      student.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredStudents(filtered);
+  }, [searchQuery]);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    // You can add additional search logic here if needed
+    setSearchQuery(e.target.value);
+  };
+
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: '#F5F5F5' }}>
       <Sidebar />
+      
       <Box sx={{ flexGrow: 1 }}>
         <Header pageTitle="صفحه مربی" />
         <ContentContainer isSidebarOpen={isSidebarOpen}>
           {/* Header with title and search */}
           <Box sx={{ 
             display: 'flex', 
+            flexDirection: 'row',
             justifyContent: 'space-between',
-            alignItems: 'right',
+            textAlign: 'center',
+            alignItems: 'center',
+            mt: 2,
             mb: 3
           }}>
-            <Typography variant="h6" fontWeight="medium">لیست شاگرد ها</Typography>
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                fontWeight: 600,
+                color: '#000',
+                mb: 2,
+                ml: 2
+
+              }}
+            >
+              لیست شاگرد ها
+            </Typography>
             
             {/* Search Box */}
-            <Box sx={{ 
-              display: 'flex', 
-              alignItems: 'center',
-              backgroundColor: '#F5F5F5',
-              borderRadius: '8px',
-              padding: '4px 12px',
-            }}>
+            <Box
+              component="form"
+              onSubmit={(e) => e.preventDefault()}
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                borderRadius: '10px',
+                overflow: 'hidden',
+                boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)',
+                bgcolor: 'white',
+                width: '100%',
+                maxWidth: '500px',
+              }}
+            >
               <InputBase
-                placeholder="دنبال شخص خاصی میگردی؟"
-                sx={{ flex: 1, ml: 1 }}
+                placeholder="دنبال کی هستی؟"
+                fullWidth
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={handleSearch}
+                sx={{
+                  px: 2,
+                  py: 1.2,
+                  fontSize: '15px',
+                  color: '#555',
+                }}
               />
-              <IconButton size="small">
-                <SearchIcon fontSize="small" />
-              </IconButton>
+
+              <Box
+                sx={{
+                  backgroundColor: '#009961',
+                  px: 2,
+                  py: 1.5,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  '&:hover': {
+                    backgroundColor: '#007d4f',
+                  }
+                }}
+              >
+                <SearchIcon sx={{ 
+                  color: 'white',
+                  transition: 'transform 0.2s ease',
+                  '&:hover': {
+                    transform: 'scale(1.1)',
+                  }
+                }} />
+              </Box>
             </Box>
+
           </Box>
           
           {/* Count of students */}
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography variant="body2" sx={{ color: '#666', mb: 2  , textAlign: 'left'}}>
-            ۲۵ نفر پیدا شد
+            {filteredStudents.length.toLocaleString('fa-IR')} نفر پیدا شد
           </Typography>
-
+          <Divider sx={{ 
+            width: '15%', 
+            borderColor: '#ddd', 
+            alignSelf: 'flex-start' 
+            }} />
+          </Box>
           {/* Students List */}
           <Box>
-            {students.map((student, index) => (
+            {filteredStudents.map((student, index) => (
               <React.Fragment key={student.id}>
                 <Box sx={{
                   display: 'flex',
@@ -77,7 +150,26 @@ const TrainerStudentsPage = () => {
                   py: 2,
                 }}>
                   {/* Student info with avatar on right */}
-                  <Chip
+                  <Box sx={{ display: 'flex',alignItems: 'center' }}>
+                    <Avatar 
+                      src={student.avatar} 
+                      sx={{ 
+                        width: 40, 
+                        height: 40,
+                        mr: 2
+                      }} 
+                    />
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                      <Typography 
+                        variant="body1" 
+                        sx={{ 
+                          color: '#000000',
+                          fontWeight: 500
+                        }}
+                      >
+                        {student.name}
+                      </Typography>
+                      <Chip
                         label={student.status}
                         size="small"
                         sx={{
@@ -88,48 +180,56 @@ const TrainerStudentsPage = () => {
                           fontSize: '0.75rem'
                         }}
                       />
-                      <Box>
-                      <Typography 
-                        variant="body1" 
-                        sx={{ 
-                          color: '#000000',
-                          fontWeight: 500,
-                          mb: 0.5
-                        }}
-                      >
-                        {student.name}
-                      </Typography>
-                  <Box sx={{ display: 'flex' }}>
-                    <Avatar 
-                      src={student.avatar} 
-                      sx={{ 
-                        width: 40, 
-                        height: 40,
-                        mr: 2 // Margin right for RTL
-                    
-                      }} 
-                    />
-                    
                     </Box>
                   </Box>
                   
                   {/* Action icons on left */}
-                  <Box sx={{ display: 'flex', gap: 1 }}>
-                    <IconButton size="small">
-                      <EmailIcon fontSize="small" sx={{ color: '#757575' }} />
-                    </IconButton>
+                  <Box sx={{ alignItems: 'center', gap: 1 }}>
                     {student.status === "تکمیل شده" ? (
-                      <IconButton size="small">
-                        <EditIcon fontSize="small" sx={{ color: '#757575' }} />
-                      </IconButton>
+                        <IconButton size="small" sx={{ 
+                        '&:hover': { 
+                            backgroundColor: 'rgba(76, 175, 80, 0.1)', 
+                        } 
+                        }}>
+                        <EditIcon fontSize="small" sx={{ 
+                            color: '#757575',
+                            fontSize: '1.4rem', 
+                            '&:hover': {
+                            color: '#4CAF50', 
+                            }
+                        }} />
+                        </IconButton>
                     ) : (
-                      <IconButton size="small">
-                        <AddCircleIcon fontSize="small" sx={{ color: '#757575' }} />
-                      </IconButton>
+                        <IconButton size="small" sx={{ 
+                        '&:hover': { 
+                            backgroundColor: 'rgba(76, 175, 80, 0.1)', 
+                        } 
+                        }}>
+                        <AddCircleIcon fontSize="small" sx={{ 
+                            color: '#757575',
+                            fontSize: '1.4rem', 
+                            '&:hover': {
+                            color: '#4CAF50', 
+                            }
+                        }} />
+                        </IconButton>
                     )}
-                  </Box>
+                    <IconButton size="small" sx={{ 
+                        '&:hover': { 
+                        backgroundColor: 'rgba(76, 175, 80, 0.1)', 
+                        } 
+                    }}>
+                        <EmailIcon fontSize="small" sx={{ 
+                        color: '#757575',
+                        fontSize: '1.4rem', 
+                        '&:hover': {
+                            color: '#4CAF50', 
+                        }
+                        }} />
+                    </IconButton>
+                    </Box>
                 </Box>
-                {index < students.length - 1 && <Divider />}
+                {index < filteredStudents.length - 1 && <Divider />}
               </React.Fragment>
             ))}
           </Box>
