@@ -156,8 +156,11 @@ const TrainerStudentsPage = () => {
                       sx={{ 
                         width: 40, 
                         height: 40,
-                        mr: 2
-                      }} 
+                        mr: 2,
+                        border: '1px solid #00AF66',
+                        padding: '2px',
+                        boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.2)', // Stronger shadow
+                    }} 
                     />
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                       <Typography 
