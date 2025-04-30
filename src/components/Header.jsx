@@ -10,12 +10,25 @@ const Header = ({ pageTitle }) => {
         justifyContent: 'space-between', 
         alignItems: 'center',
         padding: '16px',
-        backgroundColor: 'white',
-        borderBottom: '1px solid #E0E0E0'
+        backgroundColor: '#f7f7f7'
       }}
     >
       {/* Logo and Site Name */}
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      
+
+      {/* Page Title */}
+      <Typography 
+        variant="h6" 
+        sx={{ 
+          fontWeight: 'bold',
+          color: '#000',
+          marginleft: '10px'
+        }}
+      >
+        {pageTitle}
+      </Typography>
+
+      <Box sx={{ display: 'flex', flexDirection: 'column', marginRight: '15px' }}>
         <img 
           src={logo}
           alt="Jimbato Logo" 
@@ -31,18 +44,8 @@ const Header = ({ pageTitle }) => {
           جیمباتو
         </Typography>
       </Box>
-
-      {/* Page Title */}
-      <Typography 
-        variant="h6" 
-        sx={{ 
-          fontWeight: 'bold',
-          color: '#000'
-        }}
-      >
-        {pageTitle}
-      </Typography>
     </Box>
+    
   );
 };
 

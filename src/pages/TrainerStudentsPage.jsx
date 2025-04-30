@@ -10,8 +10,9 @@ import Sidebar from '../components/TrainerSidebar';
 
 const TrainerStudentsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  // Mock data - replace with your actual data, expanded to match the image
+  // Mock data - replace with your actual data
   const students = [
     { id: 1, name: 'مهدی محمدی', status: 'تکمیل شده', avatar: '/api/placeholder/35/35' },
     { id: 2, name: 'مهدی محمدی', status: 'تکمیل شده', avatar: '/api/placeholder/35/35' },
@@ -26,16 +27,16 @@ const TrainerStudentsPage = () => {
   ];
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: '#F5F5F5', direction: 'rtl' }}>
+    <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: '#F5F5F5' }}>
       <Sidebar />
-      <Box sx={{ flexGrow: 1, ml: 4 }}> {/* Changed marginRight to marginLeft for RTL */}
+      <Box sx={{ flexGrow: 1 }}>
         <Header pageTitle="صفحه مربی" />
-        <ContentContainer>
+        <ContentContainer isSidebarOpen={isSidebarOpen}>
           {/* Header with title and search */}
           <Box sx={{ 
             display: 'flex', 
             justifyContent: 'space-between',
-            alignItems: 'center',
+            alignItems: 'right',
             mb: 3
           }}>
             <Typography variant="h6" fontWeight="medium">لیست شاگرد ها</Typography>
@@ -61,7 +62,7 @@ const TrainerStudentsPage = () => {
           </Box>
           
           {/* Count of students */}
-          <Typography variant="body2" sx={{ color: '#666', mb: 2, textAlign: 'right' }}>
+          <Typography variant="body2" sx={{ color: '#666', mb: 2  , textAlign: 'left'}}>
             ۲۵ نفر پیدا شد
           </Typography>
 
@@ -72,40 +73,60 @@ const TrainerStudentsPage = () => {
                 <Box sx={{
                   display: 'flex',
                   justifyContent: 'space-between',
+                  alignItems: 'center',
                   py: 2,
                 }}>
-                  {/* Student info */}
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Avatar src={student.avatar} sx={{ ml: 2 }} />
-                    <Typography variant="body1">{student.name}</Typography>
+                  {/* Student info with avatar on right */}
+                  <Chip
+                        label={student.status}
+                        size="small"
+                        sx={{
+                          height: '24px',
+                          bgcolor: student.status === "تکمیل شده" ? "#e8f5e9" : "#fff8e1",
+                          color: student.status === "تکمیل شده" ? "#2e7d32" : "#f57c00",
+                          borderRadius: 1,
+                          fontSize: '0.75rem'
+                        }}
+                      />
+                      <Box>
+                      <Typography 
+                        variant="body1" 
+                        sx={{ 
+                          color: '#000000',
+                          fontWeight: 500,
+                          mb: 0.5
+                        }}
+                      >
+                        {student.name}
+                      </Typography>
+                  <Box sx={{ display: 'flex' }}>
+                    <Avatar 
+                      src={student.avatar} 
+                      sx={{ 
+                        width: 40, 
+                        height: 40,
+                        mr: 2 // Margin right for RTL
+                    
+                      }} 
+                    />
+                    
+                    </Box>
                   </Box>
                   
-                  {/* Status and actions */}
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Chip
-                      label={student.status}
-                      size="small"
-                      sx={{
-                        ml: 2,
-                        bgcolor: student.status === "تکمیل شده" ? "#e8f5e9" : "#fff8e1",
-                        color: student.status === "تکمیل شده" ? "#2e7d32" : "#f57c00",
-                        borderRadius: 1,
-                      }}
-                    />
-                    <Box>
+                  {/* Action icons on left */}
+                  <Box sx={{ display: 'flex', gap: 1 }}>
+                    <IconButton size="small">
+                      <EmailIcon fontSize="small" sx={{ color: '#757575' }} />
+                    </IconButton>
+                    {student.status === "تکمیل شده" ? (
                       <IconButton size="small">
-                        <EmailIcon fontSize="small" />
+                        <EditIcon fontSize="small" sx={{ color: '#757575' }} />
                       </IconButton>
-                      {student.status === "تکمیل شده" ? (
-                        <IconButton size="small">
-                          <EditIcon fontSize="small" />
-                        </IconButton>
-                      ) : (
-                        <IconButton size="small">
-                          <AddCircleIcon fontSize="small" />
-                        </IconButton>
-                      )}
-                    </Box>
+                    ) : (
+                      <IconButton size="small">
+                        <AddCircleIcon fontSize="small" sx={{ color: '#757575' }} />
+                      </IconButton>
+                    )}
                   </Box>
                 </Box>
                 {index < students.length - 1 && <Divider />}
