@@ -17,14 +17,14 @@ const TrainerStudentsPage = () => {
   const students = [
     { id: 1, name: 'مهدی محمدی', status: 'تکمیل شده', avatar: '/api/placeholder/35/35' },
     { id: 2, name: 'مهدی محمدی', status: 'تکمیل شده', avatar: '/api/placeholder/35/35' },
-    { id: 3, name: 'امیرمحمد نیلی', status: 'در انتظار تکمیل', avatar: '/api/placeholder/35/35' },
+    { id: 3, name: 'امیرمحمد نیلی', status: 'در انتظار', avatar: '/api/placeholder/35/35' },
     { id: 4, name: 'مهدی محمدی', status: 'تکمیل شده', avatar: '/api/placeholder/35/35' },
     { id: 5, name: 'مهدی محمدی', status: 'تکمیل شده', avatar: '/api/placeholder/35/35' },
-    { id: 6, name: 'امیرمحمد نیلی', status: 'در انتظار تکمیل', avatar: '/api/placeholder/35/35' },
+    { id: 6, name: 'امیرمحمد نیلی', status: 'در انتظار', avatar: '/api/placeholder/35/35' },
     { id: 7, name: 'مهدی محمدی', status: 'تکمیل شده', avatar: '/api/placeholder/35/35' },
-    { id: 8, name: 'امیرمحمد نیلی', status: 'در انتظار تکمیل', avatar: '/api/placeholder/35/35' },
+    { id: 8, name: 'امیرمحمد نیلی', status: 'در انتظار ', avatar: '/api/placeholder/35/35' },
     { id: 9, name: 'مهدی محمدی', status: 'تکمیل شده', avatar: '/api/placeholder/35/35' },
-    { id: 10, name: 'امیرمحمد نیلی', status: 'در انتظار تکمیل', avatar: '/api/placeholder/35/35' },
+    { id: 10, name: 'امیرمحمد نیلی', status: 'در انتظار ', avatar: '/api/placeholder/35/35' },
   ];
 
   useEffect(() => {
@@ -138,7 +138,9 @@ const TrainerStudentsPage = () => {
             }} />
           </Box>
           {/* Students List */}
-          <Box>
+          <Box sx={{
+            mx: 2  // Add horizontal margin
+          }}>
             {filteredStudents.map((student, index) => (
               <React.Fragment key={student.id}>
                 <Box sx={{
@@ -146,6 +148,10 @@ const TrainerStudentsPage = () => {
                   justifyContent: 'space-between',
                   alignItems: 'center',
                   py: 2,
+                  px: 1,  // Add horizontal padding to the student box
+                  '&:hover': {
+                    backgroundColor: 'rgba(0, 0, 0, 0.01)'  // Subtle hover effect
+                  }
                 }}>
                   {/* Student info with avatar on right */}
                   <Box sx={{ display: 'flex',alignItems: 'center' }}>
@@ -177,7 +183,7 @@ const TrainerStudentsPage = () => {
                           height: '24px',
                           bgcolor: student.status === "تکمیل شده" ? "#e8f5e9" : "#fff8e1",
                           color: student.status === "تکمیل شده" ? "#2e7d32" : "#f57c00",
-                          borderRadius: 1,
+                          borderRadius: 2,
                           fontSize: '0.75rem'
                         }}
                       />
@@ -188,53 +194,84 @@ const TrainerStudentsPage = () => {
                   <Box sx={{ 
                     display: 'flex', 
                     alignItems: 'center', 
-                    gap: 1.5  
+                    gap: 1.5  ,
+                    marginRight: '20px'
                   }}>
                     {student.status === "تکمیل شده" ? (
-                        <IconButton size="small" sx={{ 
-                        '&:hover': { 
-                            backgroundColor: 'rgba(76, 175, 80, 0.1)', 
-                        } 
-                        }}>
-                        <EditIcon fontSize="small" sx={{ 
-                            color: '#757575',
-                            fontSize: '1.4rem', 
-                            '&:hover': {
-                            color: '#4CAF50', 
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 1,
+                          backgroundColor: '#F5F5F5',
+                          borderRadius: '20px',
+                          padding: '6px 16px',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s ease',
+                          '&:hover': {
+                            backgroundColor: '#e8f5e9',
+                            '& .icon, & .text': {
+                              color: '#00AF66'
                             }
-                        }} />
-                        </IconButton>
+                          }
+                        }}
+                      >
+                        <EditIcon className="icon" sx={{ fontSize: '1.2rem', color: '#757575' }} />
+                        <Typography className="text" sx={{ fontSize: '0.875rem', color: '#757575' }}>
+                          ویرایش برنامه
+                        </Typography>
+                      </Box>
                     ) : (
-                        <IconButton size="small" sx={{ 
-                        '&:hover': { 
-                            backgroundColor: 'rgba(76, 175, 80, 0.1)', 
-                        } 
-                        }}>
-                        <AddCircleIcon fontSize="small" sx={{ 
-                            color: '#757575',
-                            fontSize: '1.4rem', 
-                            '&:hover': {
-                            color: '#4CAF50', 
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 1,
+                          backgroundColor: '#F5F5F5',
+                          borderRadius: '20px',
+                          padding: '6px 16px',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s ease',
+                          '&:hover': {
+                            backgroundColor: '#e8f5e9',
+                            '& .icon, & .text': {
+                              color: '#00AF66'
                             }
-                        }} />
-                        </IconButton>
+                          }
+                        }}
+                      >
+                        <AddCircleIcon className="icon" sx={{ fontSize: '1.2rem', color: '#757575' }} />
+                        <Typography className="text" sx={{ fontSize: '0.875rem', color: '#757575' }}>
+                          نوشتن برنامه
+                        </Typography>
+                      </Box>
                     )}
-                    <IconButton size="small" sx={{ 
-                        '&:hover': { 
-                        backgroundColor: 'rgba(76, 175, 80, 0.1)', 
-                        } 
-                    }}>
-                        <EmailIcon fontSize="small" sx={{ 
-                        color: '#757575',
-                        fontSize: '1.4rem', 
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1,
+                        backgroundColor: '#F5F5F5',
+                        borderRadius: '20px',
+                        padding: '6px 16px',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
                         '&:hover': {
-                            color: '#4CAF50', 
+                          backgroundColor: '#e8f5e9',
+                          '& .icon, & .text': {
+                            color: '#00AF66'
+                          }
                         }
-                        }} />
-                    </IconButton>
+                      }}
+                    >
+                      <EmailIcon className="icon" sx={{ fontSize: '1.2rem', color: '#757575' }} />
+                      <Typography className="text" sx={{ fontSize: '0.875rem', color: '#757575' }}>
+                        پیام
+                      </Typography>
                     </Box>
+                  </Box>
                 </Box>
-                {index < filteredStudents.length - 1 && <Divider />}
+                {index < filteredStudents.length - 1 && <Divider sx={{ mx: 1 }} />}  {/* Add margin to divider */}
               </React.Fragment>
             ))}
           </Box>

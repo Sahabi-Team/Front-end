@@ -18,7 +18,7 @@ const ContentContainer = ({ children, isSidebarOpen = false }) => {
       <Box
         sx={{
           backgroundColor: 'white',
-          borderRadius: 2,
+          borderRadius: 6,
           boxShadow: '0px 0px 45px rgba(0, 0, 0, 0.2)', // Stronger shadow
           minHeight: 'calc(100vh - 100px)',
           overflow: 'auto',
