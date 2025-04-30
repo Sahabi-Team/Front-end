@@ -22,7 +22,7 @@ const ContentContainer = ({ children, isSidebarOpen = false }) => {
           boxShadow: '0px 0px 45px rgba(0, 0, 0, 0.2)', // Stronger shadow
           minHeight: 'calc(100vh - 100px)',
           overflow: 'auto',
-          width: '95%',
+          width: '90%',
           maxWidth: '1300px',
           padding: '24px',
           margin: 'auto',

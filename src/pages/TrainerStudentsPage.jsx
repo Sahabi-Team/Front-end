@@ -13,7 +13,7 @@ const TrainerStudentsPage = () => {
   const [filteredStudents, setFilteredStudents] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  // Mock data - replace with your actual data
+  // Mock data 
   const students = [
     { id: 1, name: 'مهدی محمدی', status: 'تکمیل شده', avatar: '/api/placeholder/35/35' },
     { id: 2, name: 'مهدی محمدی', status: 'تکمیل شده', avatar: '/api/placeholder/35/35' },
@@ -27,7 +27,6 @@ const TrainerStudentsPage = () => {
     { id: 10, name: 'امیرمحمد نیلی', status: 'در انتظار تکمیل', avatar: '/api/placeholder/35/35' },
   ];
 
-  // Filter students when search query changes
   useEffect(() => {
     const filtered = students.filter(student =>
       student.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -37,7 +36,6 @@ const TrainerStudentsPage = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    // You can add additional search logic here if needed
     setSearchQuery(e.target.value);
   };
 
@@ -51,10 +49,10 @@ const TrainerStudentsPage = () => {
           {/* Header with title and search */}
           <Box sx={{ 
             display: 'flex', 
-            flexDirection: 'row',
+            flexDirection: { xs: 'column', sm: 'row' }, // Stack on mobile, row on desktop
             justifyContent: 'space-between',
-            textAlign: 'center',
-            alignItems: 'center',
+            alignItems: { xs: 'stretch', sm: 'center' }, // Stretch on mobile, center on desktop
+            gap: { xs: 2, sm: 0 }, // Add gap on mobile
             mt: 2,
             mb: 3
           }}>
@@ -63,9 +61,8 @@ const TrainerStudentsPage = () => {
               sx={{ 
                 fontWeight: 600,
                 color: '#000',
-                mb: 2,
+                mb: { xs: 1, sm: 0 }, // Bottom margin only on mobile
                 ml: 2
-
               }}
             >
               لیست شاگرد ها
@@ -85,7 +82,8 @@ const TrainerStudentsPage = () => {
                 boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)',
                 bgcolor: 'white',
                 width: '100%',
-                maxWidth: '500px',
+                maxWidth: { xs: '100%', sm: '500px' }, // Full width on mobile
+                minWidth: { xs: 'unset', sm: '300px' }, // Remove min-width on mobile
               }}
             >
               <InputBase
@@ -94,9 +92,9 @@ const TrainerStudentsPage = () => {
                 value={searchQuery}
                 onChange={handleSearch}
                 sx={{
-                  px: 2,
+                  px: { xs: 1.5, sm: 2 }, // Smaller padding on mobile
                   py: 1.2,
-                  fontSize: '15px',
+                  fontSize: { xs: '14px', sm: '15px' }, // Smaller font on mobile
                   color: '#555',
                 }}
               />
@@ -104,7 +102,7 @@ const TrainerStudentsPage = () => {
               <Box
                 sx={{
                   backgroundColor: '#009961',
-                  px: 2,
+                  px: { xs: 1.5, sm: 2 }, // Smaller padding on mobile
                   py: 1.5,
                   display: 'flex',
                   alignItems: 'center',
@@ -118,6 +116,7 @@ const TrainerStudentsPage = () => {
               >
                 <SearchIcon sx={{ 
                   color: 'white',
+                  fontSize: { xs: '1.2rem', sm: '1.5rem' }, // Smaller icon on mobile
                   transition: 'transform 0.2s ease',
                   '&:hover': {
                     transform: 'scale(1.1)',
@@ -125,7 +124,6 @@ const TrainerStudentsPage = () => {
                 }} />
               </Box>
             </Box>
-
           </Box>
           
           {/* Count of students */}
@@ -187,7 +185,11 @@ const TrainerStudentsPage = () => {
                   </Box>
                   
                   {/* Action icons on left */}
-                  <Box sx={{ alignItems: 'center', gap: 1 }}>
+                  <Box sx={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: 1.5  
+                  }}>
                     {student.status === "تکمیل شده" ? (
                         <IconButton size="small" sx={{ 
                         '&:hover': { 

@@ -22,7 +22,10 @@ const Header = ({ pageTitle }) => {
         sx={{ 
           fontWeight: 'bold',
           color: '#000',
-          marginleft: '10px'
+          marginleft: '10px',
+          fontWeight: 'bold',
+          fontSize: '25px'
+
         }}
       >
         {pageTitle}
