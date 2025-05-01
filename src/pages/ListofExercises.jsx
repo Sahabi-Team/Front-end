@@ -8,6 +8,7 @@ import Footer from "../components/Footer";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import NavBar from "../components/home/NavbarCard";
 
 const ExercisesPage = () => {
   const [allExercises, setAllExercises] = useState([]); // تمام تمرینات دریافت شده از بک‌اند
@@ -130,13 +131,16 @@ const ExercisesPage = () => {
 
           <Box sx={{
             backgroundColor: "#00A359",
-            height: "20px",
+            height: "100px",
             borderRadius: "8px",
             mb: 8,
-            padding: 7,
+            padding: 3,
             width: "100%",
             position: 'relative',
-            marginLeft: -2,
+            alignItems: "center",
+              display: "flex",
+            justifyContent: "center",
+          
           }}>
             <Stack 
               direction="row"
@@ -144,13 +148,13 @@ const ExercisesPage = () => {
                 width: "100%",
                 height: "100%",
                 justifyContent: "space-between",
-                mt: 5
+                mt: 25
               }}
             >
               <Box sx={{ 
                 width: "250px",
-                marginRight: 0.1,
-                marginLeft: -5 
+                //marginRight: 0.1,
+                marginLeft: -2 
               }}>
                 <ExerciseFilters 
                   filters={filters}
@@ -223,6 +227,7 @@ const ExercisesPage = () => {
     <>
       <Box
         sx={{
+          
           backgroundColor: "white",
           minHeight: "100vh",
           maxHeight: "300vh",
@@ -326,7 +331,7 @@ const ExercisesPage = () => {
 
   return (
     <>
-      <Navbar />
+      <NavBar />
       {isMobile ? <MobileView /> : <DesktopView />}
       <Footer />
     </>

@@ -2,10 +2,12 @@
 import React, { useState,useEffect ,useContext } from "react";  
 import { TextField, Button, Avatar, Paper, Typography } from "@mui/material";  
 import { Routes, Route,useNavigate } from "react-router-dom";
-import Navbar from '../components/Navbar.jsx';
+//import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import { profileAPI } from '../services/ClientProfileApi.jsx';
 import { AuthContext } from '../contexts/AuthContext.jsx';
+import NavBar from "../components/home/NavbarCard";
+import ClientSidebar from "../components/ClientSidebar.jsx";
 
 const EditProfile = () => { 
    const { userInfo } = useContext(AuthContext);
@@ -193,7 +195,7 @@ const EditProfile = () => {
     
   if (isLoading) {
     return <div>
-         <Navbar />
+         <NavBar />
         در حال بارگذاری...
         </div>;
   }
@@ -201,6 +203,7 @@ const EditProfile = () => {
 
     return ( 
         <div >
+            <ClientSidebar/>
         <div style={{   
             display: 'flex',  
             justifyContent: 'flex-end',  
@@ -212,7 +215,8 @@ const EditProfile = () => {
          
         }}>  
           
-           <Navbar />
+           <NavBar />
+
             <Paper   
                 elevation={3}   
                 sx={{   
