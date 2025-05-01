@@ -15,12 +15,12 @@ import FAQPage from './pages/FAQ.jsx';
 import Home from './pages/Home.jsx'
 import ExercisesPage from './pages/ListofExercises.jsx';
 import ClientSidebar from './components/ClientSidebar.jsx';
-import TreinerSidebar from './components/TrainerSidebar.jsx';
+import TrainerSidebar from './components/TrainerSidebar.jsx';
 import GuestSidebar from './components/GuestSidebar.jsx';
 import { AuthContext ,AuthProvider} from './contexts/AuthContext';
 import ChangePasswordClient from './pages/ChangePasswordClient.jsx';
 import ExerciseDetail from './pages/Exercise_Detail.jsx';
-
+import TrainerEditProfile from './pages/TrainerEditProfile.jsx';
 const theme = createTheme({
   direction: "rtl",
   typography: {
@@ -103,6 +103,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="/exercises" element={<ExercisesPage />} />
               <Route path="/changepassword" element={<ChangePasswordClient />} />
               <Route path="/exercisedetail/:id" element={<ExerciseDetail />} />
+              <Route path="/trainereditprofile" element={<TrainerEditProfile />} />
 
 
             </Routes>

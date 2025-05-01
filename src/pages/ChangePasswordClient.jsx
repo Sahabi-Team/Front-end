@@ -17,6 +17,9 @@ import SuccessModal from "../components/modals/SuccessfulModal";
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import { profileAPI } from '../services/ClientProfileApi.jsx';
+import NavBar from "../components/home/NavbarCard";
+import { useNavigate } from "react-router-dom";
+import ClientSidebar from "../components/ClientSidebar.jsx";
 
 const Card = styled(Paper)(({ theme }) => ({
   display: "flex",
@@ -42,6 +45,7 @@ function ResetPassword() {
   const [errorMessage, setErrorMessage] = React.useState("");
   const [openSuccessModal, setOpenSuccessModal] = React.useState(false);
   const [successMessage, setSuccessMessage] = React.useState("");
+   const navigate = useNavigate();
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
@@ -68,8 +72,11 @@ function ResetPassword() {
 
       setSuccessMessage("رمز عبور با موفقیت تغییر یافت.");
       setOpenSuccessModal(true);
-      setPassword("");
-      setConfirmPassword("");
+      //setPassword("");
+      //setConfirmPassword("");
+      setTimeout(() => {
+        navigate('/editprofile');
+      }, 3000);
     } catch (error) {
       
 
@@ -132,9 +139,10 @@ function ResetPassword() {
 
   return (
     <>
-      {/* <Navbar /> */}
+    <ClientSidebar />
+       <NavBar /> 
       <CssBaseline />
-      <Container maxWidth="sm" sx={{ my: 6 ,mt:10,mr:45}}>
+      <Container maxWidth="sm" sx={{ my: 6 ,mt:15,mr:50}}>
         <Card elevation={20}>
           <Typography sx={{ fontSize: "150%", textAlign: "center", mb: 3 }}>
             تغییر رمز عبور
@@ -204,7 +212,9 @@ function ResetPassword() {
       />
       <SuccessModal
         open={openSuccessModal}
-        onClose={() => setOpenSuccessModal(false)}
+        onClose={() =>{ setOpenSuccessModal(false) ;
+          navigate('/editprofile'); 
+        }}
         successMessage={successMessage}
       />
       <Footer />
