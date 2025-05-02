@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, InputBase, IconButton, Typography, Avatar, Divider, Chip } from '@mui/material';
+import { Box, InputBase, Typography, Avatar, Divider, Chip } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import EmailIcon from '@mui/icons-material/Email';
 import EditIcon from '@mui/icons-material/Edit';
@@ -11,7 +11,6 @@ import Sidebar from '../components/TrainerSidebar';
 const TrainerStudentsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredStudents, setFilteredStudents] = useState([]);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   // Mock data 
   const students = [
@@ -45,7 +44,7 @@ const TrainerStudentsPage = () => {
       
       <Box sx={{ flexGrow: 1 }}>
         <Header pageTitle="صفحه مربی" />
-        <ContentContainer isSidebarOpen={isSidebarOpen}>
+        <ContentContainer>
           {/* Header with title and search */}
           <Box sx={{ 
             display: 'flex', 

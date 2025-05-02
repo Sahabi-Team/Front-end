@@ -19,13 +19,11 @@ const Header = ({ pageTitle }) => {
       {/* Page Title */}
       <Typography 
         variant="h6" 
-        sx={{ 
-          fontWeight: 'bold',
+        sx={{
           color: '#000',
           marginleft: '10px',
           fontWeight: 'bold',
           fontSize: '25px'
-
         }}
       >
         {pageTitle}

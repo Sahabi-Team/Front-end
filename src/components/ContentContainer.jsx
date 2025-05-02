@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '@mui/material';
 
-const ContentContainer = ({ children, isSidebarOpen = false }) => {
+const ContentContainer = ({ children }) => {
 
   return (
     <Box
