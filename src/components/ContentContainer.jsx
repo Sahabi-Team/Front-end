@@ -7,11 +7,9 @@ const ContentContainer = ({ children, isSidebarOpen = false }) => {
     <Box
       sx={{
         display: 'flex',
-        // justifyContent: 'center',
         alignItems: 'flex',
         minHeight: 'calc(100vh - 32px)',
         padding: '16px',
-        // direction: 'rtl',
         transition: 'margin-right 0.3s ease', // Smooth transition for sidebar
       }}
     >
@@ -19,10 +17,10 @@ const ContentContainer = ({ children, isSidebarOpen = false }) => {
         sx={{
           backgroundColor: 'white',
           borderRadius: 6,
-          boxShadow: '0px 0px 45px rgba(0, 0, 0, 0.2)', // Stronger shadow
+          boxShadow: '0px 0px 45px rgba(0, 0, 0, 0.2)', 
           minHeight: 'calc(100vh - 100px)',
           overflow: 'auto',
-          width: '90%',
+          width: '85%',
           maxWidth: '1300px',
           padding: '24px',
           margin: 'auto',

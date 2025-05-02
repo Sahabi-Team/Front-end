@@ -31,7 +31,7 @@ const Header = ({ pageTitle }) => {
         {pageTitle}
       </Typography>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', marginRight: '15px' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', marginRight: '50px' }}>
         <img 
           src={logo}
           alt="Jimbato Logo" 

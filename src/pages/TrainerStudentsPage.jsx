@@ -79,11 +79,12 @@ const TrainerStudentsPage = () => {
                 alignItems: 'center',
                 borderRadius: '10px',
                 overflow: 'hidden',
-                boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)',
+                boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.1)',
                 bgcolor: 'white',
                 width: '100%',
                 maxWidth: { xs: '100%', sm: '500px' }, // Full width on mobile
                 minWidth: { xs: 'unset', sm: '300px' }, // Remove min-width on mobile
+                border: '1px solid #ddd'
               }}
             >
               <InputBase
