@@ -22,6 +22,7 @@ import ChangePasswordClient from './pages/ChangePasswordClient.jsx';
 import ExerciseDetail from './pages/Exercise_Detail.jsx';
 import TrainerEditProfile from './pages/TrainerEditProfile.jsx';
 import TestResultPage from './pages/TestResultPage.jsx';
+import TrainerStudentsPage from './pages/TrainerStudentsPage.jsx';
 
 const theme = createTheme({
   direction: "rtl",
@@ -107,6 +108,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="/exercisedetail/:id" element={<ExerciseDetail />} />
               <Route path="/trainereditprofile" element={<TrainerEditProfile />} />
               <Route path="/test_result" element={<TestResultPage />} />
+              <Route path="/trainer_students" element={<TrainerStudentsPage />} />
             </Routes>
           </AuthProvider>
         </BrowserRouter>
