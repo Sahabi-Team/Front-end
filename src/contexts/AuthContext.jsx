@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 // آدرس API
-const API_URL = 'https://ighader.pythonanywhere.com/api/auth/';
+const API_URL = 'http://84.234.29.28:8000/api/auth/';
 
 // ایجاد Context برای دسترسی به وضعیت احراز هویت
 

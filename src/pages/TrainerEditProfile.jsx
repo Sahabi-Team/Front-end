@@ -1,16 +1,20 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useContext} from "react";
 import { useNavigate } from "react-router-dom";
-import { profileAPI } from '../services/ClientProfileApi.jsx';
+import {  Typography } from "@mui/material";
+import { trainerProfileAPI } from '../services/TrainerProfileApi.jsx';
 import Footer from '../components/Footer.jsx';
 import NavBar from "../components/home/NavbarCard.jsx";
 import Sidebar from "../components/TrainerSidebar.jsx";
 import EditProfileLayout from "../components/TrainerEditProfile/EditProfileLayout.jsx";
 import ProfileImageUpload from "../components/TrainerEditProfile/ProfileImageUpload.jsx";
 import EditProfileForm from "../components/TrainerEditProfile/EditProfileForm.jsx";
+import { AuthContext } from '../contexts/AuthContext.jsx';
 
 const EditProfile = () => { 
-    const navigate = useNavigate();
+ 
+  const { userInfo } = useContext(AuthContext);
+   const navigate = useNavigate();
     const [userData, setUserData] = useState({  
       firstName: "",
       lastName: "",
@@ -33,24 +37,25 @@ const EditProfile = () => {
     useEffect(() => {
       const fetchUserProfile = async () => {
         try {
-          const response = await profileAPI.getProfile();
+          const response = await trainerProfileAPI.getProfile();
+          const trainerData = response.data;
           console.log(response.data);
           setUserData({
-            firstName: response.data.user.first_name || "",
-            lastName: response.data.user.last_name || "",
-            bio: response.data.user.bio || "",
-            experience: response.data.user.experience || "",
-            isAvailableForReservation: response.data.user.is_available_for_reservation || false,
-            price: response.data.user.price || "",
-            specialties: response.data.user.specialties || "",
-            certificates: response.data.user.certificates || "",
-            username: response.data.user.username || "",
-            email: response.data.user.email || "",
-            phone: response.data.user.phone_number || "",
+            firstName: trainerData.user.first_name || "",
+            lastName: trainerData.user.last_name || "",
+            bio: trainerData.bio || "",
+            experience: trainerData.experience || "",
+            isAvailableForReservation: trainerData.isAvailableForReservation || false,
+            price: trainerData.price || "",
+            specialties: trainerData.specialties || "",
+            certificates: trainerData.certificates || "",
+            username: trainerData.username || "",
+            email: trainerData.email || "",
+            phone: trainerData.phone_number || "",
             password: "********"
           });
-          if (response.data.user.profile_picture) {
-            setProfileImageUrl(`https://ighader.pythonanywhere.com${response.data.user.profile_picture}`);
+          if (trainerData.user.profile_picture) {
+            setProfileImageUrl(`http://84.234.29.28:8000${trainerData.user.profile_picture}`);
           }
         } catch (error) {
           console.error("Fetch profile error:", error);
@@ -61,7 +66,14 @@ const EditProfile = () => {
       
       fetchUserProfile();
     }, []);
-  
+   
+    useEffect(() => {
+              if (!userInfo) {
+                navigate('/signin');
+              }
+            }, [userInfo, navigate]);
+              
+
     useEffect(() => {
       document.body.style.background = "#E2E2E2";
       return () => {
@@ -127,7 +139,7 @@ const EditProfile = () => {
         formData.append('last_name', userData.lastName);
         formData.append('bio', userData.bio);
         formData.append('experience', userData.experience);
-        formData.append('reservation_type', userData.reservationType);
+        formData.append('isAvailableForReservation', userData.isAvailableForReservation);
         formData.append('price', userData.price);
         formData.append('specialties', userData.specialties);
         formData.append('certificates', userData.certificates);
@@ -135,12 +147,16 @@ const EditProfile = () => {
         formData.append('username', userData.username);
         formData.append('phone_number', userData.phone);
         
+        
         if (profileImage) {
           formData.append('profile_picture', profileImage);
         }
+        else if (profileImageUrl === null) {
+          formData.append('delete_profile_picture', true);
+        }
         
-        await profileAPI.updateProfile(formData);
-        alert("اطلاعات با موفقیت به‌روزرسانی شد");
+        await trainerProfileAPI.updateProfile(formData);
+       // alert("اطلاعات با موفقیت به‌روزرسانی شد");
       } catch (error) {
         console.error("Update error:", error);
         alert("خطا در به‌روزرسانی پروفایل");
@@ -154,15 +170,16 @@ const EditProfile = () => {
       if (file) {
         setProfileImage(file);
         setProfileImageUrl(URL.createObjectURL(file));
+        await trainerProfileAPI.uploadAvatar(file);
       }
     };
     
     const handleRemoveImage = async () => {
       try {
-        await profileAPI.deleteAvatar();
+        await trainerProfileAPI.deleteAvatar();
         setProfileImage(null);
         setProfileImageUrl(null);
-        alert("عکس پروفایل با موفقیت حذف شد");
+      //  alert("عکس پروفایل با موفقیت حذف شد");
       } catch (error) {
         console.error("حذف عکس ناموفق بود:", error);
       }
@@ -177,27 +194,54 @@ const EditProfile = () => {
       );
     }
   
-    return ( 
+    return (
       <div>
-         <NavBar />
-        <Sidebar/>
+        <NavBar />
+        <Sidebar />
         <EditProfileLayout>
           <div style={{ 
-            display: 'flex', 
-            flexDirection: 'row-reverse', 
-            alignItems: 'flex-start',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: '50px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
             padding: '20px',
+            maxWidth: '1200px',
+            margin: '0 auto'
           }}>
-            <ProfileImageUpload 
-              profileImageUrl={profileImageUrl}
-              handleFileChange={handleFileChange}
-              handleRemoveImage={handleRemoveImage}
-            />
-            
-            <div style={{ flex: 1 }}>
+            {/* عنوان در سمت راست بالا */}
+            <Typography 
+          variant="h4" // تغییر از h4 به h5 برای سایز کوچکتر
+          component="h1" 
+          gutterBottom
+          style={{
+            fontWeight: 'bold',
+            marginBottom: '20px',
+            color: '#333',
+            textAlign: 'right',
+            width: '100%',
+            paddingRight: '16px'
+          }}
+        >
+          ویرایش اطلاعات
+        </Typography>
+    
+            {/* تصویر پروفایل در وسط */}
+            <div style={{
+              margin: '0px 0'
+            }}>
+              <ProfileImageUpload 
+                profileImageUrl={profileImageUrl}
+                handleFileChange={handleFileChange}
+                handleRemoveImage={handleRemoveImage}
+              />
+            </div>
+    
+            {/* فرم در وسط صفحه */}
+            <div style={{
+             width: '100%',
+             display: 'flex',
+             justifyContent: 'center'
+             
+            }}>
               <EditProfileForm 
                 userData={userData}
                 errors={errors}
@@ -208,8 +252,8 @@ const EditProfile = () => {
           </div>
         </EditProfileLayout>
         <Footer />
-      </div>  
-    );  
+      </div>
+    );
   };  
   
   export default EditProfile;

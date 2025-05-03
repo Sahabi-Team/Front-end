@@ -11,7 +11,7 @@ const EditProfileForm = ({
   handleSubmit 
 }) => {
   return (
-    <form onSubmit={handleSubmit} style={{ width: "100%" }}>
+    <form onSubmit={handleSubmit} style={{ width: "85%" }}>
       <Grid container spacing={3}>
         {/* First Row - First Name & Last Name */}
         <Grid item xs={12} md={6}>
@@ -116,7 +116,7 @@ const EditProfileForm = ({
             sx={textFieldStyle}
             inputProps={{ 
                 min: 0, // حداقل مقدار ۰
-                step: 100 // فقط اعداد صحیح
+                step: 1 // فقط اعداد صحیح
               }}
           />
         </Grid>
@@ -169,7 +169,7 @@ const EditProfileForm = ({
               marginTop: "20px",
               borderRadius: "12px",
               width:"150px",
-              marginBottom:"20px"
+              marginBottom:"100px"
             }}
           >
             ذخیره تغییرات

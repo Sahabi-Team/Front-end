@@ -43,7 +43,7 @@ const EditProfile = () => {
                 password: "********"
               });
              if (response.data.user.profile_picture) {
-               setProfileImageUrl(`https://ighader.pythonanywhere.com${response.data.user.profile_picture}`);
+               setProfileImageUrl(`http://84.234.29.28:8000${response.data.user.profile_picture}`);
 }
             } catch (error) {
                 console.error("Fetch profile error:", error);

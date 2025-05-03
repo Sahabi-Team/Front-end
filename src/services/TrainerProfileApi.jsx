@@ -1,45 +1,41 @@
-// src/services/api.js
+// src/services/TrainerProfileApi.js
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://84.234.29.28:8000/api', // آدرس ثابت بدون استفاده از process.env
+  baseURL: 'http://84.234.29.28:8000/api',
 });
 
-// افزودن خودکار توکن به هدرها
 api.interceptors.request.use(config => {
   const token = localStorage.getItem('access_token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
-   
   }
   return config;
 });
 
-export const profileAPI = {
-  // دریافت اطلاعات پروفایل کاربر
-  getProfile: () => api.get('/trainee/info/'),
+export const trainerProfileAPI = {
+  // دریافت اطلاعات پروفایل مربی
+  getProfile: () => api.get('/trainer/info/'),
 
-  // آپدیت اطلاعات پروفایل
-  updateProfile: (data) => api.put('/trainee/update/', data),
+  // آپدیت اطلاعات پروفایل مربی
+  updateProfile: (data) => api.put('/trainer/update/', data),
 
+  
   // آپلود عکس پروفایل
   uploadAvatar: (file) => {
     const formData = new FormData();
     formData.append('profile_picture', file); // اسم دقیق فیلد
-    return api.put('/trainee/update/', formData);
+    return api.put('/trainer/update/', formData);
   },
 
+  // حذف عکس پروفایل
   deleteAvatar: () => {
     const formData = new FormData();
     formData.append('delete_profile_picture', 'true');
-  
-    return api.put('/trainee/update/', formData, {
+    return api.put('/trainer/update/', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
   },
-
-  // تغییر رمز عبور
-  changePassword: (data) => api.post('/auth/change-password/', data)
 };

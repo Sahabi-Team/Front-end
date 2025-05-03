@@ -17,7 +17,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/Logo/Logo.svg";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import { AuthContext } from '../contexts/AuthContext.jsx';
+//import { AuthContext } from '../contexts/AuthContext.jsx';
 
 const Navbar = () => {
   const theme = useTheme();
@@ -26,7 +26,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState("");
   const [isSubmenuOpen, setIsSubmenuOpen] = useState({});
-  const { userInfo } = useContext(AuthContext);
+  //const { userInfo } = useContext(AuthContext);
 
 
   

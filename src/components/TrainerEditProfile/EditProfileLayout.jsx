@@ -1,33 +1,34 @@
 import React from "react";
-import { Paper } from "@mui/material";
+import { Paper,Box } from "@mui/material";
 
 const EditProfileLayout = ({ children }) => {
   return (
-    <div style={{   
-      display: 'flex',  
-      justifyContent: 'flex-end',  
-      alignItems: 'stretch',  
-      background: '#E2E2E2',
-      width: "90%",
-      minHeight: "140vh",
-      marginRight: "75px",
-     // marginBottom:"30px"
-    }}>  
-      <Paper   
-        elevation={3}   
-        sx={{   
-          padding: 4,  
-          borderRadius: 6,  
-          width: '90%',
-          minHeight:'120vh',
-          height: { xs: '295vh', md: '130vh' }, 
-          marginTop: '80px',
-          //marginBottom:'10px'
-        }}  
-      >  
-        {children}
-      </Paper>  
-    </div>
+    <Box
+    sx={{
+      display: 'flex',
+      alignItems: 'flex',
+      minHeight: 'calc(100vh - 32px)',
+     // padding: '16px',
+      transition: 'margin-right 0.3s ease', // Smooth transition for sidebar
+    }}
+  >
+    <Box
+      sx={{
+        backgroundColor: 'white',
+        borderRadius: 6,
+        boxShadow: '0px 0px 45px rgba(0, 0, 0, 0.2)', 
+        minHeight: 'calc(100vh - 100px)',
+        overflow: 'auto',
+        width: '85%',
+        maxWidth: '1300px',
+        padding: '24px',
+        margin: 'auto',
+        marginTop:'80px'
+      }}
+    >
+      {children}
+    </Box>
+  </Box>
   );
 };
 
