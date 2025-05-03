@@ -11,7 +11,7 @@ import {
   Box,
 } from "@mui/material";
 
-const ExerciseCard = ({ id, name, images, equipment, tags, muscle_group }) => {
+const ExerciseCard = ({ id, name, images, equipments, tags, muscle_groups }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -19,8 +19,8 @@ const ExerciseCard = ({ id, name, images, equipment, tags, muscle_group }) => {
   };
 
   const imageUrl = images && images.length > 0 ? images[0].image : '';
-  const equipmentArray = equipment ? [equipment] : [];
-  const muscle_groupArray = muscle_group ? [muscle_group] : [];
+  const equipmentArray = equipments ? [equipments] : [];
+  const muscle_groupArray = muscle_groups ? [muscle_groups] : [];
   const tagNames = tags?.map(tag => tag.name) || [];
 
   return (

@@ -68,7 +68,7 @@ export default function SignInCard() {
 
     try {
       const response = await axios.post(
-        "https://ighader.pythonanywhere.com/api/auth/login/",
+        "http://84.234.29.28:8000/api/auth/login/",
         {
           username: username,
           password: password,

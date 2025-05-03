@@ -7,65 +7,69 @@ const ProfileImageUpload = ({
   handleRemoveImage 
 }) => {
   return (
-    <div style={{ 
-      display: 'flex', 
-      flexDirection: 'column', 
+    <div style={{
+      display: 'flex',
       alignItems: 'center',
-      justifyContent: 'center',
-      width: '250px',
-      marginLeft: "100px",
-      marginTop: "150px"
+      gap: '30px',
+      marginBottom: '40px',
+      width: '100%',
+      justifyContent: 'flex-end' // چیدمان از راست
     }}>
-      <Avatar 
-        src={profileImageUrl} 
-        sx={{ 
-          width: 200, 
-          height: 200, 
-          bgcolor: "#ccc",  
-          marginLeft:"90px",
-          marginBottom: "30px",
-          marginTop: "20px"
-        }} 
-      />
-      
-      <input 
-        accept="image/*" 
-        type="file" 
-        onChange={handleFileChange} 
-        style={{ display: 'none' }} 
-        id="upload-button"
-      />
-      
-      <label htmlFor="upload-button">
+       {/* دکمه‌ها در سمت راست عکس */}
+       <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '10px'
+      }}>
+        <input 
+          accept="image/*" 
+          type="file" 
+          onChange={handleFileChange} 
+          style={{ display: 'none' }} 
+          id="upload-button"
+        />
+        
+        <label htmlFor="upload-button">
+          <Button 
+            component="span" 
+            variant="contained" 
+            sx={{ 
+              backgroundColor: "#D9F1DE", 
+              color: "#00A359", 
+              height: "35px", // کاهش سایز
+              width: "110px", // عرض ثابت
+              fontSize: "13px" // فونت کوچکتر
+            }}
+          >
+            بارگذاری تصویر
+          </Button>
+        </label>
+        
         <Button 
-          component="span" 
           variant="contained" 
           sx={{ 
             backgroundColor: "#D9F1DE", 
             color: "#00A359", 
-            width: "70%", 
-            height: "45px", 
-           marginLeft:"70px",
-            marginBottom: "15px",
+            height: "35px", // کاهش سایز
+            width: "110px", // عرض ثابت
+            fontSize: "13px" // فونت کوچکتر
           }}
+          onClick={handleRemoveImage}
         >
-          بارگذاری تصویر
+          حذف تصویر
         </Button>
-      </label>
-      
-      <Button 
-        variant="contained" 
+      </div>
+      {/* عکس با سایز کوچکتر */}
+      <Avatar 
+        src={profileImageUrl} 
         sx={{ 
-          backgroundColor: "#D9F1DE", 
-          color: "#00A359", 
-          width: "50%", 
-          height: "45px",
-          marginLeft:"85px",
-        }}
-        onClick={handleRemoveImage}
-      >
-        حذف تصویر
-      </Button>
+          width: 190, // کاهش سایز
+          height: 190, // کاهش سایز
+          bgcolor: "#ccc",
+        }} 
+      />
+      
+     
     </div>
   );
 };

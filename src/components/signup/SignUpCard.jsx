@@ -182,7 +182,7 @@ export default function SignUpCard() {
 
     try {
       const response = await axios.post(
-        "https://ighader.pythonanywhere.com/api/auth/register/", // آدرس API ثبت‌نام
+        "http://84.234.29.28:8000/api/auth/register/", // آدرس API ثبت‌نام
         
           {
             "first_name" : "Mo",
