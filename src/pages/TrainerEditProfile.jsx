@@ -1,15 +1,16 @@
 
 import React, { useState, useEffect ,useContext} from "react";
 import { useNavigate } from "react-router-dom";
-import {  Typography } from "@mui/material";
+import {Box,  Typography } from "@mui/material";
 import { trainerProfileAPI } from '../services/TrainerProfileApi.jsx';
 import Footer from '../components/Footer.jsx';
-import NavBar from "../components/home/NavbarCard.jsx";
+//import NavBar from "../components/home/NavbarCard.jsx";
 import Sidebar from "../components/TrainerSidebar.jsx";
 import EditProfileLayout from "../components/TrainerEditProfile/EditProfileLayout.jsx";
 import ProfileImageUpload from "../components/TrainerEditProfile/ProfileImageUpload.jsx";
 import EditProfileForm from "../components/TrainerEditProfile/EditProfileForm.jsx";
 import { AuthContext } from '../contexts/AuthContext.jsx';
+import Header from '../components/Header';
 
 const EditProfile = () => { 
  
@@ -188,16 +189,19 @@ const EditProfile = () => {
     if (isLoading) {
       return (
         <div>
-          <NavBar />
+          <Header pageTitle="صفحه مربی" />
           در حال بارگذاری...
         </div>
       );
     }
   
     return (
-      <div>
-        <NavBar />
+      <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: '#F5F5F5' }}>
         <Sidebar />
+      
+      <Box sx={{ flexGrow: 1 }}>
+        <Header pageTitle="صفحه مربی" />
+       
         <EditProfileLayout>
           <div style={{ 
             display: 'flex',
@@ -209,7 +213,7 @@ const EditProfile = () => {
           }}>
             {/* عنوان در سمت راست بالا */}
             <Typography 
-          variant="h4" // تغییر از h4 به h5 برای سایز کوچکتر
+          variant="h4" 
           component="h1" 
           gutterBottom
           style={{
@@ -252,7 +256,8 @@ const EditProfile = () => {
           </div>
         </EditProfileLayout>
         <Footer />
-      </div>
+        </Box>
+    </Box>
     );
   };  
   

@@ -18,9 +18,9 @@ const ExerciseCard = ({ id, name, images, equipments, tags, muscle_groups }) => 
     navigate(`/exercisedetail/${id}`);
   };
 
-  const imageUrl = images && images.length > 0 ? images[0].image : '';
-  const equipmentArray = equipments ? [equipments] : [];
-  const muscle_groupArray = muscle_groups ? [muscle_groups] : [];
+  const imageUrl = images?.[0]?.image || '';
+  const equipmentNames = equipments?.map(eq => eq.name) || [];
+  const muscleGroupNames = muscle_groups?.map(mg => mg.name) || [];
   const tagNames = tags?.map(tag => tag.name) || [];
 
   return (
@@ -38,16 +38,17 @@ const ExerciseCard = ({ id, name, images, equipments, tags, muscle_groups }) => 
         display: "flex",
         flexDirection: "row",
         overflow: "hidden",
-        position: "relative", // برای border سبز کنار عکس
-        "&::before": { // ایجاد border سبز کنار عکس
+        position: "relative",
+        "&::before": {
           content: '""',
           position: "absolute",
-          left: "40%", // مطابق با عرض تصویر
+          left: "40%",
           top: 0,
           bottom: 0,
           width: "3px",
           backgroundColor: "#00A359",
-          zIndex: 1,}
+          zIndex: 1,
+        }
       }}
     >
       <CardMedia
@@ -70,14 +71,14 @@ const ExerciseCard = ({ id, name, images, equipments, tags, muscle_groups }) => 
       }}>
         <CardContent sx={{ 
           p: 2,
-          pb: 0, // کاهش padding پایین
+          pb: 0,
           textAlign: "left",
         }}>
           <Typography 
             variant="h5" 
             fontWeight="bold"
             sx={{ 
-              mb: 1.5, // کاهش بیشتر فاصله زیر عنوان
+              mb: 1.5,
               lineHeight: 1.3,
             }}
           >
@@ -86,19 +87,19 @@ const ExerciseCard = ({ id, name, images, equipments, tags, muscle_groups }) => 
         </CardContent>
 
         <Box sx={{ 
-          px: 2, // padding فقط برای چپ و راست
-          pb: 2, // padding فقط برای پایین
+          px: 2,
+          pb: 2,
           display: "flex",
           flexDirection: "column",
-          gap: 1, // کاهش فاصله بین تگ‌ها
+          gap: 1,
         }}>
-          {/* تگ تجهیزات (فقط اگر وجود داشته باشد) */}
-          {equipmentArray.length > 0 && (
+          {/* نمایش تجهیزات */}
+          {equipmentNames.length > 0 && (
             <Stack direction="row" spacing={0.5} flexWrap="wrap">
-              {equipmentArray.map((eq, index) => (
+              {equipmentNames.map((name, index) => (
                 <Chip 
                   key={`equip-${index}`} 
-                  label={eq} 
+                  label={name} 
                   size="small"
                   sx={{ 
                     backgroundColor: "#e0e0e0",
@@ -109,26 +110,30 @@ const ExerciseCard = ({ id, name, images, equipments, tags, muscle_groups }) => 
             </Stack>
           )}
 
-          {/* تگ نوع تمرین */}
-          <Stack direction="row" spacing={0.5} flexWrap="wrap">
-            {tagNames.map((type, index) => (
-              <Chip
-                key={index}
-                label={type}
-                size="small"
-                sx={{
-                  backgroundColor: "#00A359",
-                  color: "white",
-                }}
-              />
-            ))}
-          </Stack>
-          {muscle_groupArray.length > 0 && (
+          {/* نمایش تگ‌ها */}
+          {tagNames.length > 0 && (
             <Stack direction="row" spacing={0.5} flexWrap="wrap">
-              {muscle_groupArray.map((eq, index) => (
+              {tagNames.map((type, index) => (
+                <Chip
+                  key={`tag-${index}`}
+                  label={type}
+                  size="small"
+                  sx={{
+                    backgroundColor: "#00A359",
+                    color: "white",
+                  }}
+                />
+              ))}
+            </Stack>
+          )}
+
+          {/* نمایش گروه‌های عضلانی */}
+          {muscleGroupNames.length > 0 && (
+            <Stack direction="row" spacing={0.5} flexWrap="wrap">
+              {muscleGroupNames.map((name, index) => (
                 <Chip 
-                  key={`equip-${index}`} 
-                  label={eq} 
+                  key={`muscle-${index}`} 
+                  label={name} 
                   size="small"
                   sx={{ 
                     backgroundColor: "#e0e0e0",
