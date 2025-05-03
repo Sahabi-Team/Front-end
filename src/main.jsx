@@ -21,6 +21,8 @@ import { AuthContext ,AuthProvider} from './contexts/AuthContext';
 import ChangePasswordClient from './pages/ChangePasswordClient.jsx';
 import ExerciseDetail from './pages/Exercise_Detail.jsx';
 import TestResultPage from './pages/TestResultPage.jsx';
+import WorkoutPlan from './pages/WorkoutPlan.jsx';
+import WorkoutPlan2 from './pages/workoutplan2.jsx';
 
 const theme = createTheme({
   direction: "rtl",
@@ -105,6 +107,9 @@ createRoot(document.getElementById('root')).render(
               <Route path="/changepassword" element={<ChangePasswordClient />} />
               <Route path="/exercisedetail/:id" element={<ExerciseDetail />} />
               <Route path="/test_result" element={<TestResultPage />} />
+              <Route path="/workoutplan" element={<WorkoutPlan/>} />
+              <Route path="/workoutplan2" element={<WorkoutPlan2/>} />
+
             </Routes>
           </AuthProvider>
         </BrowserRouter>

@@ -8,7 +8,7 @@ import {
 } from "@mui/icons-material";
 import { AuthContext } from '../contexts/AuthContext.jsx';
 const Sidebar = () => {
-    const [isHovered, setIsHovered] = useState(false);
+    const [isHovered, setIsHovered] = useState(true);
     const { userInfo, logout } = useContext(AuthContext);
 
 
@@ -18,10 +18,12 @@ const Sidebar = () => {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             sx={{
-                width: isHovered ? 250 : 80,
+                backgroundColor:'red',
+                // width: isHovered ? 250 : 80,
+                width:{xs:64,lg:230},
                 flexShrink: 0,
                 "& .MuiDrawer-paper": {
-                    width: isHovered ? 230 : 64,
+                    width:{xs:64,lg:230},
                     transition: "width 0.3s ease",
                     boxSizing: "border-box",
                     backgroundColor: "#F7F7F7",
@@ -32,11 +34,12 @@ const Sidebar = () => {
                     position: "fixed",
                     top: "76px",
                     bottom: 0,
-                    zIndex: 900,
+                    zIndex: 0,
                     overflowX: "hidden", // Hide horizontal scroll
                     overflowY: "hidden", // Hide vertical scroll
                 }
             }}
+           
         >
             {/* Sidebar items list */}
             <List sx={{ color: "black", width: "100%" }}>
