@@ -21,6 +21,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ClientSidebar from "../components/ClientSidebar";
 import Footer from "../components/Footer";
 import Vazneh from "../assets/imgs/home/vazneh.png";
+import { useTheme } from "@mui/material/styles";
 
 const LogoImage = styled("img")(({ theme }) => ({
   height: "70px",
@@ -97,6 +98,7 @@ const dayPrograms = [
 
 export default function WorkoutPlan2() {
   const navigate = useNavigate();
+  const theme = useTheme(); // دسترسی به تم
 
   const handleBackClick = () => {
     navigate("/exercises");
@@ -198,86 +200,135 @@ export default function WorkoutPlan2() {
                   </Stack>
 
                   {/* آکاردئون تمرینات */}
-                  <Stack direction={"column"}>
-                    <Box sx={{ width: "100%", mx: "auto" }}>
-                      {dayPrograms.map((program, index) => (
-                        <Accordion key={index}>
-                          <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            sx={{
-                              flexDirection: "row-reverse",
-                              justifyContent: "space-between",
-                              bgcolor: "#f5f5f5",
-                              borderRadius: 2,
-                              boxShadow: 2,
-                              my: 1,
-                            }}
+                  <Stack direction="column" spacing={3}>
+                    {dayPrograms.map((program, index) => (
+                      <Accordion
+                        key={index}
+                        sx={{
+                          borderRadius: 3,
+                          overflow: "hidden",
+                          backgroundColor: "background.paper",
+                          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.05)",
+                          transition: "all 0.3s ease-in-out",
+                          "&:hover": {
+                            boxShadow: "0 6px 30px rgba(0, 0, 0, 0.1)",
+                            transform: "translateY(-2px)",
+                          },
+                        }}
+                      >
+                        <AccordionSummary
+                          expandIcon={
+                            <ExpandMoreIcon sx={{ color: "primary.main" }} />
+                          }
+                          sx={{
+                            flexDirection: "row-reverse",
+                            justifyContent: "space-between",
+                            background: `linear-gradient(135deg, ${theme.palette.primary.light}, ${theme.palette.background.default})`,
+                            px: 3,
+                            py: 2,
+                          }}
+                        >
+                          <Typography
+                            fontWeight="bold"
+                            fontSize="1.1rem"
+                            color="text.primary"
                           >
-                            <Typography fontWeight="bold">
-                              {program.title}
-                            </Typography>
-                          </AccordionSummary>
-                          <AccordionDetails>
-                            <Stack spacing={4}>
-                              {program.exercises.map((exercise, i) => (
-                                <Box key={i}>
-                                  <Typography
-                                    fontWeight="bold"
-                                    gutterBottom
-                                    textAlign="left"
-                                    component={Link}
-                                    to={`/exercise-details/${i}`}
-                                    sx={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      gap: 1,
-                                      color: "#1976d2",
-                                      cursor: "pointer",
-                                      "&:hover": {
-                                        textDecoration: "underline",
-                                      },
-                                    }}
-                                  >
-                                    <PlayArrowIcon fontSize="small" />
-                                    {exercise.name}
-                                  </Typography>
+                            {program.title}
+                          </Typography>
+                        </AccordionSummary>
 
-                                  <Stack direction="row" flexWrap="wrap" gap={2}>
-                                    {exercise.sets.map((set, j) => (
-                                      <Box
-                                        key={j}
-                                        sx={{
-                                          borderRadius: 3,
-                                          p: 2,
-                                          minWidth: 100,
-                                          textAlign: "center",
-                                          background: "linear-gradient(135deg, #e0f7fa, #ffffff)",
-                                          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-                                          transition: "transform 0.3s, box-shadow 0.3s",
-                                          "&:hover": {
-                                            transform: "scale(1.05)",
-                                            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-                                          },
-                                        }}
+                        <AccordionDetails
+                          sx={{ bgcolor: "background.default", px: 3, py: 2 }}
+                        >
+                          <Stack spacing={4}>
+                            {program.exercises.map((exercise, i) => (
+                              <Box
+                                key={i}
+                                sx={{ animation: "fadeIn 0.5s ease-in" }}
+                              >
+                                <Typography
+                                  fontWeight="bold"
+                                  gutterBottom
+                                  component={Link}
+                                  to={`/exercise-details/${i}`}
+                                  sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: 1,
+                                    fontSize: "1rem",
+                                    color: "primary.main",
+                                    cursor: "pointer",
+                                    transition: "0.2s ease",
+                                    "&:hover": {
+                                      textDecoration: "underline",
+                                      transform: "translateX(4px)",
+                                    },
+                                  }}
+                                >
+                                  <PlayArrowIcon fontSize="small" />
+                                  {exercise.name}
+                                </Typography>
+
+                                <Box
+                                  sx={{
+                                    display: "flex",
+                                    justifyContent: "flex-start", // یا "center" بسته به سلیقه
+                                    gap: 2, // فاصله بین ست‌ها (8px * 2 = 16px)
+                                    flexWrap: "wrap", // اگر عرض صفحه کم شد، ست‌ها برن خط بعد
+                                    marginTop:3,
+                                  }}
+                                >
+                                  {exercise.sets.map((set, j) => (
+                                    <Box
+                                      key={j}
+                                      sx={{
+                                        width: 120, // عرض ثابت برای هر ست
+                                        borderRadius: 3,
+                                        p: 2,
+                                        textAlign: "center",
+                                        background: `linear-gradient(135deg, ${theme.palette.success.light}, ${theme.palette.background.paper})`,
+                                        boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
+                                        transition: "0.3s",
+                                        "&:hover": {
+                                          transform: "scale(1.05)",
+                                          boxShadow:
+                                            "0 4px 12px rgba(0,0,0,0.15)",
+                                        },
+                                      }}
+                                    >
+                                      <Typography
+                                        variant="body2"
+                                        fontWeight="bold"
+                                        color="text.primary"
                                       >
-                                        <Typography variant="body2" fontWeight="bold">
-                                          ست{" "}
-                                          {["اول", "دوم", "سوم", "چهارم", "پنجم"][set.setNumber - 1]}
-                                        </Typography>
-                                        <Typography variant="body2">{set.reps} تکرار</Typography>
-                                      </Box>
-                                    ))}
-                                  </Stack>
-
-                                  {/* جداکننده بین حرکات */}
-                                  <Divider sx={{ my: 2 }} />
+                                        ست{" "}
+                                        {
+                                          [
+                                            "اول",
+                                            "دوم",
+                                            "سوم",
+                                            "چهارم",
+                                            "پنجم",
+                                          ][set.setNumber - 1]
+                                        }
+                                      </Typography>
+                                      <Typography
+                                        variant="body2"
+                                        color="text.secondary"
+                                      >
+                                        {set.reps} تکرار
+                                      </Typography>
+                                    </Box>
+                                  ))}
                                 </Box>
-                              ))}
-                            </Stack>
-                          </AccordionDetails>
-                        </Accordion>
-                      ))}
-                    </Box>
+
+                                <Divider sx={{ my: 3 }} />
+                              </Box>
+                            ))}
+                          </Stack>
+                        </AccordionDetails>
+                      </Accordion>
+                    ))}
                   </Stack>
                 </Stack>
               </Paper>
