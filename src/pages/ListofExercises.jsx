@@ -55,12 +55,19 @@ const ExercisesPage = () => {
   
       if (searchTerm) params.search = searchTerm;
       if (customFilters.level.length > 0) params.difficulty = customFilters.level.join(',');
-      if (customFilters.type.length > 0) params.tags = customFilters.type.join(',');
-      if (customFilters.muscles.length > 0) params.muscle_groups = customFilters.muscles.join(',');
-      if (customFilters.equipment.length > 0) params.equipments = customFilters.equipment.join(',');
-  
-      const response = await axios.get('https://ighader.pythonanywhere.com/api/exercises/filter', { params });
-     // console.log(response);
+      if (customFilters.type.length > 0) {
+        params.tags = customFilters.type.map(t => t.id || t).join(',');
+      }
+      if (customFilters.muscles.length > 0) {
+        params.muscle_groups = customFilters.muscles.map(m => m.id || m).join(',');
+      }
+      
+      if (customFilters.equipment.length > 0) {
+        params.equipments = customFilters.equipment.map(e => e.id || e).join(',');
+      }
+      console.log(params);
+      const response = await axios.get('http://84.234.29.28:8000/api/exercises/filter', { params });
+     console.log(response);
       setAllExercises(response.data || []);
       setCurrentPage(1);
     } catch (error) {

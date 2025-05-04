@@ -199,7 +199,7 @@ const textFieldStyle = {
       "& fieldset": { borderRadius: "12px",  border: "none" },
     },
     "& .MuiInputBase-input": {
-      padding: "12px",
+     // padding: "12px",
     },
    
 };

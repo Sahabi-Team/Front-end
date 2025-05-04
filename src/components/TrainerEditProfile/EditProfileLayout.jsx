@@ -23,7 +23,7 @@ const EditProfileLayout = ({ children }) => {
         maxWidth: '1300px',
         padding: '24px',
         margin: 'auto',
-        marginTop:'80px'
+       // marginTop:'80px'
       }}
     >
       {children}
