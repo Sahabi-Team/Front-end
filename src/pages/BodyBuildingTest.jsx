@@ -51,7 +51,7 @@ const BodyBuildingTest = () => {
       fitness_level: formData.step4 + 1,
     };
     try {
-      const response = await axios.post("https://ighader.pythonanywhere.com/api/tests/submit/", payload, {
+      const response = await axios.post("http://84.234.29.28:8000/api/tests/submit/", payload, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

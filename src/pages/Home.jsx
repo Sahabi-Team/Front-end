@@ -118,13 +118,13 @@ export default function Home() {
       try {
         const [res1, res2, res3] = await Promise.all([
           fetch(
-            "https://ighader.pythonanywhere.com/api/analytics/total-clients/"
+            "http://84.234.29.28:8000/api/analytics/total-clients/"
           ),
           fetch(
-            "https://ighader.pythonanywhere.com/api/analytics/total-trainers/"
+            "http://84.234.29.28:8000/api/analytics/total-trainers/"
           ),
           fetch(
-            "https://ighader.pythonanywhere.com/api/analytics/total-workout-plans/"
+            "http://84.234.29.28:8000/api/analytics/total-workout-plans/"
           ),
         ]);
 
