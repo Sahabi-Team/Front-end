@@ -94,7 +94,7 @@ export default function NotificationsList() {
                         <Avatar src={notif.trainee_info?.profile_picture || ''} sx={{width: 45, height: 45, mx: 2, border: '1px solid #00AF66', boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.2)'}} />
                         <Box>
                           <Typography variant="body1">{"شما از طرف " + notif.trainee_info?.name + " درخواست نوشتن برنامه دارید."}</Typography>
-                          <Typography variant="caption" color="textSecondary" sx={{mt: 0.5}}>{notif.created_at}</Typography>
+                          <Typography variant="caption" color="textSecondary" sx={{mt: 0.5}}>{notif.created_at.replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d])}</Typography>
                         </Box>
                       </Box>
                       {!notif.is_read && <Button variant="contained" startIcon={<AddIcon />} onClick={() => handleWriteProgram(notif)} sx={{borderRadius: 2, height: 28}}>نوشتن برنامه</Button>}

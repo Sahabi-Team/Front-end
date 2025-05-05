@@ -49,7 +49,7 @@ const Sidebar = () => {
                             <ListItemIcon sx={{ minWidth: "40px", marginLeft: isHovered ? "8px" : "0",marginBottom:"10px" }}><Add /></ListItemIcon>
                             {isHovered && <ListItemText primary="نوشتن برنامه جدید"  sx={{  color: "black" }} />}
                         </ListItem>
-                        <ListItem button component={Link} to="/" >
+                        <ListItem button component={Link} to="/notifications" >
                             <ListItemIcon sx={{ minWidth: "40px", marginLeft: isHovered ? "8px" : "0" ,marginBottom:"10px"}}><Notifications /></ListItemIcon>
                             {isHovered && <ListItemText primary="اعلانات" sx={{  color: "black" }} />}
                         </ListItem>
