@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Box,
   Container,
@@ -13,6 +13,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import ClientSidebar from "../components/ClientSidebar";
 import Vazneh from "../assets/imgs/home/vazneh.png";
 import Footer from "../components/Footer.jsx";
+import { AuthContext, AuthProvider } from '../contexts/AuthContext.jsx';
+import axios from 'axios';
 
 const LogoImage = styled("img")(({ theme }) => ({
   height: "70px",
@@ -22,59 +24,6 @@ const LogoImage = styled("img")(({ theme }) => ({
     height: "30px",
   },
 }));
-
-const programs = [
-  {
-    title: "دوره یک ماهه",
-    startDate: "1404/1/25",
-    status: "در حال انجام",
-  },
-  {
-    title: "دوره چهل روزه",
-    startDate: "1404/1/25",
-    status: "تمام شده",
-  },
-  {
-    title: "دوره چهل روزه",
-    startDate: "1404/1/25",
-    status: "تمام شده",
-  },
-  {
-    title: "دوره چهل روزه",
-    startDate: "1404/1/25",
-    status: "تمام شده",
-  },
-  {
-    title: "دوره چهل روزه",
-    startDate: "1404/1/25",
-    status: "تمام شده",
-  },
-  {
-    title: "دوره چهل روزه",
-    startDate: "1404/1/25",
-    status: "تمام شده",
-  },
-  {
-    title: "دوره چهل روزه",
-    startDate: "1404/1/25",
-    status: "تمام شده",
-  },
-  {
-    title: "دوره چهل روزه",
-    startDate: "1404/1/25",
-    status: "تمام شده",
-  },
-  {
-    title: "دوره چهل روزه",
-    startDate: "1404/1/25",
-    status: "تمام شده",
-  },
-  {
-    title: "دوره چهل روزه",
-    startDate: "1404/1/25",
-    status: "تمام شده",
-  },
-];
 
 const statusColor = (status) => {
   switch (status) {
@@ -88,7 +37,38 @@ const statusColor = (status) => {
 };
 
 export default function WorkoutPlan() {
+  const { userInfo } = useContext(AuthContext);
+  const [workoutPlans, setWorkoutPlans] = useState([]);
+  console.log(userInfo);
+  useEffect(() => {
+    console.log("useEffect triggered. userInfo:", userInfo);
+  
+    const fetchWorkoutPlans = async (access) => {
+      console.log("Inside fetchWorkoutPlans");
+      try {
+        const response = await axios.get('http://84.234.29.28:8000/api/workout/workout-plans/', {
+          headers: {
+            Authorization: `Bearer ${access}`,
+          },
+        });
+        console.log('Workout Plans:', response.data);
+        setWorkoutPlans(response.data);
+      } catch (error) {
+        console.error('خطا در گرفتن workout plans:', error);
+      }
+    };
+    let access_token = localStorage.getItem("access_token")
+    if (access_token) {
+      console.log("Calling fetchWorkoutPlans");
+      fetchWorkoutPlans(access_token);
+    } else {
+      console.log("No access token, fetch skipped");
+    }
+  }, [userInfo]);
+  
+
   return (
+   
     <>
       <CssBaseline />
       <Stack direction={"column"}>
@@ -99,7 +79,7 @@ export default function WorkoutPlan() {
         </Box>
         <Box
           sx={{
-            width: { xs: "86.67%", md: "86.67%" },
+            width: {xs:"87.67%", sm: "89.67%",md: "75.67%" , lg: "82.67%",xl:"86.67%" },
             marginLeft: { xs: 8, md: 28.9 },
             padding: 8,
           }}
@@ -133,12 +113,12 @@ export default function WorkoutPlan() {
                   height: 1200,
                   mx: "auto",
                   mt: 0,
-                  maxHeight: "70vh", // حداکثر ارتفاع
-                  overflowY: "auto", // فعال کردن اسکرول عمودی فقط روی پیپر
+                  maxHeight: "70vh",
+                  overflowY: "auto",
                 }}
               >
                 <Stack spacing={3}>
-                  {programs.map((program, index) => (
+                  {workoutPlans.map((program, index) => (
                     <Box
                       key={index}
                       sx={{
@@ -153,10 +133,10 @@ export default function WorkoutPlan() {
                     >
                       <Box sx={{ textAlign: "left" }}>
                         <Typography variant="h6" fontWeight="bold">
-                          {program.title}
+                          {program.name}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          (شروع از {program.startDate})
+                          (شروع از {program.created_at})
                         </Typography>
                       </Box>
                       <Chip
@@ -177,11 +157,10 @@ export default function WorkoutPlan() {
                 </Stack>
               </Paper>
             </Box>
-
-            {/* <Footer/> */}
           </Stack>
         </Box>
       </Stack>
+   
     </>
   );
 }

@@ -115,7 +115,7 @@ export default function WorkoutPlan2() {
         </Box>
         <Box
           sx={{
-            width: { xs: "86.67%", md: "86.67%" },
+            width: {xs:"87.67%", sm: "89.67%",md: "75.67%" , lg: "82.67%",xl:"86.67%" },
             marginLeft: { xs: 8, md: 28.9 },
             padding: 8,
           }}
