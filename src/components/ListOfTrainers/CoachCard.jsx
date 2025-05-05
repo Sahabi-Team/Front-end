@@ -34,7 +34,7 @@ const CoachCard = ({ coach }) => {
       >
         <Avatar
           src={coach.profile_picture}
-          alt={coach.name}
+          alt={coach.user.name}
           sx={{
             width: 120,
             height: 120,
@@ -55,7 +55,7 @@ const CoachCard = ({ coach }) => {
 
         {/* اطلاعات مربی */}
         <Typography align="right" mb={1}>
-          نام مربی: {coach.name}
+          نام مربی: {coach.user.name}
         </Typography>
         <Typography align="right" mb={1}>
           تخصص: {coach.specialties}

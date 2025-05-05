@@ -84,10 +84,9 @@ const TrainersList = () => {
         params.available = true;
 
       console.log("فیلترهای ارسالی به بک‌اند:", params);
-      const response = await axios.get("https://ighader.pythonanywhere.com/api/trainer/trainers/filter", { params });
+      const response = await axios.get("http://84.234.29.28:8000/api/trainer/trainers/filter", { params });
       setAllCoaches(response.data || []);
       setCurrentPage(1);
-      console.log("همه مربیان:", allCoaches);
     }
     catch (error) {
       console.error("Error fetching Coaches:", error);
