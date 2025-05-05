@@ -4,7 +4,7 @@ import { Box, Typography, Button, Rating, Avatar, Card, CardContent, CardActions
 const toPersianDigits = (number) =>
   String(number).replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
 
-const CoachCard = ({ coach }) => {
+const CoachCard = ({ coach, onViewProfile, onOrder }) => {
   return (
     <Card sx={{ position: "relative", overflow: "hidden", minWidth: "360px", borderRadius: 4, boxShadow: "0 4px 12px rgba(0,0,0,0.1)" }}>
       {/* حلال سبز رنگ */}
@@ -72,10 +72,10 @@ const CoachCard = ({ coach }) => {
       </CardContent>
 
       <CardActions sx={{justifyContent: "right", gap: 0.5, mb: 1.5, mr: 1, ml: 12, position: "relative"}}>
-        <Button variant="outlined" sx={{ borderRadius: "12px", px: 3, py: 0.6, minWidth: "90px", maxWidth: "120px", fontSize: "14px", textWrap: "nowrap"}}>
+        <Button variant="outlined" onClick={() => onViewProfile(coach)} sx={{ borderRadius: "12px", px: 3, py: 0.6, minWidth: "90px", maxWidth: "120px", fontSize: "14px", textWrap: "nowrap"}}>
           مشاهده پروفایل
         </Button>
-        <Button variant="contained" disabled={!coach.isAvailableForReservation} sx={{borderRadius: "12px", px: 3, py: 0.6, minWidth: "90px", maxWidth: "120px", fontSize: "14px", textWrap: "nowrap"}}>
+        <Button variant="contained" onClick={() => onOrder(coach)} disabled={!coach.isAvailableForReservation} sx={{borderRadius: "12px", px: 3, py: 0.6, minWidth: "90px", maxWidth: "120px", fontSize: "14px", textWrap: "nowrap"}}>
           ثبت سفارش
         </Button>
       </CardActions>

@@ -83,7 +83,6 @@ const TrainersList = () => {
       if (customFilter.availability === "available")
         params.available = true;
 
-      console.log("فیلترهای ارسالی به بک‌اند:", params);
       const response = await axios.get("http://84.234.29.28:8000/api/trainer/trainers/filter", { params });
       setAllCoaches(response.data || []);
       setCurrentPage(1);
@@ -126,10 +125,41 @@ const TrainersList = () => {
     setCurrentPage(value);
   };
 
+  //Handle the Buttons
+  const handleViewProfile = (coach) => {
+    navigate(`/coach_profile/${coach.trainer_id}`);
+  };
+  
+  const handleOrder = async (coach) => {
+    try {
+      const token = localStorage.getItem("access_token");
+      if (!token) {
+        console.error("کاربر وارد نشده است.");
+        return;
+      }
+
+      const response = await axios.post(
+        "http://84.234.29.28:8000/api/mentorship/mentorships/",
+        {
+          trainer: coach.trainer_id
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("سفارش با موفقیت ثبت شد:", response.data);
+    }
+    catch (error) {
+      console.error("خطا در ثبت سفارش:", error);
+    }
+  };
+
+
   //For Responsiveness
   const isScreenBelow700 = useMediaQuery("(max-width:700px)");
   const isScreenBelow1050 = useMediaQuery("(max-width:1050px)");
-  
   return (
     <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column"}}>
       <Navbar />
@@ -157,7 +187,7 @@ const TrainersList = () => {
               <Grid container spacing={2}>
                 {allCoaches.map((coach, index) => (
                   <Grid item xs={12} sm={isScreenBelow1050 ? 12 : 6} key={index}>
-                    <CoachCard coach={coach} />
+                    <CoachCard coach={coach} onViewProfile={handleViewProfile} onOrder={handleOrder} />
                   </Grid>
                 ))}
               </Grid>
