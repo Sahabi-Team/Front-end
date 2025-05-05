@@ -6,7 +6,7 @@ import Step2 from "../components/BodyBuildingTest/Step2";
 import Step3 from "../components/BodyBuildingTest/Step3";
 import Step4 from "../components/BodyBuildingTest/Step4";
 import axios from "axios";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/home/NavbarCard";
 import SuccessModal from "../components/modals/SuccessfulModal";
 import ErrorModal from "../components/modals/ErrorModal";
 import { useNavigate } from "react-router";
@@ -56,11 +56,9 @@ const BodyBuildingTest = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("Response:", response.data);
       setOpenSuccessModal(true);
     }
     catch (error) {
-      console.error("Error:", error);
       setOpenErrorModal(true);
     }
   };

@@ -3,7 +3,6 @@ import { Box, Container, Typography, Grid, Stack, Pagination, useMediaQuery, use
 import SearchBar from "../components/ListOfExercises/SearchBar";
 import ExerciseFilters from "../components/ListOfExercises/FiltersSidebar";
 import ExerciseCard from "../components/ListOfExercises/ExerciseCard";
-import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
@@ -200,26 +199,19 @@ const ExercisesPage = () => {
           </Grid>
 
           {allExercises.length > 0 && (
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 10, ml: 55 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 6, ml: 45 }}>
               <Pagination
                 count={Math.ceil(allExercises.length / exercisesPerPage)}
                 page={currentPage}
                 onChange={handlePageChange}
                 color="primary"
                 sx={{
-                  '& .MuiPagination-ul': {
-                    flexDirection: 'row-reverse',
-                  },
                   '& .MuiPaginationItem-root': {
                     color: '#00A359',
-                    border: '1px solid #00A359',
                     '&.Mui-selected': {
                       backgroundColor: '#00A359',
                       color: 'white',
                     },
-                  },
-                  '& .MuiSvgIcon-root': {
-                    transform: 'rotate(180deg)',
                   }
                 }}
               />
@@ -314,19 +306,12 @@ const ExercisesPage = () => {
                 onChange={handlePageChange}
                 color="primary"
                 sx={{
-                  '& .MuiPagination-ul': {
-                    flexDirection: 'row-reverse',
-                  },
                   '& .MuiPaginationItem-root': {
                     color: '#00A359',
-                    border: '1px solid #00A359',
                     '&.Mui-selected': {
                       backgroundColor: '#00A359',
                       color: 'white',
                     },
-                  },
-                  '& .MuiSvgIcon-root': {
-                    transform: 'rotate(180deg)',
                   }
                 }}
               />
