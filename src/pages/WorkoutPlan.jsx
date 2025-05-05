@@ -13,7 +13,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import ClientSidebar from "../components/ClientSidebar";
 import Vazneh from "../assets/imgs/home/vazneh.png";
 import Footer from "../components/Footer.jsx";
-import { AuthContext, AuthProvider } from '../contexts/AuthContext.jsx';
+import { AuthContext } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
 
 const LogoImage = styled("img")(({ theme }) => ({
@@ -39,36 +39,27 @@ const statusColor = (status) => {
 export default function WorkoutPlan() {
   const { userInfo } = useContext(AuthContext);
   const [workoutPlans, setWorkoutPlans] = useState([]);
-  console.log(userInfo);
+
   useEffect(() => {
-    console.log("useEffect triggered. userInfo:", userInfo);
-  
     const fetchWorkoutPlans = async (access) => {
-      console.log("Inside fetchWorkoutPlans");
       try {
         const response = await axios.get('http://84.234.29.28:8000/api/workout/workout-plans/', {
           headers: {
             Authorization: `Bearer ${access}`,
           },
         });
-        console.log('Workout Plans:', response.data);
         setWorkoutPlans(response.data);
       } catch (error) {
         console.error('خطا در گرفتن workout plans:', error);
       }
     };
-    let access_token = localStorage.getItem("access_token")
+    let access_token = localStorage.getItem("access_token");
     if (access_token) {
-      console.log("Calling fetchWorkoutPlans");
       fetchWorkoutPlans(access_token);
-    } else {
-      console.log("No access token, fetch skipped");
     }
   }, [userInfo]);
-  
 
   return (
-   
     <>
       <CssBaseline />
       <Stack direction={"column"}>
@@ -79,7 +70,7 @@ export default function WorkoutPlan() {
         </Box>
         <Box
           sx={{
-            width: {xs:"87.67%", sm: "89.67%",md: "75.67%" , lg: "82.67%",xl:"86.67%" },
+            width: { xs: "87.67%", sm: "89.67%", md: "75.67%", lg: "82.67%", xl: "86.67%" },
             marginLeft: { xs: 8, md: 28.9 },
             padding: 8,
           }}
@@ -96,7 +87,18 @@ export default function WorkoutPlan() {
                   <LogoImage src={Vazneh} alt="لوگو وزنه" />
                 </Box>
                 <Box>
-                  <Typography variant="h5" fontWeight="bold">
+                  <Typography
+                    variant="h5"
+                    fontWeight="bold"
+                    sx={{
+                      fontSize: {
+                        xs: "1.2rem",
+                        sm: "1.5rem",
+                        md: "1.7rem",
+                        lg: "2rem",
+                      },
+                    }}
+                  >
                     صفحه کاربر
                   </Typography>
                 </Box>
@@ -132,10 +134,32 @@ export default function WorkoutPlan() {
                       }}
                     >
                       <Box sx={{ textAlign: "left" }}>
-                        <Typography variant="h6" fontWeight="bold">
+                        <Typography
+                          variant="h6"
+                          fontWeight="bold"
+                          sx={{
+                            fontSize: {
+                              xs: "1rem",
+                              sm: "1.2rem",
+                              md: "1.3rem",
+                              lg: "1.5rem",
+                            },
+                          }}
+                        >
                           {program.name}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          sx={{
+                            fontSize: {
+                              xs: "0.7rem",
+                              sm: "0.8rem",
+                              md: "0.9rem",
+                              lg: "1rem",
+                            },
+                          }}
+                        >
                           (شروع از {program.created_at})
                         </Typography>
                       </Box>
@@ -160,7 +184,6 @@ export default function WorkoutPlan() {
           </Stack>
         </Box>
       </Stack>
-   
     </>
   );
 }

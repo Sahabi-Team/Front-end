@@ -98,7 +98,7 @@ const dayPrograms = [
 
 export default function WorkoutPlan2() {
   const navigate = useNavigate();
-  const theme = useTheme(); // دسترسی به تم
+  const theme = useTheme();
 
   const handleBackClick = () => {
     navigate("/exercises");
@@ -115,13 +115,18 @@ export default function WorkoutPlan2() {
         </Box>
         <Box
           sx={{
-            width: {xs:"87.67%", sm: "89.67%",md: "75.67%" , lg: "82.67%",xl:"86.67%" },
+            width: {
+              xs: "87.67%",
+              sm: "89.67%",
+              md: "78.67%",
+              lg: "82.67%",
+              xl: "86.67%",
+            },
             marginLeft: { xs: 8, md: 28.9 },
             padding: 8,
           }}
         >
           <Stack direction={"column"}>
-            {/* هدر بالا */}
             <Box>
               <Stack
                 direction="row"
@@ -133,14 +138,25 @@ export default function WorkoutPlan2() {
                   <LogoImage src={Vazneh} alt="لوگو وزنه" />
                 </Box>
                 <Box>
-                  <Typography variant="h5" fontWeight="bold">
+                  <Typography
+                    variant="h5"
+                    fontWeight="bold"
+                    sx={{
+                      fontSize: {
+                        xs: "1.1rem",
+                        sm: "1.25rem",
+                        md: "1.5rem",
+                        lg: "1.75rem",
+                        xl: "2rem",
+                      },
+                    }}
+                  >
                     صفحه کاربر
                   </Typography>
                 </Box>
               </Stack>
             </Box>
 
-            {/* بدنه اصلی */}
             <Box>
               <Paper
                 elevation={7}
@@ -156,7 +172,6 @@ export default function WorkoutPlan2() {
                 }}
               >
                 <Stack spacing={3}>
-                  {/* نوار عنوان */}
                   <Stack
                     direction="row"
                     justifyContent="space-between"
@@ -164,7 +179,19 @@ export default function WorkoutPlan2() {
                     sx={{ width: "100%" }}
                   >
                     <Stack direction="row" alignItems="center">
-                      <Typography variant="h6" fontWeight="bold">
+                      <Typography
+                        variant="h6"
+                        fontWeight="bold"
+                        sx={{
+                          fontSize: {
+                            xs: "1rem",
+                            sm: "1.1rem",
+                            md: "1.2rem",
+                            lg: "1.3rem",
+                            xl: "1.4rem",
+                          },
+                        }}
+                      >
                         دوره یک ماهه
                       </Typography>
                     </Stack>
@@ -177,7 +204,19 @@ export default function WorkoutPlan2() {
                         gap: 1.5,
                       }}
                     >
-                      <Typography variant="h6" color="text.secondary">
+                      <Typography
+                        variant="h6"
+                        color="text.secondary"
+                        sx={{
+                          fontSize: {
+                            xs: "0.85rem",
+                            sm: "0.9rem",
+                            md: "1rem",
+                            lg: "1.05rem",
+                            xl: "1.1rem",
+                          },
+                        }}
+                      >
                         بازگشت
                       </Typography>
                       <IconButton
@@ -186,6 +225,20 @@ export default function WorkoutPlan2() {
                           backgroundColor: "#f5f5f5",
                           color: "#333",
                           boxShadow: 2,
+                          width: {
+                            xs: 28,
+                            sm: 32,
+                            md: 36,
+                            lg: 40,
+                            xl: 44,
+                          },
+                          height: {
+                            xs: 28,
+                            sm: 32,
+                            md: 36,
+                            lg: 40,
+                            xl: 44,
+                          },
                           "&:hover": {
                             backgroundColor: "#e0e0e0",
                             transform: "scale(1.05)",
@@ -194,13 +247,13 @@ export default function WorkoutPlan2() {
                           transition: "all 0.3s",
                         }}
                       >
-                        <ArrowBackIosNewIcon fontSize="small" />
+                        <ArrowBackIosNewIcon fontSize="inherit" />
                       </IconButton>
                     </Box>
                   </Stack>
 
-                  {/* آکاردئون تمرینات */}
                   <Stack direction="column" spacing={3}>
+                    {/* آکاردئون‌ها */}
                     {dayPrograms.map((program, index) => (
                       <Accordion
                         key={index}
@@ -217,9 +270,7 @@ export default function WorkoutPlan2() {
                         }}
                       >
                         <AccordionSummary
-                          expandIcon={
-                            <ExpandMoreIcon sx={{ color: "primary.main" }} />
-                          }
+                          expandIcon={<ExpandMoreIcon sx={{ color: "primary.main" }} />}
                           sx={{
                             flexDirection: "row-reverse",
                             justifyContent: "space-between",
@@ -230,22 +281,25 @@ export default function WorkoutPlan2() {
                         >
                           <Typography
                             fontWeight="bold"
-                            fontSize="1.1rem"
+                            sx={{
+                              fontSize: {
+                                xs: "1rem",
+                                sm: "1.1rem",
+                                md: "1.2rem",
+                                lg: "1.25rem",
+                                xl: "1.3rem",
+                              },
+                            }}
                             color="text.primary"
                           >
                             {program.title}
                           </Typography>
                         </AccordionSummary>
 
-                        <AccordionDetails
-                          sx={{ bgcolor: "background.default", px: 3, py: 2 }}
-                        >
+                        <AccordionDetails sx={{ bgcolor: "background.default", px: 3, py: 2 }}>
                           <Stack spacing={4}>
                             {program.exercises.map((exercise, i) => (
-                              <Box
-                                key={i}
-                                sx={{ animation: "fadeIn 0.5s ease-in" }}
-                              >
+                              <Box key={i} sx={{ animation: "fadeIn 0.5s ease-in" }}>
                                 <Typography
                                   fontWeight="bold"
                                   gutterBottom
@@ -255,7 +309,13 @@ export default function WorkoutPlan2() {
                                     display: "flex",
                                     alignItems: "center",
                                     gap: 1,
-                                    fontSize: "1rem",
+                                    fontSize: {
+                                      xs: "0.85rem",
+                                      sm: "0.9rem",
+                                      md: "1rem",
+                                      lg: "1.05rem",
+                                      xl: "1.1rem",
+                                    },
                                     color: "primary.main",
                                     cursor: "pointer",
                                     transition: "0.2s ease",
@@ -272,17 +332,17 @@ export default function WorkoutPlan2() {
                                 <Box
                                   sx={{
                                     display: "flex",
-                                    justifyContent: "flex-start", // یا "center" بسته به سلیقه
-                                    gap: 2, // فاصله بین ست‌ها (8px * 2 = 16px)
-                                    flexWrap: "wrap", // اگر عرض صفحه کم شد، ست‌ها برن خط بعد
-                                    marginTop:3,
+                                    justifyContent: "flex-start",
+                                    gap: 2,
+                                    flexWrap: "wrap",
+                                    marginTop: 3,
                                   }}
                                 >
                                   {exercise.sets.map((set, j) => (
                                     <Box
                                       key={j}
                                       sx={{
-                                        width: 120, // عرض ثابت برای هر ست
+                                        width: {'xs':90,'md':120},
                                         borderRadius: 3,
                                         p: 2,
                                         textAlign: "center",
@@ -291,8 +351,7 @@ export default function WorkoutPlan2() {
                                         transition: "0.3s",
                                         "&:hover": {
                                           transform: "scale(1.05)",
-                                          boxShadow:
-                                            "0 4px 12px rgba(0,0,0,0.15)",
+                                          boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
                                         },
                                       }}
                                     >
@@ -300,21 +359,30 @@ export default function WorkoutPlan2() {
                                         variant="body2"
                                         fontWeight="bold"
                                         color="text.primary"
+                                        sx={{
+                                          fontSize: {
+                                            xs: "0.75rem",
+                                            sm: "0.8rem",
+                                            md: "0.9rem",
+                                            lg: "1rem",
+                                            xl: "1.05rem",
+                                          },
+                                        }}
                                       >
-                                        ست{" "}
-                                        {
-                                          [
-                                            "اول",
-                                            "دوم",
-                                            "سوم",
-                                            "چهارم",
-                                            "پنجم",
-                                          ][set.setNumber - 1]
-                                        }
+                                        ست {["اول", "دوم", "سوم", "چهارم", "پنجم"][set.setNumber - 1]}
                                       </Typography>
                                       <Typography
                                         variant="body2"
                                         color="text.secondary"
+                                        sx={{
+                                          fontSize: {
+                                            xs: "0.7rem",
+                                            sm: "0.75rem",
+                                            md: "0.85rem",
+                                            lg: "0.95rem",
+                                            xl: "1rem",
+                                          },
+                                        }}
                                       >
                                         {set.reps} تکرار
                                       </Typography>
