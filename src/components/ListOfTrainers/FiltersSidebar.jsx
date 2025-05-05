@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Box, Typography, Accordion, AccordionSummary, AccordionDetails, FormGroup, FormControlLabel, Checkbox, TextField, InputAdornment, Button } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMoreRounded";
 
-const CoachFilters = ({ filters, setFilters, onApply }) => {
+const CoachFilters = ({ filters, setFilters }) => {
   const filterOptions = {
     specialties: ["قدرتی", "هوازی", "کششی", "استقامتی"],
     experience: ["۱ تا ۳ سال", "۳ تا ۶ سال", "۶ تا ۱۰ سال", "بیشتر از ۱۰ سال"],
@@ -51,7 +51,6 @@ const CoachFilters = ({ filters, setFilters, onApply }) => {
       priceRange,
       availability
     });
-    onApply();
   };
 
   return (

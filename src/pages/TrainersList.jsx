@@ -6,7 +6,6 @@ import CoachCard from "../components/ListOfTrainers/CoachCard.jsx";
 import Navbar from "../components/home/NavbarCard";
 import Footer from "../components/Footer";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import SuccessModal from "../components/modals/SuccessfulModal";
 import ErrorModal from "../components/modals/ErrorModal";
@@ -34,7 +33,6 @@ const TrainersList = () => {
 
   //Fetch all coaches from backend
   const fetchAllCoaches = async (customFilter = filters) => {
-
     const convertExperience = (expLabel) => {
       const map = {
         "۱ تا ۳ سال": "1-3",
@@ -44,7 +42,6 @@ const TrainersList = () => {
       };
       return map[expLabel];
     };
-
     const convertRating = (ratingLabel) => {
       const englishNumber = ratingLabel.replace(/[۰-۹]/g, (d) => "0123456789"["۰۱۲۳۴۵۶۷۸۹".indexOf(d)]);
       return englishNumber.replace("+", "");
@@ -81,27 +78,18 @@ const TrainersList = () => {
     }
   };
   
-
-  // هر بار که فیلترها یا عبارت جستجو تغییر می‌کند، داده‌ها را مجدداً دریافت کنید
+  //If filters changed, fetch data again
   useEffect(() => {
     fetchAllCoaches();
   }, [filters, searchTerm]);
   
-  // هر بار که تمام مربیان یا صفحه فعلی تغییر کرد، لیست نمایش داده شده را به‌روز کنید
+  //If data changed, reload the pagination
   useEffect(() => {
     const lastCoachIndex = currentPage * CoachesPerPage;
     const firstCoachIndex = lastCoachIndex - CoachesPerPage;
     setDisplayedCoaches(allCoaches.slice(firstCoachIndex, lastCoachIndex));
   }, [allCoaches, currentPage]);
 
-  // تابع اعمال فیلترها
-  const applyFilters = () => {
-    // نیازی به فراخوانی fetchAllExercises() نیست چون useEffect آن را مدیریت می‌کند
-    // فقط صفحه به 1 بازمی‌گردد
-    setCurrentPage(1);
-  };
-
-  // تغییر صفحه
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
@@ -155,7 +143,7 @@ const TrainersList = () => {
         <Box sx={{display: "flex", flexDirection: isScreenBelow700 ? "column" : "row", gap: 5, alignItems: "flex-start"}}>
           {/*Filter*/}
           <Box sx={{width: isScreenBelow700 ? "100%" : "25%", minWidth: "240px", order: isScreenBelow700 ? 1 : 0}}>
-            <CoachFilters filters={filters} setFilters={setFilters} onApply={applyFilters} />
+            <CoachFilters filters={filters} setFilters={setFilters} />
           </Box>
 
           {/*Cards*/}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   Typography,
@@ -10,7 +10,7 @@ import {
   Checkbox,
   Button
 } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMoreRounded";
 
 const ExerciseFilters = ({ filters, setFilters, onApply }) => {
   const filterOptions = {
@@ -41,12 +41,12 @@ const ExerciseFilters = ({ filters, setFilters, onApply }) => {
       
       }}
     >
-      <Typography variant="h5" fontWeight="bold" mb={3} color={"black"}  textAlign="left" ml={2}   >
+      <Typography fontSize={24} fontWeight={500} mb={2} color={"black"}>
         فیلتر ها
       </Typography>
 
       {Object.entries(filterOptions).map(([key, options]) => (
-        <Accordion key={key} sx={{ mb: 1 }} >
+        <Accordion key={key} sx={{ mb: 1, boxShadow: "none" }} >
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography variant="subtitle1">
               {getFilterLabel(key)}
@@ -76,7 +76,7 @@ const ExerciseFilters = ({ filters, setFilters, onApply }) => {
         color="success"
         fullWidth
         onClick={onApply}
-        sx={{ mt: 3 ,backgroundColor:"#00A359"}}
+        sx={{ mt: 2 ,backgroundColor:"#00A359"}}
       >
         اعمال فیلتر
       </Button>
