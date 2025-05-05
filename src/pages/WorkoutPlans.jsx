@@ -10,11 +10,13 @@ import {
   Chip,
 } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
-import ClientSidebar from "../components/ClientSidebar";
+import ClientSidebar from "../components/ClientSidebar.jsx";
 import Vazneh from "../assets/imgs/home/vazneh.png";
 import Footer from "../components/Footer.jsx";
 import { AuthContext } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 
 const LogoImage = styled("img")(({ theme }) => ({
   height: "70px",
@@ -36,9 +38,29 @@ const statusColor = (status) => {
   }
 };
 
-export default function WorkoutPlan() {
+function toPersianDate(dateStr) {
+  const date = new Date(dateStr);
+  const formatter = new Intl.DateTimeFormat("fa-IR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    calendar: "persian",
+  });
+  return formatter.format(date);
+}
+
+
+export default function WorkoutPlans() {
   const { userInfo } = useContext(AuthContext);
   const [workoutPlans, setWorkoutPlans] = useState([]);
+
+  const navigate = useNavigate();
+
+  const handleShowWorkoutPlanClick = (id) => {
+    navigate("/workoutdetails", { state: { workoutId: id } });
+  };
+   
+  
 
   useEffect(() => {
     const fetchWorkoutPlans = async (access) => {
@@ -49,6 +71,7 @@ export default function WorkoutPlan() {
           },
         });
         setWorkoutPlans(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error('خطا در گرفتن workout plans:', error);
       }
@@ -160,7 +183,7 @@ export default function WorkoutPlan() {
                             },
                           }}
                         >
-                          (شروع از {program.created_at})
+                          (شروع از {toPersianDate(program.created_at)})
                         </Typography>
                       </Box>
                       <Chip
@@ -173,6 +196,7 @@ export default function WorkoutPlan() {
                         variant="contained"
                         color="success"
                         sx={{ borderRadius: 2 }}
+                        onClick={() => handleShowWorkoutPlanClick(program.id)}
                       >
                         مشاهده برنامه
                       </Button>

@@ -23,8 +23,8 @@ import ExerciseDetail from './pages/Exercise_Detail.jsx';
 import TrainerEditProfile from './pages/TrainerEditProfile.jsx';
 import TestResultPage from './pages/TestResultPage.jsx';
 import TrainerStudentsPage from './pages/TrainerStudentsPage.jsx';
-import WorkoutPlan from './pages/WorkoutPlan.jsx';
-import WorkoutPlan2 from './pages/workoutplan2.jsx';
+import WorkoutPlans from './pages/WorkoutPlans.jsx';
+import WorkoutDetails from './pages/WorkoutDetails.jsx';
 
 const theme = createTheme({
   direction: "rtl",
@@ -111,8 +111,8 @@ createRoot(document.getElementById('root')).render(
               <Route path="/trainereditprofile" element={<TrainerEditProfile />} />
               <Route path="/test_result" element={<TestResultPage />} />
               <Route path="/trainer_students" element={<TrainerStudentsPage />} />
-              <Route path="/workoutplan" element={<WorkoutPlan/>} />
-              <Route path="/workoutplan2" element={<WorkoutPlan2/>} />
+              <Route path="/workoutplans" element={<WorkoutPlans/>} />
+              <Route path="/workoutDetails" element={<WorkoutDetails/>} />
 
             </Routes>
           </AuthProvider>

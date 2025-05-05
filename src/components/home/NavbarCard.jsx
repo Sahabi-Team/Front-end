@@ -1,4 +1,4 @@
-import React, { useState, useEffect, } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import {
   AppBar,
   Toolbar,
@@ -30,6 +30,9 @@ import Vazneh from "../../assets/imgs/home/vazneh.png";
 // import { isUserLoggedIn } from "../../utils/auth.js";
 import AvatarBox from "./AvatarBox.jsx";
 import { useNavigate } from "react-router-dom"; // import useNavigate
+import { AuthContext } from "../../contexts/AuthContext.jsx";
+
+
 
 
 const TransparentAppBar = styled(AppBar, {
@@ -113,6 +116,8 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
   const [openProgramsMobile, setOpenProgramsMobile] = useState(false);
   const [openMovementsMobile, setOpenMovementsMobile] = useState(false);
 
+
+
   const navigate = useNavigate();
 
   const handleFreeTestClick = () => {
@@ -170,85 +175,88 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
     setOpenMovementsMobile(!openMovementsMobile);
   };
 
-  async function checkLoginStatus() {
-    const accessToken = localStorage.getItem("access_token");
-    const refreshToken = localStorage.getItem("refresh_token");
+  // async function checkLoginStatus() {
+  //   const accessToken = localStorage.getItem("access_token");
+  //   const refreshToken = localStorage.getItem("refresh_token");
 
-    console.log(accessToken)
+  //   console.log(accessToken)
 
-    // اگر توکنی نداریم یعنی لاگین نیست
-    if (!accessToken || !refreshToken) {
-      console.log("توکن وجود ندارد.");
-      return false;
-    }
+  //   // اگر توکنی نداریم یعنی لاگین نیست
+  //   if (!accessToken || !refreshToken) {
+  //     console.log("توکن وجود ندارد.");
+  //     return false;
+  //   }
 
-    // تابعی که درخواست بررسی لاگین رو با access token انجام می‌ده
-    const tryCheckLogin = async (token) => {
-      const response = await fetch("https://ighader.pythonanywhere.com/api/trainee/info/", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return response;
-    };
+  //   // تابعی که درخواست بررسی لاگین رو با access token انجام می‌ده
+  //   const tryCheckLogin = async (token) => {
+  //     const response = await fetch("http://84.234.29.28:8000/api/trainee/info/", {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     return response;
+  //   };
 
-    try {
-      // تلاش اول با access token
-      let response = await tryCheckLogin(accessToken);
+  //   try {
+  //     // تلاش اول با access token
+  //     let response = await tryCheckLogin(accessToken);
 
-      // اگر موفق بود (یعنی توکن معتبر بود)
-      if (response.ok) {
-        const data = await response.json();
-        console.log("کاربر لاگین است:", data.username);
-        return true;
-      }
+  //     // اگر موفق بود (یعنی توکن معتبر بود)
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       console.log("کاربر لاگین است:", data.username);
+  //       return true;
+  //     }
 
-      // اگر access token منقضی شده بود، تلاش برای refresh
-      if (response.status === 401) {
-        const refreshResponse = await fetch(
-          "https://ighader.pythonanywhere.com/api/auth/token/refresh/",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ refresh: refreshToken }),
-          }
-        );
+  //     // اگر access token منقضی شده بود، تلاش برای refresh
+  //     if (response.status === 401) {
+  //       const refreshResponse = await fetch(
+  //         "https://ighader.pythonanywhere.com/api/auth/token/refresh/",
+  //         {
+  //           method: "POST",
+  //           headers: { "Content-Type": "application/json" },
+  //           body: JSON.stringify({ refresh: refreshToken }),
+  //         }
+  //       );
 
-        if (refreshResponse.ok) {
-          const refreshData = await refreshResponse.json();
-          const newAccessToken = refreshData.access;
+  //       if (refreshResponse.ok) {
+  //         const refreshData = await refreshResponse.json();
+  //         const newAccessToken = refreshData.access;
 
-          // ذخیره توکن جدید
-          localStorage.setItem("accessToken", newAccessToken);
+  //         // ذخیره توکن جدید
+  //         localStorage.setItem("accessToken", newAccessToken);
 
-          // تلاش مجدد با توکن جدید
-          response = await tryCheckLogin(newAccessToken);
+  //         // تلاش مجدد با توکن جدید
+  //         response = await tryCheckLogin(newAccessToken);
 
-          if (response.ok) {
-            const data = await response.json();
-            console.log("کاربر لاگین است (بعد از رفرش):", data.username);
-            return true;
-          }
-        }
-      }
+  //         if (response.ok) {
+  //           const data = await response.json();
+  //           console.log("کاربر لاگین است (بعد از رفرش):", data.username);
+  //           return true;
+  //         }
+  //       }
+  //     }
 
-      // اگر به هر دلیل توکن معتبر نبود
-      console.log("کاربر لاگین نیست یا توکن منقضی شده.");
-      return false;
-    } catch (error) {
-      console.error("خطا در بررسی لاگین:", error);
-      return false;
-    }
-  }
+  //     // اگر به هر دلیل توکن معتبر نبود
+  //     console.log("کاربر لاگین نیست یا توکن منقضی شده.");
+  //     return false;
+  //   } catch (error) {
+  //     console.error("خطا در بررسی لاگین:", error);
+  //     return false;
+  //   }
+  // }
+   const { userInfo, logout } = useContext(AuthContext);
+
+
 
   const [isLoggedIn, setIsLoggedIn] = useState(null); // null یعنی هنوز چک نشده
 
   useEffect(() => {
     async function check() {
-      const status = await checkLoginStatus();
-      setIsLoggedIn(status);
+      // const status = userInfo;
+      setIsLoggedIn(userInfo? true : false);
     }
 
     check();

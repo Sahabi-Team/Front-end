@@ -1,4 +1,6 @@
 import React from "react";
+import {useContext,useState,useEffect} from "react";
+
 import {
   Box,
   Container,
@@ -22,6 +24,10 @@ import ClientSidebar from "../components/ClientSidebar";
 import Footer from "../components/Footer";
 import Vazneh from "../assets/imgs/home/vazneh.png";
 import { useTheme } from "@mui/material/styles";
+import { AuthContext } from '../contexts/AuthContext.jsx';
+import axios from 'axios';
+
+
 
 const LogoImage = styled("img")(({ theme }) => ({
   height: "70px",
@@ -96,9 +102,41 @@ const dayPrograms = [
   },
 ];
 
-export default function WorkoutPlan2() {
+export default function WorkoutDetails(workoutId) {
   const navigate = useNavigate();
   const theme = useTheme();
+  const { userInfo } = useContext(AuthContext);
+
+  const [workout, setWorkout] = useState(null);
+
+  let access_token = localStorage.getItem('access_token');
+  
+  useEffect(() => {
+    const fetchWorkout = async () => {
+      try {
+        const response = await axios.get(
+          `http://84.234.29.28:8000/api/workout/workout-plans/${workoutId}/`,
+          // `http://84.234.29.28:8000/api/workout/workout-plans?id=${workoutId}`,
+
+          {
+            headers: {
+              Authorization: `Bearer ${access_token}`,
+              Accept: "application/json",
+            },
+            withCredentials: true,
+          }
+        );
+        setWorkout(response.data);
+        console.log("setted");
+      } catch (error) {
+        console.error("خطا در دریافت اطلاعات برنامه:", error);
+      }
+    };
+
+    if (workoutId && userInfo) {
+      fetchWorkout();
+    }
+  }, [userInfo, workoutId]);
 
   const handleBackClick = () => {
     navigate("/exercises");
@@ -270,7 +308,9 @@ export default function WorkoutPlan2() {
                         }}
                       >
                         <AccordionSummary
-                          expandIcon={<ExpandMoreIcon sx={{ color: "primary.main" }} />}
+                          expandIcon={
+                            <ExpandMoreIcon sx={{ color: "primary.main" }} />
+                          }
                           sx={{
                             flexDirection: "row-reverse",
                             justifyContent: "space-between",
@@ -296,10 +336,15 @@ export default function WorkoutPlan2() {
                           </Typography>
                         </AccordionSummary>
 
-                        <AccordionDetails sx={{ bgcolor: "background.default", px: 3, py: 2 }}>
+                        <AccordionDetails
+                          sx={{ bgcolor: "background.default", px: 3, py: 2 }}
+                        >
                           <Stack spacing={4}>
                             {program.exercises.map((exercise, i) => (
-                              <Box key={i} sx={{ animation: "fadeIn 0.5s ease-in" }}>
+                              <Box
+                                key={i}
+                                sx={{ animation: "fadeIn 0.5s ease-in" }}
+                              >
                                 <Typography
                                   fontWeight="bold"
                                   gutterBottom
@@ -342,7 +387,7 @@ export default function WorkoutPlan2() {
                                     <Box
                                       key={j}
                                       sx={{
-                                        width: {'xs':90,'md':120},
+                                        width: { xs: 90, md: 120 },
                                         borderRadius: 3,
                                         p: 2,
                                         textAlign: "center",
@@ -351,7 +396,8 @@ export default function WorkoutPlan2() {
                                         transition: "0.3s",
                                         "&:hover": {
                                           transform: "scale(1.05)",
-                                          boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                                          boxShadow:
+                                            "0 4px 12px rgba(0,0,0,0.15)",
                                         },
                                       }}
                                     >
@@ -369,7 +415,16 @@ export default function WorkoutPlan2() {
                                           },
                                         }}
                                       >
-                                        ست {["اول", "دوم", "سوم", "چهارم", "پنجم"][set.setNumber - 1]}
+                                        ست{" "}
+                                        {
+                                          [
+                                            "اول",
+                                            "دوم",
+                                            "سوم",
+                                            "چهارم",
+                                            "پنجم",
+                                          ][set.setNumber - 1]
+                                        }
                                       </Typography>
                                       <Typography
                                         variant="body2"
