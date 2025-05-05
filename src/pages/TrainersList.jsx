@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Container, Typography, Grid, Stack, Pagination, useMediaQuery, useTheme, CssBaseline  } from "@mui/material";
+import { Box, Container, Typography, Grid, Pagination, useMediaQuery, CssBaseline  } from "@mui/material";
 import SearchBar from "../components/ListOfTrainers/SearchBar";
 import CoachFilters from "../components/ListOfTrainers/FiltersSidebar";
 import CoachCard from "../components/ListOfTrainers/CoachCard.jsx";
@@ -13,13 +13,16 @@ import ErrorModal from "../components/modals/ErrorModal";
 
 
 const TrainersList = () => {
-  const [allCoaches, setAllCoaches] = useState([]); // تمام تمرینات دریافت شده از بک‌اند
-  const [displayedCoaches, setDisplayedCoaches] = useState([]); // تمرینات نمایش داده شده در صفحه فعلی
+  const [allCoaches, setAllCoaches] = useState([]);
+  const [displayedCoaches, setDisplayedCoaches] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const navigate = useNavigate();
   const [openSuccessModal, setOpenSuccessModal] = useState(false);
   const [openErrorModal, setOpenErrorModal] = useState(false);
+  const navigate = useNavigate();
+  //For Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const CoachesPerPage = 10;
   
   const [filters, setFilters] = useState({
     specialties: [],
@@ -29,28 +32,7 @@ const TrainersList = () => {
     availability: "all",
   });
 
-  // حالت صفحه‌بندی
-  const [currentPage, setCurrentPage] = useState(1);
-  const CoachesPerPage = 10;
-
-  const location = useLocation();
-  useEffect(() => {
-    if (location.state?.muscle) {
-      const muscleFromNav = location.state.muscle;
-      const newFilters = {
-        ...filters,
-        muscles: [muscleFromNav],
-      };
-      setFilters(newFilters);
-      fetchAllCoaches(newFilters);
-  
-      // پاک کردن state برای جلوگیری از اجرای دوباره
-      navigate(location.pathname, { replace: true });
-    }
-  }, [location.state]);
-
-
-  // دریافت تمام مربی ها از بک‌اند
+  //Fetch all coaches from backend
   const fetchAllCoaches = async (customFilter = filters) => {
 
     const convertExperience = (expLabel) => {
@@ -112,11 +94,6 @@ const TrainersList = () => {
     setDisplayedCoaches(allCoaches.slice(firstCoachIndex, lastCoachIndex));
   }, [allCoaches, currentPage]);
 
-  // تابع جستجو
-  // const handleSearchResults = (term) => {
-  //   setSearchTerm(term);
-  // };
-
   // تابع اعمال فیلترها
   const applyFilters = () => {
     // نیازی به فراخوانی fetchAllExercises() نیست چون useEffect آن را مدیریت می‌کند
@@ -155,7 +132,6 @@ const TrainersList = () => {
         }
       );
       setOpenSuccessModal(true);
-      console.log("سفارش با موفقیت ثبت شد:", response.data);
     }
     catch (error) {
       setOpenErrorModal(true);
@@ -171,7 +147,7 @@ const TrainersList = () => {
     <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column"}}>
       <Navbar />
       <CssBaseline enableColorScheme />
-      <Container maxWidth="lg" sx={{flexGrow: 1, mt: 6, p: 6}}>
+      <Container maxWidth="lg" sx={{flexGrow: 1, mt: 6, p: 10}}>
         <Typography fontSize={32} mb={4}>
           بیا بهترین مربی رو انتخاب کنیم!
         </Typography>
@@ -192,13 +168,27 @@ const TrainersList = () => {
               </Typography>
             ) : (
               <Grid container spacing={2}>
-                {allCoaches.map((coach, index) => (
+                {displayedCoaches.map((coach, index) => (
                   <Grid item xs={12} sm={isScreenBelow1050 ? 12 : 6} key={index}>
                     <CoachCard coach={coach} onViewProfile={handleViewProfile} onOrder={handleOrder} />
                   </Grid>
                 ))}
               </Grid>
             )}
+
+            <Pagination
+              count={Math.ceil(allCoaches.length / CoachesPerPage)}
+              page={currentPage}
+              onChange={handlePageChange}
+              sx={{
+                justifyItems: "center",
+                mt: 6,
+                '& .MuiPaginationItem-root': {
+                  color: '#00A359',
+                  '&.Mui-selected': {backgroundColor: '#00A359', color: 'white'}
+                }
+              }}
+            />
           </Box>
         </Box>
 
