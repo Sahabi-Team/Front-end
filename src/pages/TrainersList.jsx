@@ -8,6 +8,8 @@ import Footer from "../components/Footer";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import SuccessModal from "../components/modals/SuccessfulModal";
+import ErrorModal from "../components/modals/ErrorModal";
 
 
 const TrainersList = () => {
@@ -16,6 +18,8 @@ const TrainersList = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
+  const [openSuccessModal, setOpenSuccessModal] = useState(false);
+  const [openErrorModal, setOpenErrorModal] = useState(false);
   
   const [filters, setFilters] = useState({
     specialties: [],
@@ -134,6 +138,7 @@ const TrainersList = () => {
     try {
       const token = localStorage.getItem("access_token");
       if (!token) {
+        setOpenErrorModal(true);
         console.error("کاربر وارد نشده است.");
         return;
       }
@@ -149,9 +154,11 @@ const TrainersList = () => {
           },
         }
       );
+      setOpenSuccessModal(true);
       console.log("سفارش با موفقیت ثبت شد:", response.data);
     }
     catch (error) {
+      setOpenErrorModal(true);
       console.error("خطا در ثبت سفارش:", error);
     }
   };
@@ -195,6 +202,8 @@ const TrainersList = () => {
           </Box>
         </Box>
 
+        <SuccessModal open={openSuccessModal} onClose={() => {setOpenSuccessModal(false); navigate("/");}} successMessage="سفارش شما با موفقیت ثبت شد." />
+        <ErrorModal open={openErrorModal} onClose={() => {setOpenErrorModal(false); navigate("/signin");}} errorMessage="سفارش شما ثبت نشد! لطفا ابتدا وارد حساب کاربری خود شوید!" />
       </Container>
       <Footer />
     </Box>
