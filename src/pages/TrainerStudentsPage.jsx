@@ -247,7 +247,8 @@ const TrainerStudentsPage = () => {
                               bgcolor: student.status === "تکمیل شده" ? "#e8f5e9" : "#fff8e1",
                               color: student.status === "تکمیل شده" ? "#2e7d32" : "#f57c00",
                               borderRadius: 2,
-                              fontSize: '0.75rem'
+                              fontSize: '0.75rem',
+                              alignSelf: 'flex-start'
                             }}
                           />
                         </Box>
