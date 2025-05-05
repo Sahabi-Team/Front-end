@@ -3,7 +3,7 @@ import { Container, Box, Typography } from "@mui/material";
 import CssBaseline from '@mui/material/CssBaseline';
 import AccordionItem from "../components/FAQ/Accordion";
 import FAQ_Image from "../assets/imgs/FAQ.png";
-import Navbar from "../components/Navbar"
+import Navbar from "../components/home/NavbarCard";
 import Footer from "../components/Footer";
 
 const Questions = [
@@ -23,7 +23,7 @@ function FAQPage() {
     <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column"}}>
       <Navbar />
       <CssBaseline enableColorScheme />
-      <Container maxWidth="md" sx={{flexGrow: 1, mt: 3, p: 6, background: "#FFFFFF"}}>
+      <Container maxWidth="md" sx={{flexGrow: 1, mt: 8, pt: 5, pb: 8, background: "#FFFFFF"}}>
         <img src={FAQ_Image} alt="FAQ_Image" style={{maxWidth: "100%", height: "auto"}} />
         <Typography fontSize={40} fontWeight={700} m={3}>سوالی داری؟</Typography>
         {Questions.map((faq, index) => (
