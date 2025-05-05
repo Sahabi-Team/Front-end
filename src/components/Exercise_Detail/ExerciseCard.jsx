@@ -21,7 +21,7 @@
 //     const fetchExercise = async () => {
 //       try {
 //         const res = await fetch(
-//           `https://ighader.pythonanywhere.com/api/exercises/exercises/${exerciseId}/`,
+//           `https://http://84.234.29.28:8000/api/exercises/exercises/${exerciseId}/`,
 //           {
 //             headers: {
 //               accept: "application/json",
@@ -220,7 +220,7 @@ const ExerciseCard = ({ exerciseId }) => {
     const fetchExercise = async () => {
       try {
         const res = await fetch(
-          `https://ighader.pythonanywhere.com/api/exercises/exercises/${exerciseId}/`,
+          `http://84.234.29.28:8000/api/exercises/exercises/${exerciseId}/`,
           {
             headers: {
               accept: "application/json",

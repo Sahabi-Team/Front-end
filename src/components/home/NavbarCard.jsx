@@ -184,7 +184,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
 
     // تابعی که درخواست بررسی لاگین رو با access token انجام می‌ده
     const tryCheckLogin = async (token) => {
-      const response = await fetch("https://ighader.pythonanywhere.com/api/trainee/info/", {
+      const response = await fetch("http://84.234.29.28:8000/api/trainee/info/", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -208,7 +208,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
       // اگر access token منقضی شده بود، تلاش برای refresh
       if (response.status === 401) {
         const refreshResponse = await fetch(
-          "https://ighader.pythonanywhere.com/api/auth/token/refresh/",
+          "http://84.234.29.28:8000/api/auth/token/refresh/",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
