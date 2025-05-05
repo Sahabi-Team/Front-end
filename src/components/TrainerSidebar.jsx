@@ -41,7 +41,7 @@ const Sidebar = () => {
                 >
                     {/* Sidebar items list */}
                     <List sx={{ color: "black", width: "100%",top:"70px"  }}>
-                        <ListItem button component={Link} to="/" sx={{color: "#00A359" }}>
+                        <ListItem button component={Link} to="/trainer_students" sx={{color: "#00A359" }}>
                             <ListItemIcon sx={{ minWidth: "40px", marginLeft: isHovered ? "8px" : "0",marginBottom:"10px" }}><Home /></ListItemIcon>
                             {isHovered && <ListItemText primary="صفحه اصلی" sx={{ color: "black", }} />}
                         </ListItem>
