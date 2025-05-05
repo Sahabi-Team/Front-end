@@ -76,7 +76,7 @@ const TestResultPage = () => {
         });
 
         // Fetch test data
-        const testResponse = await api.get('https://ighader.pythonanywhere.com/api/tests/my-tests/');
+        const testResponse = await api.get('http://84.234.29.28:8000/api/tests/my-tests/');
         if (testResponse.data && testResponse.data.length > 0) {
           setTestData(testResponse.data[0]);
         } else {
@@ -84,7 +84,7 @@ const TestResultPage = () => {
         }
 
         // Fetch member count
-        const memberResponse = await axios.get('https://ighader.pythonanywhere.com/api/analytics/total-clients/');
+        const memberResponse = await axios.get('http://84.234.29.28:8000/api/analytics/total-clients/');
         setMemberCount(memberResponse.data.total_clients || 0);
 
         setLoading(false);

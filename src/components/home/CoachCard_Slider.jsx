@@ -30,7 +30,7 @@ export default function CoachSlider() {
 
   // داده‌ها رو از API می‌گیریم
   useEffect(() => {
-    fetch("https://ighader.pythonanywhere.com/api/trainer/trainers/filter/")
+    fetch("http://84.234.29.28:8000/api/trainer/trainers/filter/")
       .then((res) => res.json())
       .then((data) => {
         const formatted = data.map((item) => ({

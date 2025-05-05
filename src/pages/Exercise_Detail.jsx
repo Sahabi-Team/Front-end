@@ -24,7 +24,7 @@ export default function Exercise_Detail() {
     const fetchExercise = async () => {
       try {
         const res = await fetch(
-          `https://ighader.pythonanywhere.com/api/exercises/exercises/${id}/`,
+          `http://84.234.29.28:8000/api/exercises/exercises/${id}/`,
           {
             headers: {
               accept: "application/json",
