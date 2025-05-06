@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   AppBar,
   Toolbar,
@@ -10,7 +10,6 @@ import {
   Typography,
   Divider,
   useMediaQuery,
-  
   useTheme,
   IconButton,
   Drawer,
@@ -19,6 +18,8 @@ import {
   ListItemText,
   Collapse,
   Stack,
+  Grow,
+  Fade,
 } from "@mui/material";
 import {
   KeyboardArrowDown,
@@ -31,9 +32,6 @@ import Vazneh from "../../assets/imgs/home/vazneh.png";
 import AvatarBox from "./AvatarBox.jsx";
 import { useNavigate } from "react-router-dom"; // import useNavigate
 import { AuthContext } from "../../contexts/AuthContext.jsx";
-
-
-
 
 const TransparentAppBar = styled(AppBar, {
   shouldForwardProp: (prop) =>
@@ -116,8 +114,6 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
   const [openProgramsMobile, setOpenProgramsMobile] = useState(false);
   const [openMovementsMobile, setOpenMovementsMobile] = useState(false);
 
-
-
   const navigate = useNavigate();
 
   const handleFreeTestClick = () => {
@@ -129,8 +125,8 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
   };
 
   const handlefaqclick = () => {
-    navigate("/faq");
-  }
+    navigate("/FAQ");
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -154,11 +150,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
   };
 
   const handleMenuItemClick = (sectionId) => {
-    // const element = document.getElementById(sectionId);
-    // if (element) {
-    //   element.scrollIntoView({ behavior: "smooth" });
-    // }
-    if(sectionId=="faq")navigate("faq/");
+    if (sectionId == "FAQ") navigate("FAQ/");
     handleCloseMenu();
     setMobileOpen(false);
   };
@@ -175,93 +167,28 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
     setOpenMovementsMobile(!openMovementsMobile);
   };
 
-  // async function checkLoginStatus() {
-  //   const accessToken = localStorage.getItem("access_token");
-  //   const refreshToken = localStorage.getItem("refresh_token");
+  const { userInfo, logout } = useContext(AuthContext);
 
-  //   console.log(accessToken)
-
-  //   // اگر توکنی نداریم یعنی لاگین نیست
-  //   if (!accessToken || !refreshToken) {
-  //     console.log("توکن وجود ندارد.");
-  //     return false;
-  //   }
-
-  //   // تابعی که درخواست بررسی لاگین رو با access token انجام می‌ده
-  //   const tryCheckLogin = async (token) => {
-  //     const response = await fetch("http://84.234.29.28:8000/api/trainee/info/", {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-  //     return response;
-  //   };
-
-  //   try {
-  //     // تلاش اول با access token
-  //     let response = await tryCheckLogin(accessToken);
-
-  //     // اگر موفق بود (یعنی توکن معتبر بود)
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       console.log("کاربر لاگین است:", data.username);
-  //       return true;
-  //     }
-
-  //     // اگر access token منقضی شده بود، تلاش برای refresh
-  //     if (response.status === 401) {
-  //       const refreshResponse = await fetch(
-  //         "https://ighader.pythonanywhere.com/api/auth/token/refresh/",
-  //         {
-  //           method: "POST",
-  //           headers: { "Content-Type": "application/json" },
-  //           body: JSON.stringify({ refresh: refreshToken }),
-  //         }
-  //       );
-
-  //       if (refreshResponse.ok) {
-  //         const refreshData = await refreshResponse.json();
-  //         const newAccessToken = refreshData.access;
-
-  //         // ذخیره توکن جدید
-  //         localStorage.setItem("accessToken", newAccessToken);
-
-  //         // تلاش مجدد با توکن جدید
-  //         response = await tryCheckLogin(newAccessToken);
-
-  //         if (response.ok) {
-  //           const data = await response.json();
-  //           console.log("کاربر لاگین است (بعد از رفرش):", data.username);
-  //           return true;
-  //         }
-  //       }
-  //     }
-
-  //     // اگر به هر دلیل توکن معتبر نبود
-  //     console.log("کاربر لاگین نیست یا توکن منقضی شده.");
-  //     return false;
-  //   } catch (error) {
-  //     console.error("خطا در بررسی لاگین:", error);
-  //     return false;
-  //   }
-  // }
-   const { userInfo, logout } = useContext(AuthContext);
-
-
-
-  const [isLoggedIn, setIsLoggedIn] = useState(null); // null یعنی هنوز چک نشده
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
 
   useEffect(() => {
     async function check() {
-      // const status = userInfo;
-      setIsLoggedIn(userInfo? true : false);
+      setIsLoggedIn(userInfo ? true : false);
     }
 
     check();
   }, []);
 
+  const fontSizeResponsive = {
+    fontSize: {
+      xs: "0.70rem",
+      sm: "0.75rem",
+      md: "0.87rem",
+      lg: "1rem",
+      xl: "1.12rem",
+    },
+  };
+  
   const drawer = (
     <Box sx={{ width: 250, padding: 2 }}>
       <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
@@ -269,112 +196,98 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
       </Box>
       <List>
         <ListItem button onClick={() => handleMenuItemClick("coaches")}>
-          <ListItemText primary="لیست مربی ها" />
+          <ListItemText
+            primary={<Typography sx={fontSizeResponsive}>لیست مربی ها</Typography>}
+          />
         </ListItem>
-        <ListItem button onClick={() => handleMenuItemClick("faq")}>
-          <ListItemText primary="سوالات متداول" />
+        <ListItem button onClick={() => handleMenuItemClick("FAQ")}>
+          <ListItemText
+            primary={<Typography sx={fontSizeResponsive}>سوالات متداول</Typography>}
+          />
         </ListItem>
         <ListItem button onClick={handleProgramsMobileClick}>
-          <ListItemText primary="برنامه‌های ورزشی" />
+          <ListItemText
+            primary={<Typography sx={fontSizeResponsive}>برنامه‌های ورزشی</Typography>}
+          />
           {openProgramsMobile ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
-        <Collapse in={openProgramsMobile} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <ListItem
-              button
-              sx={{ pl: 4 }}
-              onClick={() => handleMenuItemClick("diet")}
-            >
-              <ListItemText primary="برنامه غذایی" />
-            </ListItem>
-            <ListItem
-              button
-              sx={{ pl: 4 }}
-              onClick={() => handleMenuItemClick("abs")}
-            >
-              <ListItemText primary="برنامه شکم و پهلو" />
-            </ListItem>
-            <ListItem
-              button
-              sx={{ pl: 4 }}
-              onClick={() => handleMenuItemClick("custom")}
-            >
-              <ListItemText primary="برنامه اختصاصی" />
-            </ListItem>
-          </List>
-        </Collapse>
+        <Fade in={openProgramsMobile}>
+          <Collapse in={openProgramsMobile} timeout={400} unmountOnExit>
+            <List component="div" disablePadding>
+              {["diet", "abs", "custom"].map((item, index) => (
+                <ListItem
+                  button
+                  sx={{ pl: 4, transition: "all 0.3s" }}
+                  key={item}
+                  onClick={() => handleMenuItemClick(item)}
+                >
+                  <ListItemText
+                    primary={
+                      <Typography sx={fontSizeResponsive}>
+                        {item === "diet"
+                          ? "برنامه غذایی"
+                          : item === "abs"
+                          ? "برنامه شکم و پهلو"
+                          : "برنامه اختصاصی"}
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+              ))}
+            </List>
+          </Collapse>
+        </Fade>
         <ListItem button onClick={handleMovementsMobileClick}>
-          <ListItemText primary="بانک حرکات ورزشی" />
+          <ListItemText
+            primary={<Typography sx={fontSizeResponsive}>بانک حرکات ورزشی</Typography>}
+          />
           {openMovementsMobile ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
-        <Collapse in={openMovementsMobile} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <ListItem
-              button
-              sx={{ pl: 4 }}
-              onClick={() => handleMenuItemClick("chest")}
-            >
-              <ListItemText primary="حرکات سینه" />
-            </ListItem>
-            <ListItem
-              button
-              sx={{ pl: 4 }}
-              onClick={() => handleMenuItemClick("abs-exercises")}
-            >
-              <ListItemText primary="حرکات شکم و پهلو" />
-            </ListItem>
-            <ListItem
-              button
-              sx={{ pl: 4 }}
-              onClick={() => handleMenuItemClick("legs")}
-            >
-              <ListItemText primary="حرکات پا" />
-            </ListItem>
-            <ListItem
-              button
-              sx={{ pl: 4 }}
-              onClick={() => handleMenuItemClick("shoulders")}
-            >
-              <ListItemText primary="حرکات سرشانه" />
-            </ListItem>
-          </List>
-        </Collapse>
+        <Fade in={openMovementsMobile}>
+          <Collapse in={openMovementsMobile} timeout={400} unmountOnExit>
+            <List component="div" disablePadding>
+              {[
+                { key: "chest", label: "حرکات سینه" },
+                { key: "abs-exercises", label: "حرکات شکم و پهلو" },
+                { key: "legs", label: "حرکات پا" },
+                { key: "shoulders", label: "حرکات سرشانه" },
+              ].map(({ key, label }) => (
+                <ListItem
+                  button
+                  sx={{ pl: 4, transition: "all 0.3s" }}
+                  key={key}
+                  onClick={() => handleMenuItemClick(key)}
+                >
+                  <ListItemText
+                    primary={<Typography sx={fontSizeResponsive}>{label}</Typography>}
+                  />
+                </ListItem>
+              ))}
+            </List>
+          </Collapse>
+        </Fade>
       </List>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 1, mt: 2 }}>
-        <Box>
-          {/* <GradientButton variant="contained">تست رایگان</GradientButton> */}
-          {/* {console.log(checkLoginStatus())} */}
-          {/* {isLoggedIn ? (
-            <AvatarBox />
-          ) : ( */}
-            {/* // <div>salam</div> */}
-            {/* <OutlineButton variant="outlined">ورود</OutlineButton> */}
-          {/* )} */}
-        </Box>
-      </Box>
     </Box>
   );
-
+  
   return (
     <>
-      <TransparentAppBar
-        isScrolled={isScrolled}
-        showInitialBorder={showInitialBorder}
-      >
+      <TransparentAppBar isScrolled={isScrolled} showInitialBorder={showInitialBorder}>
         <Toolbar sx={{ justifyContent: "space-between" }}>
           <LogoImage src={Vazneh} alt="لوگو وزنه" />
           {isMobile ? (
             <>
               <Box sx={{ display: "flex", alignItems: "center", ml: "5rem" }}>
-                <Stack direction={"row"}>
-                  <GradientButton variant="contained" onClick={handleFreeTestClick}>
+                <Stack direction="row">
+                  <GradientButton variant="contained" onClick={handleFreeTestClick} sx={fontSizeResponsive}>
                     تست رایگان
                   </GradientButton>
                   {isLoggedIn ? (
                     <AvatarBox />
                   ) : (
-                    // <div>salam</div>
-                    <OutlineButton variant="outlined" onClick={handlesigninclick}>ورود</OutlineButton>
+                    <OutlineButton variant="outlined" onClick={handlesigninclick} sx={fontSizeResponsive}>
+                      ورود
+                    </OutlineButton>
                   )}
                 </Stack>
               </Box>
@@ -398,14 +311,14 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
                   alignItems: "center",
                 }}
               >
-                <CustomTextButton
-                  onClick={() => handleMenuItemClick("coaches")}
-                >
+                <CustomTextButton onClick={() => handleMenuItemClick("coaches")} sx={fontSizeResponsive}>
                   لیست مربی ها
                 </CustomTextButton>
-                <CustomTextButton onClick={() => handleMenuItemClick("faq")}>
+                <CustomTextButton onClick={() => handleMenuItemClick("FAQ")} sx={fontSizeResponsive}>
                   سوالات متداول
                 </CustomTextButton>
+  
+                {/* --- منوی برنامه‌ها --- */}
                 <Box>
                   <Button
                     endIcon={<KeyboardArrowDown />}
@@ -414,6 +327,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
                       color: "black",
                       fontWeight: "bold",
                       "&:hover": { backgroundColor: "rgba(0,0,0,0.05)" },
+                      ...fontSizeResponsive,
                     }}
                   >
                     برنامه‌های ورزشی
@@ -422,29 +336,38 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
                     anchorEl={anchorElPrograms}
                     open={Boolean(anchorElPrograms)}
                     onClose={handleCloseMenu}
+                    TransitionComponent={Grow}
                     anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                     transformOrigin={{ vertical: "top", horizontal: "right" }}
                     PaperProps={{
                       sx: {
                         mt: 1,
                         borderRadius: "12px",
-                        boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
+                        boxShadow: "0px 6px 24px rgba(0, 0, 0, 0.12)",
                         direction: "rtl",
+                        minWidth: 180,
                       },
                     }}
                   >
-                    <MenuItem onClick={() => handleMenuItemClick("diet")}>
-                      <Typography width="100%">برنامه غذایی</Typography>
-                    </MenuItem>
-                    <MenuItem onClick={() => handleMenuItemClick("abs")}>
-                      <Typography width="100%">برنامه شکم و پهلو</Typography>
-                    </MenuItem>
-                    <Divider />
-                    <MenuItem onClick={() => handleMenuItemClick("custom")}>
-                      <Typography width="100%">برنامه اختصاصی</Typography>
-                    </MenuItem>
+                    {[
+                      { key: "diet", label: "برنامه غذایی" },
+                      { key: "abs", label: "برنامه شکم و پهلو" },
+                      { key: "custom", label: "برنامه اختصاصی" },
+                    ].map(({ key, label }) => (
+                      <MenuItem
+                        key={key}
+                        onClick={() => handleMenuItemClick(key)}
+                        sx={{ transition: "all 0.2s", "&:hover": { backgroundColor: "#f5f5f5" } }}
+                      >
+                        <Typography sx={fontSizeResponsive} width="100%">
+                          {label}
+                        </Typography>
+                      </MenuItem>
+                    ))}
                   </Menu>
                 </Box>
+  
+                {/* --- منوی حرکات --- */}
                 <Box>
                   <Button
                     endIcon={<KeyboardArrowDown />}
@@ -453,6 +376,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
                       color: "black",
                       fontWeight: "bold",
                       "&:hover": { backgroundColor: "rgba(0,0,0,0.05)" },
+                      ...fontSizeResponsive,
                     }}
                   >
                     بانک حرکات ورزشی
@@ -461,49 +385,58 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
                     anchorEl={anchorElMovements}
                     open={Boolean(anchorElMovements)}
                     onClose={handleCloseMenu}
+                    TransitionComponent={Grow}
                     anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                     transformOrigin={{ vertical: "top", horizontal: "right" }}
                     PaperProps={{
                       sx: {
                         mt: 1,
                         borderRadius: "12px",
-                        boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
+                        boxShadow: "0px 6px 24px rgba(0, 0, 0, 0.12)",
                         direction: "rtl",
+                        minWidth: 180,
                       },
                     }}
                   >
-                    <MenuItem onClick={() => handleMenuItemClick("chest")}>
-                      <Typography width="100%">حرکات سینه</Typography>
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => handleMenuItemClick("abs-exercises")}
-                    >
-                      <Typography width="100%">حرکات شکم و پهلو</Typography>
-                    </MenuItem>
-                    <MenuItem onClick={() => handleMenuItemClick("legs")}>
-                      <Typography width="100%">حرکات پا</Typography>
-                    </MenuItem>
-                    <MenuItem onClick={() => handleMenuItemClick("shoulders")}>
-                      <Typography width="100%">حرکات سرشانه</Typography>
-                    </MenuItem>
+                    {[
+                      { key: "chest", label: "حرکات سینه" },
+                      { key: "abs-exercises", label: "حرکات شکم و پهلو" },
+                      { key: "legs", label: "حرکات پا" },
+                      { key: "shoulders", label: "حرکات سرشانه" },
+                    ].map(({ key, label }) => (
+                      <MenuItem
+                        key={key}
+                        onClick={() => handleMenuItemClick(key)}
+                        sx={{ transition: "all 0.2s", "&:hover": { backgroundColor: "#f5f5f5" } }}
+                      >
+                        <Typography sx={fontSizeResponsive} width="100%">
+                          {label}
+                        </Typography>
+                      </MenuItem>
+                    ))}
                   </Menu>
                 </Box>
               </Box>
-              <Stack direction={"row"}>
-                <GradientButton variant="contained" onClick={handleFreeTestClick}>تست رایگان</GradientButton>
+  
+              {/* دکمه‌ها */}
+              <Stack direction="row">
+                <GradientButton variant="contained" onClick={handleFreeTestClick} sx={fontSizeResponsive}>
+                  تست رایگان
+                </GradientButton>
                 {isLoggedIn ? (
                   <AvatarBox />
                 ) : (
-                  // <div>salam</div>
-                  <OutlineButton variant="outlined" onClick={handlesigninclick}>ورود</OutlineButton>
+                  <OutlineButton variant="outlined" onClick={handlesigninclick} sx={fontSizeResponsive}>
+                    ورود
+                  </OutlineButton>
                 )}
               </Stack>
             </>
           )}
         </Toolbar>
       </TransparentAppBar>
-
-      {/* دراور موبایل */}
+  
+      {/* Drawer موبایل */}
       <Box component="nav">
         <Drawer
           variant="temporary"
@@ -521,6 +454,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
       </Box>
     </>
   );
+  
 };
 
 export default BeautifulAppBar;
