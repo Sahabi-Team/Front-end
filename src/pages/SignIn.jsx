@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Stack from "@mui/material/Stack";
 import SignInCard from "../components/signin/SignInCard";
@@ -7,8 +7,17 @@ import { Box, Container, Paper } from "@mui/material";
 import NavBar from "../components/home/NavbarCard";
 // import Container from '@mui/material/Container';
 import Footer from "../components/Footer";
+import { AuthContext } from "../contexts/AuthContext";
 
 export default function Sign_in(props) {
+
+    const { userInfo, logout } = useContext(AuthContext);
+  
+    if(userInfo){
+      window.location.href = "/";
+
+    }
+else
   return (
     <>
       {/* <NavBar /> */}

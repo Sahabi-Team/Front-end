@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import MuiCard from "@mui/material/Card";
@@ -25,6 +25,9 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
 import SuccessfulModal from "../modals/SuccessfulModal";
 import HomeIcon from '@mui/icons-material/Home';
+import { AuthContext } from "../../contexts/AuthContext";
+
+
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -51,6 +54,8 @@ export default function SignInCard() {
   const [rememberMe, setRememberMe] = React.useState(false);
   const [successmessage, setSuccessMessage] = React.useState("");
   const [opensuccessfulmodal, setOpenSuccessfulModal] = React.useState(false);
+  const { userInfo, logout } = useContext(AuthContext);
+  
 
   const navigate = useNavigate();
 
@@ -85,8 +90,8 @@ export default function SignInCard() {
 
       localStorage.setItem("access_token",  response.data.tokens.access);
       localStorage.setItem("refresh_token", response.data.tokens.refresh);
-    
-      navigate("/");
+      window.location.href = "/";
+      
 
       // ذخیره اطلاعات ورود در localStorage اگر "مرا به خاطر بسپار" فعال باشد
       if (rememberMe) {
@@ -180,8 +185,9 @@ export default function SignInCard() {
   const handleHomeClick = () => {
     navigate('/'); // تغییر مسیر به صفحه اصلی
   };
-
-  return (
+  
+  
+  return (   
     <>
    
     <Card
