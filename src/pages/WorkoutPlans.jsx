@@ -8,6 +8,8 @@ import {
   Button,
   Typography,
   Chip,
+  CircularProgress,
+  Fade,
 } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import ClientSidebar from "../components/ClientSidebar.jsx";
@@ -17,13 +19,12 @@ import { AuthContext } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-
 const LogoImage = styled("img")(({ theme }) => ({
   height: "70px",
   width: "auto",
   marginRight: theme.spacing(2),
   [theme.breakpoints.down("sm")]: {
-    height: "30px",
+    height: "50px",
   },
 }));
 
@@ -49,18 +50,17 @@ function toPersianDate(dateStr) {
   return formatter.format(date);
 }
 
-
 export default function WorkoutPlans() {
   const { userInfo } = useContext(AuthContext);
   const [workoutPlans, setWorkoutPlans] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadingVisible, setLoadingVisible] = useState(true);
 
   const navigate = useNavigate();
 
-  const handleShowWorkoutPlanClick = (id) => {
-    navigate("/workoutdetails", { state: { workoutId: id } });
+  const handleShowWorkoutPlanClick = (workoutId) => {
+    navigate(`/workoutDetails/${workoutId}`);
   };
-   
-  
 
   useEffect(() => {
     const fetchWorkoutPlans = async (access) => {
@@ -71,16 +71,52 @@ export default function WorkoutPlans() {
           },
         });
         setWorkoutPlans(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error('خطا در گرفتن workout plans:', error);
+      } finally {
+        setLoading(false);
+        setTimeout(() => setLoadingVisible(false), 800); // برای انیمیشن Fade
       }
     };
+
     let access_token = localStorage.getItem("access_token");
     if (access_token) {
       fetchWorkoutPlans(access_token);
+    } else {
+      setLoading(false);
+      setTimeout(() => setLoadingVisible(false), 800);
     }
   }, [userInfo]);
+
+  if (loading) {
+    return (
+      <Fade in={loadingVisible} timeout={800}>
+        <Box
+          sx={{
+            height: "100vh",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            backdropFilter: "blur(12px)",
+            background: "rgba(255, 255, 255, 0.1)",
+            boxShadow: "inset 0 0 80px rgba(0,0,0,0.1)",
+            textAlign: "center",
+          }}
+        >
+          <CircularProgress size={70} thickness={4.5} color="primary" />
+          <Typography
+            variant="h6"
+            mt={4}
+            fontWeight="600"
+            color="text.primary"
+          >
+            در حال بارگذاری برنامه ورزشی شما...
+          </Typography>
+        </Box>
+      </Fade>
+    );
+  }
 
   return (
     <>
@@ -94,8 +130,9 @@ export default function WorkoutPlans() {
         <Box
           sx={{
             width: { xs: "87.67%", sm: "89.67%", md: "75.67%", lg: "82.67%", xl: "86.67%" },
-            marginLeft: { xs: 8, md: 28.9 },
-            padding: 8,
+            marginLeft: { xs: 7.5, md: 25.9 },
+            padding: 2,
+            marginTop: 3,
           }}
         >
           <Stack direction={"column"}>
@@ -104,7 +141,7 @@ export default function WorkoutPlans() {
                 direction="row"
                 justifyContent="space-between"
                 alignItems="center"
-                sx={{ direction: "rtl", p: 2.5 }}
+                sx={{ direction: "rtl", pl: { sm: 2.5, lg: 1.5, xl: 9.5 }, pr: { sm: 2.5, lg: 1.5, xl: 9.5 } }}
               >
                 <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
                   <LogoImage src={Vazneh} alt="لوگو وزنه" />
@@ -132,13 +169,13 @@ export default function WorkoutPlans() {
               <Paper
                 elevation={7}
                 sx={{
-                  p: 2,
+                  p: 1,
                   borderRadius: 4,
                   maxWidth: 1300,
-                  height: 1200,
+                  height: "80vh",
+                  maxHeight: "80vh",
                   mx: "auto",
                   mt: 0,
-                  maxHeight: "70vh",
                   overflowY: "auto",
                 }}
               >
@@ -154,6 +191,7 @@ export default function WorkoutPlans() {
                         bgcolor: "#f9f9f9",
                         borderRadius: 2,
                         boxShadow: 1,
+                        gap: 1
                       }}
                     >
                       <Box sx={{ textAlign: "left" }}>
@@ -190,13 +228,28 @@ export default function WorkoutPlans() {
                         label={program.status}
                         color={statusColor(program.status)}
                         variant="filled"
-                        sx={{ minWidth: 80 }}
+                        sx={{
+                          fontSize: {
+                            xs: "0.5rem",
+                            sm: "0.8rem",
+                            md: "0.9rem",
+                            lg: "1rem",
+                          },
+                        }}
                       />
                       <Button
                         variant="contained"
                         color="success"
-                        sx={{ borderRadius: 2 }}
-                        onClick={() => handleShowWorkoutPlanClick(program.id)}
+                        sx={{
+                          borderRadius: 2,
+                          fontSize: {
+                            xs: "0.7rem",
+                            sm: "0.8rem",
+                            md: "0.9rem",
+                            lg: "1rem",
+                          },
+                        }}
+                        onClick={() => { handleShowWorkoutPlanClick(program.id) }}
                       >
                         مشاهده برنامه
                       </Button>

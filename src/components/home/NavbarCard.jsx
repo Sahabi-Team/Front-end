@@ -97,11 +97,11 @@ const OutlineButton = styled(Button)(({ theme }) => ({
 }));
 
 const LogoImage = styled("img")(({ theme }) => ({
-  height: "60px",
+  height: "50px",
   width: "auto",
   marginRight: theme.spacing(2),
   [theme.breakpoints.down("sm")]: {
-    height: "35px",
+    height: "40px",
   },
 }));
 
@@ -335,7 +335,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
         </Collapse>
       </List>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 1, mt: 2 }}>
-        <GradientButton variant="contained">تست رایگان</GradientButton>
+        <GradientButton variant="contained" onClick={handleFreeTestClick}>تست رایگان</GradientButton>
         {!isLoggedIn ?  (
                     <OutlineButton variant="outlined" onClick={handlesigninclick} sx={fontSizeResponsive}>
                       ورود

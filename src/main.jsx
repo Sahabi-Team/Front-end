@@ -114,7 +114,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="/test_result" element={<TestResultPage />} />
               <Route path="/trainer_students" element={<TrainerStudentsPage />} />
               <Route path="/workoutplans" element={<WorkoutPlans/>} />
-              <Route path="/workoutDetails" element={<WorkoutDetails/>} />
+              <Route path="/workoutDetails/:workoutId" element={<WorkoutDetails/>} />
               <Route path="/notifications" element={<NotificationsList />} />
               <Route path="/trainers" element={<TrainersList />} />
 
