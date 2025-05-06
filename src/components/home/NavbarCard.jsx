@@ -152,7 +152,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
   };
 
   const handleMenuItemClick = (sectionId) => {
-    if (sectionId == "FAQ") navigate("FAQ/");
+    if (sectionId == "FAQ") navigate("/FAQ");
     else if (sectionId == "coaches") navigate("/trainers");
     handleCloseMenu();
     setMobileOpen(false);

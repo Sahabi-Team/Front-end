@@ -61,6 +61,342 @@ const dayPrograms = [
           { setNumber: 3, reps: 12 },
         ],
       },
+      {
+        id: "2",
+        name: "پشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "dsfپشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "dscdپشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "dsvcsdپشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 10 },
+        ],
+      },
+    ],
+  },
+  {
+    title: "برنامه روز سوم",
+    exercises: [
+      {
+        id: "2",
+        name: "پشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "پشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "dsfپشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "dscdپشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "dsvcsdپشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 10 },
+        ],
+      },
+    ],
+  },
+  {
+    title: "برنامه روز چهارم",
+    exercises: [
+      {
+        id: "2",
+        name: "پشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "پشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "dsfپشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "dscdپشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "dsvcsdپشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 10 },
+        ],
+      },
+    ],
+  },
+  {
+    title: "برنامه روز پنجم",
+    exercises: [
+      {
+        id: "2",
+        name: "پشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "پشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "dsfپشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "dscdپشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "dsvcsdپشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 10 },
+        ],
+      },
+    ],
+  },
+  {
+    title: "برنامه روز ششم",
+    exercises: [
+      {
+        id: "2",
+        name: "پشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "پشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "dsfپشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "dscdپشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "dsvcsdپشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 10 },
+        ],
+      },
+    ],
+  },
+  {
+    title: "برنامه روز هفتم",
+    exercises: [
+      {
+        id: "2",
+        name: "پشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "پشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "dsfپشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "dscdپشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "dsvcsdپشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 10 },
+        ],
+      },
+    ],
+  },
+  {
+    title: "برنامه روز هشتم",
+    exercises: [
+      {
+        id: "2",
+        name: "پشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "پشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "dsfپشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "dscdپشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 12 },
+        ],
+      },
+      {
+        id: "2",
+        name: "dsvcsdپشت پا دستگاه",
+        sets: [
+          { setNumber: 1, reps: 12 },
+          { setNumber: 2, reps: 12 },
+          { setNumber: 3, reps: 10 },
+        ],
+      },
     ],
   },
 ];
@@ -150,13 +486,13 @@ export default function WorkoutDetails() {
         </Box>
         <Box
           sx={{
-            width: {
-              xs: "87.67%",
-              sm: "89.67%",
-              md: "78.67%",
-              lg: "82.67%",
-              xl: "86.67%",
-            },
+            // width: {
+            //   xs: "87.67%",
+            //   sm: "89.67%",
+            //   md: "78.67%",
+            //   lg: "82.67%",
+            //   xl: "86.67%",
+            // },
             width: { xs: "87.67%", sm: "89.67%", md: "75.67%", lg: "82.67%", xl: "86.67%" },
             marginLeft: { xs: 7.5, md: 25.9 },
             padding: 2,

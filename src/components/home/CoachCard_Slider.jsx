@@ -34,12 +34,12 @@ export default function CoachSlider() {
       .then((res) => res.json())
       .then((data) => {
         const formatted = data.map((item) => ({
-          name: item.name,
-          specialty: item.expertise,
-          experience: item.experience_years,
-          price: 0, // اگر از API نیومده، مقدار پیش‌فرض
+          name: item.user.name,
+          specialty: item.specialties,
+          experience: item.experience,
+          price: item.price, // اگر از API نیومده، مقدار پیش‌فرض
           rating: item.rating,
-          image: item.profile_picture || null, // پیش‌فرض در صورت نبودن عکس
+          image: item.user.profile_picture || null, // پیش‌فرض در صورت نبودن عکس
         }));
         setCoaches(formatted);
         setLoading(false);
