@@ -76,6 +76,8 @@ const GradientButton = styled(Button)(({ theme }) => ({
   },
 }));
 
+
+
 const OutlineButton = styled(Button)(({ theme }) => ({
   border: "2px solid #4CAF50",
   color: "#4CAF50",
@@ -95,11 +97,11 @@ const OutlineButton = styled(Button)(({ theme }) => ({
 }));
 
 const LogoImage = styled("img")(({ theme }) => ({
-  height: "40px",
+  height: "60px",
   width: "auto",
   marginRight: theme.spacing(2),
   [theme.breakpoints.down("sm")]: {
-    height: "30px",
+    height: "35px",
   },
 }));
 
@@ -151,7 +153,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
 
   const handleMenuItemClick = (sectionId) => {
     if (sectionId == "FAQ") navigate("FAQ/");
-    else if(sectionId == "coaches") navigate("/trainers");
+    else if (sectionId == "coaches") navigate("/trainers");
     handleCloseMenu();
     setMobileOpen(false);
   };
@@ -182,14 +184,106 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
 
   const fontSizeResponsive = {
     fontSize: {
-      xs: "0.70rem",
+      xs: "0.5rem",
       sm: "0.75rem",
       md: "0.87rem",
       lg: "1rem",
       xl: "1.12rem",
     },
   };
-  
+
+  // const drawer = (
+  //   <Box sx={{ width: 250, padding: 2 }}>
+  //     <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
+  //       <LogoImage src={Vazneh} alt="لوگو وزنه" />
+  //     </Box>
+  //     <List>
+  //       <ListItem button onClick={() => handleMenuItemClick("coaches")}>
+  //         <ListItemText
+  //           primary={
+  //             <Typography sx={fontSizeResponsive}>لیست مربی ها</Typography>
+  //           }
+  //         />
+  //       </ListItem>
+  //       <ListItem button onClick={() => handleMenuItemClick("FAQ")}>
+  //         <ListItemText
+  //           primary={
+  //             <Typography sx={fontSizeResponsive}>سوالات متداول</Typography>
+  //           }
+  //         />
+  //       </ListItem>
+  //       <ListItem button onClick={handleProgramsMobileClick}>
+  //         <ListItemText
+  //           primary={
+  //             <Typography sx={fontSizeResponsive}>برنامه‌های ورزشی</Typography>
+  //           }
+  //         />
+  //         {openProgramsMobile ? <ExpandLess /> : <ExpandMore />}
+  //       </ListItem>
+  //       <Fade in={openProgramsMobile}>
+  //         <Collapse in={openProgramsMobile} timeout={400} unmountOnExit>
+  //           <List component="div" disablePadding>
+  //             {["diet", "abs", "custom"].map((item, index) => (
+  //               <ListItem
+  //                 button
+  //                 sx={{ pl: 4, transition: "all 0.3s" }}
+  //                 key={item}
+  //                 onClick={() => handleMenuItemClick(item)}
+  //               >
+  //                 <ListItemText
+  //                   primary={
+  //                     <Typography sx={fontSizeResponsive}>
+  //                       {item === "diet"
+  //                         ? "برنامه غذایی"
+  //                         : item === "abs"
+  //                         ? "برنامه شکم و پهلو"
+  //                         : "برنامه اختصاصی"}
+  //                     </Typography>
+  //                   }
+  //                 />
+  //               </ListItem>
+  //             ))}
+  //           </List>
+  //         </Collapse>
+  //       </Fade>
+  //       <ListItem button onClick={handleMovementsMobileClick}>
+  //         <ListItemText
+  //           primary={
+  //             <Typography sx={fontSizeResponsive}>بانک حرکات ورزشی</Typography>
+  //           }
+  //         />
+  //         {openMovementsMobile ? <ExpandLess /> : <ExpandMore />}
+  //       </ListItem>
+  //       <Fade in={openMovementsMobile}>
+  //         <Collapse in={openMovementsMobile} timeout={400} unmountOnExit>
+  //           <List component="div" disablePadding>
+  //             {[
+  //               { key: "chest", label: "حرکات سینه" },
+  //               { key: "abs-exercises", label: "حرکات شکم و پهلو" },
+  //               { key: "legs", label: "حرکات پا" },
+  //               { key: "shoulders", label: "حرکات سرشانه" },
+  //             ].map(({ key, label }) => (
+  //               <ListItem
+  //                 button
+  //                 sx={{ pl: 4, transition: "all 0.3s" }}
+  //                 key={key}
+  //                 onClick={() => handleMenuItemClick(key)}
+  //               >
+  //                 <ListItemText
+  //                   primary={
+  //                     <Typography sx={fontSizeResponsive}>{label}</Typography>
+  //                   }
+  //                 />
+  //               </ListItem>
+  //             ))}
+  //           </List>
+  //         </Collapse>
+  //       </Fade>
+  //     </List>
+  //   </Box>
+  // );
+
+
   const drawer = (
     <Box sx={{ width: 250, padding: 2 }}>
       <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
@@ -197,100 +291,87 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
       </Box>
       <List>
         <ListItem button onClick={() => handleMenuItemClick("coaches")}>
-          <ListItemText
-            primary={<Typography sx={fontSizeResponsive}>لیست مربی ها</Typography>}
-          />
+          <ListItemText primary="لیست مربی ها" />
         </ListItem>
-        <ListItem button onClick={() => handleMenuItemClick("FAQ")}>
-          <ListItemText
-            primary={<Typography sx={fontSizeResponsive}>سوالات متداول</Typography>}
-          />
+        <ListItem button onClick={() => handleMenuItemClick("faq")}>
+          <ListItemText primary="سوالات متداول" />
         </ListItem>
         <ListItem button onClick={handleProgramsMobileClick}>
-          <ListItemText
-            primary={<Typography sx={fontSizeResponsive}>برنامه‌های ورزشی</Typography>}
-          />
+          <ListItemText primary="برنامه‌های ورزشی" />
           {openProgramsMobile ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
-        <Fade in={openProgramsMobile}>
-          <Collapse in={openProgramsMobile} timeout={400} unmountOnExit>
-            <List component="div" disablePadding>
-              {["diet", "abs", "custom"].map((item, index) => (
-                <ListItem
-                  button
-                  sx={{ pl: 4, transition: "all 0.3s" }}
-                  key={item}
-                  onClick={() => handleMenuItemClick(item)}
-                >
-                  <ListItemText
-                    primary={
-                      <Typography sx={fontSizeResponsive}>
-                        {item === "diet"
-                          ? "برنامه غذایی"
-                          : item === "abs"
-                          ? "برنامه شکم و پهلو"
-                          : "برنامه اختصاصی"}
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-              ))}
-            </List>
-          </Collapse>
-        </Fade>
+        <Collapse in={openProgramsMobile} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("diet")}>
+              <ListItemText primary="برنامه غذایی" />
+            </ListItem>
+            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("abs")}>
+              <ListItemText primary="برنامه شکم و پهلو" />
+            </ListItem>
+            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("custom")}>
+              <ListItemText primary="برنامه اختصاصی" />
+            </ListItem>
+          </List>
+        </Collapse>
         <ListItem button onClick={handleMovementsMobileClick}>
-          <ListItemText
-            primary={<Typography sx={fontSizeResponsive}>بانک حرکات ورزشی</Typography>}
-          />
+          <ListItemText primary="بانک حرکات ورزشی" />
           {openMovementsMobile ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
-        <Fade in={openMovementsMobile}>
-          <Collapse in={openMovementsMobile} timeout={400} unmountOnExit>
-            <List component="div" disablePadding>
-              {[
-                { key: "chest", label: "حرکات سینه" },
-                { key: "abs-exercises", label: "حرکات شکم و پهلو" },
-                { key: "legs", label: "حرکات پا" },
-                { key: "shoulders", label: "حرکات سرشانه" },
-              ].map(({ key, label }) => (
-                <ListItem
-                  button
-                  sx={{ pl: 4, transition: "all 0.3s" }}
-                  key={key}
-                  onClick={() => handleMenuItemClick(key)}
-                >
-                  <ListItemText
-                    primary={<Typography sx={fontSizeResponsive}>{label}</Typography>}
-                  />
-                </ListItem>
-              ))}
-            </List>
-          </Collapse>
-        </Fade>
+        <Collapse in={openMovementsMobile} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("chest")}>
+              <ListItemText primary="حرکات سینه" />
+            </ListItem>
+            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("abs-exercises")}>
+              <ListItemText primary="حرکات شکم و پهلو" />
+            </ListItem>
+            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("legs")}>
+              <ListItemText primary="حرکات پا" />
+            </ListItem>
+            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("shoulders")}>
+              <ListItemText primary="حرکات سرشانه" />
+            </ListItem>
+          </List>
+        </Collapse>
       </List>
-    </Box>
-  );
-  
-  return (
-    <>
-      <TransparentAppBar isScrolled={isScrolled} showInitialBorder={showInitialBorder}>
-        <Toolbar sx={{ justifyContent: "space-between" }}>
-          <LogoImage src={Vazneh} alt="لوگو وزنه" />
-          {isMobile ? (
-            <>
-              <Box sx={{ display: "flex", alignItems: "center", ml: "5rem" }}>
-                <Stack direction="row">
-                  <GradientButton variant="contained" onClick={handleFreeTestClick} sx={fontSizeResponsive}>
-                    تست رایگان
-                  </GradientButton>
-                  {isLoggedIn ? (
-                    <AvatarBox />
-                  ) : (
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 1, mt: 2 }}>
+        <GradientButton variant="contained">تست رایگان</GradientButton>
+        {!isLoggedIn ?  (
                     <OutlineButton variant="outlined" onClick={handlesigninclick} sx={fontSizeResponsive}>
                       ورود
                     </OutlineButton>
+                  ):(<></>)}
+      </Box>
+    </Box>
+  );
+
+  return (
+    <>
+      <TransparentAppBar
+        isScrolled={isScrolled}
+        showInitialBorder={showInitialBorder}
+      >
+        
+        <Toolbar sx={{ justifyContent: "space-between"}}>
+          {/* <LogoImage src={Vazneh} alt="لوگو وزنه" /> */}
+          {isMobile ? (
+            <>
+              
+              <Box sx={{ display: "flex", alignItems: "center", ml: "5rem", gap:1}}>
+              <LogoImage src={Vazneh} alt="لوگو وزنه" />
+                <Stack direction="row" >
+                   
+                  {isLoggedIn ? (
+                    <AvatarBox />
+                  ) : (
+                    // <OutlineButton variant="outlined" onClick={handlesigninclick} sx={fontSizeResponsive}>
+                    //   ورود
+                    // </OutlineButton>
+                    <GradientButton variant="contained" onClick={handleFreeTestClick} sx={fontSizeResponsive}>
+                    تست رایگان
+                  </GradientButton> 
                   )}
-                </Stack>
+                </Stack> 
               </Box>
               <IconButton
                 color="inherit"
@@ -304,6 +385,8 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
             </>
           ) : (
             <>
+              <LogoImage src={Vazneh} alt="لوگو وزنه" />
+
               <Box
                 sx={{
                   display: "flex",
@@ -312,13 +395,19 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
                   alignItems: "center",
                 }}
               >
-                <CustomTextButton onClick={() => handleMenuItemClick("coaches")} sx={fontSizeResponsive}>
+                <CustomTextButton
+                  onClick={() => handleMenuItemClick("coaches")}
+                  sx={fontSizeResponsive}
+                >
                   لیست مربی ها
                 </CustomTextButton>
-                <CustomTextButton onClick={() => handleMenuItemClick("FAQ")} sx={fontSizeResponsive}>
+                <CustomTextButton
+                  onClick={() => handleMenuItemClick("FAQ")}
+                  sx={fontSizeResponsive}
+                >
                   سوالات متداول
                 </CustomTextButton>
-  
+
                 {/* --- منوی برنامه‌ها --- */}
                 <Box>
                   <Button
@@ -358,7 +447,10 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
                       <MenuItem
                         key={key}
                         onClick={() => handleMenuItemClick(key)}
-                        sx={{ transition: "all 0.2s", "&:hover": { backgroundColor: "#f5f5f5" } }}
+                        sx={{
+                          transition: "all 0.2s",
+                          "&:hover": { backgroundColor: "#f5f5f5" },
+                        }}
                       >
                         <Typography sx={fontSizeResponsive} width="100%">
                           {label}
@@ -367,7 +459,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
                     ))}
                   </Menu>
                 </Box>
-  
+
                 {/* --- منوی حرکات --- */}
                 <Box>
                   <Button
@@ -408,7 +500,10 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
                       <MenuItem
                         key={key}
                         onClick={() => handleMenuItemClick(key)}
-                        sx={{ transition: "all 0.2s", "&:hover": { backgroundColor: "#f5f5f5" } }}
+                        sx={{
+                          transition: "all 0.2s",
+                          "&:hover": { backgroundColor: "#f5f5f5" },
+                        }}
                       >
                         <Typography sx={fontSizeResponsive} width="100%">
                           {label}
@@ -418,16 +513,24 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
                   </Menu>
                 </Box>
               </Box>
-  
+
               {/* دکمه‌ها */}
               <Stack direction="row">
-                <GradientButton variant="contained" onClick={handleFreeTestClick} sx={fontSizeResponsive}>
+                <GradientButton
+                  variant="contained"
+                  onClick={handleFreeTestClick}
+                  sx={fontSizeResponsive}
+                >
                   تست رایگان
                 </GradientButton>
                 {isLoggedIn ? (
                   <AvatarBox />
                 ) : (
-                  <OutlineButton variant="outlined" onClick={handlesigninclick} sx={fontSizeResponsive}>
+                  <OutlineButton
+                    variant="outlined"
+                    onClick={handlesigninclick}
+                    sx={fontSizeResponsive}
+                  >
                     ورود
                   </OutlineButton>
                 )}
@@ -436,7 +539,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
           )}
         </Toolbar>
       </TransparentAppBar>
-  
+
       {/* Drawer موبایل */}
       <Box component="nav">
         <Drawer
@@ -455,7 +558,6 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
       </Box>
     </>
   );
-  
 };
 
 export default BeautifulAppBar;

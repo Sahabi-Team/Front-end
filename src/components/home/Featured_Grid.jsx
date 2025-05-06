@@ -24,19 +24,44 @@ const features = [
   },
 ];
 
+const responsiveFontSize = {
+  fontSize: {
+    xs: "1.5rem",
+    sm: "1.7rem",
+    md: "2.1rem",
+    lg: "2.3rem",
+  },
+};
+const responsiveFontSize2 = {
+  fontSize: {
+    xs: "1.3rem",
+    sm: "1.5rem",
+    md: "1.9rem",
+    lg: "1.9rem",
+  },
+};
+
 const OrangeBar = ({ position, alignFarRight = false }) => {
   let top = "0";
-  if (position === "middle") top = "50%";
-  if (position === "bottom") top = "100%";
+  let circleTop = "-6px"; // موقعیت پیش‌فرض برای دایره
+
+  if (position === "middle") {
+    top = "50%";
+    circleTop = "calc(50% - 7px)";
+  }
+  if (position === "bottom") {
+    top = "100%";
+    circleTop = "calc(100% - 14px)";
+  }
 
   return (
     <Box
       sx={{
         width: "4px",
-        height: "100px",
+        height: 200,
         bgcolor: "orange",
         position: "absolute",
-        right: alignFarRight ? "-780" : "-16px",
+        right: alignFarRight ? "-780" : "-10px",
         top,
         transform:
           position === "middle"
@@ -55,7 +80,7 @@ const OrangeBar = ({ position, alignFarRight = false }) => {
           borderRadius: "50%",
           position: "absolute",
           right: "-5px",
-          top: "-6px",
+          top: circleTop,
         }}
       />
     </Box>
@@ -91,7 +116,7 @@ const FeatureBlock = ({ title, text, image, index }) => {
         alignItems: "center",
         justifyContent: "center",
         px: { xs: 2, md: 6 },
-        py: 6,
+        py: 1.5, // کاهش بیشتر فاصله عمودی بین بلاک‌ها
         textAlign: "center",
         position: "relative",
       }}
@@ -103,8 +128,8 @@ const FeatureBlock = ({ title, text, image, index }) => {
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
         sx={{
-          width: { xs: "100%", md: "45%" }, // عرض را افزایش دادم
-          mb: { xs: 4, md: 0 },
+          width: { xs: "100%", md: "45%" },
+          mb: { xs: 3, md: 0 },
           p: 2,
         }}
       >
@@ -113,8 +138,8 @@ const FeatureBlock = ({ title, text, image, index }) => {
           alt={title}
           style={{
             width: "100%",
-            maxWidth: "500px", // افزایش بیشتر سایز تصویر (از 400px به 500px)
-            maxHeight: "450px", // افزایش بیشتر سایز تصویر (از 350px به 450px)
+            maxWidth: "500px",
+            maxHeight: "450px",
             objectFit: "contain",
             margin: "0 auto",
             display: "block",
@@ -139,13 +164,17 @@ const FeatureBlock = ({ title, text, image, index }) => {
           variant="h5"
           fontWeight={700}
           gutterBottom
-          sx={{ fontSize: "1.5rem" }}
+          sx={{ ...responsiveFontSize}}
         >
           {title}
         </Typography>
         <Typography
           id={`typewriter-${index}`}
-          sx={{ mt: 2, fontSize: "1.1rem", lineHeight: 2.2 }}
+          sx={{
+            mt: 2,
+            lineHeight: 2.2,
+           ...responsiveFontSize2, 
+          }}
         ></Typography>
       </Box>
     </Box>
@@ -154,10 +183,13 @@ const FeatureBlock = ({ title, text, image, index }) => {
 
 export default function FeaturesSection() {
   return (
-    <Box sx={{ py: 6 }}>
+    <Box sx={{ py: 1.5 }}>
       {features.map((item, idx) => (
-        <FeatureBlock key={idx} index={idx} {...item} />
+        
+      
+         <FeatureBlock key={idx} index={idx} {...item} />
+       
       ))}
     </Box>
   );
-};
+}

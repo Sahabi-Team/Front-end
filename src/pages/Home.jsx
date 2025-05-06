@@ -20,6 +20,7 @@ import CommentCard from "../components/home/CommentCard";
 import SiteComments from "../components/home/SiteComments";
 import Footer from "../components/Footer";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const FullListButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
@@ -33,14 +34,40 @@ const FullListButton = styled(Button)(({ theme }) => ({
 }));
 
 const CoachListButton = () => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/trainers"); // آدرس مورد نظر برای مسیردهی
+  };
+
   return (
-    <FullListButton variant="contained" sx={{ ml: 2 }}>
+    <Button
+      variant="contained"
+      onClick={handleClick}
+      sx={{
+        ml: 2,
+        fontSize: {
+          xs: "0.87rem",
+          sm: "0.87rem",
+          md: "1.2rem",
+        },
+        px: {
+          xs: 2,
+          sm: 3,
+          md: 4,
+        },
+        py: {
+          xs: 0.8,
+          sm: 1,
+          md: 1.2,
+        },
+        borderRadius: 2,
+      }}
+    >
       مشاهده لیست کامل مربی‌ها
-    </FullListButton>
+    </Button>
   );
 };
-
-
 
 const AnimatedCounter = ({ end, duration = 2 }) => {
   // محاسبه گام و مدت زمان بر اساس مقدار نهایی
@@ -112,20 +139,25 @@ export default function Home() {
   const [total_trainers, setNum2] = useState(null);
   const [total_wp, setNum3] = useState(null);
   const [loading, setLoading] = useState(true);
+ 
+  // this font size is for stat part
+  const responsiveFontSize = {
+    fontSize: {
+      xs: "1.4rem",
+      sm: "1.6rem",
+      md: "1.8rem",
+      lg: "2rem",
+    },
+  };
+
   // useState
   useEffect(() => {
     const fetchNumbers = async () => {
       try {
         const [res1, res2, res3] = await Promise.all([
-          fetch(
-            "http://84.234.29.28:8000/api/analytics/total-clients/"
-          ),
-          fetch(
-            "http://84.234.29.28:8000/api/analytics/total-trainers/"
-          ),
-          fetch(
-            "http://84.234.29.28:8000/api/analytics/total-workout-plans/"
-          ),
+          fetch("http://84.234.29.28:8000/api/analytics/total-clients/"),
+          fetch("http://84.234.29.28:8000/api/analytics/total-trainers/"),
+          fetch("http://84.234.29.28:8000/api/analytics/total-workout-plans/"),
         ]);
 
         const [data1, data2, data3] = await Promise.all([
@@ -146,8 +178,6 @@ export default function Home() {
 
     fetchNumbers();
   }, []);
-
-
 
   return (
     <Box>
@@ -218,7 +248,7 @@ export default function Home() {
           height: "4px",
           width: "40%",
           ml: "30%",
-          mt: 45,
+          mt: 37,
           backgroundImage:
             "linear-gradient(to right, transparent, #009e57, #009e57, #009e57, transparent)",
           borderRadius: "3px",
@@ -229,7 +259,7 @@ export default function Home() {
       {/* Stats Section */}
       <Box
         sx={{
-          mt: "7rem",
+          mt: "3rem",
           px: 2,
           display: "flex",
           justifyContent: "center",
@@ -260,7 +290,7 @@ export default function Home() {
               sx={{
                 fontWeight: "bold",
                 mb: 1,
-                fontSize: { xs: "1.5rem", sm: "2.2rem" },
+                ...responsiveFontSize,
               }}
             >
               <AnimatedCounter end={total_wp} duration={5} />
@@ -270,7 +300,7 @@ export default function Home() {
                 variant="body2"
                 sx={{
                   color: "text.secondary",
-                  fontSize: { xs: "0.9rem", sm: "1rem" },
+                  ...responsiveFontSize,
                 }}
               >
                 برنامه نوشته شده
@@ -278,7 +308,7 @@ export default function Home() {
               <FitnessCenterIcon
                 sx={{
                   color: "success.light",
-                  fontSize: "1.2rem",
+                  ...responsiveFontSize,
                   mr: 1,
                 }}
               />
@@ -299,7 +329,7 @@ export default function Home() {
               sx={{
                 fontWeight: "bold",
                 mb: 1,
-                fontSize: { xs: "1.5rem", sm: "2.2rem" },
+                ...responsiveFontSize,
               }}
             >
               <AnimatedCounter end={total_clients} duration={10} />
@@ -309,7 +339,7 @@ export default function Home() {
                 variant="body2"
                 sx={{
                   color: "text.secondary",
-                  fontSize: { xs: "0.9rem", sm: "1rem" },
+                  ...responsiveFontSize,
                 }}
               >
                 کاربر
@@ -317,7 +347,7 @@ export default function Home() {
               <PersonIcon
                 sx={{
                   color: "info.main",
-                  fontSize: "1.2rem",
+                  ...responsiveFontSize,
                   mr: 1,
                 }}
               />
@@ -338,7 +368,7 @@ export default function Home() {
               sx={{
                 fontWeight: "bold",
                 mb: 1,
-                fontSize: { xs: "1.5rem", sm: "2.2rem" },
+                ...responsiveFontSize,
               }}
             >
               <AnimatedCounter end={total_trainers} duration={5} />
@@ -348,7 +378,7 @@ export default function Home() {
                 variant="body2"
                 sx={{
                   color: "text.secondary",
-                  fontSize: { xs: "0.9rem", sm: "1rem" },
+                  ...responsiveFontSize,
                 }}
               >
                 مربی آماده
@@ -356,7 +386,7 @@ export default function Home() {
               <StarBorderIcon
                 sx={{
                   color: "warning.main",
-                  fontSize: "1.2rem",
+                  ...responsiveFontSize,
                   mr: 1,
                 }}
               />
@@ -369,7 +399,7 @@ export default function Home() {
         sx={{
           display: "flex",
           justifyContent: "center",
-          marginTop: { xs: "10%", sm: "10%", md: "10%" }, // تغییر margin بر اساس سایز صفحه
+          marginTop: { xs: "4%", sm: "4%", md: "4%" }, // تغییر margin بر اساس سایز صفحه
         }}
       >
         <Typography
@@ -400,16 +430,17 @@ export default function Home() {
             pb: { xs: 6, md: 10 }, // فاصله از پایین بک‌گراند
           }}
         >
-          <Box sx={{mt:-10}}><FeaturesGrid />
+          <Box sx={{ mt: -6 }}>
+            <FeaturesGrid />
           </Box>
-          
+
           {/* coach part */}
           <Box>
             <Box
               sx={{
                 display: "flex",
                 justifyContent: "center",
-                marginTop: { xs: "5%", sm: "5%", md: "5%" }, // تغییر margin بر اساس سایز صفحه
+                marginTop: { xs: "1%", sm: "1%", md: "1%" }, // تغییر margin بر اساس سایز صفحه
               }}
             >
               <Typography
@@ -453,7 +484,7 @@ export default function Home() {
               sx={{
                 display: "flex",
                 justifyContent: "center",
-                marginTop: { xs: "10%", sm: "10%", md: "10%" },
+                marginTop: { xs: "5%", sm: "5%", md: "5%" },
               }}
             >
               <Typography
@@ -468,7 +499,6 @@ export default function Home() {
               </Typography>
             </Box>
 
-            {/* نوار گرادیانی زیبا */}
             <GreenGradientBar
               animated
               colors={["#ff9800", "#ff5722", "#ff9800"]}
@@ -476,7 +506,6 @@ export default function Home() {
               marginLeft="42.7%"
             />
 
-            {/* قرار دادن کامپوننت وسط صفحه */}
             <Box
               sx={{
                 display: "flex",
