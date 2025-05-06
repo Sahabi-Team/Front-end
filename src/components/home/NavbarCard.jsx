@@ -142,8 +142,8 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
     setAnchorElPrograms(event.currentTarget);
   };
 
-  const handleOpenMovementsMenu = (event) => {
-    setAnchorElMovements(event.currentTarget);
+  const handleExerciselistclick = (event) => {
+    navigate('/exercises');
   };
 
   const handleCloseMenu = () => {
@@ -463,8 +463,8 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
                 {/* --- منوی حرکات --- */}
                 <Box>
                   <Button
-                    endIcon={<KeyboardArrowDown />}
-                    onClick={handleOpenMovementsMenu}
+                    // endIcon={<KeyboardArrowDown />}
+                    onClick={handleExerciselistclick}
                     sx={{
                       color: "black",
                       fontWeight: "bold",
@@ -474,7 +474,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
                   >
                     بانک حرکات ورزشی
                   </Button>
-                  <Menu
+                  {/* <Menu
                     anchorEl={anchorElMovements}
                     open={Boolean(anchorElMovements)}
                     onClose={handleCloseMenu}
@@ -510,7 +510,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
                         </Typography>
                       </MenuItem>
                     ))}
-                  </Menu>
+                  </Menu> */}
                 </Box>
               </Box>
 
