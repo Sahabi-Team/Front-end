@@ -33,7 +33,7 @@ const CoachCard = ({ coach, onViewProfile, onOrder }) => {
         }}
       >
         <Avatar
-          src={"http://84.234.29.28:8000" + coach.user.profile_picture}
+          src={coach.user.profile_picture}
           alt={coach.user.name}
           sx={{
             width: 120,
