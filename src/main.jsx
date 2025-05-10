@@ -14,10 +14,7 @@ import EditProfile from './pages/ClientProfile.jsx';
 import FAQPage from './pages/FAQ.jsx';
 import Home from './pages/Home.jsx'
 import ExercisesPage from './pages/ListofExercises.jsx';
-import ClientSidebar from './components/ClientSidebar.jsx';
-import TrainerSidebar from './components/TrainerSidebar.jsx';
-import GuestSidebar from './components/GuestSidebar.jsx';
-import { AuthContext ,AuthProvider} from './contexts/AuthContext';
+import { AuthProvider} from './contexts/AuthContext';
 import ChangePasswordClient from './pages/ChangePasswordClient.jsx';
 import ExerciseDetail from './pages/Exercise_Detail.jsx';
 import TrainerEditProfile from './pages/TrainerEditProfile.jsx';
@@ -27,6 +24,8 @@ import WorkoutPlans from './pages/WorkoutPlans.jsx';
 import WorkoutDetails from './pages/WorkoutDetails.jsx';
 import NotificationsList from './pages/NotificationsList.jsx';
 import TrainersList from './pages/TrainersList.jsx';
+import NotFoundPage from './pages/NotFoundPage.jsx';
+
 
 const theme = createTheme({
   direction: "rtl",
@@ -117,6 +116,9 @@ createRoot(document.getElementById('root')).render(
               <Route path="/workoutDetails/:workoutId" element={<WorkoutDetails/>} />
               <Route path="/notifications" element={<NotificationsList />} />
               <Route path="/trainers" element={<TrainersList />} />
+              <Route path="*" element={<NotFoundPage />} />
+
+
 
             </Routes>
           </AuthProvider>
