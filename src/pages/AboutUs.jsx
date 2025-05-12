@@ -7,7 +7,7 @@ import {
   Paper,
   Container
 } from '@mui/material';
-
+import Navbar from '../components/Navbar';
 
 const teamMembers = [
   'مهدی شرف بیانی',
@@ -15,59 +15,141 @@ const teamMembers = [
   'معین خان محمدی',
   'علی کارگر',
   'ایمان قادر',
-  'حبیب الله بنیه چی'
+  'حبیب الله پنبه چی'
 ];
 
 const TeamPage = () => {
   return (
     <>
-      <Box sx={{ bgcolor: 'green', color: 'white', py: 2, textAlign: 'center' }}>
-        <Typography variant="h6">درباره ما</Typography>
+      <Box
+        sx={{
+          width: '100%',
+          minHeight: 110,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: 'linear-gradient(135deg, #00994d 0%, #b2f2d7 60%, #00994d 100%)',
+          marginBottom: 4,
+          marginTop: 10,
+        }}
+      >
+        <Typography variant="h4" sx={{ fontWeight: 800, color: 'white', letterSpacing: 1 }}>
+          درباره ما
+        </Typography>
       </Box>
 
-      <Container maxWidth="md" sx={{ mt: -3 }}>
-        <Paper elevation={3} sx={{ borderRadius: 3, p: 4 }}>
-          <Typography variant="h6" fontWeight="bold" mb={3}>
+      <Container maxWidth="lg" sx={{ mt: -6, mb: 10 }}>
+        <Paper elevation={3} sx={{ borderRadius: 5, p: 6 }}>
+          <Typography variant="h5" fontWeight="bold" mb={4} textAlign="left">
             اعضای تیم
           </Typography>
           <Grid container spacing={2} justifyContent="center">
-            {teamMembers.map((name, index) => (
-              <Grid item xs={6} sm={4} md={3} key={index} textAlign="center">
-                <Avatar
+            {teamMembers.slice(0, 4).map((name, index) => (
+              <Grid item xs={6} sm={3} md={3} key={index} textAlign="center">
+                <Box
                   sx={{
-                    width: 80,
-                    height: 80,
-                    mx: 'auto',
-                    mb: 1,
-                    boxShadow: 2
+                    display: 'inline-block',
+                    borderRadius: '50%',
+                    boxShadow: '0 0 32px 0 #00af6644',
+                    p: 0.75,
+                    background: '#fff',
+                    marginBottom: 1.5,
                   }}
-                />
-                <Typography variant="body1">{name}</Typography>
+                >
+                  <Avatar
+                    sx={{
+                      width: 110,
+                      height: 110,
+                      mx: 'auto',
+                      mb: 0,
+                      bgcolor: '#f5f5f5',
+                    }}
+                  />
+                </Box>
+                <Typography variant="body1" sx={{ fontWeight: 700, mt: 1 }}>{name}</Typography>
                 <Typography variant="caption" color="text.secondary">
-                  عضو تیم {index < 4 ? 'فرانت اند' : 'یک اند'}
+                  عضو تیم {index < 4 ? 'فرانت اند' : 'بک اند'}
+                </Typography>
+              </Grid>
+            ))}
+          </Grid>
+          <Grid container spacing={2} justifyContent="center" sx={{ mt: 1 }}>
+            {teamMembers.slice(4).map((name, index) => (
+              <Grid item xs={6} sm={3} md={3} key={index + 4} textAlign="center">
+                <Box
+                  sx={{
+                    display: 'inline-block',
+                    borderRadius: '50%',
+                    boxShadow: '0 0 32px 0 #00af6644',
+                    p: 0.75,
+                    background: '#fff',
+                    marginBottom: 1.5,
+                  }}
+                >
+                  <Avatar
+                    sx={{
+                      width: 110,
+                      height: 110,
+                      mx: 'auto',
+                      mb: 0,
+                      bgcolor: '#f5f5f5',
+                    }}
+                  />
+                </Box>
+                <Typography variant="body1" sx={{ fontWeight: 700, mt: 1 }}>{name}</Typography>
+                <Typography variant="caption" color="text.secondary">
+                  عضو تیم بک اند
                 </Typography>
               </Grid>
             ))}
           </Grid>
 
-          <Box mt={6} sx={{textAlign: 'left' }}>
-            <Typography variant="h6" fontWeight="bold" gutterBottom>
+          <Box my={8} sx={{ textAlign: 'left' }}>
+            <Typography variant="h5" fontWeight="bold" gutterBottom>
               ما کی هستیم؟
             </Typography>
-            <Typography variant="body2" paragraph>
-              ما یک تیم از افراد با تجربه‌های بازی‌سازی و علاقه‌مند به تکنولوژی و ورزش هستیم که با یک هدف مشخص کنار هم جمع شده‌ایم...
-            </Typography>
-            <Typography variant="body2" paragraph>
-              در دنیای پر از اطلاعات امروز، پیدا کردن یک برنامه‌ریزی مناسب و مربی قابل اعتماد کار ساده‌ای نیست...
+            <Typography variant="body1" >
+            ما یک تیم ۶ نفره‌ از جوان‌های پرانرژی و عاشق تکنولوژی و ورزش هستیم که با یک هدف مشخص کنار هم جمع شدیم: ساده‌تر کردن مسیر رسیدن به تناسب اندام برای همه.
             </Typography>
 
-            <Typography variant="h6" fontWeight="bold" gutterBottom>
+            <Typography variant="body1" >
+            در دنیای پر از اطلاعات امروز، پیدا کردن برنامه تمرینی مناسب و مربی قابل اعتماد کار ساده‌ای نیست. ما این مشکل رو از نزدیک حس کردیم، برای همین تصمیم گرفتیم پلتفرمی بسازیم که شما بتونید به‌راحتی ثبت‌نام کنید، مربی مورد علاقه‌تون رو انتخاب کنید و برنامه تمرینی اختصاصی خودتون رو دریافت کنید.
+            </Typography>
+
+            <Typography variant="body1" >
+            توی تیم ما، تخصص‌های مختلف کنار هم قرار گرفتن: از طراحی رابط کاربری و توسعه وب گرفته تا برنامه‌نویسی بک‌اند و مدیریت محتوا. همه‌مون با انگیزه‌ هستیم که تجربه‌ای راحت، کاربردی و الهام‌بخش رو برای شما بسازیم.
+            </Typography>
+
+            <Typography variant="body1" >
+            ما به بازخوردهای شما گوش می‌دیم، دائم در حال بهبود و توسعه هستیم و باور داریم که این تازه شروع کارمونه.
+            </Typography>
+            </Box>
+
+            <Box my={8} sx={{ textAlign: 'left' }}>
+            <Typography variant="h5" fontWeight="bold" gutterBottom>
               هدف ما چیه؟
             </Typography>
-            <ul>
-              <li><Typography variant="body2">هماهنگی مناسب بین برنامه تمرینی و شرایط فیزیکی برای همه مخاطبان</Typography></li>
-              <li><Typography variant="body2">ایجاد فضایی قابل اعتماد و حرفه‌ای برای نمایش عملکرد تیم مربیان و توانایی‌هایشان</Typography></li>
-              <li><Typography variant="body2">پیشرفت مداوم با بازخورد کاربران</Typography></li>
+            <ul style={{ marginRight: 24 }}>
+                <li>
+                <Typography variant="body1" sx={{ mb: 1 }}>
+                    <Box component="span" fontWeight="bold">ساده‌سازی دسترسی به مربیان حرفه‌ای</Box> برای همه، صرف‌نظر از موقعیت جغرافیایی.
+                </Typography>
+                </li>
+                <li>
+                <Typography variant="body1" sx={{ mb: 1 }}>
+                    <Box component="span" fontWeight="bold">ارائه برنامه‌های تمرینی کاملاً شخصی‌سازی‌شده</Box> بر اساس نیازهای فردی.
+                </Typography>
+                </li>
+                <li>
+                <Typography variant="body1" sx={{ mb: 1 }}>
+                    <Box component="span" fontWeight="bold">ایجاد فضایی قابل اعتماد و حرفه‌ای</Box> برای تعامل مستقیم بین مربیان و ورزش‌دوستان.
+                </Typography>
+                </li>
+                <li>
+                <Typography variant="body1" sx={{ mb: 1 }}>
+                    <Box component="span" fontWeight="bold">پیشرفت مداوم پلتفرم</Box> با استفاده از بازخورد کاربران و فناوری‌های روز.
+                </Typography>
+                </li>
             </ul>
           </Box>
         </Paper>
