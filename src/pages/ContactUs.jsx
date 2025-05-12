@@ -10,7 +10,7 @@ import {
   IconButton
 } from '@mui/material';
 import { Email, Phone } from '@mui/icons-material';
-import { Telegram, Instagram, LinkedIn, WhatsApp } from '@mui/icons-material';
+import { Telegram, Instagram, LinkedIn, Twitter } from '@mui/icons-material';
 import contactImage from "../../public/contactus.svg"
 import Navbar from '../components/home/NavbarCard';
 import Footer from '../components/Footer';
@@ -31,47 +31,65 @@ const ContactUsPage = () => {
           marginTop: 10,
         }}
       >
-        <Typography variant="h4" sx={{ fontWeight: 800, color: 'white' }}>
+        <Typography variant="h4" sx={{ fontWeight:'bold', color: 'white' }}>
           تماس با ما
         </Typography>
       </Box>
 
-      <Container maxWidth="md" sx={{ mt: -6, mb: 10 }}>
+      <Container maxWidth="lg" sx={{ mt: -6, mb: 10 }}>
         <Paper elevation={10} sx={{ borderRadius: 5, p: 6 }}>
-          <Grid container spacing={4} alignItems="center">
+          <Grid container spacing={6} alignItems="center">
             <Grid item xs={12} md={6} textAlign="center">
-              <img src={contactImage} alt="تماس با ما" style={{ width: '100%', maxWidth: 300 }} />
+              <img src={contactImage} alt="تماس با ما" style={{ width: '100%', maxWidth: 380 }} />
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <Typography variant="body1" fontWeight="bold" gutterBottom>
-                ما به صورت ۲۴ ساعته آماده پاسخگویی هستیم!
-              </Typography>
-              <Typography variant="body2" gutterBottom>
-                <strong>آدرس:</strong> دانشگاه علم و صنعت - دپارتمان مهندسی کامپیوتر
-              </Typography>
-              <Typography variant="body2" gutterBottom>
-                <strong>شماره تلفن:</strong> ۰۲۱-۱۲۳۴۵۶۷۸
-              </Typography>
-              <Typography variant="body2" gutterBottom>
-                <strong>آدرس ایمیل:</strong> gymbato@gmail.com
-              </Typography>
-              <Box sx={{ mt: 2 }}>
-                <Typography variant="body2" fontWeight="bold" gutterBottom>
-                  شبکه های اجتماعی:
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', justifyContent: 'center' }}>
+                <Typography variant="h5" fontWeight="bold" gutterBottom sx={{mb:8}}>
+                  ما به صورت ۲۴ ساعته آماده پاسخگویی هستیم!
                 </Typography>
-                <IconButton color="success"><Telegram /></IconButton>
-                <IconButton color="success"><WhatsApp /></IconButton>
-                <IconButton color="success"><LinkedIn /></IconButton>
-                <IconButton color="success"><Instagram /></IconButton>
+                <Box sx={{  width: '100%', pr: 2 }}>
+                  <Typography variant="body1"  gutterBottom mb={2.5}  fontSize={18}>
+                    <strong>آدرس:</strong> دانشگاه علم و صنعت - دپارتمان مهندسی کامپیوتر
+                  </Typography>
+                  <Typography variant="body1" gutterBottom mb={2.5} fontSize={18}>
+                    <strong>شماره تلفن:</strong> ۰۲۱-۱۲۳۴۵۶۷۸
+                  </Typography>
+                  <Typography variant="body1" gutterBottom mb={1.5} fontSize={18}>
+                    <strong>آدرس ایمیل:</strong> gymbato@gmail.com
+                  </Typography>
+                </Box>
+                <Box sx={{ mt: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Typography variant="body1" fontWeight="bold" fontSize={18} sx={{ whiteSpace: 'nowrap' }}>
+                    شبکه های اجتماعی:
+                  </Typography>
+                  <a href="https://t.me/gymbato" target="_blank" rel="noopener noreferrer">
+                    <IconButton sx={{ fontSize: 26, background: '#0A9A59', borderRadius: '50%', transition: 'background 0.2s', '&:hover': { background: '#066c3f' } }}>
+                      <Telegram sx={{ fontSize: 26, color: '#fff' }} />
+                    </IconButton>
+                  </a>
+                  <a href="https://twitter.com/gymbato" target="_blank" rel="noopener noreferrer">
+                    <IconButton sx={{ fontSize: 26, background: '#0A9A59', borderRadius: '50%', transition: 'background 0.2s', '&:hover': { background: '#066c3f' } }}>
+                      <Twitter sx={{ fontSize: 26, color: '#fff' }} />
+                    </IconButton>
+                  </a>
+                  <a href="https://linkedin.com/company/gymbato" target="_blank" rel="noopener noreferrer">
+                    <IconButton sx={{ fontSize: 26, background: '#0A9A59', borderRadius: '50%', transition: 'background 0.2s', '&:hover': { background: '#066c3f' } }}>
+                      <LinkedIn sx={{ fontSize: 26, color: '#fff' }} />
+                    </IconButton>
+                  </a>
+                  <a href="https://instagram.com/gymbato" target="_blank" rel="noopener noreferrer">
+                    <IconButton sx={{ fontSize: 26, background: '#0A9A59', borderRadius: '50%', transition: 'background 0.2s', '&:hover': { background: '#066c3f' } }}>
+                      <Instagram sx={{ fontSize: 26, color: '#fff' }} />
+                    </IconButton>
+                  </a>
+                </Box>
               </Box>
             </Grid>
-
-            
           </Grid>
 
-          <Box mt={5}>
-            <Typography variant="h6" fontWeight="bold" mb={2} textAlign="left">
+          <Box mt={7}>
+            <Typography variant="h5" fontWeight="bold" mb={2} textAlign="left">
               با ما در ارتباط باشید
             </Typography>
             <Grid container spacing={2}>
@@ -94,7 +112,7 @@ const ContactUsPage = () => {
                 />
               </Grid>
               <Grid item xs={12} textAlign="center">
-                <Button variant="contained" color="success">
+                <Button variant="contained" color="success" sx={{ fontSize: '1.1rem', px: 5, py: 1.5, backgroundColor: '#0A9A59', '&:hover': { backgroundColor: '#066c3f' } }}>
                   ارسال پیام
                 </Button>
               </Grid>
