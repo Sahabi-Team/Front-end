@@ -23,7 +23,7 @@ const CompactFooter = () => {
         borderTopRightRadius: 50,
         paddingY: 3,
         width: '100%',
-        boxShadow: '0px -4px 16px rgba(0,0,0,0.10)',
+        boxShadow: '0px -6px 5px rgba(0,0,0,0.10)',
       }}
     >
       <Container maxWidth="lg">
@@ -31,7 +31,7 @@ const CompactFooter = () => {
         <Box
           sx={{
             display: 'flex',
-            flexDirection: { xs: 'column', sm: 'row' },
+            flexDirection: { sm: 'column', md: 'row' },
             justifyContent: 'space-between',
             alignItems: 'center',
             gap: 3,
@@ -42,8 +42,8 @@ const CompactFooter = () => {
           <Box
             sx={{
               display: 'flex',
-              flexWrap: 'nowrap',
-              gap: 3,
+              // flexWrap: 'nowrap',
+              gap: 1,
               justifyContent: { xs: 'center', sm: 'flex-start' },
               fontWeight: 'bold',
               fontSize: '18px',
@@ -138,7 +138,7 @@ const CompactFooter = () => {
 
         {/* Copyright */}
         <Typography variant="caption" align="center" display="block" sx={{ mt: 1 }}>
-          کلیه حقوق این سایت متعلق به مجموعه سحابی می‌باشد
+          {'\u00A9'} کلیه حقوق این سایت متعلق به مجموعه سحابی می‌باشد
         </Typography>
       </Container>
     </Box>
