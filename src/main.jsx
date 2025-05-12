@@ -26,6 +26,7 @@ import NotificationsList from './pages/NotificationsList.jsx';
 import TrainersList from './pages/TrainersList.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import AboutUs from './pages/AboutUs.jsx';
+import ContactUs from './pages/ContactUs.jsx';
 
 const theme = createTheme({
   direction: "rtl",
@@ -117,6 +118,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="/notifications" element={<NotificationsList />} />
               <Route path="/trainers" element={<TrainersList />} />
               <Route path="/about_us" element={< AboutUs />} />
+              <Route path="/contact_us" element={< ContactUs />} />              
               <Route path="*" element={<NotFoundPage />} />
 
 
