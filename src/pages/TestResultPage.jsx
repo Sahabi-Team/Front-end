@@ -11,7 +11,8 @@ import Navbar from '../components/home/NavbarCard';
 import BackGround from '../assets/imgs/Subtract.png';
 import subtract from '../assets/imgs/Subtract.png';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import Footer from '../components/CompactFooter';
 
 const GreenChip = styled(Chip)(({ theme }) => ({
   backgroundColor: '#00AF66',
@@ -236,6 +237,7 @@ const TestResultPage = () => {
           <CommunityCard memberCount={memberCount} />
 
           {/* Coach List Button */}
+          <Link to="/trainers" style={{ textDecoration: 'none' }}>
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3, mb: 5, border: 'none' }}>
             <GreenChip 
               label="لیست مربی ها" 
@@ -251,8 +253,10 @@ const TestResultPage = () => {
               }} 
             />
           </Box>
+          </Link>
         </Container>
       </Box>
+      <Footer/>
     </BackgroundPattern>
   );
 };

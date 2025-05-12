@@ -6,7 +6,8 @@ import SignIn_img from "../components/signin/SignIn_img";
 import { Box, Container, Paper } from "@mui/material";
 import NavBar from "../components/home/NavbarCard";
 // import Container from '@mui/material/Container';
-import Footer from "../components/Footer";
+import CFooter from "../components/CompactFooter";
+import Footer from "../components/Footer"
 import { AuthContext } from "../contexts/AuthContext";
 
 export default function Sign_in(props) {
@@ -30,6 +31,7 @@ else
           justifyContent: "center",
           alignItems: "center",
           height: "70vh",
+          flexDirection: "column",
           mb:10
         }}
       >
@@ -81,7 +83,7 @@ else
           </Stack>
         </Paper>
       </Container>
-      <Footer />
+      <Footer/>
     </>
   );
 }

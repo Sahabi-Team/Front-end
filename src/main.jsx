@@ -25,6 +25,8 @@ import WorkoutDetails from './pages/WorkoutDetails.jsx';
 import NotificationsList from './pages/NotificationsList.jsx';
 import TrainersList from './pages/TrainersList.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
+import AboutUs from './pages/AboutUs.jsx';
+import ContactUs from './pages/ContactUs.jsx';
 import InternalServerErrorPage from "./pages/InternalServerErrorPage";
 
 
@@ -118,6 +120,8 @@ createRoot(document.getElementById('root')).render(
               <Route path="/workoutDetails/:workoutId" element={<WorkoutDetails/>} />
               <Route path="/notifications" element={<NotificationsList />} />
               <Route path="/trainers" element={<TrainersList />} />
+              <Route path="/about_us" element={< AboutUs />} />
+              <Route path="/contact_us" element={< ContactUs />} />              
               <Route path="*" element={<NotFoundPage />} />
               <Route path="/500" element={<InternalServerErrorPage />} />
 
