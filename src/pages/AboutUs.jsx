@@ -7,8 +7,8 @@ import {
   Paper,
   Container
 } from '@mui/material';
-import Navbar from '../components/Navbar';
-
+import Navbar from "../components/home/NavbarCard";
+import Footer from '../components/Footer';
 const teamMembers = [
   'مهدی شرف بیانی',
   'نازنین شریفی',
@@ -21,6 +21,7 @@ const teamMembers = [
 const TeamPage = () => {
   return (
     <>
+    <Navbar/>
       <Box
         sx={{
           width: '100%',
@@ -28,7 +29,7 @@ const TeamPage = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: 'linear-gradient(135deg, #00994d 0%, #b2f2d7 60%, #00994d 100%)',
+          background: 'linear-gradient(135deg, #00994d 0%,rgb(192, 222, 209) 60%, #00994d 100%)',
           marginBottom: 4,
           marginTop: 10,
         }}
@@ -135,7 +136,7 @@ const TeamPage = () => {
                 <Typography variant="h5" fontWeight="bold" gutterBottom sx={{ mb: 3 ,display:'inline-block',borderBottom: '4px solid #4CAF50'}}>
                 هدف ما چیه؟
                 </Typography>
-                    <ul style={{ marginRight: 24 }}>
+                    <ul style={{ marginRight:8 }}>
                         <li>
                         <Typography variant="body1" sx={{ mb: 1 }}>
                             <Box component="span" fontWeight="bold">ساده‌سازی دسترسی به مربیان حرفه‌ای</Box> برای همه، صرف‌نظر از موقعیت جغرافیایی.
@@ -160,6 +161,7 @@ const TeamPage = () => {
           </Box>
         </Paper>
       </Container>
+      <Footer/>
     </>
   );
 };
