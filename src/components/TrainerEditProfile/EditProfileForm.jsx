@@ -169,7 +169,7 @@ const EditProfileForm = ({
               marginTop: "20px",
               borderRadius: "12px",
               width:"150px",
-              marginBottom:"100px"
+              marginBottom:"30px"
             }}
           >
             ذخیره تغییرات

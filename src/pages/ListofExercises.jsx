@@ -8,12 +8,15 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../components/home/NavbarCard";
+import InternalServerErrorPage from "../pages/InternalServerErrorPage"; 
+
 
 const ExercisesPage = () => {
-  const [allExercises, setAllExercises] = useState([]); // تمام تمرینات دریافت شده از بک‌اند
-  const [displayedExercises, setDisplayedExercises] = useState([]); // تمرینات نمایش داده شده در صفحه فعلی
+  const [allExercises, setAllExercises] = useState([]); 
+  const [displayedExercises, setDisplayedExercises] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [serverError, setServerError] = useState(false);
   const navigate = useNavigate();
   
   const [filters, setFilters] = useState({
@@ -40,7 +43,7 @@ const ExercisesPage = () => {
       setFilters(newFilters);
       fetchAllExercises(newFilters);
   
-      // پاک کردن state برای جلوگیری از اجرای دوباره
+      
       navigate(location.pathname, { replace: true });
     }
   }, [location.state]);
@@ -71,11 +74,14 @@ const ExercisesPage = () => {
       setCurrentPage(1);
     } catch (error) {
       console.error("Error fetching exercises:", error);
+      if (error.response?.status === 500) {
+          setServerError(true);
+        } 
     } finally {
       setIsLoading(false);
     }
   };
-  
+ 
   // محاسبه تمرینات صفحه جاری
   const updateDisplayedExercises = () => {
     const indexOfLastExercise = currentPage * exercisesPerPage;
@@ -87,7 +93,14 @@ const ExercisesPage = () => {
   useEffect(() => {
     fetchAllExercises();
   }, [filters, searchTerm]);
-  
+
+useEffect(() => {
+  if (serverError) {
+    navigate("/500");
+  }
+}, [serverError, navigate]);
+
+
   // هر بار که تمام تمرینات یا صفحه فعلی تغییر کرد، لیست نمایش داده شده را به‌روز کنید
   useEffect(() => {
     updateDisplayedExercises();
@@ -100,8 +113,6 @@ const ExercisesPage = () => {
 
   // تابع اعمال فیلترها
   const applyFilters = () => {
-    // نیازی به فراخوانی fetchAllExercises() نیست چون useEffect آن را مدیریت می‌کند
-    // فقط صفحه به 1 بازمی‌گردد
     setCurrentPage(1);
   };
 
@@ -321,6 +332,7 @@ const ExercisesPage = () => {
       </Box>
     </>
   );
+
 
   return (
     <>

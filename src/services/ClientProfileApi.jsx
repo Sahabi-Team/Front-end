@@ -15,6 +15,17 @@ api.interceptors.request.use(config => {
   return config;
 });
 
+// ریدایرکت به صفحه ارور 500 در صورت دریافت خطای 500
+api.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response && error.response.status === 500) {
+      window.location.href = '/500';
+    }
+    return Promise.reject(error);
+  }
+);
+
 export const profileAPI = {
   // دریافت اطلاعات پروفایل کاربر
   getProfile: () => api.get('/trainee/info/'),

@@ -25,6 +25,8 @@ import WorkoutDetails from './pages/WorkoutDetails.jsx';
 import NotificationsList from './pages/NotificationsList.jsx';
 import TrainersList from './pages/TrainersList.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
+import InternalServerErrorPage from "./pages/InternalServerErrorPage";
+
 
 
 const theme = createTheme({
@@ -117,6 +119,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="/notifications" element={<NotificationsList />} />
               <Route path="/trainers" element={<TrainersList />} />
               <Route path="*" element={<NotFoundPage />} />
+              <Route path="/500" element={<InternalServerErrorPage />} />
 
 
 

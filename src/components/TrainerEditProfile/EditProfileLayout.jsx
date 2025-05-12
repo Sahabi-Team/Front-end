@@ -8,7 +8,7 @@ const EditProfileLayout = ({ children }) => {
       display: 'flex',
       alignItems: 'flex',
       minHeight: 'calc(100vh - 32px)',
-     // padding: '16px',
+      padding: '16px',
       transition: 'margin-right 0.3s ease', // Smooth transition for sidebar
     }}
   >

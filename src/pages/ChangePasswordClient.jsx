@@ -14,12 +14,12 @@ import { styled } from "@mui/material/styles";
 import LockIcon from "@mui/icons-material/Lock";
 import ErrorModal from "../components/modals/ErrorModal";
 import SuccessModal from "../components/modals/SuccessfulModal";
-import Navbar from '../components/Navbar.jsx';
-import Footer from '../components/Footer.jsx';
+//import Footer from '../components/Footer.jsx';
 import { profileAPI } from '../services/ClientProfileApi.jsx';
-import NavBar from "../components/home/NavbarCard";
+//import NavBar from "../components/home/NavbarCard";
 import { useNavigate } from "react-router-dom";
 import ClientSidebar from "../components/ClientSidebar.jsx";
+import Header from '../components/Header';
 
 const Card = styled(Paper)(({ theme }) => ({
   display: "flex",
@@ -130,19 +130,22 @@ function ResetPassword() {
     return true;
   };
 
-  useEffect(() => {
-    document.body.style.background = "#E2E2E2";
-    return () => {
-      document.body.style.background = "#E2E2E2";
-    };
-  }, []);
+    useEffect(() => {
+        document.body.style.background = "#F5F5F5";
+        return () => {
+       document.body.style.background = "#F5F5F5"; // پس‌زمینه‌ی پیش‌فرض برمی‌گردد
+              };
+      }, []);
 
   return (
     <>
+
+     <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: '#F5F5F5' }}>
     <ClientSidebar />
-       <NavBar /> 
+       <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+      <Header pageTitle="صفحه کاربر" />  
       <CssBaseline />
-      <Container maxWidth="sm" sx={{ my: 6 ,mt:15,mr:50}}>
+      <Container maxWidth="sm" sx={{ my: 6 ,mr:50}}>
         <Card elevation={20}>
           <Typography sx={{ fontSize: "150%", textAlign: "center", mb: 3 }}>
             تغییر رمز عبور
@@ -217,7 +220,8 @@ function ResetPassword() {
         }}
         successMessage={successMessage}
       />
-      <Footer />
+      </Box>
+</Box>
     </>
   );
 }

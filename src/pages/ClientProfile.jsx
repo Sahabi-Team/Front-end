@@ -1,13 +1,16 @@
 
 import React, { useState,useEffect ,useContext } from "react";  
-import { TextField, Button, Avatar, Paper, Typography } from "@mui/material";  
+import { TextField, Button, Avatar, Paper, Typography ,Box} from "@mui/material";  
 import { Routes, Route,useNavigate } from "react-router-dom";
 //import Navbar from '../components/Navbar.jsx';
-import Footer from '../components/Footer.jsx';
+//import Footer from '../components/Footer.jsx';
 import { profileAPI } from '../services/ClientProfileApi.jsx';
 import { AuthContext } from '../contexts/AuthContext.jsx';
-import NavBar from "../components/home/NavbarCard";
+//import NavBar from "../components/home/NavbarCard";
 import ClientSidebar from "../components/ClientSidebar.jsx";
+import Header from '../components/Header';
+import ContentContainer from '../components/ContentContainer';
+
 
 const EditProfile = () => { 
    const { userInfo } = useContext(AuthContext);
@@ -67,12 +70,14 @@ const EditProfile = () => {
             const { name, value } = e.target;  
             setUserData({ ...userData, [name]: value });  
         };  
+        
         useEffect(() => {
-            document.body.style.background = "#E2E2E2";
+            document.body.style.background = "#F5F5F5";
             return () => {
-                document.body.style.background = "#E2E2E2"; // پس‌زمینه‌ی پیش‌فرض برمی‌گردد
+                document.body.style.background = "#F5F5F5"; // پس‌زمینه‌ی پیش‌فرض برمی‌گردد
             };
         }, []);
+        
         // ✅ تابع اعتبارسنجی  
         const validate = () => {
             let tempErrors = {};
@@ -195,41 +200,21 @@ const EditProfile = () => {
     
   if (isLoading) {
     return <div>
-         <NavBar />
+        
         در حال بارگذاری...
         </div>;
   }
 
 
     return ( 
-        <div >
-            <ClientSidebar/>
-        <div style={{   
-            display: 'flex',  
-            justifyContent: 'flex-end',  
-            alignItems: 'stretch',  
-            background: '#E2E2E2',
-            width:"90%",
-           minheight: "160vh",
-           marginRight:"75px"
-         
-        }}>  
-          
-           <NavBar />
+       
+        <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: '#F5F5F5' }}>
+    <ClientSidebar />
 
-            <Paper   
-                elevation={3}   
-                sx={{   
-                    padding: 4,  
-                    borderRadius: 6,  
-                   // backgroundColor: "#F9F9F9", // پس‌زمینه کادر باید سفید یا روشن باشد
-                    width: '90%', // عرض ریسپانسیو  
-                   // minheight: '170vh', 
-                    height: { xs: '200vh',  md: '115vh' }, 
-                    marginTop: '80px', // Space for the navbar  
-                  //  marginBottom: '30px', // فاصله از پایین  
-                }}  
-            >  
+    <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+      <Header pageTitle="صفحه کاربر" />  
+
+            <ContentContainer>
             <div style={{ 
                       
                         padding: '10px', 
@@ -521,10 +506,11 @@ const EditProfile = () => {
                         </form>  
                     </div>
                     </div>
-            </Paper>  
-            </div> 
-         <Footer />
-        </div>  
+                    </ContentContainer>
+             </Box> 
+          </Box>
+        
+  
         
     );  
 };  

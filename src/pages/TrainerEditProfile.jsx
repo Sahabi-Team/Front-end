@@ -255,7 +255,7 @@ const EditProfile = () => {
             </div>
           </div>
         </EditProfileLayout>
-        <Footer />
+       
         </Box>
     </Box>
     );
