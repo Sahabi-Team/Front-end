@@ -39,10 +39,12 @@ const TeamPage = () => {
       </Box>
 
       <Container maxWidth="lg" sx={{ mt: -6, mb: 10 }}>
-        <Paper elevation={3} sx={{ borderRadius: 5, p: 6 }}>
-          <Typography variant="h5" fontWeight="bold" mb={4} textAlign="left">
+        <Paper elevation={10} sx={{ borderRadius: 5, p: 6 }}>
+        <Box sx={{textAlign: 'left' ,mb:3}}>
+          <Typography variant="h5" fontWeight="bold" mb={4}  sx={{mb:3,display:'inline-block',borderBottom: '4px solid #4CAF50'}}>
             اعضای تیم
           </Typography>
+          </Box>
           <Grid container spacing={2} justifyContent="center">
             {teamMembers.slice(0, 4).map((name, index) => (
               <Grid item xs={6} sm={3} md={3} key={index} textAlign="center">
@@ -104,53 +106,57 @@ const TeamPage = () => {
             ))}
           </Grid>
 
-          <Box my={8} sx={{ textAlign: 'left' }}>
-            <Typography variant="h5" fontWeight="bold" gutterBottom>
-              ما کی هستیم؟
-            </Typography>
-            <Typography variant="body1" >
-            ما یک تیم ۶ نفره‌ از جوان‌های پرانرژی و عاشق تکنولوژی و ورزش هستیم که با یک هدف مشخص کنار هم جمع شدیم: ساده‌تر کردن مسیر رسیدن به تناسب اندام برای همه.
-            </Typography>
+          <Box my={8}  sx={{ textAlign: 'left' }}>
+                <Typography variant="h5" fontWeight="bold" sx={{ mb: 4 ,display:'inline-block',borderBottom: '4px solid #4CAF50'}}>
+                ما کی هستیم؟
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 1.25 }} >
+                ما یک تیم ۶ نفره‌ از جوان‌های پرانرژی و عاشق تکنولوژی و ورزش هستیم که با یک هدف مشخص کنار هم جمع شدیم: ساده‌تر کردن مسیر رسیدن به تناسب اندام برای همه.
+                </Typography>
 
-            <Typography variant="body1" >
-            در دنیای پر از اطلاعات امروز، پیدا کردن برنامه تمرینی مناسب و مربی قابل اعتماد کار ساده‌ای نیست. ما این مشکل رو از نزدیک حس کردیم، برای همین تصمیم گرفتیم پلتفرمی بسازیم که شما بتونید به‌راحتی ثبت‌نام کنید، مربی مورد علاقه‌تون رو انتخاب کنید و برنامه تمرینی اختصاصی خودتون رو دریافت کنید.
-            </Typography>
-
-            <Typography variant="body1" >
-            توی تیم ما، تخصص‌های مختلف کنار هم قرار گرفتن: از طراحی رابط کاربری و توسعه وب گرفته تا برنامه‌نویسی بک‌اند و مدیریت محتوا. همه‌مون با انگیزه‌ هستیم که تجربه‌ای راحت، کاربردی و الهام‌بخش رو برای شما بسازیم.
-            </Typography>
-
-            <Typography variant="body1" >
-            ما به بازخوردهای شما گوش می‌دیم، دائم در حال بهبود و توسعه هستیم و باور داریم که این تازه شروع کارمونه.
-            </Typography>
+                <Typography variant="body1" sx={{ mb:1.25 }} >
+                 در دنیای پر از اطلاعات امروز، پیدا کردن برنامه تمرینی مناسب و مربی قابل اعتماد کار ساده‌ای نیست. ما این مشکل رو از نزدیک حس کردیم برای همین تصمیم گرفتیم 
+                </Typography>
+                <Typography variant="body1" sx={{ mb:1.25 }} >
+                پلتفرمی بسازیم که شما بتونید به‌راحتی ثبت‌نام کنید، مربی مورد علاقه‌تون رو انتخاب کنید و برنامه تمرینی اختصاصی خودتون رو دریافت کنید .
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 1.25 }} >
+                توی تیم ما، تخصص‌های مختلف کنار هم قرار گرفتن: از طراحی رابط کاربری و توسعه وب گرفته تا برنامه‌نویسی بک‌اند و مدیریت محتوا. همه‌مون با انگیزه‌ هستیم که تجربه‌ای
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 1.25 }} >
+                راحت، کاربردی و الهام‌بخش رو برای شما بسازیم .
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 1.25 }} >
+                ما به بازخوردهای شما گوش می‌دیم، دائم در حال بهبود و توسعه هستیم و باور داریم که این تازه شروع کارمونه.
+                </Typography>
             </Box>
 
             <Box my={8} sx={{ textAlign: 'left' }}>
-            <Typography variant="h5" fontWeight="bold" gutterBottom>
-              هدف ما چیه؟
-            </Typography>
-            <ul style={{ marginRight: 24 }}>
-                <li>
-                <Typography variant="body1" sx={{ mb: 1 }}>
-                    <Box component="span" fontWeight="bold">ساده‌سازی دسترسی به مربیان حرفه‌ای</Box> برای همه، صرف‌نظر از موقعیت جغرافیایی.
+                <Typography variant="h5" fontWeight="bold" gutterBottom sx={{ mb: 3 ,display:'inline-block',borderBottom: '4px solid #4CAF50'}}>
+                هدف ما چیه؟
                 </Typography>
-                </li>
-                <li>
-                <Typography variant="body1" sx={{ mb: 1 }}>
-                    <Box component="span" fontWeight="bold">ارائه برنامه‌های تمرینی کاملاً شخصی‌سازی‌شده</Box> بر اساس نیازهای فردی.
-                </Typography>
-                </li>
-                <li>
-                <Typography variant="body1" sx={{ mb: 1 }}>
-                    <Box component="span" fontWeight="bold">ایجاد فضایی قابل اعتماد و حرفه‌ای</Box> برای تعامل مستقیم بین مربیان و ورزش‌دوستان.
-                </Typography>
-                </li>
-                <li>
-                <Typography variant="body1" sx={{ mb: 1 }}>
-                    <Box component="span" fontWeight="bold">پیشرفت مداوم پلتفرم</Box> با استفاده از بازخورد کاربران و فناوری‌های روز.
-                </Typography>
-                </li>
-            </ul>
+                    <ul style={{ marginRight: 24 }}>
+                        <li>
+                        <Typography variant="body1" sx={{ mb: 1 }}>
+                            <Box component="span" fontWeight="bold">ساده‌سازی دسترسی به مربیان حرفه‌ای</Box> برای همه، صرف‌نظر از موقعیت جغرافیایی.
+                        </Typography>
+                        </li>
+                        <li>
+                        <Typography variant="body1" sx={{ mb: 1 }}>
+                            <Box component="span" fontWeight="bold">ارائه برنامه‌های تمرینی کاملاً شخصی‌سازی‌شده</Box> بر اساس نیازهای فردی.
+                        </Typography>
+                        </li>
+                        <li>
+                        <Typography variant="body1" sx={{ mb: 1 }}>
+                            <Box component="span" fontWeight="bold">ایجاد فضایی قابل اعتماد و حرفه‌ای</Box> برای تعامل مستقیم بین مربیان و ورزش‌دوستان.
+                        </Typography>
+                        </li>
+                        <li>
+                        <Typography variant="body1" sx={{ mb: 1 }}>
+                            <Box component="span" fontWeight="bold">پیشرفت مداوم پلتفرم</Box> با استفاده از بازخورد کاربران و فناوری‌های روز.
+                        </Typography>
+                        </li>
+                    </ul>
           </Box>
         </Paper>
       </Container>
