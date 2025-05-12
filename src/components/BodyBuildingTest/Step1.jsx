@@ -4,7 +4,6 @@ import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterMomentJalaali } from "@mui/x-date-pickers/AdapterMomentJalaali";
 import moment from "moment-jalaali";
 import "moment/locale/fa";
-
 moment.loadPersian({ /*usePersianDigits: true,*/ dialect: "persian-modern" });
 
 const Step1 = ({data, setData, setIsFormValid}) => {
