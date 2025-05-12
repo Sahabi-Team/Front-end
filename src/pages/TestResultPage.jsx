@@ -12,6 +12,7 @@ import BackGround from '../assets/imgs/Subtract.png';
 import subtract from '../assets/imgs/Subtract.png';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Footer from '../components/CompactFooter';
 
 const GreenChip = styled(Chip)(({ theme }) => ({
   backgroundColor: '#00AF66',
@@ -253,6 +254,7 @@ const TestResultPage = () => {
           </Box>
         </Container>
       </Box>
+      <Footer/>
     </BackgroundPattern>
   );
 };

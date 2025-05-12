@@ -31,6 +31,7 @@ else
           justifyContent: "center",
           alignItems: "center",
           height: "70vh",
+          flexDirection: "column",
           mb:10
         }}
       >
@@ -82,7 +83,7 @@ else
           </Stack>
         </Paper>
       </Container>
-      <CFooter></CFooter>
+      <Footer/>
     </>
   );
 }
