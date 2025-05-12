@@ -25,7 +25,7 @@ import WorkoutDetails from './pages/WorkoutDetails.jsx';
 import NotificationsList from './pages/NotificationsList.jsx';
 import TrainersList from './pages/TrainersList.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
-
+import AboutUs from './pages/AboutUs.jsx';
 
 const theme = createTheme({
   direction: "rtl",
@@ -116,6 +116,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="/workoutDetails/:workoutId" element={<WorkoutDetails/>} />
               <Route path="/notifications" element={<NotificationsList />} />
               <Route path="/trainers" element={<TrainersList />} />
+              <Route path="/about_us" element={< AboutUs />} />
               <Route path="*" element={<NotFoundPage />} />
 
 
