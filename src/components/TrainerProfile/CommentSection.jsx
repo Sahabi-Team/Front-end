@@ -23,22 +23,22 @@ const CommentSection = () => {
     if (!newComment || newRating === 0) return;
 
     const comment = {
-      name: 'کاربر ناشناس',
-      date: 'همین الان',
+      name: "کاربر ناشناس",
+      date: "همین الان",
       rating: newRating,
       text: newComment
     };
 
     setComments([comment, ...comments]);
-    setNewComment('');
+    setNewComment("");
     setNewRating(0);
-    setPage(1); // برو به صفحه اول
+    setPage(1);
   };
 
   return (
-    <Box mt={8} mb={5}>
+    <Box mt={9} mb={5}>
       {/* بخش ارسال نظر */}
-      <Typography fontSize={20} fontWeight="bold" mb={2}>امتیاز شما :</Typography>
+      <Typography fontSize={24} fontWeight="bold" mb={2}>امتیاز شما :</Typography>
       <Rating value={newRating} size="large" onChange={(e, newValue) => setNewRating(newValue)}/>
       <TextField fullWidth multiline rows={2} value={newComment} onChange={(e) => setNewComment(e.target.value)} placeholder="نظر خود را بنویسید..." sx={{mt: 2, '& .MuiOutlinedInput-root': {borderRadius: 3}}}/>
       <Button variant="contained" sx={{mt: 2, borderRadius: 2}} onClick={handleSubmit}>ارسال</Button>
@@ -49,17 +49,17 @@ const CommentSection = () => {
           <Box key={index} mb={3}>
             <Box display="flex" justifyContent="space-between" alignItems="center">
               <Typography>
-                <Typography component="span" fontWeight="medium">
+                <Typography component="span" fontSize={18} fontWeight="medium">
                   {comment.name}
                 </Typography>
-                <Typography component="span" variant="caption" color="text.secondary" ml={2}>
+                <Typography component="span" fontSize={14} variant="caption" color="text.secondary" ml={2}>
                   {comment.date}
                 </Typography>
               </Typography>
               <Rating value={comment.rating} readOnly size="small" />
             </Box>
 
-            <Typography fontSize={14} textAlign="left" mt={1.5} mx={1} lineHeight={2}>
+            <Typography fontSize={16} textAlign="left" mt={1.5} mx={1} lineHeight={2}>
               {comment.text}
             </Typography>
 
