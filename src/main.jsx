@@ -1,4 +1,4 @@
-import React , {  useEffect ,useState,useContext}from 'react'
+import React from 'react'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from "react-router";
@@ -28,6 +28,7 @@ import NotFoundPage from './pages/NotFoundPage.jsx';
 import AboutUs from './pages/AboutUs.jsx';
 import ContactUs from './pages/ContactUs.jsx';
 import InternalServerErrorPage from "./pages/InternalServerErrorPage";
+import TrainerProfile from './pages/TrainerProfile.jsx';
 
 
 
@@ -124,6 +125,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="/contact_us" element={< ContactUs />} />              
               <Route path="*" element={<NotFoundPage />} />
               <Route path="/500" element={<InternalServerErrorPage />} />
+              <Route path="/trainer_profile/:id" element={<TrainerProfile />} />
 
 
 
