@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Box, CssBaseline } from '@mui/material';
 import Header from "../components/TrainerProfile/Header";
+import InfoSection from "../components/TrainerProfile/InfoSection";
 import Navbar from "../components/home/NavbarCard";
 import Footer from "../components/Footer";
 
@@ -10,7 +11,7 @@ const TrainerProfile = () => {
       <Header />
       <CssBaseline enableColorScheme />
       <Container maxWidth="md" sx={{my: 4}}>
-        
+        <InfoSection />
       </Container>
       <Footer />
     </Box>
