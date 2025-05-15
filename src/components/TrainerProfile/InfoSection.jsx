@@ -1,13 +1,13 @@
 import React from 'react';
-import { Box, Typography, Button, Avatar, Rating } from '@mui/material';
+import { Box, Typography, Avatar, Rating } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircleRounded';
 
 const InfoSection = ({ trainer }) => (
   <Box textAlign={'left'}>
-    <Box display="flex" flexDirection="column" alignItems="center" mt={-10}>
+    <Box display="flex" flexDirection="column" alignItems="center" mt={-13}>
       <Avatar src={trainer?.user.profile_picture} alt={trainer?.user.name} sx={{width: 150, height: 150, border: '3px solid white'}} />
       <Typography fontSize={28} fontWeight="bold" my={1}>{trainer?.user.name}</Typography>
-      <Rating value={trainer?.rating} readOnly />
+      <Rating value={trainer?.rating ?? 0} readOnly />
       <Typography
         variant="caption"
         fontSize={18}
@@ -68,10 +68,6 @@ const InfoSection = ({ trainer }) => (
         {trainer?.price.toLocaleString('fa-IR')} هزار تومان
       </Typography>
     </Typography>
-
-    <Box mt={4} textAlign="center">
-      <Button variant="contained" fullWidth sx={{maxWidth: 200, borderRadius: 2.5, fontSize: "1.2rem"}}>ثبت سفارش</Button>
-    </Box>
   </Box>
 );
 
