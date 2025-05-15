@@ -1,33 +1,54 @@
 import React from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, Avatar, Rating } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircleRounded';
 
-const InfoSection = () => (
+const InfoSection = ({ trainer }) => (
   <Box textAlign={'left'}>
+    <Box display="flex" flexDirection="column" alignItems="center" mt={-10}>
+      <Avatar src={trainer?.user.profile_picture} alt={trainer?.user.name} sx={{width: 150, height: 150, border: '3px solid white'}} />
+      <Typography fontSize={28} fontWeight="bold" my={1}>{trainer?.user.name}</Typography>
+      <Rating value={trainer?.rating} readOnly />
+      <Typography
+        variant="caption"
+        fontSize={18}
+        fontWeight="medium"
+        sx={{
+          mt: 2,
+          px: 1.5,
+          py: 0.4,
+          backgroundColor: '#f0f0f0',
+          border: "1px solid #BCA301",
+          borderRadius: 2,
+        }}
+      >
+        {trainer?.rating.toLocaleString('fa-IR')}
+      </Typography>
+    </Box>
+
     <Typography fontSize={20} fontWeight="bold">درباره مربی:</Typography>
-    <Typography fontSize={18} mt={1} paddingX={2} lineHeight={2}>من صالح اعتمادی هستم با سابقه هفت سال مربی گری حرفه ای در زمینه ورزش های رزمی و و دارنده مدال برنز جودو در مسابقات کشوری در سال ۸۷ .</Typography>
+    <Typography fontSize={18} mt={1} paddingX={2} lineHeight={2}>{trainer?.bio}</Typography>
 
     <Typography mt={3}>
       <Typography component="span" fontSize={20} fontWeight="bold">
         سابقه مربیگری:
       </Typography>
       <Typography component="span" fontSize={18} ml={1}>
-        ۷ سال
+        {trainer?.experience.toLocaleString('fa-IR')} سال
       </Typography>
     </Typography>
 
     <Typography mt={3} fontSize={20} fontWeight="bold">مدارک:</Typography>
     <ul style={{fontSize: "18px", lineHeight: "36px"}}>
-      <li>مدرک بین‌المللی مربی‌گری از فدراسیون جهانی بدنسازی (IFBB)</li>
-      <li>دوره تخصصی تغذیه ورزشی</li>
+      {trainer?.certificates.split(',').map((item, index) => (
+        <li key={index}> {item.trim()} </li>
+      ))}
     </ul>
 
     <Typography mt={3} fontSize={20} fontWeight="bold">تخصص‌ها:</Typography>
     <ul style={{fontSize: "18px", lineHeight: "36px"}}>
-      <li>کاهش وزن</li>
-      <li>افزایش حجم عضلانی</li>
-      <li>آمادگی جسمانی</li>
-      <li>تمرین در خانه (Bodyweight)</li>
+      {trainer?.specialties.split(',').map((item, index) => (
+        <li key={index}> {item.trim()} </li>
+      ))}
     </ul>
     
     <Typography mt={3}>
@@ -35,7 +56,7 @@ const InfoSection = () => (
         قابلیت رزرو:
       </Typography>
       <Typography component="span" fontSize={18} ml={1}>
-        دارد
+        {trainer?.isAvailableForReservation ? "دارد" : "ندارد"}
       </Typography>
     </Typography>
 
@@ -44,7 +65,7 @@ const InfoSection = () => (
         هزینه دریافتی:
       </Typography>
       <Typography component="span" fontSize={20} fontWeight="bold" color="#f39c12" ml={1}>
-        ۲۵۰ هزار تومان
+        {trainer?.price.toLocaleString('fa-IR')} هزار تومان
       </Typography>
     </Typography>
 
