@@ -96,14 +96,28 @@ const OutlineButton = styled(Button)(({ theme }) => ({
   },
 }));
 
+
+
+
 const LogoImage = styled("img")(({ theme }) => ({
   height: "50px",
   width: "auto",
   marginRight: theme.spacing(2),
+  cursor: "pointer",
+  transition: "transform 0.3s ease, opacity 0.3s ease",
+  "&:hover": {
+    transform: "scale(1.05)",
+    opacity: 0.85,
+  },
   [theme.breakpoints.down("sm")]: {
     height: "40px",
   },
 }));
+
+
+
+
+
 
 const BeautifulAppBar = ({ showInitialBorder = false }) => {
   const theme = useTheme();
@@ -128,6 +142,10 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
 
   const handlefaqclick = () => {
     navigate("/FAQ");
+  };
+  
+   const handleLogoClick = () => {
+    navigate("/");
   };
 
   useEffect(() => {
@@ -173,7 +191,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
   const { userInfo, logout } = useContext(AuthContext);
 
   const [isLoggedIn, setIsLoggedIn] = useState(null);
-
+  console.log(localStorage.getItem("access_token"));
   useEffect(() => {
     async function check() {
       setIsLoggedIn(userInfo ? true : false);
@@ -287,7 +305,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
   const drawer = (
     <Box sx={{ width: 250, padding: 2 }}>
       <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
-        <LogoImage src={Vazneh} alt="لوگو وزنه" />
+        <LogoImage src={Vazneh} alt="لوگو وزنه"  onClick={handleLogoClick} />
       </Box>
       <List>
         <ListItem button onClick={() => handleMenuItemClick("coaches")}>
@@ -358,7 +376,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
             <>
               
               <Box sx={{ display: "flex", alignItems: "center", ml: "5rem", gap:1}}>
-              <LogoImage src={Vazneh} alt="لوگو وزنه" />
+              <LogoImage src={Vazneh} alt="لوگو وزنه"  onClick={handleLogoClick} />
                 <Stack direction="row" >
                    
                   {isLoggedIn ? (
@@ -385,7 +403,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
             </>
           ) : (
             <>
-              <LogoImage src={Vazneh} alt="لوگو وزنه" />
+              <LogoImage src={Vazneh} alt="لوگو وزنه"  onClick={handleLogoClick}/>
 
               <Box
                 sx={{

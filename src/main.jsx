@@ -27,6 +27,7 @@ import WorkoutPlans from './pages/WorkoutPlans.jsx';
 import WorkoutDetails from './pages/WorkoutDetails.jsx';
 import NotificationsList from './pages/NotificationsList.jsx';
 import TrainersList from './pages/TrainersList.jsx';
+import CreateWorkoutPlan from './pages/CreateWorkoutPlan.jsx';
 
 const theme = createTheme({
   direction: "rtl",
@@ -117,6 +118,8 @@ createRoot(document.getElementById('root')).render(
               <Route path="/workoutDetails/:workoutId" element={<WorkoutDetails/>} />
               <Route path="/notifications" element={<NotificationsList />} />
               <Route path="/trainers" element={<TrainersList />} />
+              <Route path="/createworkoutplan" element={<CreateWorkoutPlan />} />
+              
 
             </Routes>
           </AuthProvider>

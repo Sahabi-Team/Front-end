@@ -101,11 +101,13 @@ const UserInfoCard = ({ userInfo }) => {
           </InfoRow>
 
           <InfoRow>
+            {console.log(info.fitnessGoal)}
             <InfoValue>{info.fitnessGoal}</InfoValue>
             <InfoLabel>:هدف از ورزش</InfoLabel>
           </InfoRow>
 
           <InfoRow>
+            {console.log(info.medicalConditions)}
             <InfoValue>{info.medicalConditions}</InfoValue>
             <InfoLabel>:بیماری ها</InfoLabel>
           </InfoRow>
