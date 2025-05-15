@@ -24,16 +24,13 @@ import WorkoutPlans from './pages/WorkoutPlans.jsx';
 import WorkoutDetails from './pages/WorkoutDetails.jsx';
 import NotificationsList from './pages/NotificationsList.jsx';
 import TrainersList from './pages/TrainersList.jsx';
-<<<<<<< HEAD
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import AboutUs from './pages/AboutUs.jsx';
 import ContactUs from './pages/ContactUs.jsx';
 import InternalServerErrorPage from "./pages/InternalServerErrorPage";
 
 
-=======
 import CreateWorkoutPlan from './pages/CreateWorkoutPlan.jsx';
->>>>>>> feat_create_workoutplan
 
 const theme = createTheme({
   direction: "rtl",
