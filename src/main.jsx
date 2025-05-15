@@ -24,12 +24,16 @@ import WorkoutPlans from './pages/WorkoutPlans.jsx';
 import WorkoutDetails from './pages/WorkoutDetails.jsx';
 import NotificationsList from './pages/NotificationsList.jsx';
 import TrainersList from './pages/TrainersList.jsx';
+<<<<<<< HEAD
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import AboutUs from './pages/AboutUs.jsx';
 import ContactUs from './pages/ContactUs.jsx';
 import InternalServerErrorPage from "./pages/InternalServerErrorPage";
 
 
+=======
+import CreateWorkoutPlan from './pages/CreateWorkoutPlan.jsx';
+>>>>>>> feat_create_workoutplan
 
 const theme = createTheme({
   direction: "rtl",
@@ -124,8 +128,8 @@ createRoot(document.getElementById('root')).render(
               <Route path="/contact_us" element={< ContactUs />} />              
               <Route path="*" element={<NotFoundPage />} />
               <Route path="/500" element={<InternalServerErrorPage />} />
-
-
+              <Route path="/createworkoutplan" element={<CreateWorkoutPlan />} />
+              
 
             </Routes>
           </AuthProvider>

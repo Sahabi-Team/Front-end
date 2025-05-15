@@ -86,7 +86,7 @@ export default function AskforEmailCard() {
       variant="outlined"
       sx={{
         height: "100%",
-        borderRadius: { md: "30px 0 0 30px", xs: "30px 30px 30px 30px" },
+        borderRadius: { md: "0 30px 30px 0", xs: "30px 30px 30px 30px" },
       }}
     >
       <Box component={"form"} onSubmit={handlesubmit}>
@@ -311,7 +311,7 @@ export default function AskforEmailCard() {
         </Box>
 
         <Divider sx={{ color: "primary" }} />
-        <Box sx={{ marginTop: "0.1rem", textAlign: "center" }}>
+        <Box sx={{ marginTop: "0.3rem", textAlign: "center" }}>
           <Typography
             variant="h4"
             sx={{
@@ -323,7 +323,7 @@ export default function AskforEmailCard() {
               textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)",
             }}
           >
-            Gym Fit
+             جیمباتو
           </Typography>
         </Box>
       </Box>
