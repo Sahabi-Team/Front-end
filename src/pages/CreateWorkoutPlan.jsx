@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Container,
@@ -15,11 +15,12 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TrainerSidebar from "../components/TrainerSidebar.jsx";
 import Vazneh from "../assets/imgs/home/vazneh.png";
 import Footer from "../components/Footer.jsx";
-import { AuthContext } from '../contexts/AuthContext.jsx';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import TestResultCard from '../components/CreateWorkoutPlan/TestResultCard.jsx';
-import WorkoutPlanCard from '../components/CreateWorkoutPlan/WorkoutPlan_card.jsx';
+import { AuthContext } from "../contexts/AuthContext.jsx";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import TestResultCard from "../components/CreateWorkoutPlan/TestResultCard.jsx";
+import WorkoutPlanCard from "../components/CreateWorkoutPlan/WorkoutPlan_card.jsx";
+import ErrorModal from "../components/modals/ErrorModal.jsx";
 
 const LogoImage = styled("img")(({ theme }) => ({
   height: "70px",
@@ -41,12 +42,27 @@ const statusColor = (status) => {
   }
 };
 
-
-
 export default function WorkoutPlans() {
   const { userInfo } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [loadingVisible, setLoadingVisible] = useState(false);
+  const [showWorkoutPlan, setShowWorkoutPlan] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [openErrorModal, setOpenErrorModal] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [istestreadonly , setIstestreadonly] = React.useState(false);
+  const [initialsession,setInitialsession] = React.useState(null);
+
+ console.log(selectedUserId);
+  const handleStartWritingPlan = () => {
+    if(istestreadonly){
+      setIstestreadonly(false);
+    }
+    setShowWorkoutPlan(true);
+  };
+   const handleCloseErrorModal = () => {
+    setOpenErrorModal(false); // بستن مودال
+  };
 
   const navigate = useNavigate();
 
@@ -67,12 +83,7 @@ export default function WorkoutPlans() {
           }}
         >
           <CircularProgress size={70} thickness={4.5} color="primary" />
-          <Typography
-            variant="h6"
-            mt={4}
-            fontWeight="600"
-            color="text.primary"
-          >
+          <Typography variant="h6" mt={4} fontWeight="600" color="text.primary">
             در حال بارگذاری برنامه ورزشی شما...
           </Typography>
         </Box>
@@ -91,7 +102,13 @@ export default function WorkoutPlans() {
         </Box>
         <Box
           sx={{
-            width: { xs: "87.67%", sm: "89.67%", md: "75.67%", lg: "82.67%", xl: "86.67%" },
+            width: {
+              xs: "87.67%",
+              sm: "89.67%",
+              md: "75.67%",
+              lg: "82.67%",
+              xl: "86.67%",
+            },
             marginLeft: { xs: 7.5, md: 25.9 },
             padding: 2,
             marginTop: 3,
@@ -103,7 +120,11 @@ export default function WorkoutPlans() {
                 direction="row"
                 justifyContent="space-between"
                 alignItems="center"
-                sx={{ direction: "rtl", pl: { sm: 2.5, lg: 1.5, xl: 9.5 }, pr: { sm: 2.5, lg: 1.5, xl: 9.5 } }}
+                sx={{
+                  direction: "rtl",
+                  pl: { sm: 2.5, lg: 1.5, xl: 9.5 },
+                  pr: { sm: 2.5, lg: 1.5, xl: 9.5 },
+                }}
               >
                 <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
                   <LogoImage src={Vazneh} alt="لوگو وزنه" />
@@ -139,19 +160,92 @@ export default function WorkoutPlans() {
                   mx: "auto",
                   mt: 0,
                   overflowY: "auto",
-                 
                 }}
               >
-                 
-                {/* <TestResultCard/> */}
-                <WorkoutPlanCard/>
+                {showWorkoutPlan ? (
+                  selectedUserId != null ? (
+                    <WorkoutPlanCard selectedUserId={selectedUserId} setSelectedUserId = {setSelectedUserId} showtest={setIstestreadonly} setShowWorkoutPlan = {setShowWorkoutPlan} initialSessions = {initialsession} setInitialsession={setInitialsession} />
+                  ) : (
+                    <>
+                      <TestResultCard
+                        onStartWritingPlan={handleStartWritingPlan}
+                        setSelectedUserId={setSelectedUserId}
+                        selectedUserId={selectedUserId}
+                        isreadonly={istestreadonly}
+                      />
+                      {setErrorMessage("کاربری انتخاب نشده است.")}
+                      {setOpenErrorModal(true)}
+                      {setShowWorkoutPlan(false)}
+                    </>
+                  )
+                ) : (
+                  <TestResultCard
+                    onStartWritingPlan={handleStartWritingPlan}
+                    setSelectedUserId={setSelectedUserId}
+                    selectedUserId={selectedUserId}
+                    isreadonly = {istestreadonly}
+                  />
+                )}
 
-
+                {/* <Box mb={1} mt={5} textAlign="center">
+                  <Button variant="contained" color="success" size="large">
+                    شروع نوشتن برنامه
+                  </Button>
+                </Box>
+                {/* Footer */}
+                {/* <Box
+                  bottom={0}
+                  left={0}
+                  width="100%"
+                  bgcolor="#ffffffee"
+                  boxShadow="0 -2px 10px rgba(0,0,0,0.1)"
+                  py={2}
+                  px={3}
+                  zIndex={1300}
+                  mt={3}
+                >
+                  <Stack
+                    direction={{ xs: "column", sm: "row" }}
+                    justifyContent="center"
+                    alignItems="center"
+                    gap={2}
+                  >
+                    <Button
+                      variant="contained"
+                      onClick={goToPreviousDay}
+                      disabled={sessionIndex === 0}
+                      color="primary"
+                      fullWidth={true}
+                    >
+                      روز قبل
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      fullWidth={true}
+                    >
+                      نتیجه تست
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={goToNextDay}
+                      fullWidth={true}
+                    >
+                      روز بعد
+                    </Button>
+                  </Stack>
+                </Box> */}
               </Paper>
             </Box>
           </Stack>
         </Box>
       </Stack>
+       <ErrorModal
+        open={openErrorModal}
+        onClose={handleCloseErrorModal}
+        errorMessage={errorMessage}
+      />
     </>
   );
 }

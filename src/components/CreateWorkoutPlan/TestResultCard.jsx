@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -14,9 +14,11 @@ import {
   Stack,
   useTheme,
   useMediaQuery,
+  CircularProgress,
 } from "@mui/material";
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import axios from "axios";
 
 const users = [
   {
@@ -55,14 +57,60 @@ const users = [
   },
 ];
 
-const TestResultCard = () => {
-  const [selectedUserId, setSelectedUserId] = useState(users[0].id);
+const TestResultCard = ({
+  onStartWritingPlan,
+  setSelectedUserId,
+  selectedUserId,
+  isreadonly,
+}) => {
   const selectedUser = users.find((user) => user.id === selectedUserId);
   const theme = useTheme();
   const isLg = useMediaQuery(theme.breakpoints.only("lg"));
   const isMd = useMediaQuery(theme.breakpoints.only("md"));
   const isSm = useMediaQuery(theme.breakpoints.only("sm"));
   const isXs = useMediaQuery(theme.breakpoints.only("xs"));
+  const [trainees, setTrainees] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTrainees = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8000/api/trainer/my-trainees/",
+          {
+            headers: {
+              Authorization:
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ3ODI2MTU4LCJpYXQiOjE3NDc3Mzk3NTgsImp0aSI6IjU3MzM2NDY4YmI1ODQ2NDBiY2M0MGQ0ZmQwNmU2ZmQzIiwidXNlcl9pZCI6MjF9.QNq-ospT9_-fNPCv-liwOvLBv6D6GK7wejRE8qIiIJ4",
+            },
+          }
+        );
+        setTrainees(response.data);
+      } catch (error) {
+        console.error("خطا در گرفتن لیست هنرجوها:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTrainees();
+  }, []);
+
+  if (loading) {
+    return (
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        height="60vh"
+      >
+        <CircularProgress size={60} thickness={4} color="primary" />
+        <Typography variant="h6" mt={2}>
+          در حال بارگذاری...
+        </Typography>
+      </Box>
+    );
+  }
 
   if (isSm || isXs) {
     return (
@@ -83,7 +131,7 @@ const TestResultCard = () => {
                 value={selectedUserId}
                 //   label="انتخاب شاگرد"
                 onChange={(e) => setSelectedUserId(e.target.value)}
-                sx={{ width:250 }}
+                sx={{ width: 250 }}
               >
                 {users.map((user) => (
                   <MenuItem key={user.id} value={user.id}>
@@ -103,90 +151,103 @@ const TestResultCard = () => {
           </Box>
 
           <Divider sx={{ mb: 3 }} />
-          <Box
-          // sx={{ justifyContent: "center" }}
-          >
-            <Stack
-              direction="column"
-              gap={4}
-              alignItems="flex-start"
-              // sx={{ minWidth: 250 }}
+          {selectedUser ? (
+            <Box>
+              <Stack direction="column" gap={4} alignItems="flex-start">
+                <Typography sx={{ whiteSpace: "nowrap" }}>
+                  جنسیت: {selectedUser.gender}
+                </Typography>
+                <Typography sx={{ whiteSpace: "nowrap" }}>
+                  سن: {selectedUser.age}
+                </Typography>
+                <Typography sx={{ whiteSpace: "nowrap" }}>
+                  قد: {selectedUser.height}
+                </Typography>
+                <Typography sx={{ whiteSpace: "nowrap" }}>
+                  زمان هفتگی: {selectedUser.timePerWeek}
+                </Typography>
+                <Typography sx={{ whiteSpace: "nowrap" }}>
+                  وزن: {selectedUser.weight}
+                </Typography>
+                <Typography sx={{ whiteSpace: "nowrap" }}>
+                  وزن هدف: {selectedUser.targetWeight}
+                </Typography>
+                <Typography sx={{ whiteSpace: "nowrap" }}>
+                  مکان تمرین: {selectedUser.workoutPlace}
+                </Typography>
+                <Stack direction={"row"} gap={1}>
+                  <Typography sx={{ whiteSpace: "nowrap" }}>
+                    هدف از ورزش:
+                  </Typography>
+                  <Typography sx={{ maxWidth: 300 }}>
+                    {selectedUser.workoutGoal}
+                  </Typography>
+                </Stack>
+
+                <Stack direction="row" gap={1}>
+                  <Typography sx={{ whiteSpace: "nowrap" }}>
+                    عضلات هدف:
+                  </Typography>
+                  <Stack
+                    direction="row"
+                    flexWrap="wrap"
+                    gap={1}
+                    sx={{ maxWidth: 300 }}
+                  >
+                    {selectedUser.targetMuscles.map((muscle, index) => (
+                      <Chip
+                        key={index}
+                        label={muscle}
+                        color="primary"
+                        variant="outlined"
+                      />
+                    ))}
+                  </Stack>
+                </Stack>
+
+                <Stack direction="row" gap={1}>
+                  <Typography sx={{ whiteSpace: "nowrap" }}>
+                    بیماری‌ها:
+                  </Typography>
+                  <Stack
+                    direction="row"
+                    flexWrap="wrap"
+                    gap={1}
+                    sx={{ maxWidth: 300 }}
+                  >
+                    {selectedUser.healthIssues.map((issue, index) => (
+                      <Chip
+                        key={index}
+                        label={issue}
+                        color="error"
+                        variant="outlined"
+                      />
+                    ))}
+                  </Stack>
+                </Stack>
+              </Stack>
+            </Box>
+          ) : (
+            <Box
+              mt={4}
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              height="200px"
             >
-              <Typography sx={{ whiteSpace: "nowrap" }}>
-                جنسیت: {selectedUser.gender}
+              <Typography variant="h6" color="text.secondary">
+                اطلاعاتی جهت نمایش وجود ندارد.
               </Typography>
-              <Typography sx={{ whiteSpace: "nowrap" }}>
-                سن: {selectedUser.age}
-              </Typography>
-              <Typography sx={{ whiteSpace: "nowrap" }}>
-                قد: {selectedUser.height}
-              </Typography>
-              <Typography sx={{ whiteSpace: "nowrap" }}>
-                زمان هفتگی: {selectedUser.timePerWeek}
-              </Typography>
-              <Typography sx={{ whiteSpace: "nowrap" }}>
-                وزن: {selectedUser.weight}
-              </Typography>
-              <Typography sx={{ whiteSpace: "nowrap" }}>
-                وزن هدف: {selectedUser.targetWeight}
-              </Typography>
-              <Typography sx={{ whiteSpace: "nowrap" }}>
-                مکان تمرین: {selectedUser.workoutPlace}
-              </Typography>
-              <Stack direction={"row"} gap={1}>
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  هدف از ورزش:
-                </Typography>
-                <Typography sx={{ maxWidth: 300 }}>{selectedUser.workoutGoal}</Typography>
-              </Stack>
+            </Box>
+          )}
 
-              <Stack direction="row" gap={1}>
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  عضلات هدف:
-                </Typography>
-                <Stack
-                  direction="row"
-                  flexWrap="wrap"
-                  gap={1}
-                  sx={{ maxWidth: 300 }} // یا هر عرضی که تقریبا برای 3 چیپ کافیه
-                >
-                  {selectedUser.targetMuscles.map((muscle, index) => (
-                    <Chip
-                      key={index}
-                      label={muscle}
-                      color="primary"
-                      variant="outlined"
-                      // sx={{ flex: "1 1 calc(33.33% - 8px)" }} // 3 تا در هر خط با gap=1
-                    />
-                  ))}
-                </Stack>
-              </Stack>
-
-              <Stack direction="row" gap={1}>
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  بیماری‌ها:
-                </Typography>
-                <Stack
-                  direction="row"
-                  flexWrap="wrap"
-                  gap={1}
-                  sx={{ maxWidth: 300 }}
-                >
-                  {selectedUser.healthIssues.map((issue, index) => (
-                    <Chip
-                      key={index}
-                      label={issue}
-                      color="error"
-                      variant="outlined"
-                      // sx={{ flex: "1 1 calc(33.33% - 8px)" }}
-                    />
-                  ))}
-                </Stack>
-              </Stack>
-            </Stack>
-          </Box>
           <Box mb={1} mt={5} textAlign="center">
-            <Button variant="contained" color="success" size="large">
+            <Button
+              variant="contained"
+              color="success"
+              size="large"
+              onClick={onStartWritingPlan}
+            >
               شروع نوشتن برنامه
             </Button>
           </Box>
@@ -199,7 +260,11 @@ const TestResultCard = () => {
         <Box paddingRight={9} paddingLeft={9} paddingTop={9}>
           <Stack direction={"row"} gap={2}>
             <Box display="flex" alignItems="center" mb={3}>
-              <Typography variant="h6" fontWeight="bold" sx={{ whiteSpace: "nowrap" }}>
+              <Typography
+                variant="h6"
+                fontWeight="bold"
+                sx={{ whiteSpace: "nowrap" }}
+              >
                 نوشتن برنامه برای شاگرد:
               </Typography>
               {/* <PersonOutlineIcon sx={{ color: '#1976d2', ml: 1 }} /> */}
@@ -232,99 +297,119 @@ const TestResultCard = () => {
           </Box>
 
           <Divider sx={{ mb: 3 }} />
-          <Box
-            paddingLeft={5}
-            paddingRight={10}
-            sx={{ justifyContent: "center" }}
-          >
-            <Stack direction={"row"} gap={10} alignItems="flex-start">
-              <Stack
-                direction="column"
-                gap={4}
-                alignItems="flex-start"
-                // sx={{ minWidth: 250 }}
-              >
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  جنسیت: {selectedUser.gender}
-                </Typography>
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  سن: {selectedUser.age}
-                </Typography>
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  مکان تمرین: {selectedUser.workoutPlace}
-                </Typography>
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  هدف از ورزش: {selectedUser.workoutGoal}
-                </Typography>
-
-                <Stack direction="row" gap={1}>
+          {selectedUser ? (
+            <Box
+              paddingLeft={5}
+              paddingRight={10}
+              sx={{ justifyContent: "center" }}
+            >
+              <Stack direction={"row"} gap={10} alignItems="flex-start">
+                <Stack
+                  direction="column"
+                  gap={4}
+                  alignItems="flex-start"
+                  // sx={{ minWidth: 250 }}
+                >
                   <Typography sx={{ whiteSpace: "nowrap" }}>
-                    عضلات هدف:
+                    جنسیت: {selectedUser.gender}
                   </Typography>
-                  <Stack
-                    direction="row"
-                    flexWrap="wrap"
-                    gap={1}
-                    sx={{ maxWidth: 300 }} // یا هر عرضی که تقریبا برای 3 چیپ کافیه
-                  >
-                    {selectedUser.targetMuscles.map((muscle, index) => (
-                      <Chip
-                        key={index}
-                        label={muscle}
-                        color="primary"
-                        variant="outlined"
-                        // sx={{ flex: "1 1 calc(33.33% - 8px)" }} // 3 تا در هر خط با gap=1
-                      />
-                    ))}
+                  <Typography sx={{ whiteSpace: "nowrap" }}>
+                    سن: {selectedUser.age}
+                  </Typography>
+                  <Typography sx={{ whiteSpace: "nowrap" }}>
+                    مکان تمرین: {selectedUser.workoutPlace}
+                  </Typography>
+                  <Typography sx={{ whiteSpace: "nowrap" }}>
+                    هدف از ورزش: {selectedUser.workoutGoal}
+                  </Typography>
+
+                  <Stack direction="row" gap={1}>
+                    <Typography sx={{ whiteSpace: "nowrap" }}>
+                      عضلات هدف:
+                    </Typography>
+                    <Stack
+                      direction="row"
+                      flexWrap="wrap"
+                      gap={1}
+                      sx={{ maxWidth: 300 }} // یا هر عرضی که تقریبا برای 3 چیپ کافیه
+                    >
+                      {selectedUser.targetMuscles.map((muscle, index) => (
+                        <Chip
+                          key={index}
+                          label={muscle}
+                          color="primary"
+                          variant="outlined"
+                          // sx={{ flex: "1 1 calc(33.33% - 8px)" }} // 3 تا در هر خط با gap=1
+                        />
+                      ))}
+                    </Stack>
+                  </Stack>
+
+                  <Stack direction="row" gap={1}>
+                    <Typography sx={{ whiteSpace: "nowrap" }}>
+                      بیماری‌ها:
+                    </Typography>
+                    <Stack
+                      direction="row"
+                      flexWrap="wrap"
+                      gap={1}
+                      sx={{ maxWidth: 300 }}
+                    >
+                      {selectedUser.healthIssues.map((issue, index) => (
+                        <Chip
+                          key={index}
+                          label={issue}
+                          color="error"
+                          variant="outlined"
+                          // sx={{ flex: "1 1 calc(33.33% - 8px)" }}
+                        />
+                      ))}
+                    </Stack>
                   </Stack>
                 </Stack>
 
-                <Stack direction="row" gap={1}>
+                <Stack
+                  direction="column"
+                  gap={4}
+                  alignItems="flex-start"
+                  sx={{ minWidth: 200 }}
+                >
                   <Typography sx={{ whiteSpace: "nowrap" }}>
-                    بیماری‌ها:
+                    قد: {selectedUser.height}
                   </Typography>
-                  <Stack
-                    direction="row"
-                    flexWrap="wrap"
-                    gap={1}
-                    sx={{ maxWidth: 300 }}
-                  >
-                    {selectedUser.healthIssues.map((issue, index) => (
-                      <Chip
-                        key={index}
-                        label={issue}
-                        color="error"
-                        variant="outlined"
-                        // sx={{ flex: "1 1 calc(33.33% - 8px)" }}
-                      />
-                    ))}
-                  </Stack>
+                  <Typography sx={{ whiteSpace: "nowrap" }}>
+                    زمان هفتگی: {selectedUser.timePerWeek}
+                  </Typography>
+                  <Typography sx={{ whiteSpace: "nowrap" }}>
+                    وزن: {selectedUser.weight}
+                  </Typography>
+                  <Typography sx={{ whiteSpace: "nowrap" }}>
+                    وزن هدف: {selectedUser.targetWeight}
+                  </Typography>
                 </Stack>
               </Stack>
+            </Box>
+          ) : (
+            <Box
+              mt={4}
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              height="200px"
+            >
+              <Typography variant="h6" color="text.secondary">
+                اطلاعاتی جهت نمایش وجود ندارد.
+              </Typography>
+            </Box>
+          )}
 
-              <Stack
-                direction="column"
-                gap={4}
-                alignItems="flex-start"
-                sx={{ minWidth: 200 }}
-              >
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  قد: {selectedUser.height}
-                </Typography>
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  زمان هفتگی: {selectedUser.timePerWeek}
-                </Typography>
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  وزن: {selectedUser.weight}
-                </Typography>
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  وزن هدف: {selectedUser.targetWeight}
-                </Typography>
-              </Stack>
-            </Stack>
-          </Box>
           <Box mb={1} mt={5} textAlign="center">
-            <Button variant="contained" color="success" size="large">
+            <Button
+              variant="contained"
+              color="success"
+              size="large"
+              onClick={onStartWritingPlan}
+            >
               شروع نوشتن برنامه
             </Button>
           </Box>
@@ -337,7 +422,11 @@ const TestResultCard = () => {
         <Box paddingRight={9} paddingLeft={9} paddingTop={9}>
           <Stack direction={"row"} gap={2}>
             <Box display="flex" alignItems="center" mb={3}>
-              <Typography variant="h6" fontWeight="bold" sx={{ whiteSpace: "nowrap" }}>
+              <Typography
+                variant="h6"
+                fontWeight="bold"
+                sx={{ whiteSpace: "nowrap" }}
+              >
                 نوشتن برنامه برای شاگرد:
               </Typography>
               {/* <PersonOutlineIcon sx={{ color: '#1976d2', ml: 1 }} /> */}
@@ -370,107 +459,128 @@ const TestResultCard = () => {
           </Box>
 
           <Divider sx={{ mb: 3 }} />
-          <Box
-            paddingLeft={10}
-            paddingRight={10}
-            sx={{ justifyContent: "center" }}
-          >
-            <Stack direction={"row"} gap={7} alignItems="flex-start">
-              <Stack
-                direction="column"
-                gap={4}
-                alignItems="flex-start"
-                // sx={{ minWidth: 250 }}
-              >
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  جنسیت: {selectedUser.gender}
-                </Typography>
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  سن: {selectedUser.age}
-                </Typography>
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  مکان تمرین: {selectedUser.workoutPlace}
-                </Typography>
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  هدف از ورزش: {selectedUser.workoutGoal}
-                </Typography>
 
-                <Stack direction="row" gap={1}>
+          {selectedUser ? (
+            <Box
+              paddingLeft={10}
+              paddingRight={10}
+              sx={{ justifyContent: "center" }}
+            >
+              <Stack direction={"row"} gap={7} alignItems="flex-start">
+                <Stack
+                  direction="column"
+                  gap={4}
+                  alignItems="flex-start"
+                  // sx={{ minWidth: 250 }}
+                >
                   <Typography sx={{ whiteSpace: "nowrap" }}>
-                    عضلات هدف:
+                    جنسیت: {selectedUser.gender}
                   </Typography>
-                  <Stack
-                    direction="row"
-                    flexWrap="wrap"
-                    gap={1}
-                    sx={{ maxWidth: 300 }} // یا هر عرضی که تقریبا برای 3 چیپ کافیه
-                  >
-                    {selectedUser.targetMuscles.map((muscle, index) => (
-                      <Chip
-                        key={index}
-                        label={muscle}
-                        color="primary"
-                        variant="outlined"
-                        // sx={{ flex: "1 1 calc(33.33% - 8px)" }} // 3 تا در هر خط با gap=1
-                      />
-                    ))}
+                  <Typography sx={{ whiteSpace: "nowrap" }}>
+                    سن: {selectedUser.age}
+                  </Typography>
+                  <Typography sx={{ whiteSpace: "nowrap" }}>
+                    مکان تمرین: {selectedUser.workoutPlace}
+                  </Typography>
+                  <Typography sx={{ whiteSpace: "nowrap" }}>
+                    هدف از ورزش: {selectedUser.workoutGoal}
+                  </Typography>
+
+                  <Stack direction="row" gap={1}>
+                    <Typography sx={{ whiteSpace: "nowrap" }}>
+                      عضلات هدف:
+                    </Typography>
+                    <Stack
+                      direction="row"
+                      flexWrap="wrap"
+                      gap={1}
+                      sx={{ maxWidth: 300 }} // یا هر عرضی که تقریبا برای 3 چیپ کافیه
+                    >
+                      {selectedUser.targetMuscles.map((muscle, index) => (
+                        <Chip
+                          key={index}
+                          label={muscle}
+                          color="primary"
+                          variant="outlined"
+                          // sx={{ flex: "1 1 calc(33.33% - 8px)" }} // 3 تا در هر خط با gap=1
+                        />
+                      ))}
+                    </Stack>
+                  </Stack>
+
+                  <Stack direction="row" gap={1}>
+                    <Typography sx={{ whiteSpace: "nowrap" }}>
+                      بیماری‌ها:
+                    </Typography>
+                    <Stack
+                      direction="row"
+                      flexWrap="wrap"
+                      gap={1}
+                      sx={{ maxWidth: 300 }}
+                    >
+                      {selectedUser.healthIssues.map((issue, index) => (
+                        <Chip
+                          key={index}
+                          label={issue}
+                          color="error"
+                          variant="outlined"
+                          // sx={{ flex: "1 1 calc(33.33% - 8px)" }}
+                        />
+                      ))}
+                    </Stack>
                   </Stack>
                 </Stack>
 
-                <Stack direction="row" gap={1}>
+                <Stack
+                  direction="column"
+                  gap={4}
+                  alignItems="flex-start"
+                  sx={{ minWidth: 200 }}
+                >
                   <Typography sx={{ whiteSpace: "nowrap" }}>
-                    بیماری‌ها:
+                    قد: {selectedUser.height}
                   </Typography>
-                  <Stack
-                    direction="row"
-                    flexWrap="wrap"
-                    gap={1}
-                    sx={{ maxWidth: 300 }}
-                  >
-                    {selectedUser.healthIssues.map((issue, index) => (
-                      <Chip
-                        key={index}
-                        label={issue}
-                        color="error"
-                        variant="outlined"
-                        // sx={{ flex: "1 1 calc(33.33% - 8px)" }}
-                      />
-                    ))}
-                  </Stack>
+                  <Typography sx={{ whiteSpace: "nowrap" }}>
+                    زمان هفتگی: {selectedUser.timePerWeek}
+                  </Typography>
+                </Stack>
+
+                <Stack
+                  direction="column"
+                  gap={4}
+                  alignItems="flex-start"
+                  sx={{ minWidth: 200 }}
+                >
+                  <Typography sx={{ whiteSpace: "nowrap" }}>
+                    وزن: {selectedUser.weight}
+                  </Typography>
+                  <Typography sx={{ whiteSpace: "nowrap" }}>
+                    وزن هدف: {selectedUser.targetWeight}
+                  </Typography>
                 </Stack>
               </Stack>
+            </Box>
+          ) : (
+            <Box
+              mt={4}
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              height="200px"
+            >
+              <Typography variant="h6" color="text.secondary">
+                اطلاعاتی جهت نمایش وجود ندارد.
+              </Typography>
+            </Box>
+          )}
 
-              <Stack
-                direction="column"
-                gap={4}
-                alignItems="flex-start"
-                sx={{ minWidth: 200 }}
-              >
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  قد: {selectedUser.height}
-                </Typography>
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  زمان هفتگی: {selectedUser.timePerWeek}
-                </Typography>
-              </Stack>
-
-              <Stack
-                direction="column"
-                gap={4}
-                alignItems="flex-start"
-                sx={{ minWidth: 200 }}
-              >
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  وزن: {selectedUser.weight}
-                </Typography>
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  وزن هدف: {selectedUser.targetWeight}
-                </Typography>
-              </Stack>
-            </Stack>
-          </Box>
           <Box mb={1} mt={5} textAlign="center">
-            <Button variant="contained" color="success" size="large">
+            <Button
+              variant="contained"
+              color="success"
+              size="large"
+              onClick={onStartWritingPlan}
+            >
               شروع نوشتن برنامه
             </Button>
           </Box>
@@ -483,7 +593,11 @@ const TestResultCard = () => {
         <Box paddingRight={9} paddingLeft={9} paddingTop={9}>
           <Stack direction={"row"} gap={2}>
             <Box display="flex" alignItems="center" mb={3}>
-              <Typography variant="h6" fontWeight="bold" sx={{ whiteSpace: "nowrap" }}>
+              <Typography
+                variant="h6"
+                fontWeight="bold"
+                sx={{ whiteSpace: "nowrap" }}
+              >
                 نوشتن برنامه برای شاگرد:
               </Typography>
               {/* <PersonOutlineIcon sx={{ color: '#1976d2', ml: 1 }} /> */}
@@ -495,6 +609,7 @@ const TestResultCard = () => {
                 labelId="user-select-label"
                 value={selectedUserId}
                 //   label="انتخاب شاگرد"
+                readOnly={isreadonly}
                 onChange={(e) => setSelectedUserId(e.target.value)}
                 sx={{ width: 300 }}
               >
@@ -516,112 +631,131 @@ const TestResultCard = () => {
           </Box>
 
           <Divider sx={{ mb: 3 }} />
-          <Box
-            paddingLeft={15}
-            paddingRight={10}
-            sx={{ justifyContent: "center" }}
-          >
-            <Stack direction={"row"} gap={19} alignItems="flex-start">
-              <Stack
-                direction="column"
-                gap={4}
-                alignItems="flex-start"
-                // sx={{ minWidth: 250 }}
-              >
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  جنسیت: {selectedUser.gender}
-                </Typography>
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  سن: {selectedUser.age}
-                </Typography>
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  مکان تمرین: {selectedUser.workoutPlace}
-                </Typography>
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  هدف از ورزش: {selectedUser.workoutGoal}
-                </Typography>
-
-                <Stack direction="row" gap={1}>
+          {selectedUser ? (
+            <Box
+              paddingLeft={15}
+              paddingRight={10}
+              sx={{ justifyContent: "center" }}
+            >
+              <Stack direction={"row"} gap={19} alignItems="flex-start">
+                <Stack
+                  direction="column"
+                  gap={4}
+                  alignItems="flex-start"
+                  // sx={{ minWidth: 250 }}
+                >
                   <Typography sx={{ whiteSpace: "nowrap" }}>
-                    عضلات هدف:
+                    جنسیت: {selectedUser.gender}
                   </Typography>
-                  <Stack
-                    direction="row"
-                    flexWrap="wrap"
-                    gap={1}
-                    sx={{ maxWidth: 300 }} // یا هر عرضی که تقریبا برای 3 چیپ کافیه
-                  >
-                    {selectedUser.targetMuscles.map((muscle, index) => (
-                      <Chip
-                        key={index}
-                        label={muscle}
-                        color="primary"
-                        variant="outlined"
-                        // sx={{ flex: "1 1 calc(33.33% - 8px)" }} // 3 تا در هر خط با gap=1
-                      />
-                    ))}
+                  <Typography sx={{ whiteSpace: "nowrap" }}>
+                    سن: {selectedUser.age}
+                  </Typography>
+                  <Typography sx={{ whiteSpace: "nowrap" }}>
+                    مکان تمرین: {selectedUser.workoutPlace}
+                  </Typography>
+                  <Typography sx={{ whiteSpace: "nowrap" }}>
+                    هدف از ورزش: {selectedUser.workoutGoal}
+                  </Typography>
+
+                  <Stack direction="row" gap={1}>
+                    <Typography sx={{ whiteSpace: "nowrap" }}>
+                      عضلات هدف:
+                    </Typography>
+                    <Stack
+                      direction="row"
+                      flexWrap="wrap"
+                      gap={1}
+                      sx={{ maxWidth: 300 }} // یا هر عرضی که تقریبا برای 3 چیپ کافیه
+                    >
+                      {selectedUser.targetMuscles.map((muscle, index) => (
+                        <Chip
+                          key={index}
+                          label={muscle}
+                          color="primary"
+                          variant="outlined"
+                          // sx={{ flex: "1 1 calc(33.33% - 8px)" }} // 3 تا در هر خط با gap=1
+                        />
+                      ))}
+                    </Stack>
+                  </Stack>
+
+                  <Stack direction="row" gap={1}>
+                    <Typography sx={{ whiteSpace: "nowrap" }}>
+                      بیماری‌ها:
+                    </Typography>
+                    <Stack
+                      direction="row"
+                      flexWrap="wrap"
+                      gap={1}
+                      sx={{ maxWidth: 300 }}
+                    >
+                      {selectedUser.healthIssues.map((issue, index) => (
+                        <Chip
+                          key={index}
+                          label={issue}
+                          color="error"
+                          variant="outlined"
+                          // sx={{ flex: "1 1 calc(33.33% - 8px)" }}
+                        />
+                      ))}
+                    </Stack>
                   </Stack>
                 </Stack>
 
-                <Stack direction="row" gap={1}>
+                <Stack
+                  direction="column"
+                  gap={4}
+                  alignItems="flex-start"
+                  sx={{ minWidth: 200 }}
+                >
                   <Typography sx={{ whiteSpace: "nowrap" }}>
-                    بیماری‌ها:
+                    قد: {selectedUser.height}
                   </Typography>
-                  <Stack
-                    direction="row"
-                    flexWrap="wrap"
-                    gap={1}
-                    sx={{ maxWidth: 300 }}
-                  >
-                    {selectedUser.healthIssues.map((issue, index) => (
-                      <Chip
-                        key={index}
-                        label={issue}
-                        color="error"
-                        variant="outlined"
-                        // sx={{ flex: "1 1 calc(33.33% - 8px)" }}
-                      />
-                    ))}
-                  </Stack>
+                  <Typography sx={{ whiteSpace: "nowrap" }}>
+                    زمان هفتگی: {selectedUser.timePerWeek}
+                  </Typography>
+                </Stack>
+
+                <Stack
+                  direction="column"
+                  gap={4}
+                  alignItems="flex-start"
+                  sx={{ minWidth: 200 }}
+                >
+                  <Typography sx={{ whiteSpace: "nowrap" }}>
+                    وزن: {selectedUser.weight}
+                  </Typography>
+                  <Typography sx={{ whiteSpace: "nowrap" }}>
+                    وزن هدف: {selectedUser.targetWeight}
+                  </Typography>
                 </Stack>
               </Stack>
+            </Box>
+          ) : (
+            <Box
+              mt={4}
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              height="200px"
+            >
+              <Typography variant="h6" color="text.secondary">
+                اطلاعاتی جهت نمایش وجود ندارد.
+              </Typography>
+            </Box>
+          )}
 
-              <Stack
-                direction="column"
-                gap={4}
-                alignItems="flex-start"
-                sx={{ minWidth: 200 }}
-              >
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  قد: {selectedUser.height}
-                </Typography>
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  زمان هفتگی: {selectedUser.timePerWeek}
-                </Typography>
-              </Stack>
-
-              <Stack
-                direction="column"
-                gap={4}
-                alignItems="flex-start"
-                sx={{ minWidth: 200 }}
-              >
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  وزن: {selectedUser.weight}
-                </Typography>
-                <Typography sx={{ whiteSpace: "nowrap" }}>
-                  وزن هدف: {selectedUser.targetWeight}
-                </Typography>
-              </Stack>
-            </Stack>
-          </Box>
-          <Box mb={0}  textAlign="center">
-            <Button variant="contained" color="success" size="large">
-              شروع نوشتن برنامه
+          <Box mb={0} textAlign="center">
+            <Button
+              variant="contained"
+              color="success"
+              size="large"
+              onClick={onStartWritingPlan}
+            >
+              {isreadonly ? "ادامه نوشتن برنامه" : "شروع نوشتن برنامه"}
             </Button>
           </Box>
         </Box>
-        
       </>
     );
   }

@@ -207,11 +207,26 @@ const MoveBlock = ({ index, moveData, onUpdate, onDelete }) => {
   );
 };
 
-const ComboBox = () => {
-  const [sessions, setSessions] = useState([{ moves: [], note: "" }]);
+const ComboBox = ({
+  selectedUserID,
+  setSelectedUserId,
+  showtest,
+  setShowWorkoutPlan,
+  initialSessions,
+  setInitialsession,
+}) => {
+  const [sessions, setSessions] = useState(
+    initialSessions ?? [{ moves: [], note: "" }]
+  );
   const [sessionIndex, setSessionIndex] = useState(0);
 
   const currentSession = sessions[sessionIndex];
+ 
+  const handleshowtest = () => {
+    showtest(true);
+    setShowWorkoutPlan(false);
+    setInitialsession(sessions);
+  };
 
   const handleAddMove = () => {
     const newMove = { name: null, sets: [1] };
@@ -345,7 +360,7 @@ const ComboBox = () => {
           >
             روز قبل
           </Button>
-          <Button variant="contained" color="primary" fullWidth={true}>
+          <Button variant="contained" color="primary" fullWidth={true} onClick={handleshowtest}>
             نتیجه تست
           </Button>
           <Button
