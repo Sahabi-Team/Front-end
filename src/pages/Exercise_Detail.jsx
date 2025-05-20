@@ -9,6 +9,7 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useNavigate } from "react-router-dom"; // import useNavigate
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import config from '../config';
 
 export default function Exercise_Detail() {
   const navigate = useNavigate(); // استفاده از useNavigate برای هدایت به صفحه جدید
@@ -24,7 +25,7 @@ export default function Exercise_Detail() {
     const fetchExercise = async () => {
       try {
         const res = await fetch(
-          `http://84.234.29.28:8000/api/exercises/exercises/${id}/`,
+          `${config.API_BASE_URL}/api/exercises/exercises/${id}/`,
           {
             headers: {
               accept: "application/json",

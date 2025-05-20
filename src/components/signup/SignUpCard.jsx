@@ -26,6 +26,7 @@ import ErrorModal from "../modals/ErrorModal";
 import SuccessfulModal from "../modals/SuccessfulModal";
 import axios from "axios";
 import HomeIcon from '@mui/icons-material/Home';
+import config from '../../config';
 
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -182,7 +183,7 @@ export default function SignUpCard() {
 
     try {
       const response = await axios.post(
-        "http://84.234.29.28:8000/api/auth/register/", // آدرس API ثبت‌نام
+        `${config.API_BASE_URL}/api/auth/register/`,
         
           {
             "first_name" : "Mo",

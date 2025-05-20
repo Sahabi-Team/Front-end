@@ -221,7 +221,7 @@ const ComboBox = ({
   const [sessionIndex, setSessionIndex] = useState(0);
 
   const currentSession = sessions[sessionIndex];
- 
+
   const handleshowtest = () => {
     showtest(true);
     setShowWorkoutPlan(false);
@@ -272,6 +272,13 @@ const ComboBox = ({
     if (sessionIndex > 0) {
       setSessionIndex((prev) => prev - 1);
     }
+  };
+
+  const handleCancel = () => {
+    setSelectedUserId(null);
+    showtest(false);
+    setInitialsession(null);
+    setShowWorkoutPlan(false);
   };
 
   return (
@@ -360,7 +367,12 @@ const ComboBox = ({
           >
             روز قبل
           </Button>
-          <Button variant="contained" color="primary" fullWidth={true} onClick={handleshowtest}>
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth={true}
+            onClick={handleshowtest}
+          >
             نتیجه تست
           </Button>
           <Button
@@ -370,6 +382,22 @@ const ComboBox = ({
             fullWidth={true}
           >
             روز بعد
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleCasel}
+            fullWidth={true}
+          >
+            انصراف
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={goToNextDay}
+            fullWidth={true}
+          >
+            ذخیره برنامه
           </Button>
         </Stack>
       </Box>

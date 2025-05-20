@@ -186,56 +186,6 @@ export default function WorkoutPlans() {
                     isreadonly = {istestreadonly}
                   />
                 )}
-
-                {/* <Box mb={1} mt={5} textAlign="center">
-                  <Button variant="contained" color="success" size="large">
-                    شروع نوشتن برنامه
-                  </Button>
-                </Box>
-                {/* Footer */}
-                {/* <Box
-                  bottom={0}
-                  left={0}
-                  width="100%"
-                  bgcolor="#ffffffee"
-                  boxShadow="0 -2px 10px rgba(0,0,0,0.1)"
-                  py={2}
-                  px={3}
-                  zIndex={1300}
-                  mt={3}
-                >
-                  <Stack
-                    direction={{ xs: "column", sm: "row" }}
-                    justifyContent="center"
-                    alignItems="center"
-                    gap={2}
-                  >
-                    <Button
-                      variant="contained"
-                      onClick={goToPreviousDay}
-                      disabled={sessionIndex === 0}
-                      color="primary"
-                      fullWidth={true}
-                    >
-                      روز قبل
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      fullWidth={true}
-                    >
-                      نتیجه تست
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={goToNextDay}
-                      fullWidth={true}
-                    >
-                      روز بعد
-                    </Button>
-                  </Stack>
-                </Box> */}
               </Paper>
             </Box>
           </Stack>

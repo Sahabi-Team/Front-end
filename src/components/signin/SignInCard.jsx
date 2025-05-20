@@ -26,6 +26,7 @@ import { useNavigate } from "react-router-dom";
 import SuccessfulModal from "../modals/SuccessfulModal";
 import HomeIcon from '@mui/icons-material/Home';
 import { AuthContext } from "../../contexts/AuthContext";
+import config from '../../config';
 
 
 
@@ -73,7 +74,7 @@ export default function SignInCard() {
 
     try {
       const response = await axios.post(
-        "http://84.234.29.28:8000/api/auth/login/",
+        `${config.API_BASE_URL}/api/auth/login/`,
         {
           username: username,
           password: password,

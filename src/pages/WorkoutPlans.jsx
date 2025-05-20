@@ -18,6 +18,7 @@ import Footer from "../components/Footer.jsx";
 import { AuthContext } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import config from '../config.js';
 
 const LogoImage = styled("img")(({ theme }) => ({
   height: "70px",
@@ -65,7 +66,7 @@ export default function WorkoutPlans() {
   useEffect(() => {
     const fetchWorkoutPlans = async (access) => {
       try {
-        const response = await axios.get('http://84.234.29.28:8000/api/workout/workout-plans/', {
+        const response = await axios.get(`${config.API_BASE_URL}/api/workout/workout-plans/`, {
           headers: {
             Authorization: `Bearer ${access}`,
           },

@@ -21,6 +21,7 @@ import SiteComments from "../components/home/SiteComments";
 import Footer from "../components/Footer";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import config from "../config";
 
 const FullListButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
@@ -155,9 +156,9 @@ export default function Home() {
     const fetchNumbers = async () => {
       try {
         const [res1, res2, res3] = await Promise.all([
-          fetch("http://84.234.29.28:8000/api/analytics/total-clients/"),
-          fetch("http://84.234.29.28:8000/api/analytics/total-trainers/"),
-          fetch("http://84.234.29.28:8000/api/analytics/total-workout-plans/"),
+          fetch(`${config.API_BASE_URL}/api/analytics/total-clients/`),
+          fetch(`${config.API_BASE_URL}/api/analytics/total-trainers/`),
+          fetch(`${config.API_BASE_URL}/api/analytics/total-workout-plans/`),
         ]);
 
         const [data1, data2, data3] = await Promise.all([

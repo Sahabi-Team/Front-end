@@ -208,6 +208,7 @@ import {
 } from "@mui/material";
 
 import img from "../../assets/imgs/builder_background.jpg";
+import config from '../../config';
 
 const ExerciseCard = ({ exerciseId }) => {
   const [exerciseData, setExerciseData] = useState(null);
@@ -220,7 +221,7 @@ const ExerciseCard = ({ exerciseId }) => {
     const fetchExercise = async () => {
       try {
         const res = await fetch(
-          `http://84.234.29.28:8000/api/exercises/exercises/${exerciseId}/`,
+          `${config.API_BASE_URL}/api/exercises/exercises/${exerciseId}/`,
           {
             headers: {
               accept: "application/json",

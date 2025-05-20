@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useContext} from "react";
 import {
   Box,
   Typography,
@@ -19,6 +19,9 @@ import {
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import axios from "axios";
+import { AuthContext } from "../../contexts/AuthContext";
+import config from '../../config';
+
 
 const users = [
   {
@@ -71,12 +74,16 @@ const TestResultCard = ({
   const isXs = useMediaQuery(theme.breakpoints.only("xs"));
   const [trainees, setTrainees] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { userInfo } = useContext(AuthContext);
+  let access_token = localStorage.getItem("access_token");
+  console.log(access_token);
+
 
   useEffect(() => {
     const fetchTrainees = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/trainer/my-trainees/",
+          `${config.API_BASE_URL}/api/tests/pupil-tests/`,
           {
             headers: {
               Authorization:

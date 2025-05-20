@@ -21,6 +21,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
+import config from '../../config';
 
 export default function CoachSlider() {
   const isMediumOrLarger = useMediaQuery((theme) => theme.breakpoints.up("md"));
@@ -30,7 +31,7 @@ export default function CoachSlider() {
 
   // داده‌ها رو از API می‌گیریم
   useEffect(() => {
-    fetch("http://84.234.29.28:8000/api/trainer/trainers/filter/")
+    fetch(`${config.API_BASE_URL}/api/trainer/trainers/filter/`)
       .then((res) => res.json())
       .then((data) => {
         const formatted = data.map((item) => ({

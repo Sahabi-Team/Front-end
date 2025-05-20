@@ -1,9 +1,10 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import config from '../config';
 
 // آدرس API
-const API_URL = 'http://84.234.29.28:8000/api/auth/';
+const API_URL = `${config.API_BASE_URL}/api/auth/`;
 
 // ایجاد Context برای دسترسی به وضعیت احراز هویت
 

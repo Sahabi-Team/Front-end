@@ -23,6 +23,7 @@ import Vazneh from "../assets/imgs/home/vazneh.png";
 import { useTheme } from "@mui/material/styles";
 import { AuthContext } from "../contexts/AuthContext.jsx";
 import axios from "axios";
+import config from '../config.js'
 
 const LogoImage = styled("img")(({ theme }) => ({
   height: "70px",
@@ -417,7 +418,7 @@ export default function WorkoutDetails() {
       try {
         setLoadingVisible(true);
         const response = await axios.get(
-          "http://84.234.29.28:8000/api/workout/workout-plans/",
+          `${config.API_BASE_URL}/api/workout/workout-plans/`,
           {
             headers: {
               Authorization: `Bearer ${access}`,
