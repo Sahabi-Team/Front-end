@@ -78,9 +78,9 @@ const MoveBlock = ({ index, moveData, onUpdate, onDelete }) => {
       });
   }, []);
 
-  console.log(exercises);
+  // console.log(exercises);
   const exerciseNames = exercises.map((exercise) => exercise.name);
-  console.log(exerciseNames);
+  // console.log(exerciseNames);
 
   const handleNameChange = (selectedId, movename) => {
     onUpdate({ ...moveData, name: selectedId, realname: movename });
@@ -259,8 +259,8 @@ const ComboBox = ({
   const [openErrorModal, setOpenErrorModal] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
 
-  console.log(userInfo);
-  console.log(localStorage.getItem("access_token"));
+  // console.log(userInfo);
+  // console.log(localStorage.getItem("access_token"));
 
   const handleshowtest = () => {
     showtest(true);
@@ -321,8 +321,8 @@ const ComboBox = ({
     setShowWorkoutPlan(false);
   };
 
-  console.log(selectedUserId);
-  console.log(sessions);
+  // console.log(selectedUserId);
+  // console.log(sessions);
 
   const handleSubmit = async () => {
     let error_occured = false;
@@ -332,7 +332,7 @@ const ComboBox = ({
       name: "برنامه یک ماهه",
       description: "برنامه",
     };
-    console.log(workoutData);
+    // console.log(workoutData);
 
     const token = localStorage.getItem("access_token");
 
@@ -349,9 +349,9 @@ const ComboBox = ({
         }
       );
 
-      console.log("برنامه با موفقیت ذخیره شد:", response.data);
+      // console.log("برنامه با موفقیت ذخیره شد:", response.data);
       const workoutPlanId = response.data.id;
-      console.log("شناسه برنامه ورزشی:", workoutPlanId);
+      // console.log("شناسه برنامه ورزشی:", workoutPlanId);
 
       // ⬇️⬇️⬇️ place the code hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
       console.log(sessions);
@@ -360,10 +360,10 @@ const ComboBox = ({
 
         for (let moveIndex = 0; moveIndex < day.moves.length; moveIndex++) {
           const move = day.moves[moveIndex];
-
+          console.log(move.name,"     salam");
           const exercisePayload = {
             exercise_id: move.name, // چون ما در Autocomplete شناسه تمرین رو در name ذخیره کردیم
-            workout_plan_id: workoutPlanId,
+            workout_plan_id: parseInt(workoutPlanId),
             sets: move.sets.length,
             reps: move.sets[0] || 0, // مقدار اولین ست
             duration: 0, // اگر داشتی اضافه کن
@@ -372,7 +372,7 @@ const ComboBox = ({
             day: dayIndex + 1,
           };
 
-          console.log("در حال ارسال:", exercisePayload);
+          // console.log("در حال ارسال:", exercisePayload);
 
           try {
             const res = await axios.post(
@@ -413,7 +413,7 @@ const ComboBox = ({
 
   const handleshowpreview = () => {
     let dayPrograms = generateDayProgramsFromSessions();
-    console.log(dayPrograms);
+    // console.log(dayPrograms);
     navigate("/workoutpreview", { state: { dayPrograms } });
   };
 
