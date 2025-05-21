@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Box, CssBaseline, Button } from '@mui/material';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import Header from "../components/TrainerProfile/Header";
 import InfoSection from "../components/TrainerProfile/InfoSection";
 import CommentSection from "../components/TrainerProfile/CommentSection";
@@ -10,6 +10,7 @@ import ErrorModal from "../components/modals/ErrorModal";
 import axios from 'axios'
 
 const TrainerProfile = () => {
+  const {trainerID} = useParams();
   const [trainer, setTrainer] = useState(null);
   const [loading, setLoading] = useState(true);
   const [openSuccessModal, setOpenSuccessModal] = useState(false);
@@ -20,28 +21,8 @@ const TrainerProfile = () => {
     const fetchTrainer = async () => {
       setLoading(true);
       try {
-        //const response = await axios.get("http://84.234.29.28:8000/api/trainer/info/"); // آدرس فرضی
-        setTrainer({
-          "user": {
-              "id": 24,
-              "name": "معین مَک مَکِنا",
-              "first_name": "معین",
-              "last_name": "مَک مَکِنا",
-              "email": "trainer4@example.com",
-              "username": "trainer4",
-              "phone_number": null,
-              "profile_picture": "http://84.234.29.28:8000/media/profile_pictures/trainer4_pic3.jpg"
-          },
-          "trainer_id": 4,
-          "profile_picture": null,
-          "bio": "من یک خواستگاه مغول هستم",
-          "experience": 6,
-          "isAvailableForReservation": true,
-          "price": 870.0,
-          "specialties": "قدرتی",
-          "certificates": "یورک شایر",
-          "rating": 2.7,
-        });
+        const response = await axios.get(`http://45.144.50.12/api/trainer/trainers/${trainerID}/profile/`);
+        setTrainer(response.data);
         setLoading(false);
       }
       catch (error) {
