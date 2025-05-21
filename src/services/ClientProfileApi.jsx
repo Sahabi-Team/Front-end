@@ -1,8 +1,9 @@
 // src/services/api.js
 import axios from 'axios';
+import config from '../config';
 
 const api = axios.create({
-  baseURL: 'http://84.234.29.28:8000/api', // آدرس ثابت بدون استفاده از process.env
+  baseURL: `${config.API_BASE_URL}/api`, // آدرس ثابت بدون استفاده از process.env
 });
 
 // افزودن خودکار توکن به هدرها

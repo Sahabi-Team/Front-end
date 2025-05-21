@@ -64,9 +64,9 @@ const Footer = () => {
         </Grid>
 
         <Grid item xs={12} md={6} container justifyContent="space-between" alignItems="center"sx={{ px: { xs: "10px",} }}>
-          <Link href="#" color="inherit" sx={{ margin: '0 10px' }}>درباره ما</Link>
+          <Link href="/about_us" color="inherit" sx={{ margin: '0 10px' }}>درباره ما</Link>
           <Link href="/FAQ" color="inherit" sx={{ margin: '0 10px' }}>سوالات متداول</Link>
-          <Link href="#" color="inherit" sx={{ margin: '0 10px' }}>ارتباط با ما</Link>
+          <Link href="/contact_us" color="inherit" sx={{ margin: '0 10px' }}>ارتباط با ما</Link>
 
           <Grid item xs={12} sm={6} container justifyContent="flex-start" alignItems="center"sx={{ px: { xs: "10px",} }}>
             <Typography sx={{ color: '#DADBD8' }}>شبکه‌های اجتماعی</Typography>

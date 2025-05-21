@@ -40,7 +40,8 @@ const Step2 = ({data, setData, setIsFormValid}) => {
         >
           <MenuItem value="بازو">بازو</MenuItem>
           <MenuItem value="شکم و پهلو">شکم و پهلو</MenuItem>
-          <MenuItem value="سینه ها">سینه ها</MenuItem>
+          <MenuItem value="سینه ">سینه </MenuItem>
+          <MenuItem value="پا">پا</MenuItem>
         </TextField>
 
         <TextField
@@ -68,9 +69,9 @@ const Step2 = ({data, setData, setIsFormValid}) => {
           sx={{flex: "1 1 45%", minWidth: "200px", '& .MuiOutlinedInput-root': {borderRadius: '28px'}}}
           slotProps={{select: {IconComponent: ExpandMoreIcon, sx: {"& .MuiSelect-icon": {color: "#00A359", fontSize: "28px"}}}}}
         >
-          <MenuItem value="1 الی 2 روز">1 الی 2 روز</MenuItem>
-          <MenuItem value="3 الی 4 روز">3 الی 4 روز</MenuItem>
-          <MenuItem value="5 الی 6 روز">5 الی 6 روز</MenuItem>
+          <MenuItem value="۱ الی ۲ روز">۱ الی ۲ روز</MenuItem>
+          <MenuItem value="۳ الی ۴ روز">۳ الی ۴ روز</MenuItem>
+          <MenuItem value="۵ الی ۶ روز">۵ الی ۶ روز</MenuItem>
         </TextField>
       </Box>
   );

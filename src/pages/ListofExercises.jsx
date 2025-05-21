@@ -8,7 +8,7 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../components/home/NavbarCard";
-import InternalServerErrorPage from "../pages/InternalServerErrorPage"; 
+import config from '../config';
 
 
 const ExercisesPage = () => {
@@ -68,7 +68,7 @@ const ExercisesPage = () => {
         params.equipments = customFilters.equipment.map(e => e.id || e).join(',');
       }
       console.log(params);
-      const response = await axios.get('http://84.234.29.28:8000/api/exercises/filter', { params });
+      const response = await axios.get(`${config.API_BASE_URL}/api/exercises/filter`, { params });
      console.log(response);
       setAllExercises(response.data || []);
       setCurrentPage(1);
