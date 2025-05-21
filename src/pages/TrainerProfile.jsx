@@ -67,7 +67,7 @@ const TrainerProfile = () => {
       <CssBaseline enableColorScheme />
       <Container maxWidth="md" sx={{my: 4}}>
         <InfoSection trainer={trainer} />
-        <Button onClick={handleOrder} variant="contained" fullWidth sx={{mt: 4, maxWidth: 200, borderRadius: 2.5, fontSize: "1.2rem"}}>ثبت سفارش</Button>
+        <Button onClick={handleOrder} disabled={!trainer?.isAvailableForReservation} variant="contained" fullWidth sx={{mt: 4, maxWidth: 200, borderRadius: 2.5, fontSize: "1.2rem"}}>ثبت سفارش</Button>
         <CommentSection />
 
         <SuccessModal open={openSuccessModal} onClose={() => {setOpenSuccessModal(false); navigate("/");}} successMessage="سفارش شما با موفقیت ثبت شد." />

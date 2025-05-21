@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Typography, Avatar, Rating } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircleRounded';
+import CancelIcon from '@mui/icons-material/CancelRounded';
 
 const InfoSection = ({ trainer }) => (
   <Box textAlign={'left'}>
@@ -51,14 +52,20 @@ const InfoSection = ({ trainer }) => (
       ))}
     </ul>
     
-    <Typography mt={3}>
-      <Typography component="span" fontSize={20} fontWeight="bold">
+    <Box display="flex" alignItems="center" mt={3}>
+      <Typography fontSize={20} fontWeight="bold">
         قابلیت رزرو:
       </Typography>
-      <Typography component="span" fontSize={18} ml={1}>
+
+      <Typography fontSize={18} ml={1} display="flex" alignItems="center">
         {trainer?.isAvailableForReservation ? "دارد" : "ندارد"}
+        {trainer?.isAvailableForReservation ? (
+          <CheckCircleIcon sx={{color: "#00A359", fontSize: 26, ml: 0.5}} />
+        ) : (
+          <CancelIcon sx={{color: "red", fontSize: 26, ml: 0.5}} />
+        )}
       </Typography>
-    </Typography>
+    </Box>
 
     <Typography mt={3}>
       <Typography component="span" fontSize={20} fontWeight="bold">
