@@ -11,6 +11,7 @@ import ProfileImageUpload from "../components/TrainerEditProfile/ProfileImageUpl
 import EditProfileForm from "../components/TrainerEditProfile/EditProfileForm.jsx";
 import { AuthContext } from '../contexts/AuthContext.jsx';
 import Header from '../components/Header';
+import config from '../config';
 
 const EditProfile = () => { 
  
@@ -56,7 +57,7 @@ const EditProfile = () => {
             password: "********"
           });
           if (trainerData.user.profile_picture) {
-            setProfileImageUrl(`http://84.234.29.28:8000${trainerData.user.profile_picture}`);
+            setProfileImageUrl(`${config.API_BASE_URL}${trainerData.user.profile_picture}`);
           }
         } catch (error) {
           console.error("Fetch profile error:", error);

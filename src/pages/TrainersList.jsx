@@ -9,7 +9,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import SuccessModal from "../components/modals/SuccessfulModal";
 import ErrorModal from "../components/modals/ErrorModal";
-
+import config from '../config';
 
 const TrainersList = () => {
   const [allCoaches, setAllCoaches] = useState([]);
@@ -66,7 +66,7 @@ const TrainersList = () => {
       if (customFilter.availability === "available")
         params.available = true;
 
-      const response = await axios.get("http://84.234.29.28:8000/api/trainer/trainers/filter", { params });
+      const response = await axios.get(`${config.API_BASE_URL}/api/trainer/trainers/filter`, { params });
       setAllCoaches(response.data || []);
       setCurrentPage(1);
     }
@@ -109,7 +109,7 @@ const TrainersList = () => {
       }
 
       const response = await axios.post(
-        "http://84.234.29.28:8000/api/mentorship/mentorships/",
+        `${config.API_BASE_URL}/api/mentorship/mentorships/`,
         {
           trainer: coach.trainer_id
         },

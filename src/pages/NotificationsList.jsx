@@ -6,7 +6,7 @@ import Header from '../components/Header';
 import Sidebar from '../components/TrainerSidebar';
 import ContentContainer from '../components/ContentContainer';
 import axios from 'axios';
-
+import config from '../config';
 export default function NotificationsList() {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,7 +18,7 @@ export default function NotificationsList() {
       try
       {
         const token = localStorage.getItem("access_token");
-        const response = await axios.get("http://84.234.29.28:8000/api/notifications/notifications/", {
+        const response = await axios.get(`${config.API_BASE_URL}/api/notifications/notifications/`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -39,7 +39,7 @@ export default function NotificationsList() {
   const handleWriteProgram = async (notif) => {
     const token = localStorage.getItem("access_token");
     try {
-      await axios.post(`http://84.234.29.28:8000/api/notifications/notifications/${notif.id}/mark_as_read/`, 
+      await axios.post(`${config.API_BASE_URL}/api/notifications/notifications/${notif.id}/mark_as_read/`, 
         {
           user: notif.user,
           mentorship: notif.mentorship,
