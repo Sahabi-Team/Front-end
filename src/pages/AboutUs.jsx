@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import Navbar from "../components/home/NavbarCard";
 import Footer from '../components/Footer';
+
 const teamMembers = [
   'مهدی شرف بیانی',
   'نازنین شریفی',
@@ -53,13 +54,17 @@ const TeamPage = () => {
                   sx={{
                     display: 'inline-block',
                     borderRadius: '50%',
-                    boxShadow: '0 0 32px 0 #00af6644',
-                    p: 0.75,
+                    boxShadow: '0 0 12px 0 #00af6644',
+                    p: .5,
                     background: '#fff',
                     marginBottom: 1.5,
                   }}
                 >
                   <Avatar
+                    src={index === 2 ? '/moein.jpg' : 
+                         index === 3 ? '/ali.jpg' : 
+                         index === 1 ? '/nazanin.jpg' : 
+                         '/mahdi.jpg'}
                     sx={{
                       width: 110,
                       height: 110,
@@ -83,13 +88,16 @@ const TeamPage = () => {
                   sx={{
                     display: 'inline-block',
                     borderRadius: '50%',
-                    boxShadow: '0 0 32px 0 #00af6644',
-                    p: 0.75,
+                    boxShadow: '0 0 12px 0 #00af6644',
+                    p: 0.5,
                     background: '#fff',
                     marginBottom: 1.5,
                   }}
                 >
                   <Avatar
+                    src={index === 0 ? '/iman.jpg' : 
+                      '/habib.jpg' 
+                      }
                     sx={{
                       width: 110,
                       height: 110,
