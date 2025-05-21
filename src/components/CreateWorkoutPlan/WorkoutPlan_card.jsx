@@ -15,6 +15,8 @@ import config from "../../config";
 import axios from "axios";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import ErrorModal from "../modals/ErrorModal";
+import SuccessfulModal from "../modals/SuccessfulModal";
 
 const StyledTextField = styled(TextField)(() => ({
   "& .MuiOutlinedInput-root": {
@@ -252,6 +254,11 @@ const ComboBox = ({
 
   const navigate = useNavigate();
 
+  const [successmessage, setSuccessMessage] = React.useState("");
+  const [opensuccessfulmodal, setOpenSuccessfulModal] = React.useState(false);
+  const [openErrorModal, setOpenErrorModal] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+
   console.log(userInfo);
   console.log(localStorage.getItem("access_token"));
 
@@ -318,10 +325,11 @@ const ComboBox = ({
   console.log(sessions);
 
   const handleSubmit = async () => {
+    let error_occured = false;
     const workoutData = {
       mentorship: selectedUserId,
       status: "شروع نشده",
-      name: "برنامه یک ماههههههه",
+      name: "برنامه یک ماهه",
       description: "برنامه",
     };
     console.log(workoutData);
@@ -378,24 +386,28 @@ const ComboBox = ({
                 },
               }
             );
-            console.log(
-              `✅ تمرین ${moveIndex + 1} از روز ${
-                dayIndex + 1
-              } با موفقیت ثبت شد.`
-            );
           } catch (exErr) {
-            console.error(
-              `❌ خطا در ثبت تمرین ${moveIndex + 1} از روز ${dayIndex + 1}:`,
-              exErr.response?.data || exErr.message
-            );
+            // console.error(
+            //   `❌ خطا در ثبت تمرین ${moveIndex + 1} از روز ${dayIndex + 1}:`,
+            //   exErr.response?.data || exErr.message
+            // );
+            error_occured = true;
           }
         }
       }
     } catch (error) {
-      console.error(
-        "خطا در ذخیره برنامه:",
-        error.response?.data || error.message
-      );
+      error_occured = true;
+    }
+    if (error_occured) {
+      setErrorMessage("خطا در ساختن برنامه");
+      setOpenErrorModal(true);
+    } else {
+      setSuccessMessage("برنامه با موفقیت ساخته شد");
+      setOpenSuccessfulModal(true);
+
+      setTimeout(() => {
+        handleshowpreview();
+      }, 1500); // 60000 میلی‌ثانیه = 60 ثانیه
     }
   };
 
@@ -441,6 +453,13 @@ const ComboBox = ({
     ];
     return persianNumbers[number - 1] || number.toString();
   }
+
+  const handleCloseErrorModal = () => {
+    setOpenErrorModal(false); // بستن مودال
+  };
+  const handleCloseSuccessfulModal = () => {
+    setOpenSuccessfulModal(false); // بستن مودال
+  };
 
   // console.log(userInfo);
 
@@ -546,14 +565,14 @@ const ComboBox = ({
           >
             نتیجه تست
           </Button>
-            <Button
+          {/* <Button
             variant="contained"
             color="primary"
             onClick={handleshowpreview}
             fullWidth={true}
           >
             پیش نمایش
-          </Button>
+          </Button> */}
           <Button
             variant="contained"
             color="primary"
@@ -570,9 +589,18 @@ const ComboBox = ({
           >
             ذخیره برنامه
           </Button>
-        
         </Stack>
       </Box>
+      <ErrorModal
+        open={openErrorModal}
+        onClose={handleCloseErrorModal}
+        errorMessage={errorMessage}
+      />
+      <SuccessfulModal
+        open={opensuccessfulmodal}
+        onClose={handleCloseSuccessfulModal}
+        successMessage={successmessage}
+      />
     </Box>
   );
 };
