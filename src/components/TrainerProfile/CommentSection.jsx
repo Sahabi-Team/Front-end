@@ -1,15 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Typography, Rating, TextField, Button, Divider, Pagination } from '@mui/material';
 
-const allCommentsMock = Array.from({ length: 7 }, (_, i) => ({
-  name: 'حبیب پینه چی',
-  date: '۳ روز پیش',
-  rating: 4,
-  text: ' سلام خیلی عالیه همه چی کاش بیشتر هم بهم توجه کنید تا مشتری هاتون راضی باشند. من برنامه تمرینی مربوط به بدنسازی رو دریافت کردم و ظرف ۳ ماه تونستم ۱۲ کیلو اضافه کنم و به تناسب اندامی که می‌خواستم رسیدم'
-}));
-
-const CommentSection = () => {
-  const [comments, setComments] = useState(allCommentsMock);
+const CommentSection = ({ comments }) => {
   const [newComment, setNewComment] = useState('');
   const [newRating, setNewRating] = useState(0);
 
@@ -50,17 +42,17 @@ const CommentSection = () => {
             <Box display="flex" justifyContent="space-between" alignItems="center">
               <Typography>
                 <Typography component="span" fontSize={18} fontWeight="medium">
-                  {comment.name}
+                  {comment.trainee_name}
                 </Typography>
                 <Typography component="span" fontSize={14} variant="caption" color="text.secondary" ml={2}>
-                  {comment.date}
+                  {comment.created_at}
                 </Typography>
               </Typography>
               <Rating value={comment.rating} readOnly size="small" />
             </Box>
 
             <Typography fontSize={16} textAlign="left" mt={1.5} mx={1} lineHeight={2}>
-              {comment.text}
+              {comment.comment}
             </Typography>
 
             {index < currentComments.length - 1 && <Divider sx={{ mt: 2 }} />}
