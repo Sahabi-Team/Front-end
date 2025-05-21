@@ -69,7 +69,7 @@ const TrainerProfile = () => {
       }
 
       const response = await axios.post(
-        "http://84.234.29.28:8000/api/mentorship/mentorships/",
+        "http://45.144.50.12/api/mentorship/mentorships/",
         {
           trainer: trainer.trainer_id
         },
