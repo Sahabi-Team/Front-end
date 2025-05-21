@@ -96,7 +96,7 @@ const TrainersList = () => {
 
   //Handle the Buttons
   const handleViewProfile = (coach) => {
-    navigate(`/coach_profile/${coach.trainer_id}`);
+    navigate(`/trainer_profile/${coach.trainer_id}`);
   };
   
   const handleOrder = async (coach) => {
