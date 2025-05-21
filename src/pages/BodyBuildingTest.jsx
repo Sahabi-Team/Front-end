@@ -14,6 +14,7 @@ import ErrorModal from "../components/modals/ErrorModal";
 import { useNavigate } from "react-router";
 import StepIcon from '@mui/material/StepIcon';
 import CompactFooter from '../components/CompactFooter'
+import config from '../config';
 
 const steps = ["توضیحات اولیه","مشخصات اولیه", "هدفت چیه؟", "کدوم بیماری را داری؟", "آمادگی جسمانیت الان در چه سطحیه؟","فرم بدنیت چه شکلیه؟"];
 
@@ -73,7 +74,7 @@ const BodyBuildingTest = () => {
 
     };
     try {
-      const response = await axios.post("http://84.234.29.28:8000/api/tests/submit/", payload, {
+      const response = await axios.post(`${config.API_BASE_URL}/api/tests/submit/`, payload, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

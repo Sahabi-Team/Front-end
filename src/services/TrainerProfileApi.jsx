@@ -1,8 +1,9 @@
 // src/services/TrainerProfileApi.js
 import axios from 'axios';
+import config from '../config';
 
 const api = axios.create({
-  baseURL: 'http://84.234.29.28:8000/api',
+  baseURL: `${config.API_BASE_URL}/api`,
 });
 
 api.interceptors.request.use(config => {

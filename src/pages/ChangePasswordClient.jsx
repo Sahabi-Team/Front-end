@@ -145,7 +145,9 @@ function ResetPassword() {
        <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
       <Header pageTitle="صفحه کاربر" />  
       <CssBaseline />
-      <Container maxWidth="sm" sx={{ my: 6 ,mr:50}}>
+      <Container maxWidth="sm" sx={{ my: 6,
+       display: "flex",
+      justifyContent: { xs: "center", md: "flex-start" }, }}>
         <Card elevation={20}>
           <Typography sx={{ fontSize: "150%", textAlign: "center", mb: 3 }}>
             تغییر رمز عبور
