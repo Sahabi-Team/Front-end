@@ -1,4 +1,4 @@
-import React, { useState, useEffect ,useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Box,
   Typography,
@@ -20,8 +20,7 @@ import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import axios from "axios";
 import { AuthContext } from "../../contexts/AuthContext";
-import config from '../../config';
-
+import config from "../../config";
 
 const users = [
   {
@@ -66,18 +65,18 @@ const TestResultCard = ({
   selectedUserId,
   isreadonly,
 }) => {
-  const selectedUser = users.find((user) => user.id === selectedUserId);
   const theme = useTheme();
   const isLg = useMediaQuery(theme.breakpoints.only("lg"));
   const isMd = useMediaQuery(theme.breakpoints.only("md"));
   const isSm = useMediaQuery(theme.breakpoints.only("sm"));
   const isXs = useMediaQuery(theme.breakpoints.only("xs"));
-  const [trainees, setTrainees] = useState([]);
+  const [traineestests, setTraineestests] = useState([]);
   const [loading, setLoading] = useState(true);
   const { userInfo } = useContext(AuthContext);
+  const selectedUser = traineestests.find((user) => user.id === selectedUserId);
   let access_token = localStorage.getItem("access_token");
-  console.log(access_token);
 
+  console.log(traineestests);
 
   useEffect(() => {
     const fetchTrainees = async () => {
@@ -86,14 +85,13 @@ const TestResultCard = ({
           `${config.API_BASE_URL}/api/tests/pupil-tests/`,
           {
             headers: {
-              Authorization:
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ3ODI2MTU4LCJpYXQiOjE3NDc3Mzk3NTgsImp0aSI6IjU3MzM2NDY4YmI1ODQ2NDBiY2M0MGQ0ZmQwNmU2ZmQzIiwidXNlcl9pZCI6MjF9.QNq-ospT9_-fNPCv-liwOvLBv6D6GK7wejRE8qIiIJ4",
+              Authorization: `Bearer ${access_token}`,
             },
           }
         );
-        setTrainees(response.data);
+        setTraineestests(response.data);
       } catch (error) {
-        console.error("خطا در گرفتن لیست هنرجوها:", error);
+        console.error("خطا در گرفتن لیست شاگردها:", error);
       } finally {
         setLoading(false);
       }
@@ -620,9 +618,9 @@ const TestResultCard = ({
                 onChange={(e) => setSelectedUserId(e.target.value)}
                 sx={{ width: 300 }}
               >
-                {users.map((user) => (
+                {traineestests.map((user) => (
                   <MenuItem key={user.id} value={user.id}>
-                    {user.name}
+                    {user.trainee_username}
                   </MenuItem>
                 ))}
               </Select>
@@ -652,29 +650,30 @@ const TestResultCard = ({
                   // sx={{ minWidth: 250 }}
                 >
                   <Typography sx={{ whiteSpace: "nowrap" }}>
-                    جنسیت: {selectedUser.gender}
+                    {selectedUser.gender ? `جنسیت: ${selectedUser.gender}` : ""}
                   </Typography>
+
                   <Typography sx={{ whiteSpace: "nowrap" }}>
                     سن: {selectedUser.age}
                   </Typography>
                   <Typography sx={{ whiteSpace: "nowrap" }}>
-                    مکان تمرین: {selectedUser.workoutPlace}
+                    مکان تمرین: {selectedUser.equipment}
                   </Typography>
                   <Typography sx={{ whiteSpace: "nowrap" }}>
-                    هدف از ورزش: {selectedUser.workoutGoal}
+                    هدف از ورزش: {selectedUser.goal}
                   </Typography>
 
                   <Stack direction="row" gap={1}>
                     <Typography sx={{ whiteSpace: "nowrap" }}>
                       عضلات هدف:
                     </Typography>
-                    <Stack
+                    {/* <Stack
                       direction="row"
                       flexWrap="wrap"
                       gap={1}
                       sx={{ maxWidth: 300 }} // یا هر عرضی که تقریبا برای 3 چیپ کافیه
                     >
-                      {selectedUser.targetMuscles.map((muscle, index) => (
+                      {selectedUser.focus_area.map((muscle, index) => (
                         <Chip
                           key={index}
                           label={muscle}
@@ -683,20 +682,21 @@ const TestResultCard = ({
                           // sx={{ flex: "1 1 calc(33.33% - 8px)" }} // 3 تا در هر خط با gap=1
                         />
                       ))}
-                    </Stack>
+                    </Stack> */}
+                    <Typography>{selectedUser.focus_area}</Typography>
                   </Stack>
 
                   <Stack direction="row" gap={1}>
                     <Typography sx={{ whiteSpace: "nowrap" }}>
                       بیماری‌ها:
                     </Typography>
-                    <Stack
+                    {/* <Stack
                       direction="row"
                       flexWrap="wrap"
                       gap={1}
                       sx={{ maxWidth: 300 }}
                     >
-                      {selectedUser.healthIssues.map((issue, index) => (
+                      {selectedUser.diseases.map((issue, index) => (
                         <Chip
                           key={index}
                           label={issue}
@@ -705,7 +705,10 @@ const TestResultCard = ({
                           // sx={{ flex: "1 1 calc(33.33% - 8px)" }}
                         />
                       ))}
-                    </Stack>
+                    </Stack> */}
+                    <Typography>
+                      {selectedUser.diseases}
+                    </Typography>
                   </Stack>
                 </Stack>
 
@@ -719,7 +722,7 @@ const TestResultCard = ({
                     قد: {selectedUser.height}
                   </Typography>
                   <Typography sx={{ whiteSpace: "nowrap" }}>
-                    زمان هفتگی: {selectedUser.timePerWeek}
+                    زمان هفتگی: {selectedUser.workout_days}
                   </Typography>
                 </Stack>
 
@@ -733,7 +736,7 @@ const TestResultCard = ({
                     وزن: {selectedUser.weight}
                   </Typography>
                   <Typography sx={{ whiteSpace: "nowrap" }}>
-                    وزن هدف: {selectedUser.targetWeight}
+                    وزن هدف: {selectedUser.goal_weight}
                   </Typography>
                 </Stack>
               </Stack>

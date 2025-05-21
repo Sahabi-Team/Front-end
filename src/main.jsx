@@ -31,6 +31,7 @@ import InternalServerErrorPage from "./pages/InternalServerErrorPage";
 
 
 import CreateWorkoutPlan from './pages/CreateWorkoutPlan.jsx';
+import WorkoutPreview from './components/CreateWorkoutPlan/WorkoutPreview.jsx'
 
 const theme = createTheme({
   direction: "rtl",
@@ -126,8 +127,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="*" element={<NotFoundPage />} />
               <Route path="/500" element={<InternalServerErrorPage />} />
               <Route path="/createworkoutplan" element={<CreateWorkoutPlan />} />
-              
-
+              <Route path="/workoutpreview" element={<WorkoutPreview />} />
             </Routes>
           </AuthProvider>
         </BrowserRouter>

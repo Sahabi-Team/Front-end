@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Autocomplete,
   TextField,
@@ -11,6 +11,10 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Add, Remove, Close } from "@mui/icons-material";
+import config from "../../config";
+import axios from "axios";
+import { AuthContext } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const StyledTextField = styled(TextField)(() => ({
   "& .MuiOutlinedInput-root": {
@@ -57,8 +61,27 @@ const NumberBox = ({ value, onChange }) => (
 const options = ["پرس سینه", "اسکات", "ددلیفت", "شنا", "بارفیکس", "سرشانه"];
 
 const MoveBlock = ({ index, moveData, onUpdate, onDelete }) => {
-  const handleNameChange = (newValue) => {
-    onUpdate({ ...moveData, name: newValue });
+  const [exercises, setExercises] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${config.API_BASE_URL}/api/exercises/`)
+      .then((response) => {
+        setExercises(response.data);
+        // setLoading(false);
+      })
+      .catch((error) => {
+        // setError(error.message || "خطا در دریافت داده‌ها");
+        // setLoading(false);
+      });
+  }, []);
+
+  console.log(exercises);
+  const exerciseNames = exercises.map((exercise) => exercise.name);
+  console.log(exerciseNames);
+
+  const handleNameChange = (selectedId, movename) => {
+    onUpdate({ ...moveData, name: selectedId, realname: movename });
   };
 
   const handleSetValueChange = (setIndex, newValue) => {
@@ -127,9 +150,12 @@ const MoveBlock = ({ index, moveData, onUpdate, onDelete }) => {
           نام حرکت :
         </Typography>
         <Autocomplete
-          options={options}
-          value={moveData.name}
-          onChange={(e, newValue) => handleNameChange(newValue)}
+          options={exercises}
+          getOptionLabel={(option) => option.name} // نمایش نام تمرین
+          value={exercises.find((e) => e.id === moveData.name) || null} // مقدار انتخاب‌شده بر اساس id
+          onChange={(e, newValue) =>
+            handleNameChange(newValue?.id || null, newValue?.name)
+          } // ذخیره id در state
           renderInput={(params) => (
             <StyledTextField {...params} placeholder="جستجو و انتخاب..." />
           )}
@@ -208,7 +234,7 @@ const MoveBlock = ({ index, moveData, onUpdate, onDelete }) => {
 };
 
 const ComboBox = ({
-  selectedUserID,
+  selectedUserId,
   setSelectedUserId,
   showtest,
   setShowWorkoutPlan,
@@ -221,6 +247,13 @@ const ComboBox = ({
   const [sessionIndex, setSessionIndex] = useState(0);
 
   const currentSession = sessions[sessionIndex];
+
+  const { userInfo, logout } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+
+  console.log(userInfo);
+  console.log(localStorage.getItem("access_token"));
 
   const handleshowtest = () => {
     showtest(true);
@@ -280,6 +313,136 @@ const ComboBox = ({
     setInitialsession(null);
     setShowWorkoutPlan(false);
   };
+
+  console.log(selectedUserId);
+  console.log(sessions);
+
+  const handleSubmit = async () => {
+    const workoutData = {
+      mentorship: selectedUserId,
+      status: "شروع نشده",
+      name: "برنامه یک ماههههههه",
+      description: "برنامه",
+    };
+    console.log(workoutData);
+
+    const token = localStorage.getItem("access_token");
+
+    try {
+      const response = await axios.post(
+        `${config.API_BASE_URL}/api/workout/workout-plans/`,
+        workoutData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("برنامه با موفقیت ذخیره شد:", response.data);
+      const workoutPlanId = response.data.id;
+      console.log("شناسه برنامه ورزشی:", workoutPlanId);
+
+      // ⬇️⬇️⬇️ place the code hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+      console.log(sessions);
+      for (let dayIndex = 0; dayIndex < sessions.length; dayIndex++) {
+        const day = sessions[dayIndex]; // یک روز خاص
+
+        for (let moveIndex = 0; moveIndex < day.moves.length; moveIndex++) {
+          const move = day.moves[moveIndex];
+
+          const exercisePayload = {
+            exercise_id: move.name, // چون ما در Autocomplete شناسه تمرین رو در name ذخیره کردیم
+            workout_plan_id: workoutPlanId,
+            sets: move.sets.length,
+            reps: move.sets[0] || 0, // مقدار اولین ست
+            duration: 0, // اگر داشتی اضافه کن
+            description: "تمرین اختصاصی این روز",
+            order: moveIndex + 1,
+            day: dayIndex + 1,
+          };
+
+          console.log("در حال ارسال:", exercisePayload);
+
+          try {
+            const res = await axios.post(
+              `${config.API_BASE_URL}/api/workout/workout-plans/${workoutPlanId}/add_exercise/`,
+              exercisePayload,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  Accept: "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+            console.log(
+              `✅ تمرین ${moveIndex + 1} از روز ${
+                dayIndex + 1
+              } با موفقیت ثبت شد.`
+            );
+          } catch (exErr) {
+            console.error(
+              `❌ خطا در ثبت تمرین ${moveIndex + 1} از روز ${dayIndex + 1}:`,
+              exErr.response?.data || exErr.message
+            );
+          }
+        }
+      }
+    } catch (error) {
+      console.error(
+        "خطا در ذخیره برنامه:",
+        error.response?.data || error.message
+      );
+    }
+  };
+
+  const handleshowpreview = () => {
+    let dayPrograms = generateDayProgramsFromSessions();
+    console.log(dayPrograms);
+    navigate("/workoutpreview", { state: { dayPrograms } });
+  };
+
+  function generateDayProgramsFromSessions() {
+    return sessions.map((session, index) => {
+      const dayTitle = `برنامه روز ${convertNumberToPersian(index + 1)}`;
+
+      const exercises = session.moves.map((move) => {
+        return {
+          id: move.name,
+          name: move.realname,
+          sets: move.sets.map((reps, idx) => ({
+            setNumber: idx + 1,
+            reps: reps.reps ?? reps, // پشتیبانی از حالت ساده عدد یا آبجکت { reps: ... }
+          })),
+        };
+      });
+
+      return {
+        title: dayTitle,
+        exercises,
+      };
+    });
+  }
+  function convertNumberToPersian(number) {
+    const persianNumbers = [
+      "اول",
+      "دوم",
+      "سوم",
+      "چهارم",
+      "پنجم",
+      "ششم",
+      "هفتم",
+      "هشتم",
+      "نهم",
+      "دهم",
+    ];
+    return persianNumbers[number - 1] || number.toString();
+  }
+
+  // console.log(userInfo);
 
   return (
     <Box px={{ xs: 2, sm: 3, md: 4 }} pb={14}>
@@ -370,14 +533,6 @@ const ComboBox = ({
           <Button
             variant="contained"
             color="primary"
-            fullWidth={true}
-            onClick={handleshowtest}
-          >
-            نتیجه تست
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
             onClick={goToNextDay}
             fullWidth={true}
           >
@@ -386,7 +541,23 @@ const ComboBox = ({
           <Button
             variant="contained"
             color="primary"
-            onClick={handleCasel}
+            fullWidth={true}
+            onClick={handleshowtest}
+          >
+            نتیجه تست
+          </Button>
+            <Button
+            variant="contained"
+            color="primary"
+            onClick={handleshowpreview}
+            fullWidth={true}
+          >
+            پیش نمایش
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleCancel}
             fullWidth={true}
           >
             انصراف
@@ -394,11 +565,12 @@ const ComboBox = ({
           <Button
             variant="contained"
             color="primary"
-            onClick={goToNextDay}
+            onClick={handleSubmit}
             fullWidth={true}
           >
             ذخیره برنامه
           </Button>
+        
         </Stack>
       </Box>
     </Box>
