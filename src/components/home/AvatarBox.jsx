@@ -12,11 +12,13 @@ import {
 } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { AuthContext } from "../../contexts/AuthContext";
+import { useNavigate } from 'react-router-dom';
 
 const AvatarBox = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const { userInfo, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.only("xs"));
@@ -41,7 +43,12 @@ const AvatarBox = () => {
   };
 
   const handleProfile = () => {
-    console.log("پروفایل کلیک شد");
+    console.log(userInfo);
+    if (userInfo.usertype == "trainee") {
+      navigate("/workoutplans");
+    } else {
+      navigate("/trainer_students");
+    }
     handleClose();
   };
 

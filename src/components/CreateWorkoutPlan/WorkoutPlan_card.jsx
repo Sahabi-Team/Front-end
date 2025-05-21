@@ -323,7 +323,7 @@ const ComboBox = ({
 
   // console.log(selectedUserId);
   // console.log(sessions);
-
+  
   const handleSubmit = async () => {
     let error_occured = false;
     const workoutData = {
@@ -335,6 +335,7 @@ const ComboBox = ({
     // console.log(workoutData);
 
     const token = localStorage.getItem("access_token");
+console.log(token);
 
     try {
       const response = await axios.post(
@@ -354,7 +355,7 @@ const ComboBox = ({
       // console.log("شناسه برنامه ورزشی:", workoutPlanId);
 
       // ⬇️⬇️⬇️ place the code hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-      console.log(sessions);
+      // console.log(sessions);
       for (let dayIndex = 0; dayIndex < sessions.length; dayIndex++) {
         const day = sessions[dayIndex]; // یک روز خاص
 
@@ -363,10 +364,10 @@ const ComboBox = ({
           console.log(move.name,"     salam");
           const exercisePayload = {
             exercise_id: move.name, // چون ما در Autocomplete شناسه تمرین رو در name ذخیره کردیم
-            workout_plan_id: parseInt(workoutPlanId),
+            workout_plan_id: workoutPlanId,
             sets: move.sets.length,
             reps: move.sets[0] || 0, // مقدار اولین ست
-            duration: 0, // اگر داشتی اضافه کن
+            // duration: , // اگر داشتی اضافه کن
             description: "تمرین اختصاصی این روز",
             order: moveIndex + 1,
             day: dayIndex + 1,
