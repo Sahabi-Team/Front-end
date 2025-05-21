@@ -129,6 +129,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="/500" element={<InternalServerErrorPage />} />
               <Route path="/createworkoutplan" element={<CreateWorkoutPlan />} />
               <Route path="/workoutpreview" element={<WorkoutPreview />} />
+              <Route path="/trainer_profile/:trainerID" element={<TrainerProfile />} />
             </Routes>
           </AuthProvider>
         </BrowserRouter>
