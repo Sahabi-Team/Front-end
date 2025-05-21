@@ -21,43 +21,26 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import axios from "axios";
 import { AuthContext } from "../../contexts/AuthContext";
 import config from "../../config";
+import male1 from "../../assets/imgs/body_shapes/male/Select Field 1.svg"
+import male2 from "../../assets/imgs/body_shapes/male/Select Field 2.svg"
+import male3 from "../../assets/imgs/body_shapes/male/Select Field 3.svg"
+import male4 from "../../assets/imgs/body_shapes/male/Select Field 4.svg"
+import male5 from "../../assets/imgs/body_shapes/male/Select Field 5.svg"
+import male6 from "../../assets/imgs/body_shapes/male/Select Field 6.svg"
+import female1 from "../../assets/imgs/body_shapes/female/Select Field 1.svg"
+import female2 from "../../assets/imgs/body_shapes/female/Select Field 2.svg"
+import female3 from "../../assets/imgs/body_shapes/female/Select Field 3.svg"
+import female4 from "../../assets/imgs/body_shapes/female/Select Field 4.svg"
+import female5 from "../../assets/imgs/body_shapes/female/Select Field 5.svg"
+import female6 from "../../assets/imgs/body_shapes/female/Select Field 6.svg"
 
-const users = [
-  {
-    id: 1,
-    name: "مهدی اشرف زاده",
-    gender: "مرد",
-    height: "۱۷۸ سانتی‌متر",
-    weight: "۷۶ کیلوگرم",
-    targetWeight: "۸۰ کیلوگرم",
-    age: "۳۰ سال",
-    timePerWeek: "۳-۵ روز در هفته",
-    workoutPlace: "باشگاه",
-    targetMuscles: ["جلو بازو", "پشت بازو", "سینه"],
-    workoutGoal: "تناسب اندام، کاهش وزن",
-    healthIssues: [
-      "تنگی نفس",
-      "کف پای صاف",
-      "تنگی نفس",
-      "تنگی نفس",
-      "تنگی نفس",
-    ],
-  },
-  {
-    id: 2,
-    name: "علی محمدی",
-    gender: "مرد",
-    height: "۱۸۲ سانتی‌متر",
-    weight: "۹۰ کیلوگرم",
-    targetWeight: "۸۵ کیلوگرم",
-    age: "۳۵ سال",
-    timePerWeek: "۲-۴ روز در هفته",
-    workoutPlace: "خانه",
-    targetMuscles: ["پشت", "شکم"],
-    workoutGoal: "چربی‌سوزی و قدرت عضلانی",
-    healthIssues: ["زانو درد"],
-  },
-];
+
+
+
+
+
+const BodyForms = [[male1,male2,male3,male4,male5,male6],
+[female1,female2,female3,female4,female5,female6]]
 
 const TestResultCard = ({
   onStartWritingPlan,
@@ -76,7 +59,20 @@ const TestResultCard = ({
   const selectedUser = traineestests.find((user) => user.id === selectedUserId);
   let access_token = localStorage.getItem("access_token");
 
-  console.log(traineestests);
+  // console.log(traineestests);
+
+  function calculateAge(birthDate) {
+    const today = new Date();
+    const birth = new Date(birthDate);
+    let age = today.getFullYear() - birth.getFullYear();
+    const m = today.getMonth() - birth.getMonth();
+
+    if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+      age--;
+    }
+
+    return age;
+  }
 
   useEffect(() => {
     const fetchTrainees = async () => {
@@ -99,6 +95,8 @@ const TestResultCard = ({
 
     fetchTrainees();
   }, []);
+
+  console.log(traineestests);
 
   if (loading) {
     return (
@@ -620,7 +618,7 @@ const TestResultCard = ({
               >
                 {traineestests.map((user) => (
                   <MenuItem key={user.id} value={user.id}>
-                    {user.trainee_username}
+                    {user.trainee_name}
                   </MenuItem>
                 ))}
               </Select>
@@ -650,11 +648,13 @@ const TestResultCard = ({
                   // sx={{ minWidth: 250 }}
                 >
                   <Typography sx={{ whiteSpace: "nowrap" }}>
-                    {selectedUser.gender ? `جنسیت: ${selectedUser.gender}` : ""}
+                    {selectedUser.gender
+                      ? `جنسیت: ${selectedUser.gender == "male" ? "مرد" : "زن"}`
+                      : ""}
                   </Typography>
 
                   <Typography sx={{ whiteSpace: "nowrap" }}>
-                    سن: {selectedUser.age}
+                    سن: {calculateAge(new Date(selectedUser.birth_date))}
                   </Typography>
                   <Typography sx={{ whiteSpace: "nowrap" }}>
                     مکان تمرین: {selectedUser.equipment}
@@ -667,48 +667,49 @@ const TestResultCard = ({
                     <Typography sx={{ whiteSpace: "nowrap" }}>
                       عضلات هدف:
                     </Typography>
-                    {/* <Stack
+                    
+                    <Stack
                       direction="row"
                       flexWrap="wrap"
                       gap={1}
                       sx={{ maxWidth: 300 }} // یا هر عرضی که تقریبا برای 3 چیپ کافیه
                     >
-                      {selectedUser.focus_area.map((muscle, index) => (
-                        <Chip
-                          key={index}
-                          label={muscle}
-                          color="primary"
-                          variant="outlined"
-                          // sx={{ flex: "1 1 calc(33.33% - 8px)" }} // 3 تا در هر خط با gap=1
-                        />
-                      ))}
-                    </Stack> */}
-                    <Typography>{selectedUser.focus_area}</Typography>
+                      {(selectedUser.focus_area.split(",") || []).map(
+                        (muscle, index) => (
+                          <Chip
+                            key={index}
+                            label={muscle.trim()}
+                            color="primary"
+                            variant="outlined"
+                          />
+                        )
+                      )}
+                    </Stack> 
+                    {/* <Typography>{selectedUser.focus_area}</Typography> */}
                   </Stack>
 
                   <Stack direction="row" gap={1}>
                     <Typography sx={{ whiteSpace: "nowrap" }}>
                       بیماری‌ها:
                     </Typography>
-                    {/* <Stack
+                    <Stack
                       direction="row"
                       flexWrap="wrap"
                       gap={1}
                       sx={{ maxWidth: 300 }}
                     >
-                      {selectedUser.diseases.map((issue, index) => (
-                        <Chip
-                          key={index}
-                          label={issue}
-                          color="error"
-                          variant="outlined"
-                          // sx={{ flex: "1 1 calc(33.33% - 8px)" }}
-                        />
-                      ))}
-                    </Stack> */}
-                    <Typography>
-                      {selectedUser.diseases}
-                    </Typography>
+                      {(selectedUser.diseases?.split(",") || []).map(
+                        (issue, index) => (
+                          <Chip
+                            key={index}
+                            label={issue.trim()}
+                            color="error"
+                            variant="outlined"
+                          />
+                        )
+                      )}
+                    </Stack>
+                    {/* <Typography>{selectedUser.diseases}</Typography> */}
                   </Stack>
                 </Stack>
 
@@ -739,6 +740,13 @@ const TestResultCard = ({
                     وزن هدف: {selectedUser.goal_weight}
                   </Typography>
                 </Stack>
+
+                {/* Body Shape */}
+                <Stack>
+          {/* {console.log(BodyForms[0][0])} */}
+                        <img src={BodyForms[selectedUser.gender=="male" ? 0:1][selectedUser.body_form]}/>
+                </Stack>
+
               </Stack>
             </Box>
           ) : (
