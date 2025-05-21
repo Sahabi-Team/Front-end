@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Typography, Rating, TextField, Button, Divider, Pagination } from '@mui/material';
 
-const CommentSection = ({ comments }) => {
+const CommentSection = ({ comments, onSubmitComment }) => {
   const [newComment, setNewComment] = useState('');
   const [newRating, setNewRating] = useState(0);
 
@@ -14,14 +14,7 @@ const CommentSection = ({ comments }) => {
   const handleSubmit = () => {
     if (!newComment || newRating === 0) return;
 
-    const comment = {
-      name: "کاربر ناشناس",
-      date: "همین الان",
-      rating: newRating,
-      text: newComment
-    };
-
-    setComments([comment, ...comments]);
+    onSubmitComment(newComment, newRating);
     setNewComment("");
     setNewRating(0);
     setPage(1);

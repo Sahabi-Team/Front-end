@@ -18,43 +18,43 @@ const TrainerProfile = () => {
   const navigate = useNavigate();
   const [comments, setComments] = useState([]);
 
+  const fetchTrainer = async () =>
+  {
+    setLoading(true);
+    try {
+      const response = await axios.get(`http://45.144.50.12/api/trainer/trainers/${trainerID}/profile/`);
+      setTrainer(response.data);
+      setLoading(false);
+    }
+    catch (error) {
+      console.error("Error fetching trainer:", error);
+      if (error.response.status === 404)
+        navigate("/404");
+      if (error.response.status === 500)
+        navigate("/500");
+      setLoading(false);
+    }
+  };
+
+  const fetchComments = async () =>
+  {
+    setLoading(true);
+    try {
+      const response = await axios.get(`http://45.144.50.12/api/trainer/comments/${trainerID}/`);
+      setComments(response.data);
+      setLoading(false);
+    }
+    catch (error) {
+      console.error("Error fetching comments:", error);
+      if (error.response.status === 404)
+        navigate("/404");
+      if (error.response.status === 500)
+        navigate("/500");
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchTrainer = async () =>
-    {
-      setLoading(true);
-      try {
-        const response = await axios.get(`http://45.144.50.12/api/trainer/trainers/${trainerID}/profile/`);
-        setTrainer(response.data);
-        setLoading(false);
-      }
-      catch (error) {
-        console.error("Error fetching trainer:", error);
-        if (error.response.status === 404)
-          navigate("/404");
-        if (error.response.status === 500)
-          navigate("/500");
-        setLoading(false);
-      }
-    };
-
-    const fetchComments = async () =>
-    {
-      setLoading(true);
-      try {
-        const response = await axios.get(`http://45.144.50.12/api/trainer/comments/${trainerID}/`);
-        setComments(response.data);
-        setLoading(false);
-      }
-      catch (error) {
-        console.error("Error fetching comments:", error);
-        if (error.response.status === 404)
-          navigate("/404");
-        if (error.response.status === 500)
-          navigate("/500");
-        setLoading(false);
-      }
-    };
-
     fetchTrainer();
     fetchComments();
   }, []);
@@ -85,6 +85,34 @@ const TrainerProfile = () => {
     }
   };
 
+  const handleSubmitComment = async (newCommentText, newRating) => {
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      setOpenErrorModal(true);
+      console.error("کاربر وارد نشده است.");
+      return;
+    }
+
+    try {
+      await axios.post("http://45.144.50.12/api/trainer/comments/create/", 
+      {
+        trainer: parseInt(trainerID),
+        comment: newCommentText,
+        rating: newRating
+      },
+      {
+        headers: {Authorization: `Bearer ${token}`}
+      });
+
+      // fetch new comments after submit
+      fetchComments();
+    }
+    catch (error) {
+      setOpenErrorModal(true);
+      console.error("خطا در ارسال نظر:", error);
+    }
+  };
+
 
   return (
     <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column"}}>
@@ -93,7 +121,7 @@ const TrainerProfile = () => {
       <Container maxWidth="md" sx={{my: 4}}>
         <InfoSection trainer={trainer} />
         <Button onClick={handleOrder} disabled={!trainer?.isAvailableForReservation} variant="contained" fullWidth sx={{mt: 4, maxWidth: 200, borderRadius: 2.5, fontSize: "1.2rem"}}>ثبت سفارش</Button>
-        <CommentSection comments={comments} />
+        <CommentSection comments={comments} onSubmitComment={handleSubmitComment} />
 
         <SuccessModal open={openSuccessModal} onClose={() => {setOpenSuccessModal(false); navigate("/");}} successMessage="سفارش شما با موفقیت ثبت شد." />
         <ErrorModal open={openErrorModal} onClose={() => {setOpenErrorModal(false); navigate("/signin");}} errorMessage="سفارش شما ثبت نشد! لطفا ابتدا وارد حساب کاربری خود شوید!" />
