@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Typography,
@@ -7,15 +7,88 @@ import {
   TextField,
   Button,
   Container,
-  IconButton
+  IconButton,
+  Modal,
+  CircularProgress
 } from '@mui/material';
 import { Email, Phone } from '@mui/icons-material';
 import { Telegram, Instagram, LinkedIn, Twitter } from '@mui/icons-material';
 import contactImage from "../../public/contactus.svg"
 import Navbar from '../components/home/NavbarCard';
 import Footer from '../components/Footer';
+import axios from 'axios';
+import config from '../config';
+import SuccessfulModal from "../components/modals/SuccessfulModal";
+import ErrorModal from "../components/modals/ErrorModal";
 
 const ContactUsPage = () => {
+  const [formData, setFormData] = useState({
+    title: '',
+    name: '',
+    text: '',
+    phone_number: '',
+    email: ''
+  });
+  const [loading, setLoading] = useState(false);
+
+  const [successmessage, setSuccessMessage] = React.useState("");
+  const [opensuccessfulmodal, setOpenSuccessfulModal] = React.useState(false);
+  const [openErrorModal, setOpenErrorModal] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSendMessage = () => {
+    setSuccessMessage("پیام شما با موفقیت ارسال شد . در اسرع وقت به شما پاسخ خواهیم داد!");
+    setOpenSuccessfulModal(true);
+  };
+
+  
+  const handleCloseErrorModal = () => {
+    setOpenErrorModal(false); // بستن مودال
+  };
+  const handleCloseSuccessfulModal = () => {
+    setOpenSuccessfulModal(false); // بستن مودال
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+  
+    try {
+      await axios.post(`${config.API_BASE_URL}/api/opinions/create/`, formData, {
+        headers: {
+          'Content-Type': 'application/json',
+          'accept': 'application/json'
+        }
+      });
+  
+      setSuccessMessage("پیام شما با موفقیت ارسال شد . در اسرع وقت به شما پاسخ خواهیم داد!");
+      setOpenSuccessfulModal(true); // ✅ fix here
+  
+      setFormData({
+        title: '',
+        name: '',
+        text: '',
+        phone_number: '',
+        email: ''
+      });
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setErrorMessage("ارسال پیام با خطا مواجه شد. لطفا دوباره تلاش کنید.");
+      setOpenErrorModal(true); // ✅ show error modal
+    } finally {
+      setLoading(false);
+    }
+
+  };
+
   return (
     <>
       <Navbar />
@@ -88,19 +161,50 @@ const ContactUsPage = () => {
             </Grid>
           </Grid>
 
-          <Box mt={7}>
+          <Box mt={7} component="form" onSubmit={handleSubmit}>
             <Typography variant="h5" fontWeight="bold" mb={2} textAlign="left">
               با ما در ارتباط باشید
             </Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} md={4}>
-                <TextField fullWidth label="نام و نام خانوادگی" />
+                <TextField 
+                  fullWidth 
+                  label="نام و نام خانوادگی" 
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                />
               </Grid>
               <Grid item xs={12} md={4}>
-                <TextField fullWidth label="شماره تماس" />
+                <TextField 
+                  fullWidth 
+                  label="ایمیل" 
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                />
               </Grid>
               <Grid item xs={12} md={4}>
-                <TextField fullWidth label="شغل" />
+                <TextField 
+                  fullWidth 
+                  label="شماره تماس" 
+                  name="phone_number"
+                  value={formData.phone_number}
+                  onChange={handleInputChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="عنوان"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleInputChange}
+                  required
+                />
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -108,18 +212,47 @@ const ContactUsPage = () => {
                   multiline
                   rows={4}
                   label="پیام"
+                  name="text"
+                  value={formData.text}
+                  onChange={handleInputChange}
+                  required
                   variant="outlined"
                 />
               </Grid>
               <Grid item xs={12} textAlign="center">
-                <Button variant="contained" color="success" sx={{ fontSize: '1.1rem', px: 5, py: 1.5, backgroundColor: '#0A9A59', '&:hover': { backgroundColor: '#066c3f' } }}>
-                  ارسال پیام
-                </Button>
+              <Button 
+                type="submit"
+                variant="contained" 
+                color="success" 
+                disabled={loading}
+                sx={{ 
+                  fontSize: '1.1rem', 
+                  px: 5, 
+                  py: 1.5, 
+                  backgroundColor: '#0A9A59', 
+                  '&:hover': { backgroundColor: '#066c3f' } 
+                }}
+              >
+                {loading ? <CircularProgress size={24} color="inherit" /> : 'ارسال پیام'}
+              </Button>
               </Grid>
             </Grid>
           </Box>
         </Paper>
       </Container>
+
+      <ErrorModal
+        open={openErrorModal}
+        onClose={handleCloseErrorModal}
+        errorMessage={errorMessage}
+      />
+      <SuccessfulModal
+        open={opensuccessfulmodal}
+        onClose={handleCloseSuccessfulModal}
+        successMessage={successmessage}
+      />     
+
+
       <Footer />
     </>
   );
