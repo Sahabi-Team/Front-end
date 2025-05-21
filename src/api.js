@@ -1,8 +1,8 @@
 import axios from 'axios';
+import config from './config';
 
 
-
-const API_URL = 'http://127.0.0.1:8000/api/client_auth/login/';
+const API_URL = `${config.API_BASE_URL}/api/client_auth/login/`;
 
 export const loginUser = async (email, password) => {
     try {

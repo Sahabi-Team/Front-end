@@ -13,6 +13,7 @@ import subtract from '../assets/imgs/Subtract.png';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import Footer from '../components/CompactFooter';
+import config from '../config';
 
 const GreenChip = styled(Chip)(({ theme }) => ({
   backgroundColor: '#00AF66',
@@ -77,7 +78,7 @@ const TestResultPage = () => {
         });
 
         // Fetch test data
-        const testResponse = await api.get('http://84.234.29.28:8000/api/tests/my-tests/');
+        const testResponse = await api.get(`${config.API_BASE_URL}/api/tests/my-tests/`);
         if (testResponse.data && testResponse.data.length > 0) {
           setTestData(testResponse.data[0]);
         } else {
@@ -85,7 +86,7 @@ const TestResultPage = () => {
         }
 
         // Fetch member count
-        const memberResponse = await axios.get('http://84.234.29.28:8000/api/analytics/total-clients/');
+        const memberResponse = await axios.get(`${config.API_BASE_URL}/api/analytics/total-clients/`);
         setMemberCount(memberResponse.data.total_clients || 0);
 
         setLoading(false);

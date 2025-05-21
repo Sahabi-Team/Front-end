@@ -8,6 +8,7 @@ import axios from 'axios';
 import Header from '../components/Header';
 import ContentContainer from '../components/ContentContainer';
 import Sidebar from '../components/TrainerSidebar';
+import config from '../config';
 
 const TrainerStudentsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -40,7 +41,7 @@ const TrainerStudentsPage = () => {
         });
 
         // Fetch trainees data
-        const response = await api.get('http://84.234.29.28:8000/api/trainer/my-trainees/');
+        const response = await api.get(`${config.API_BASE_URL}/api/trainer/my-trainees/`);
         
         // Transform the data to match our component's expected format
         const formattedTrainees = response.data.map(trainee => ({

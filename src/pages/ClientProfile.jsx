@@ -10,7 +10,7 @@ import { AuthContext } from '../contexts/AuthContext.jsx';
 import ClientSidebar from "../components/ClientSidebar.jsx";
 import Header from '../components/Header';
 import ContentContainer from '../components/ContentContainer';
-
+import config from '../config';
 
 const EditProfile = () => { 
    const { userInfo } = useContext(AuthContext);
@@ -46,7 +46,7 @@ const EditProfile = () => {
                 password: "********"
               });
              if (response.data.user.profile_picture) {
-               setProfileImageUrl(`http://84.234.29.28:8000${response.data.user.profile_picture}`);
+                setProfileImageUrl(`${config.API_BASE_URL}${response.data.user.profile_picture}`);
 }
             } catch (error) {
                 console.error("Fetch profile error:", error);
