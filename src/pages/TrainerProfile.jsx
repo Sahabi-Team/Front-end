@@ -16,6 +16,8 @@ const TrainerProfile = () => {
   const [loading, setLoading] = useState(true);
   const [openSuccessModal, setOpenSuccessModal] = useState(false);
   const [openErrorModal, setOpenErrorModal] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const [comments, setComments] = useState([]);
 
@@ -64,6 +66,7 @@ const TrainerProfile = () => {
     try {
       const token = localStorage.getItem("access_token");
       if (!token) {
+        setErrorMessage("لطفاً ابتدا وارد حساب کاربری خود شوید.");
         setOpenErrorModal(true);
         console.error("کاربر وارد نشده است.");
         return;
@@ -78,19 +81,34 @@ const TrainerProfile = () => {
           headers: {Authorization: `Bearer ${token}`}
         }
       );
+      
+      setSuccessMessage("سفارش شما با موفقیت ثبت شد.");
       setOpenSuccessModal(true);
     }
     catch (error) {
-      setOpenErrorModal(true);
       console.error("خطا در ثبت سفارش:", error);
+      if (error.response.status === 403)
+      {
+        setErrorMessage("شما با این مربی یک برنامه ورزشی فعال از قبل دارید.");
+        setOpenErrorModal(true);
+      }
+      if (error.response.status === 500)
+        navigate("/500");
     }
   };
 
   const handleSubmitComment = async (newCommentText, newRating) => {
     const token = localStorage.getItem("access_token");
     if (!token) {
+      setErrorMessage("لطفاً ابتدا وارد حساب کاربری خود شوید.");
       setOpenErrorModal(true);
       console.error("کاربر وارد نشده است.");
+      return;
+    }
+    if (!newCommentText || newRating === 0)
+    {
+      setErrorMessage("لطفا فیلد امتیاز و نظر خود را کامل پر کنید.");
+      setOpenErrorModal(true);
       return;
     }
 
@@ -105,12 +123,17 @@ const TrainerProfile = () => {
         headers: {Authorization: `Bearer ${token}`}
       });
 
+      setSuccessMessage("نظر شما با موفقیت ثبت شد.");
+      setOpenSuccessModal(true);
       // fetch new comments after submit
       fetchComments();
     }
     catch (error) {
+      setErrorMessage(error.response.statusText);
       setOpenErrorModal(true);
       console.error("خطا در ارسال نظر:", error);
+      if (error.response.status === 500)
+        navigate("/500");
     }
   };
 
@@ -124,8 +147,8 @@ const TrainerProfile = () => {
         <Button onClick={handleOrder} disabled={!trainer?.isAvailableForReservation} variant="contained" fullWidth sx={{mt: 4, maxWidth: 200, borderRadius: 2.5, fontSize: "1.2rem"}}>ثبت سفارش</Button>
         <CommentSection comments={comments} onSubmitComment={handleSubmitComment} />
 
-        <SuccessModal open={openSuccessModal} onClose={() => {setOpenSuccessModal(false); navigate("/");}} successMessage="سفارش شما با موفقیت ثبت شد." />
-        <ErrorModal open={openErrorModal} onClose={() => {setOpenErrorModal(false); navigate("/signin");}} errorMessage="سفارش شما ثبت نشد! لطفا ابتدا وارد حساب کاربری خود شوید!" />
+        <SuccessModal open={openSuccessModal} onClose={() => {setOpenSuccessModal(false); /*navigate("/");*/}} successMessage={successMessage} />
+        <ErrorModal open={openErrorModal} onClose={() => {setOpenErrorModal(false); /*navigate("/signin");*/}} errorMessage={errorMessage} />
       </Container>
       <Footer />
     </Box>
