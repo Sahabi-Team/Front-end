@@ -46,7 +46,7 @@ const EditProfile = () => {
                 password: "********"
               });
              if (response.data.user.profile_picture) {
-                setProfileImageUrl(`${config.API_BASE_URL}${response.data.user.profile_picture}`);
+                setProfileImageUrl(`${response.data.user.profile_picture}`);
 }
             } catch (error) {
                 console.error("Fetch profile error:", error);
