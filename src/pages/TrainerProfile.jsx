@@ -31,9 +31,9 @@ const TrainerProfile = () => {
     }
     catch (error) {
       console.error("Error fetching trainer:", error);
-      if (error.response.status === 404)
+      if (error.response?.status === 404)
         navigate("/404");
-      if (error.response.status === 500)
+      if (error.response?.status === 500)
         navigate("/500");
       setLoading(false);
     }
@@ -49,9 +49,9 @@ const TrainerProfile = () => {
     }
     catch (error) {
       console.error("Error fetching comments:", error);
-      if (error.response.status === 404)
+      if (error.response?.status === 404)
         navigate("/404");
-      if (error.response.status === 500)
+      if (error.response?.status === 500)
         navigate("/500");
       setLoading(false);
     }
@@ -88,12 +88,12 @@ const TrainerProfile = () => {
     }
     catch (error) {
       console.error("خطا در ثبت سفارش:", error);
-      if (error.response.status === 403)
+      if (error.response?.status === 403)
       {
-        setErrorMessage("شما با این مربی یک برنامه ورزشی فعال از قبل دارید.");
+        setErrorMessage("شما با این مربی از قبل یک برنامه ورزشی فعال دارید.");
         setOpenErrorModal(true);
       }
-      if (error.response.status === 500)
+      if (error.response?.status === 500)
         navigate("/500");
     }
   };
@@ -130,10 +130,10 @@ const TrainerProfile = () => {
       fetchComments();
     }
     catch (error) {
-      setErrorMessage(error.response.statusText);
+      setErrorMessage(error.response?.statusText);
       setOpenErrorModal(true);
       console.error("خطا در ارسال نظر:", error);
-      if (error.response.status === 500)
+      if (error.response?.status === 500)
         navigate("/500");
     }
   };
@@ -158,7 +158,7 @@ const TrainerProfile = () => {
         )}
 
         <SuccessModal open={openSuccessModal} onClose={() => {setOpenSuccessModal(false); /*navigate("/");*/}} successMessage={successMessage} />
-        <ErrorModal open={openErrorModal} onClose={() => {setOpenErrorModal(false); /*navigate("/signin");*/}} errorMessage={errorMessage} />
+        <ErrorModal open={openErrorModal} onClose={() => {setOpenErrorModal(false); if(errorMessage === "لطفاً ابتدا وارد حساب کاربری خود شوید."){navigate("/signin")} }} errorMessage={errorMessage} />
       </Container>
       <Footer />
     </Box>
