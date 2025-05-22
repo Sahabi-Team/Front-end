@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Box, CssBaseline, Button } from '@mui/material';
+import { Container, Box, CssBaseline, Button, Typography, CircularProgress } from '@mui/material';
 import { useNavigate, useParams } from 'react-router';
 import Header from "../components/TrainerProfile/Header";
 import InfoSection from "../components/TrainerProfile/InfoSection";
@@ -58,6 +58,7 @@ const TrainerProfile = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
     fetchTrainer();
     fetchComments();
   }, []);
@@ -143,9 +144,18 @@ const TrainerProfile = () => {
       <Header />
       <CssBaseline enableColorScheme />
       <Container maxWidth="md" sx={{my: 4}}>
-        <InfoSection trainer={trainer} />
-        <Button onClick={handleOrder} disabled={!trainer?.isAvailableForReservation} variant="contained" fullWidth sx={{mt: 4, maxWidth: 200, borderRadius: 2.5, fontSize: "1.2rem"}}>ثبت سفارش</Button>
-        <CommentSection comments={comments} onSubmitComment={handleSubmitComment} />
+        {loading ? (
+        <>
+          <CircularProgress/>
+          <Typography fontSize={20} my={5}>در حال دریافت اطلاعات مربی ...</Typography>
+        </>
+        ) : (
+        <>
+          <InfoSection trainer={trainer} />
+          <Button onClick={handleOrder} disabled={!trainer?.isAvailableForReservation} variant="contained" fullWidth sx={{mt: 4, maxWidth: 200, borderRadius: 2.5, fontSize: "1.2rem"}}>ثبت سفارش</Button>
+          <CommentSection comments={comments} onSubmitComment={handleSubmitComment} />
+        </>
+        )}
 
         <SuccessModal open={openSuccessModal} onClose={() => {setOpenSuccessModal(false); /*navigate("/");*/}} successMessage={successMessage} />
         <ErrorModal open={openErrorModal} onClose={() => {setOpenErrorModal(false); /*navigate("/signin");*/}} errorMessage={errorMessage} />
