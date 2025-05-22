@@ -7,7 +7,8 @@ import CommentSection from "../components/TrainerProfile/CommentSection";
 import Footer from "../components/Footer";
 import SuccessModal from "../components/modals/SuccessfulModal";
 import ErrorModal from "../components/modals/ErrorModal";
-import axios from 'axios'
+import axios from "axios";
+import config from "../config";
 
 const TrainerProfile = () => {
   const {trainerID} = useParams();
@@ -22,7 +23,7 @@ const TrainerProfile = () => {
   {
     setLoading(true);
     try {
-      const response = await axios.get(`http://45.144.50.12/api/trainer/trainers/${trainerID}/profile/`);
+      const response = await axios.get(`${config.API_BASE_URL}/api/trainer/trainers/${trainerID}/profile/`);
       setTrainer(response.data);
       setLoading(false);
     }
@@ -40,7 +41,7 @@ const TrainerProfile = () => {
   {
     setLoading(true);
     try {
-      const response = await axios.get(`http://45.144.50.12/api/trainer/comments/${trainerID}/`);
+      const response = await axios.get(`${config.API_BASE_URL}/api/trainer/comments/${trainerID}/`);
       setComments(response.data);
       setLoading(false);
     }
@@ -69,7 +70,7 @@ const TrainerProfile = () => {
       }
 
       const response = await axios.post(
-        "http://45.144.50.12/api/mentorship/mentorships/",
+        `${config.API_BASE_URL}/api/mentorship/mentorships/`,
         {
           trainer: trainer.trainer_id
         },
@@ -94,7 +95,7 @@ const TrainerProfile = () => {
     }
 
     try {
-      await axios.post("http://45.144.50.12/api/trainer/comments/create/", 
+      await axios.post(`${config.API_BASE_URL}/api/trainer/comments/create/`, 
       {
         trainer: parseInt(trainerID),
         comment: newCommentText,
