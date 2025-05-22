@@ -12,20 +12,20 @@ const Step0 = ({ data, setData, setIsFormValid }) => {
         تست رایگان چیه؟
       </Typography>
 
-      <Typography >
+      <Typography lineHeight="2rem">
         برای شروع مسیر تناسب اندام ابتدا باید بدنت رو بهتر بشناسیم!
       </Typography>
 
-      <Typography >
+      <Typography lineHeight="2rem">
         در این تست کوتاه و رایگان، ما فقط چندتا سوال ازت می‌پرسیم:
       </Typography>
 
      
-      <Box sx={{ mt: 2, lineHeight: "2.2rem" }}>
-        <Typography sx={{ color: "green" }}>✅ قد، وزن و سن</Typography>
-        <Typography sx={{ color: "green" }}>✅ عضلاتی که دوست داری تقویتشون کنی</Typography>
-        <Typography sx={{ color: "green" }}>✅ بیماری‌ها یا محدودیت‌های بدنی</Typography>
-        <Typography sx={{ color: "green" }}>✅ سطح کلی آمادگی جسمانیت</Typography>
+      <Box sx={{ mt: 2 }}>
+        <Typography sx={{ color: "green", lineHeight: "2rem" }}>✅ قد، وزن و سن</Typography>
+        <Typography sx={{ color: "green", lineHeight: "2rem" }}>✅ عضلاتی که دوست داری تقویتشون کنی</Typography>
+        <Typography sx={{ color: "green", lineHeight: "2rem" }}>✅ بیماری‌ها یا محدودیت‌های بدنی</Typography>
+        <Typography sx={{ color: "green", lineHeight: "2rem" }}>✅ سطح کلی آمادگی جسمانیت</Typography>
       </Box>
 
       <Typography sx={{ mt: 3 }} >
@@ -33,13 +33,13 @@ const Step0 = ({ data, setData, setIsFormValid }) => {
       </Typography>
 
      
-      <Box sx={{ mt: 1, lineHeight: "2.2rem" }}>
-        <Typography sx={{ color: "#FF5722" }}>🎯 شاخص توده بدنیت (BMI)</Typography>
-        <Typography sx={{ color: "#FF5722" }}>🎯 درصد چربی بدنت (BFP)</Typography>
-        <Typography sx={{ color: "#FF5722" }}>🎯 تعداد تقریبی هفته‌هایی که برای رسیدن به هدفت نیاز داری</Typography>
+      <Box sx={{ mt: 1 }}>
+        <Typography sx={{ color: "#FF5722", lineHeight: "2rem" }}>🎯 شاخص توده بدنیت (BMI)</Typography>
+        <Typography sx={{ color: "#FF5722", lineHeight: "2rem" }}>🎯 درصد چربی بدنت (BFP)</Typography>
+        <Typography sx={{ color: "#FF5722", lineHeight: "2rem" }}>🎯 تعداد تقریبی هفته‌هایی که برای رسیدن به هدفت نیاز داری</Typography>
       </Box>
 
-      <Typography sx={{ mt: 3 }} fontWeight="bold">
+      <Typography sx={{ mt: 5 }} fontWeight="bold">
         برای شروع تست لازم است که جنسیت خود را انتخاب کنید:
       </Typography>
 
@@ -53,6 +53,12 @@ const Step0 = ({ data, setData, setIsFormValid }) => {
           display: 'flex',
           justifyContent: 'center',
           flexWrap: 'wrap',
+          gap: 10,
+          '& .MuiToggleButtonGroup-grouped': {
+            marginTop: 3,
+            border: '2px solid #ccc',
+            borderRadius: '999px !important',
+          }
         }}
       >
        
@@ -60,33 +66,26 @@ const Step0 = ({ data, setData, setIsFormValid }) => {
           value="female"
           disableRipple
           sx={{
-             position: "relative", 
+            position: "relative", 
             justifyContent: "center", 
             alignItems: "center",
             flexDirection: "row-reverse",
             borderRadius: "999px",
             border: "2px solid",
             borderColor: data === "female" ? "primary.main" : "#ccc",
-            padding: "0.5rem 0rem",
-            width: 140,
-            height: 40,
+            width: 160,
+            height: 45,
             backgroundColor: data === "female" ? "#f0f8ff" : "#fff",
-            margin: "0 8px",
             '&:hover': {
               backgroundColor: "#f5f5f5",
             },
             '&.Mui-selected': {
               borderColor: "primary.main",
-            },
-            '&.MuiToggleButtonGroup-grouped': {
-              margin: 2,
-              borderRadius: "999px",
-            },
+            }
           }}
         >
-          <Typography sx={{ fontWeight: "bold", fontSize: "1.2rem" ,position: "absolute",right:30}}>زن</Typography>
-        
-            <Avatar src="/female.png" alt="زن" sx={{ width: 46, height: 38, position: "absolute",left: 0}} />
+          <Typography sx={{ fontWeight: "bold", fontSize: "1.2rem", position: "relative", left: 10}}>زن</Typography>
+          <Avatar src="/female.png" alt="زن" sx={{ width: 42, height: 42, position: "absolute", left: 0}} />
         </ToggleButton>
 
        
@@ -101,27 +100,19 @@ const Step0 = ({ data, setData, setIsFormValid }) => {
             borderRadius: "999px",
             border: "2px solid",
             borderColor: data === "male" ? "primary.main" : "#ccc",
-            padding: "0.5rem 2rem",
-            width: 140,
-            height: 40,
+            width: 160,
+            height: 45,
             backgroundColor: data === "male" ? "#f0f8ff" : "#fff",
-            margin: "0 8px",
             '&:hover': {
               backgroundColor: "#f5f5f5",
             },
             '&.Mui-selected': {
               borderColor: "primary.main",
-            },
-            '&.MuiToggleButtonGroup-grouped': {
-              margin: 2,
-              borderRadius: "999px",
-            },
+            }
           }}
         >
-          <Typography sx={{ fontWeight: "bold", fontSize: "1.2rem" ,position: "absolute",right:30}}>مرد</Typography>
-        
-            <Avatar src="/male.png" alt="مرد" sx={{ width: 44, height: 38 ,position: "absolute",left: 0, }} />
-
+          <Typography sx={{ fontWeight: "bold", fontSize: "1.2rem", position: "relative", left: 10}}>مرد</Typography>
+          <Avatar src="/male.png" alt="مرد" sx={{ width: 42, height: 42, position: "absolute", left: 0}} />
         </ToggleButton>
       </ToggleButtonGroup>
 

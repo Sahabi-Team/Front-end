@@ -11,9 +11,8 @@ import {
   Modal,
   CircularProgress
 } from '@mui/material';
-import { Email, Phone } from '@mui/icons-material';
 import { Telegram, Instagram, LinkedIn, Twitter } from '@mui/icons-material';
-import contactImage from "../../public/contactus.svg"
+import contactImage from "/contactus.svg"
 import Navbar from '../components/home/NavbarCard';
 import Footer from '../components/Footer';
 import axios from 'axios';

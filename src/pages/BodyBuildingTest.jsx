@@ -119,7 +119,7 @@ const BodyBuildingTest = () => {
     <Box>
       <Navbar />
       <CssBaseline enableColorScheme />
-      <Container maxWidth={activeStep >= 2 ? false : "sm"} sx={{ mt: 13, maxWidth: "800px" }}>
+      <Container maxWidth={activeStep >= 3 || activeStep === 0 ? false : "sm"} sx={{ mt: 13, maxWidth: "800px" }}>
         <Card sx={{ p: 3, borderRadius: 3, boxShadow: 3 }}>
           <CardContent>
             <h2 style={{ textAlign: "center" }}>تست بدنسازی رایگان</h2>

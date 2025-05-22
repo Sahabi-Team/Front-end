@@ -37,11 +37,11 @@ const Step5 = ({ gender, data, setData, setIsFormValid }) => {
       <Box
         onClick={() => handleSelect(index)}
         sx={{
-          border: data === index ? '2px solid #00A359' : '1px solid #00A359',
-          borderRadius: 3,
+          border: data === index ? '1px solid #00A359' : '0px solid #00A359',
+          borderRadius: 7,
           p: 1,
           cursor: 'pointer',
-          transition: '0.3s',
+          transition: '0.1s',
           backgroundColor: data === index ? '#e3f2fd' : 'white',
         }}
       >
