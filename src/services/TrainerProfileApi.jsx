@@ -50,4 +50,6 @@ export const trainerProfileAPI = {
       },
     });
   },
+
+   changePassword: (data) => api.post('/auth/change-password/', data)
 };

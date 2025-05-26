@@ -58,7 +58,7 @@ const Sidebar = () => {
                             <ListItemIcon sx={{ minWidth: "40px", marginLeft: isHovered ? "8px" : "0",marginBottom:"10px" }}><Edit /></ListItemIcon>
                             {isHovered && <ListItemText primary="تغییر پروفایل" sx={{color: "black" }} />}
                         </ListItem>
-                        <ListItem button component={Link} to="/trainereditprofile" >
+                        <ListItem button component={Link} to="/changepasswordtrainer" >
                             <ListItemIcon sx={{ minWidth: "40px", marginLeft: isHovered ? "8px" : "0",marginBottom:"10px" }}><VpnKeyIcon /></ListItemIcon>
                             {isHovered && <ListItemText primary="تغییر رمز عبور" sx={{color: "black" }} />}
                         </ListItem>

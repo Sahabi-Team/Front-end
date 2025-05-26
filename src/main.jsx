@@ -29,7 +29,7 @@ import AboutUs from './pages/AboutUs.jsx';
 import ContactUs from './pages/ContactUs.jsx';
 import InternalServerErrorPage from "./pages/InternalServerErrorPage";
 import TrainerProfile from './pages/TrainerProfile.jsx';
-
+import ChangePasswordTrainer from './pages/ChangePasswordTrainer.jsx';
 
 import CreateWorkoutPlan from './pages/CreateWorkoutPlan.jsx';
 import WorkoutPreview from './components/CreateWorkoutPlan/WorkoutPreview.jsx'
@@ -130,6 +130,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="/createworkoutplan" element={<CreateWorkoutPlan />} />
               <Route path="/workoutpreview" element={<WorkoutPreview />} />
               <Route path="/trainer_profile/:trainerID" element={<TrainerProfile />} />
+              <Route path="/changepasswordtrainer" element={<ChangePasswordTrainer />} />
             </Routes>
           </AuthProvider>
         </BrowserRouter>
