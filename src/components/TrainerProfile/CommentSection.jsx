@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Typography, Rating, TextField, Button, Divider, Pagination } from '@mui/material';
 
 const CommentSection = ({ comments, onSubmitComment }) => {
-  const [newComment, setNewComment] = useState('');
+  const [newComment, setNewComment] = useState("");
   const [newRating, setNewRating] = useState(0);
 
   // pagination
@@ -12,8 +12,6 @@ const CommentSection = ({ comments, onSubmitComment }) => {
   const currentComments = comments.slice((page - 1) * perPage, page * perPage);
 
   const handleSubmit = () => {
-    if (!newComment || newRating === 0) return;
-
     onSubmitComment(newComment, newRating);
     setNewComment("");
     setNewRating(0);

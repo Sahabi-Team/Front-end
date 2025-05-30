@@ -57,7 +57,7 @@ const EditProfile = () => {
             password: "********"
           });
           if (trainerData.user.profile_picture) {
-            setProfileImageUrl(`${config.API_BASE_URL}${trainerData.user.profile_picture}`);
+            setProfileImageUrl(`${trainerData.user.profile_picture}`);
           }
         } catch (error) {
           console.error("Fetch profile error:", error);

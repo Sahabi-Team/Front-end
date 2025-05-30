@@ -18,6 +18,7 @@ const TrainersList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [openSuccessModal, setOpenSuccessModal] = useState(false);
   const [openErrorModal, setOpenErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   //For Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -72,6 +73,8 @@ const TrainersList = () => {
     }
     catch (error) {
       console.error("Error fetching Coaches:", error);
+      if (error.response?.status === 500)
+        navigate("/500");
     }
     finally {
       setIsLoading(false);
@@ -103,6 +106,7 @@ const TrainersList = () => {
     try {
       const token = localStorage.getItem("access_token");
       if (!token) {
+        setErrorMessage("لطفاً ابتدا وارد حساب کاربری خود شوید.");
         setOpenErrorModal(true);
         console.error("کاربر وارد نشده است.");
         return;
@@ -122,8 +126,14 @@ const TrainersList = () => {
       setOpenSuccessModal(true);
     }
     catch (error) {
-      setOpenErrorModal(true);
       console.error("خطا در ثبت سفارش:", error);
+      if (error.response?.status === 403)
+      {
+        setErrorMessage("شما با این مربی از قبل یک برنامه ورزشی فعال دارید.");
+        setOpenErrorModal(true);
+      }
+      if (error.response?.status === 500)
+        navigate("/500");
     }
   };
 
@@ -180,8 +190,8 @@ const TrainersList = () => {
           </Box>
         </Box>
 
-        <SuccessModal open={openSuccessModal} onClose={() => {setOpenSuccessModal(false); navigate("/");}} successMessage="سفارش شما با موفقیت ثبت شد." />
-        <ErrorModal open={openErrorModal} onClose={() => {setOpenErrorModal(false); navigate("/signin");}} errorMessage="سفارش شما ثبت نشد! لطفا ابتدا وارد حساب کاربری خود شوید!" />
+        <SuccessModal open={openSuccessModal} onClose={() => {setOpenSuccessModal(false); /*navigate("/");*/}} successMessage="سفارش شما با موفقیت ثبت شد." />
+        <ErrorModal open={openErrorModal} onClose={() => {setOpenErrorModal(false); if(errorMessage === "لطفاً ابتدا وارد حساب کاربری خود شوید."){navigate("/signin")} }} errorMessage={errorMessage} />
       </Container>
       <Footer />
     </Box>

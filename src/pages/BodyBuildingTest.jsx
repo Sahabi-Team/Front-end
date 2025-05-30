@@ -84,9 +84,8 @@ const BodyBuildingTest = () => {
     }
     catch (error) {
       setOpenErrorModal(true);
-       if (error.response?.status === 500) {
-           navigate("/500");
-        } 
+      if (error.response?.status === 500)
+        navigate("/500");
     }
   };
   useEffect(() => {
