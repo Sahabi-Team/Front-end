@@ -1,9 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import {
-  Box, TextField, IconButton, Avatar, Typography, List, ListItem, ListItemAvatar,
-  ListItemText, Paper, Divider,
-  CssBaseline
-} from '@mui/material';
+import { Box, Divider, CssBaseline } from '@mui/material';
 import moment from 'jalali-moment';
 import ContactList from '../components/Chat/ContactList';
 import ChatBox from '../components/Chat/ChatBox';
@@ -49,11 +45,13 @@ const initialMessages = {
 
 const ChatApp = () => {
   const messageEndRef = useRef(null);
+  const [currentUserId, setCurrentUserId] = useState(null);
   const [contacts, setContacts] = useState([]);
   const [messages, setMessages] = useState(initialMessages);
-  const [selectedId, setSelectedId] = useState(null);
+  const [selectedContactId, setSelectedContactId] = useState(null);
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
+  const [socket, setSocket] = useState(null);
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -67,25 +65,38 @@ const ChatApp = () => {
           return;
         }
 
-        const response = await axios.get(`${config.API_BASE_URL}/api/mentorship/mentorships/`, {
+        // 1. تشخیص نوع کاربر (trainer یا trainee)
+        const whoamiResponse = await axios.get(`${config.API_BASE_URL}/api/auth/whoami/`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
         });
-        
+        const usertype = whoamiResponse.data.usertype; //"trainer" یا "trainee"
+        setCurrentUserId(whoamiResponse.data.id); // ذخیره آیدی کاربر وارد شده
 
-        // فرض می‌کنیم هر آیتم یه trainee داره
-        const data = response.data.map((item) => ({
-          id: item.id, // اینجا می‌تونه همون mentorshipId باشه
-          name: item.trainee?.user?.name || 'بدون نام',
-          profilePicture: item.trainee?.user?.profile_picture || null,
-          lastMessage: '', // اگه لازم شد از پیام آخر هم پر می‌کنی
-          unread: false,
-        }));
+        // 2. گرفتن لیست منتورشیپ‌ها
+        const mentorshipsResponse = await axios.get(`${config.API_BASE_URL}/api/mentorship/mentorships/`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
 
-        setContacts(data);
-        if (data.length > 0)
-          setSelectedId(data[0].id); // اولین مخاطب به عنوان پیش‌فرض انتخاب شه
+        // 3. ساختن لیست مخاطبین بر اساس نقش
+        const contacts_list = mentorshipsResponse.data.map((mentorship) => {
+          const targetUser = usertype === "trainer" ? mentorship.trainee?.user : mentorship.trainer?.user;
+
+          return {
+            id: mentorship.id,
+            name: targetUser?.name,
+            profilePicture: targetUser?.profile_picture,
+            lastMessage: '', // بعداً می‌تونی آخرین پیام رو اینجا بیاری
+            unread: false,
+          };
+        });
+
+        setContacts(contacts_list);
+        if (contacts_list.length > 0)
+          setSelectedContactId(contacts_list[0].id); // اولین مخاطب به عنوان پیش‌فرض انتخاب شه
 
         setLoading(false);
       }
@@ -103,8 +114,48 @@ const ChatApp = () => {
   }, []);
 
 
+  useEffect(() => {
+    if (!selectedContactId) return;
+
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      //setErrorMessage("لطفاً ابتدا وارد حساب کاربری خود شوید.");
+      //setOpenErrorModal(true);
+      console.error("کاربر وارد نشده است.");
+      return;
+    }
+
+    const ws = new WebSocket(`ws://45.144.50.12:8000/ws/chat/${selectedContactId}/?token=${token}`);
+    ws.onopen = () => {
+      console.log("WebSocket connected");
+      setSocket(ws); // فقط بعد از اتصال موفق ذخیره می‌شود
+    };
+    
+    ws.onmessage = (e) => {
+      const data = JSON.parse(e.data);
+      const newMsg = {
+        fromMe: data.sender === currentUserId,
+        text: data.message,
+        date: moment(),
+        time: moment().format('HH:mm')
+      };
+
+      setMessages(prev => ({
+        ...prev,
+        [selectedContactId]: [...(prev[selectedContactId] || []), newMsg]
+      }));
+    };
+    ws.onclose = () => console.log("WebSocket disconnected!");
+
+    return () => {
+      ws.close(); // بستن اتصال قبلی هنگام تغییر selectedId
+    };
+  }, [selectedContactId]);
+
+
+
   const handleSelect = (id) => {
-    setSelectedId(id);
+    setSelectedContactId(id);
     // خوانده شدن پیام
     setContacts(prev =>
       prev.map(c =>
@@ -115,35 +166,14 @@ const ChatApp = () => {
 
   const handleSend = () => {
     if (!newMessage.trim()) return;
+    if (!socket || socket.readyState !== WebSocket.OPEN)
+    {
+      console.warn("🚫 WebSocket is not open.");
+      return;
+    }
 
-    const now = moment();
-    const time = now.format('HH:mm');
-    const newMsg = {
-      fromMe: true,
-      text: newMessage,
-      date: now,
-      time
-    };
-
-    setMessages(prev => ({
-      ...prev,
-      [selectedId]: [...(prev[selectedId] || []), newMsg]
-    }));
+    socket.send(JSON.stringify({ message: newMessage }));
     setNewMessage('');
-
-    setTimeout(() => {
-      const reply = {
-        fromMe: false,
-        text: 'ممنون از پیام‌تون! در خدمتم.',
-        date: moment(),
-        time: moment().format('HH:mm')
-      };
-      setMessages(prev => ({
-        ...prev,
-        [selectedId]: [...prev[selectedId], reply]
-      }));
-
-    }, 1500);
   };
 
   useEffect(() => {
@@ -161,12 +191,12 @@ const ChatApp = () => {
           <Box display="flex" height="100vh">
             <ContactList
               contacts={contacts}
-              selectedId={selectedId}
+              selectedId={selectedContactId}
               onSelect={handleSelect}
             />
             <Divider orientation="vertical" flexItem />
             <ChatBox
-              messages={messages[selectedId] || []}
+              messages={messages[selectedContactId] || []}
               newMessage={newMessage}
               setNewMessage={setNewMessage}
               handleSend={handleSend}
