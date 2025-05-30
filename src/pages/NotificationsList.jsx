@@ -97,7 +97,7 @@ export default function NotificationsList() {
                           <Typography variant="caption" color="textSecondary" sx={{mt: 0.5}}>{notif.created_at.replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d])}</Typography>
                         </Box>
                       </Box>
-                      {!notif.is_read && <Button variant="contained" startIcon={<AddIcon />} onClick={() => handleWriteProgram(notif)} sx={{borderRadius: 2, height: 28}}>نوشتن برنامه</Button>}
+                      {!notif.is_read && <Button variant="contained" startIcon={<AddIcon />} onClick={() => handleWriteProgram(notif)} sx={{borderRadius: 2, height: 28, textWrap: "nowrap"}}>نوشتن برنامه</Button>}
                     </ListItem>
                     {index < notifications.length - 1 && <Divider />}
                   </React.Fragment>
