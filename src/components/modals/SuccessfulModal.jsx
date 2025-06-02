@@ -17,10 +17,17 @@ const checkmarkAnimation = keyframes`
 `;
 
 const SuccessModal = ({ open, onClose, successMessage }) => {
+  const handleClose = (event, reason) => {
+    if (reason === "backdropClick" || reason === "escapeKeyDown") {
+      // نادیده گرفتن کلیک بیرون و ESC
+      return;
+    }
+    onClose(); // فقط از دکمه بسته بشه
+  };
   return (
     <Modal
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       aria-labelledby="success-modal-title"
       aria-describedby="success-modal-description"
     >

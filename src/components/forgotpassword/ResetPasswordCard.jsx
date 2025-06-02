@@ -83,7 +83,7 @@ export default function ResetPasswordCard(token) {
     )
       return;
 
-    // console.log(token);
+    console.log(token);
 
     try {
       const response = await axios.post(
@@ -98,7 +98,10 @@ export default function ResetPasswordCard(token) {
 
       setSuccessMessage("رمز عبور با موفقیت تغییر یافت.");
       setOpenSuccessModal(true);
-      navigate("/signin");
+
+      setTimeout(() => {
+        navigate("/signin");
+      }, 1300); // 2 ثانیه برای دیدن مدال
     } catch (error) {
       console.error(error);
       let msg = "خطایی رخ داده است. لطفاً دوباره تلاش کنید.";

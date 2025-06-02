@@ -1,12 +1,23 @@
-import * as React from 'react';
+import React, { useContext } from "react";
 import CssBaseline from '@mui/material/CssBaseline';
 import Stack from '@mui/material/Stack';
 import SignUpCard from '../components/signup/SignUpCard';
 import { Box , Paper,Container} from '@mui/material';
 import SignUp_img from '../components/signup/SignUp_img'
 import Footer from "../components/Footer";
+import { AuthContext } from "../contexts/AuthContext";
+
 
 export default function Sign_up(props) {
+
+
+   const { userInfo, logout } = useContext(AuthContext);
+  
+    if(userInfo){
+      window.location.href = "/";
+
+    }
+
   return (
    <>
     
