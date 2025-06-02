@@ -165,7 +165,7 @@ export default function ResetPasswordCard(token) {
       <Box component="form" sx={{ display: "flex", flexDirection: "column" }}>
         <Stack direction={"row"} gap={23}>
           <Box sx={{ marginTop: "1rem" }}>
-            <Typography sx={{ fontSize: "150%" }}> تغییر رمز عبور :</Typography>
+            <Typography sx={{ fontSize: "150%", whiteSpace: "nowrap" }}> تغییر رمز عبور :</Typography>
           </Box>
           <Box sx={{ alignSelf: "flex-end" }}>
             <IconButton

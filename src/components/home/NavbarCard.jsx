@@ -76,8 +76,6 @@ const GradientButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-
-
 const OutlineButton = styled(Button)(({ theme }) => ({
   border: "2px solid #4CAF50",
   color: "#4CAF50",
@@ -96,9 +94,6 @@ const OutlineButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-
-
-
 const LogoImage = styled("img")(({ theme }) => ({
   height: "50px",
   width: "auto",
@@ -113,11 +108,6 @@ const LogoImage = styled("img")(({ theme }) => ({
     height: "40px",
   },
 }));
-
-
-
-
-
 
 const BeautifulAppBar = ({ showInitialBorder = false }) => {
   const theme = useTheme();
@@ -143,8 +133,8 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
   const handlefaqclick = () => {
     navigate("/FAQ");
   };
-  
-   const handleLogoClick = () => {
+
+  const handleLogoClick = () => {
     navigate("/");
   };
 
@@ -161,7 +151,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
   };
 
   const handleExerciselistclick = (event) => {
-    navigate('/exercises');
+    navigate("/exercises");
   };
 
   const handleCloseMenu = () => {
@@ -213,7 +203,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
   const drawer = (
     <Box sx={{ width: 250, padding: 2 }}>
       <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
-        <LogoImage src={Vazneh} alt="لوگو وزنه"  onClick={handleLogoClick} />
+        <LogoImage src={Vazneh} alt="لوگو وزنه" onClick={handleLogoClick} />
       </Box>
       <List>
         <ListItem button onClick={() => handleMenuItemClick("coaches")}>
@@ -228,13 +218,25 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
         </ListItem>
         <Collapse in={openProgramsMobile} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("diet")}>
+            <ListItem
+              button
+              sx={{ pl: 4 }}
+              onClick={() => handleMenuItemClick("diet")}
+            >
               <ListItemText primary="برنامه غذایی" />
             </ListItem>
-            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("abs")}>
+            <ListItem
+              button
+              sx={{ pl: 4 }}
+              onClick={() => handleMenuItemClick("abs")}
+            >
               <ListItemText primary="برنامه شکم و پهلو" />
             </ListItem>
-            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("custom")}>
+            <ListItem
+              button
+              sx={{ pl: 4 }}
+              onClick={() => handleMenuItemClick("custom")}
+            >
               <ListItemText primary="برنامه اختصاصی" />
             </ListItem>
           </List>
@@ -245,28 +247,52 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
         </ListItem>
         <Collapse in={openMovementsMobile} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("chest")}>
+            <ListItem
+              button
+              sx={{ pl: 4 }}
+              onClick={() => handleMenuItemClick("chest")}
+            >
               <ListItemText primary="حرکات سینه" />
             </ListItem>
-            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("abs-exercises")}>
+            <ListItem
+              button
+              sx={{ pl: 4 }}
+              onClick={() => handleMenuItemClick("abs-exercises")}
+            >
               <ListItemText primary="حرکات شکم و پهلو" />
             </ListItem>
-            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("legs")}>
+            <ListItem
+              button
+              sx={{ pl: 4 }}
+              onClick={() => handleMenuItemClick("legs")}
+            >
               <ListItemText primary="حرکات پا" />
             </ListItem>
-            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("shoulders")}>
+            <ListItem
+              button
+              sx={{ pl: 4 }}
+              onClick={() => handleMenuItemClick("shoulders")}
+            >
               <ListItemText primary="حرکات سرشانه" />
             </ListItem>
           </List>
         </Collapse>
       </List>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 1, mt: 2 }}>
-        <GradientButton variant="contained" onClick={handleFreeTestClick}>تست رایگان</GradientButton>
-        {!isLoggedIn ?  (
-                    <OutlineButton variant="outlined" onClick={handlesigninclick} sx={fontSizeResponsive}>
-                      ورود
-                    </OutlineButton>
-                  ):(<></>)}
+        <GradientButton variant="contained" onClick={handleFreeTestClick}>
+          تست رایگان
+        </GradientButton>
+        {!isLoggedIn ? (
+          <OutlineButton
+            variant="outlined"
+            onClick={handlesigninclick}
+            sx={fontSizeResponsive}
+          >
+            ورود
+          </OutlineButton>
+        ) : (
+          <></>
+        )}
       </Box>
     </Box>
   );
@@ -277,27 +303,39 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
         isScrolled={isScrolled}
         showInitialBorder={showInitialBorder}
       >
-        
-        <Toolbar sx={{ justifyContent: "space-between"}}>
+        <Toolbar sx={{ justifyContent: "space-between" }}>
           {/* <LogoImage src={Vazneh} alt="لوگو وزنه" /> */}
           {isMobile ? (
             <>
-              
-              <Box sx={{ display: "flex", alignItems: "center", ml: "5rem", gap:1}}>
-              <LogoImage src={Vazneh} alt="لوگو وزنه"  onClick={handleLogoClick} />
-                <Stack direction="row" >
-                   
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  ml: "5rem",
+                  gap: 1,
+                }}
+              >
+                <LogoImage
+                  src={Vazneh}
+                  alt="لوگو وزنه"
+                  onClick={handleLogoClick}
+                />
+                <Stack direction="row">
                   {isLoggedIn ? (
                     <AvatarBox />
                   ) : (
                     // <OutlineButton variant="outlined" onClick={handlesigninclick} sx={fontSizeResponsive}>
                     //   ورود
                     // </OutlineButton>
-                    <GradientButton variant="contained" onClick={handleFreeTestClick} sx={fontSizeResponsive}>
-                    تست رایگان
-                  </GradientButton> 
+                    <GradientButton
+                      variant="contained"
+                      onClick={handleFreeTestClick}
+                      sx={fontSizeResponsive}
+                    >
+                      تست رایگان
+                    </GradientButton>
                   )}
-                </Stack> 
+                </Stack>
               </Box>
               <IconButton
                 color="inherit"
@@ -311,8 +349,12 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
             </>
           ) : (
             <>
-              <LogoImage src={Vazneh} alt="لوگو وزنه"  onClick={handleLogoClick}/>
-
+              
+                <LogoImage
+                  src={Vazneh}
+                  alt="لوگو وزنه"
+                  onClick={handleLogoClick}
+                />
               <Box
                 sx={{
                   display: "flex",

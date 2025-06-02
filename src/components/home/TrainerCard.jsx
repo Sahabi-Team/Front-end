@@ -146,34 +146,16 @@ const CoachCard = ({ id, name, specialty, experience, price, rating, image }) =>
           marginLeft: 13,
           position: "relative",
           zIndex: 1,
+          
         }}
       >
-        <Button
-          variant="contained"
-          sx={{
-            bgcolor: "#00a651",
-            color: "#fff",
-            borderRadius: "12px",
-            px: 1.5,
-            py: 0.8,
-            fontSize: "13px",
-            minWidth: 120,
-            boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-            textWrap: "nowrap",
-            "&:hover": {
-              bgcolor: "#008a43",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-            },
-          }}
-          
-        >
-          ثبت سفارش
-        </Button>
+        
         <Button
           variant="outlined"
           onClick={() => navigate(`/trainer_profile/${id}`)}
           sx={{
             borderColor: "#00a651",
+            ml:3,
             color: "#00a651",
             borderRadius: "12px",
             px: 1.5,
@@ -188,7 +170,7 @@ const CoachCard = ({ id, name, specialty, experience, price, rating, image }) =>
             },
           }}
         >
-          مشاهده پروفایل
+         مشاهده پروفایل مربی
         </Button>
       </Box>
     </Box>
