@@ -440,12 +440,19 @@ const TestResultCard = ({
                 labelId="user-select-label"
                 value={selectedUserId}
                 //   label="انتخاب شاگرد"
-                onChange={(e) => setSelectedUserId(e.target.value)}
+                readOnly={isreadonly}
+                onChange={(e) => {
+                  setSelectedUserId(e.target.value);
+                  const selectedUser = traineestests.find(
+                    (user) => user.id === e.target.value
+                  );
+                 setMentorshipId(selectedUser.mentorship_id);    
+                }}
                 sx={{ width: 300 }}
               >
-                {users.map((user) => (
-                  <MenuItem key={user.id} value={user.id}>
-                    {user.name}
+                 {traineestests.map((user) => (
+                  <MenuItem key={user.mentorship_id} value={user.id}>
+                    {user.trainee_name}
                   </MenuItem>
                 ))}
               </Select>
@@ -475,38 +482,43 @@ const TestResultCard = ({
                   alignItems="flex-start"
                   // sx={{ minWidth: 250 }}
                 >
+                 <Typography sx={{ whiteSpace: "nowrap" }}>
+                    {selectedUser.gender
+                      ? `جنسیت: ${selectedUser.gender == "male" ? "مرد" : "زن"}`
+                      : ""}
+                  </Typography>
+
                   <Typography sx={{ whiteSpace: "nowrap" }}>
-                    جنسیت: {selectedUser.gender}
+                    سن: {calculateAge(new Date(selectedUser.birth_date))}
                   </Typography>
                   <Typography sx={{ whiteSpace: "nowrap" }}>
-                    سن: {selectedUser.age}
+                    مکان تمرین: {selectedUser.equipment}
                   </Typography>
                   <Typography sx={{ whiteSpace: "nowrap" }}>
-                    مکان تمرین: {selectedUser.workoutPlace}
-                  </Typography>
-                  <Typography sx={{ whiteSpace: "nowrap" }}>
-                    هدف از ورزش: {selectedUser.workoutGoal}
+                    هدف از ورزش: {selectedUser.goal}
                   </Typography>
 
                   <Stack direction="row" gap={1}>
                     <Typography sx={{ whiteSpace: "nowrap" }}>
                       عضلات هدف:
                     </Typography>
+
                     <Stack
                       direction="row"
                       flexWrap="wrap"
                       gap={1}
                       sx={{ maxWidth: 300 }} // یا هر عرضی که تقریبا برای 3 چیپ کافیه
                     >
-                      {selectedUser.targetMuscles.map((muscle, index) => (
-                        <Chip
-                          key={index}
-                          label={muscle}
-                          color="primary"
-                          variant="outlined"
-                          // sx={{ flex: "1 1 calc(33.33% - 8px)" }} // 3 تا در هر خط با gap=1
-                        />
-                      ))}
+                      {(selectedUser.focus_area.split(",") || []).map(
+                        (muscle, index) => (
+                          <Chip
+                            key={index}
+                            label={muscle.trim()}
+                            color="primary"
+                            variant="outlined"
+                          />
+                        )
+                      )}
                     </Stack>
                   </Stack>
 
@@ -520,30 +532,34 @@ const TestResultCard = ({
                       gap={1}
                       sx={{ maxWidth: 300 }}
                     >
-                      {selectedUser.healthIssues.map((issue, index) => (
-                        <Chip
-                          key={index}
-                          label={issue}
-                          color="error"
-                          variant="outlined"
-                          // sx={{ flex: "1 1 calc(33.33% - 8px)" }}
-                        />
-                      ))}
+                      {(selectedUser.diseases?.split(",") || []).map(
+                        (issue, index) => (
+                          <Chip
+                            key={index}
+                            label={issue.trim()}
+                            color="error"
+                            variant="outlined"
+                          />
+                        )
+                      )}
                     </Stack>
+                    {/* <Typography>{selectedUser.diseases}</Typography> */}
                   </Stack>
                 </Stack>
 
+                
+
                 <Stack
                   direction="column"
                   gap={4}
                   alignItems="flex-start"
                   sx={{ minWidth: 200 }}
                 >
-                  <Typography sx={{ whiteSpace: "nowrap" }}>
+                 <Typography sx={{ whiteSpace: "nowrap" }}>
                     قد: {selectedUser.height}
                   </Typography>
                   <Typography sx={{ whiteSpace: "nowrap" }}>
-                    زمان هفتگی: {selectedUser.timePerWeek}
+                    زمان هفتگی: {selectedUser.workout_days}
                   </Typography>
                 </Stack>
 
@@ -553,12 +569,21 @@ const TestResultCard = ({
                   alignItems="flex-start"
                   sx={{ minWidth: 200 }}
                 >
-                  <Typography sx={{ whiteSpace: "nowrap" }}>
+                   <Typography sx={{ whiteSpace: "nowrap" }}>
                     وزن: {selectedUser.weight}
                   </Typography>
                   <Typography sx={{ whiteSpace: "nowrap" }}>
-                    وزن هدف: {selectedUser.targetWeight}
+                    وزن هدف: {selectedUser.goal_weight}
                   </Typography>
+                  <Box sx={{ mr: 3 }}>
+                    <img
+                      src={
+                        BodyForms[selectedUser.gender == "male" ? 0 : 1][
+                          selectedUser.body_form
+                        ]
+                      }
+                    />
+                  </Box>
                 </Stack>
               </Stack>
             </Box>
@@ -583,7 +608,7 @@ const TestResultCard = ({
               size="large"
               onClick={onStartWritingPlan}
             >
-              شروع نوشتن برنامه
+              {isreadonly ? "ادامه نوشتن برنامه" : "شروع نوشتن برنامه"}
             </Button>
           </Box>
         </Box>
