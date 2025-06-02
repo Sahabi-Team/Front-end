@@ -19,6 +19,7 @@ const TrainersList = () => {
   const [openSuccessModal, setOpenSuccessModal] = useState(false);
   const [openErrorModal, setOpenErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [openTestRequiredModal, setOpenTestRequiredModal] = useState(false);
   const navigate = useNavigate();
   //For Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -112,6 +113,18 @@ const TrainersList = () => {
         return;
       }
 
+     const testCheckResponse = await axios.get(`${config.API_BASE_URL}/api/tests/last-test-check/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!testCheckResponse.data.has_test_in_last_month) {
+     
+      setOpenTestRequiredModal(true);
+      return;
+    }
+
       const response = await axios.post(
         `${config.API_BASE_URL}/api/mentorship/mentorships/`,
         {
@@ -192,6 +205,8 @@ const TrainersList = () => {
 
         <SuccessModal open={openSuccessModal} onClose={() => {setOpenSuccessModal(false); /*navigate("/");*/}} successMessage="سفارش شما با موفقیت ثبت شد." />
         <ErrorModal open={openErrorModal} onClose={() => {setOpenErrorModal(false); if(errorMessage === "لطفاً ابتدا وارد حساب کاربری خود شوید."){navigate("/signin")} }} errorMessage={errorMessage} />
+        <ErrorModal open={openTestRequiredModal} onClose={() => {setOpenTestRequiredModal(false); navigate("/test");}}errorMessage="برای ثبت سفارش، ابتدا باید تست بدنسازی انجام دهید."/>
+
       </Container>
       <Footer />
     </Box>
