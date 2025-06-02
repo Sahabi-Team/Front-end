@@ -1,7 +1,13 @@
 import React from "react";
 import { Box, Typography, Button, Rating, Avatar } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-const CoachCard = ({ name, specialty, experience, price, rating, image }) => {
+const toPersianDigits = (num) => {
+  return num.toString().replace(/\d/g, (digit) => "۰۱۲۳۴۵۶۷۸۹"[digit]);
+};
+
+const CoachCard = ({ id, name, specialty, experience, price, rating, image }) => {
+  const navigate = useNavigate();
   return (
     <Box
       sx={{
@@ -89,7 +95,7 @@ const CoachCard = ({ name, specialty, experience, price, rating, image }) => {
               textAlign: "center",
             }}
           >
-            {rating}/5
+            {toPersianDigits(rating)}/{toPersianDigits(5)}
           </Typography>
           <Box sx={{ direction: "ltr", display: "inline-block" }}>
             <Rating
@@ -119,13 +125,13 @@ const CoachCard = ({ name, specialty, experience, price, rating, image }) => {
             تخصص: {specialty}
           </Typography>
           <Typography fontSize="15px" mb={1}>
-            سطح تجربه: {experience} سال
+            سطح تجربه: {toPersianDigits(experience)} سال
           </Typography>
           <Typography fontSize="15px" mb={2}>
             هزینه دریافتی:{" "}
           </Typography>
           <Typography style={{ color: "#f39c12", fontWeight: "bold" }}>
-            {price} هزار تومان
+            {toPersianDigits(price)} هزار تومان
           </Typography>
         </Box>
       </Box>
@@ -159,11 +165,13 @@ const CoachCard = ({ name, specialty, experience, price, rating, image }) => {
               boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
             },
           }}
+          
         >
           ثبت سفارش
         </Button>
         <Button
           variant="outlined"
+          onClick={() => navigate(`/trainer_profile/${id}`)}
           sx={{
             borderColor: "#00a651",
             color: "#00a651",

@@ -81,7 +81,7 @@ const MoveBlock = ({ index, moveData, onUpdate, onDelete }) => {
   // console.log(exercises);
   const exerciseNames = exercises.map((exercise) => exercise.name);
   // console.log(exerciseNames);
-
+   console.log(exercises);
   const handleNameChange = (selectedId, movename) => {
     onUpdate({ ...moveData, name: selectedId, realname: movename });
   };
@@ -238,6 +238,8 @@ const MoveBlock = ({ index, moveData, onUpdate, onDelete }) => {
 const ComboBox = ({
   selectedUserId,
   setSelectedUserId,
+  mentorshipId,
+  setMentorshipId,
   showtest,
   setShowWorkoutPlan,
   initialSessions,
@@ -261,6 +263,7 @@ const ComboBox = ({
 
   // console.log(userInfo);
   // console.log(localStorage.getItem("access_token"));
+     console.log(mentorshipId ,"  MID");
 
   const handleshowtest = () => {
     showtest(true);
@@ -327,7 +330,7 @@ const ComboBox = ({
   const handleSubmit = async () => {
     let error_occured = false;
     const workoutData = {
-      mentorship: selectedUserId,
+      mentorship: mentorshipId,
       status: "شروع نشده",
       name: "برنامه یک ماهه",
       description: "برنامه",

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Container,
@@ -15,10 +15,12 @@ import CssBaseline from "@mui/material/CssBaseline";
 import ClientSidebar from "../components/ClientSidebar.jsx";
 import Vazneh from "../assets/imgs/home/vazneh.png";
 import Footer from "../components/Footer.jsx";
-import { AuthContext } from '../contexts/AuthContext.jsx';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import config from '../config.js';
+import { AuthContext } from "../contexts/AuthContext.jsx";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import config from "../config.js";
+import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
+import noWorkoutPlan from "../assets/imgs/NoWorkoutPlan.png"
 
 const LogoImage = styled("img")(({ theme }) => ({
   height: "70px",
@@ -58,7 +60,7 @@ export default function WorkoutPlans() {
   const [loadingVisible, setLoadingVisible] = useState(true);
 
   const navigate = useNavigate();
-
+  //  console.log(userInfo);
   const handleShowWorkoutPlanClick = (workoutId) => {
     navigate(`/workoutDetails/${workoutId}`);
   };
@@ -66,14 +68,17 @@ export default function WorkoutPlans() {
   useEffect(() => {
     const fetchWorkoutPlans = async (access) => {
       try {
-        const response = await axios.get(`${config.API_BASE_URL}/api/workout/workout-plans/`, {
-          headers: {
-            Authorization: `Bearer ${access}`,
-          },
-        });
+        const response = await axios.get(
+          `${config.API_BASE_URL}/api/workout/workout-plans/`,
+          {
+            headers: {
+              Authorization: `Bearer ${access}`,
+            },
+          }
+        );
         setWorkoutPlans(response.data);
       } catch (error) {
-        console.error('خطا در گرفتن workout plans:', error);
+        console.error("خطا در گرفتن workout plans:", error);
       } finally {
         setLoading(false);
         setTimeout(() => setLoadingVisible(false), 800); // برای انیمیشن Fade
@@ -88,6 +93,8 @@ export default function WorkoutPlans() {
       setTimeout(() => setLoadingVisible(false), 800);
     }
   }, [userInfo]);
+  
+  if(userInfo.usertype=="trainee"){
 
   if (loading) {
     return (
@@ -106,12 +113,7 @@ export default function WorkoutPlans() {
           }}
         >
           <CircularProgress size={70} thickness={4.5} color="primary" />
-          <Typography
-            variant="h6"
-            mt={4}
-            fontWeight="600"
-            color="text.primary"
-          >
+          <Typography variant="h6" mt={4} fontWeight="600" color="text.primary">
             در حال بارگذاری برنامه ورزشی شما...
           </Typography>
         </Box>
@@ -130,7 +132,13 @@ export default function WorkoutPlans() {
         </Box>
         <Box
           sx={{
-            width: { xs: "87.67%", sm: "89.67%", md: "75.67%", lg: "82.67%", xl: "86.67%" },
+            width: {
+              xs: "87.67%",
+              sm: "89.67%",
+              md: "75.67%",
+              lg: "82.67%",
+              xl: "86.67%",
+            },
             marginLeft: { xs: 7.5, md: 25.9 },
             padding: 2,
             marginTop: 3,
@@ -142,7 +150,11 @@ export default function WorkoutPlans() {
                 direction="row"
                 justifyContent="space-between"
                 alignItems="center"
-                sx={{ direction: "rtl", pl: { sm: 2.5, lg: 1.5, xl: 9.5 }, pr: { sm: 2.5, lg: 1.5, xl: 9.5 } }}
+                sx={{
+                  direction: "rtl",
+                  pl: { sm: 2.5, lg: 1.5, xl: 9.5 },
+                  pr: { sm: 2.5, lg: 1.5, xl: 9.5 },
+                }}
               >
                 <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
                   <LogoImage src={Vazneh} alt="لوگو وزنه" />
@@ -180,83 +192,131 @@ export default function WorkoutPlans() {
                   overflowY: "auto",
                 }}
               >
-                <Stack spacing={3}>
-                  {workoutPlans.map((program, index) => (
-                    <Box
-                      key={index}
+                {workoutPlans && workoutPlans.length > 0 ?
+                (
+                    <>
+                     <Stack spacing={3}>
+                   
+                    
+                      {workoutPlans.map((program, index) => (
+                        <Box
+                          key={index}
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            p: 2,
+                            bgcolor: "#f9f9f9",
+                            borderRadius: 2,
+                            boxShadow: 1,
+                            gap: 1,
+                          }}
+                        >
+                          <Box sx={{ textAlign: "left" }}>
+                            <Typography
+                              variant="h6"
+                              fontWeight="bold"
+                              sx={{
+                                fontSize: {
+                                  xs: "1rem",
+                                  sm: "1.2rem",
+                                  md: "1.3rem",
+                                  lg: "1.5rem",
+                                },
+                              }}
+                            >
+                              {program.name}
+                            </Typography>
+                            <Typography
+                              variant="body2"
+                              color="text.secondary"
+                              sx={{
+                                fontSize: {
+                                  xs: "0.7rem",
+                                  sm: "0.8rem",
+                                  md: "0.9rem",
+                                  lg: "1rem",
+                                },
+                              }}
+                            >
+                              (شروع از {toPersianDate(program.created_at)})
+                            </Typography>
+                          </Box>
+                          <Chip
+                            label={program.status}
+                            color={statusColor(program.status)}
+                            variant="filled"
+                            sx={{
+                              fontSize: {
+                                xs: "0.5rem",
+                                sm: "0.8rem",
+                                md: "0.9rem",
+                                lg: "1rem",
+                              },
+                            }}
+                          />
+                          <Button
+                            variant="contained"
+                            color="success"
+                            sx={{
+                              borderRadius: 2,
+                              fontSize: {
+                                xs: "0.7rem",
+                                sm: "0.8rem",
+                                md: "0.9rem",
+                                lg: "1rem",
+                              },
+                            }}
+                            onClick={() =>
+                              handleShowWorkoutPlanClick(program.id)
+                            }
+                          >
+                            مشاهده برنامه
+                          </Button>
+                        </Box>
+                      ))}
+                   
+                  
+                </Stack>
+                    </>
+                ) : 
+                 (
+                     <Box
                       sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
+                        // display: "flex",
+                        flexDirection: "column",
                         alignItems: "center",
-                        p: 2,
-                        bgcolor: "#f9f9f9",
-                        borderRadius: 2,
-                        boxShadow: 1,
-                        gap: 1
+                        justifyContent: "center",
+                        minHeight: "200px",
+                        // bgcolor: "#f5f5f5",
+                        // borderRadius: 2,
+                        // boxShadow: 1,
+                        textAlign: "center",
+                        // p: 4,
+                        // mt: 5,
+                        marginTop:33
                       }}
                     >
-                      <Box sx={{ textAlign: "left" }}>
-                        <Typography
-                          variant="h6"
-                          fontWeight="bold"
-                          sx={{
-                            fontSize: {
-                              xs: "1rem",
-                              sm: "1.2rem",
-                              md: "1.3rem",
-                              lg: "1.5rem",
-                            },
-                          }}
-                        >
-                          {program.name}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          color="text.secondary"
-                          sx={{
-                            fontSize: {
-                              xs: "0.7rem",
-                              sm: "0.8rem",
-                              md: "0.9rem",
-                              lg: "1rem",
-                            },
-                          }}
-                        >
-                          (شروع از {toPersianDate(program.created_at)})
-                        </Typography>
-                      </Box>
-                      <Chip
-                        label={program.status}
-                        color={statusColor(program.status)}
-                        variant="filled"
-                        sx={{
-                          fontSize: {
-                            xs: "0.5rem",
-                            sm: "0.8rem",
-                            md: "0.9rem",
-                            lg: "1rem",
-                          },
+                      <img
+                        src={noWorkoutPlan} // اگه تصویر خاصی نداری می‌تونم برات یک SVG ساده تولید کنم
+                        alt="No program"
+                        style={{
+                          width: "200px",
+                          marginBottom: "5px",
+                          opacity: 0.9,
                         }}
                       />
-                      <Button
-                        variant="contained"
-                        color="success"
-                        sx={{
-                          borderRadius: 2,
-                          fontSize: {
-                            xs: "0.7rem",
-                            sm: "0.8rem",
-                            md: "0.9rem",
-                            lg: "1rem",
-                          },
-                        }}
-                        onClick={() => { handleShowWorkoutPlanClick(program.id) }}
+                      <Typography
+                        variant="h6"
+                        color="text.secondary"
+                        fontWeight="bold"
                       >
-                        مشاهده برنامه
-                      </Button>
+                        برنامه‌ای برای شما تعریف نشده است
+                      </Typography>
                     </Box>
-                  ))}
-                </Stack>
+
+                 )}
+               
               </Paper>
             </Box>
           </Stack>
@@ -264,4 +324,8 @@ export default function WorkoutPlans() {
       </Stack>
     </>
   );
+}
+else{
+  navigate("/404")
+}
 }

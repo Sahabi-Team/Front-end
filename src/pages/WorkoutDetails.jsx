@@ -428,7 +428,7 @@ export default function WorkoutDetails() {
         );
         setWorkoutPlans(response.data);
       } catch (error) {
-        console.error("خطا در گرفتن workout plans:", error);
+        navigate("/500");
       }
     };
     if (access_token) {
@@ -438,29 +438,14 @@ export default function WorkoutDetails() {
 
   useEffect(() => {
     if (workoutPlans.length > 0 && !workout) {
-      // const matchedWorkout = workoutPlans.find((item) => item.id === workoutId);
-      // if (matchedWorkout) {
-      //   setWorkout(matchedWorkout);
-      // }
-      // setWorkout(workoutPlans[1]);
-      // for (let item of workoutPlans) {
-  // if (item.id === workoutId) {
-  //   console.log("silam");
-  //   setWorkout(item);
-  //   break;
-  // console.log(item.id);
-  // }
     const targetPlan = workoutPlans.find((plan) => plan.id === parseInt(workoutId));
-    setWorkout(targetPlan);
-    console.log(workoutId);
+    if(!targetPlan)navigate("/400");
+    else setWorkout(targetPlan);
 }
     
   }, [workoutPlans, workout,workoutId]);
 
  
-
-  // console.log(workoutId);
-  // console.log(workoutPlans);
   const handleBackClick = () => {
     navigate("/workoutplans");
   };
@@ -497,7 +482,7 @@ export default function WorkoutDetails() {
     const dayPrograms = Object.values(dayMap);
     return dayPrograms;
   }
-
+  if(userInfo.usertype=="trainee"){
   if (!workout) {
     return (
       <Fade in={loadingVisible} timeout={800}>
@@ -523,7 +508,7 @@ export default function WorkoutDetails() {
     );
   }
   
-  console.log(workout);
+  //console.log(workout);
   const dayPrograms = generateDayProgramsFromExercises(workout.exercises);
 
   return (
@@ -740,4 +725,9 @@ export default function WorkoutDetails() {
       </Stack>
     </>
   );
+} 
+else{
+  navigate("/404");
+}
+
 }

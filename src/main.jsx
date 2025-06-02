@@ -109,7 +109,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="/signin" element={<SignInSide />} />
               <Route path="/askforemail" element={<AskforEmail />} />
               <Route path="/signup" element={<SignUp />} />
-              <Route path="/resetpassword" element={<ResetPassword />} />
+              <Route path="/resetpassword/:token" element={<ResetPassword />} />
               <Route path="/test" element={<BodyBuildingTest />} />
               <Route path="/editprofile" element={<EditProfile />} />
               <Route path="/FAQ" element={<FAQPage />} />

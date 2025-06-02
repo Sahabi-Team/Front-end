@@ -5,6 +5,7 @@ import Typewriter from "typewriter-effect/dist/core";
 import coachImg from "../../assets/imgs/home/coach-selection.svg";
 import chatImg from "../../assets/imgs/home/chat-with-coach.svg";
 import analyticsImg from "../../assets/imgs/home/progress-analytics.svg";
+import { useTheme, useMediaQuery } from "@mui/material";
 
 const features = [
   {
@@ -26,23 +27,25 @@ const features = [
 
 const responsiveFontSize = {
   fontSize: {
-    xs: "1.5rem",
-    sm: "1.7rem",
-    md: "2.1rem",
-    lg: "2.3rem",
+    xs: "1.3rem",
+    sm: "1.5rem",
+    md: "1.9rem",
+    lg: "2.1rem",
   },
 };
 const responsiveFontSize2 = {
   fontSize: {
-    xs: "1.3rem",
-    sm: "1.5rem",
-    md: "1.9rem",
-    lg: "1.9rem",
+    xs: "1rem",
+    sm: "1.1rem",
+    md: "1.5rem",
+    lg: "1.5rem",
   },
 };
 
 const OrangeBar = ({ position, alignFarRight = false }) => {
-  let top = "0";
+  const theme = useTheme();
+  const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
+  let top = isMdUp? 0 : "-30%";
   let circleTop = "-6px"; // موقعیت پیش‌فرض برای دایره
 
   if (position === "middle") {
@@ -50,8 +53,8 @@ const OrangeBar = ({ position, alignFarRight = false }) => {
     circleTop = "calc(50% - 7px)";
   }
   if (position === "bottom") {
-    top = "100%";
-    circleTop = "calc(100% - 14px)";
+    top = isMdUp ? "110%" : "150%";
+    circleTop = isMdUp ? "calc(100% - 14px)" : "calc(100% - 14px)"; // این می‌تونه همون باشه چون تغییر نمیکنه
   }
 
   return (
@@ -155,16 +158,14 @@ const FeatureBlock = ({ title, text, image, index }) => {
         }}
       >
         <OrangeBar
-          position={
-            index === 0 ? "top" : index === 1 ? "middle" : "bottom"
-          }
+          position={index === 0 ? "top" : index === 1 ? "middle" : "bottom"}
           alignFarRight={alignFarRight}
         />
         <Typography
           variant="h5"
           fontWeight={700}
           gutterBottom
-          sx={{ ...responsiveFontSize}}
+          sx={{ ...responsiveFontSize }}
         >
           {title}
         </Typography>
@@ -173,7 +174,7 @@ const FeatureBlock = ({ title, text, image, index }) => {
           sx={{
             mt: 2,
             lineHeight: 2.2,
-           ...responsiveFontSize2, 
+            ...responsiveFontSize2,
           }}
         ></Typography>
       </Box>
@@ -185,10 +186,7 @@ export default function FeaturesSection() {
   return (
     <Box sx={{ py: 1.5 }}>
       {features.map((item, idx) => (
-        
-      
-         <FeatureBlock key={idx} index={idx} {...item} />
-       
+        <FeatureBlock key={idx} index={idx} {...item} />
       ))}
     </Box>
   );

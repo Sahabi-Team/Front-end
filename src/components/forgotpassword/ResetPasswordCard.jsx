@@ -24,8 +24,9 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
-import SuccessfulModal from '../modals/SuccessfulModal'
+import SuccessfulModal from "../modals/SuccessfulModal";
 import SuccessModal from "../modals/SuccessfulModal";
+import config from "../../config";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -39,7 +40,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
   },
 }));
 
-export default function ResetPasswordCard() {
+export default function ResetPasswordCard(token) {
   const [password, setPassword] = React.useState("");
   const [confirmpassword, setConfirmPassword] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
@@ -69,16 +70,44 @@ export default function ResetPasswordCard() {
     validateConfirmPassword(password, event.target.value);
   };
 
-  const handleSavePassword = (event) => {
+  const handleSavePassword = async (event) => {
     event.preventDefault();
+
+    // اعتبارسنجی
     if (
       !validatePassword(password) ||
-      !validateConfirmPassword(password, confirmpassword)
+      !validateConfirmPassword(password, confirmpassword) ||
+      !token
     )
       return;
 
-    setSuccessMessage("رمزعبور شما با موفقیت تغییر یافت\nدوباره وارد شوید");
-    setOpenSuccessModal(true);
+    // console.log(token);
+
+    try {
+     
+      const response = await axios.post(
+        `${config.API_BASE_URL}/api/auth/reset-password/${token.token}/`,
+        { new_password: password, confirm_password: confirmpassword },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      setSuccessMessage("رمز عبور با موفقیت تغییر یافت.");
+      setOpenSuccessModal(true);
+    } catch (error) {
+      console.error(error);
+      let msg = "خطایی رخ داده است. لطفاً دوباره تلاش کنید.";
+      if (error.response?.data?.detail) {
+        msg = error.response.data.detail;
+      } else if (error.response?.data?.non_field_errors) {
+        msg = error.response.data.non_field_errors.join(" ");
+      }
+      setErrorMessage(msg);
+      setOpenErrorModal(true);
+    }
   };
 
   const validatePassword = (pass) => {
@@ -122,7 +151,8 @@ export default function ResetPasswordCard() {
       variant="outlined"
       sx={{
         height: "30.7rem",
-        borderRadius: { md: "30px 0 0 30px", xs: "30px 30px 30px 30px" },
+        borderRadius: "30px",
+        // backgroundColor:"green",
       }}
     >
       <Box component="form" sx={{ display: "flex", flexDirection: "column" }}>
@@ -302,12 +332,12 @@ export default function ResetPasswordCard() {
         onClose={handleCloseErrorModal}
         errorMessage={errorMessage}
       />
-       <SuccessModal
+      <SuccessModal
         open={openSuccessModal}
         onClose={handleCloseSuccessModal}
         successMessage={successMessage}
       />
-      <SuccessfulModal/>
+      <SuccessfulModal />
     </Card>
   );
 }

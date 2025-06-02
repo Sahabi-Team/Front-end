@@ -52,6 +52,7 @@ export default function WorkoutPlans() {
   const [errorMessage, setErrorMessage] = React.useState("");
   const [istestreadonly , setIstestreadonly] = React.useState(false);
   const [initialsession,setInitialsession] = React.useState(null);
+  const [mentorshipId,setMentorshipId] = React.useState(null);
 
  console.log(selectedUserId);
   const handleStartWritingPlan = () => {
@@ -164,12 +165,13 @@ export default function WorkoutPlans() {
               >
                 {showWorkoutPlan ? (
                   selectedUserId != null ? (
-                    <WorkoutPlanCard selectedUserId={selectedUserId} setSelectedUserId = {setSelectedUserId} showtest={setIstestreadonly} setShowWorkoutPlan = {setShowWorkoutPlan} initialSessions = {initialsession} setInitialsession={setInitialsession} />
+                    <WorkoutPlanCard  mentorshipId={mentorshipId} setMentorshipId={setMentorshipId}  selectedUserId={selectedUserId} setSelectedUserId = {setSelectedUserId} showtest={setIstestreadonly} setShowWorkoutPlan = {setShowWorkoutPlan} initialSessions = {initialsession} setInitialsession={setInitialsession} />
                   ) : (
                     <>
                       <TestResultCard
                         onStartWritingPlan={handleStartWritingPlan}
                         setSelectedUserId={setSelectedUserId}
+                        
                         selectedUserId={selectedUserId}
                         isreadonly={istestreadonly}
                       />
@@ -182,6 +184,7 @@ export default function WorkoutPlans() {
                   <TestResultCard
                     onStartWritingPlan={handleStartWritingPlan}
                     setSelectedUserId={setSelectedUserId}
+                    setMentorshipId={setMentorshipId}
                     selectedUserId={selectedUserId}
                     isreadonly = {istestreadonly}
                   />

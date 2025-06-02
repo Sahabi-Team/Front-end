@@ -23,6 +23,11 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import config from "../config";
 
+
+const toPersianDigits = (num) => {
+  return num.toString().replace(/\d/g, (digit) => "۰۱۲۳۴۵۶۷۸۹"[digit]);
+};
+
 const FullListButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
   color: "white",
@@ -71,21 +76,13 @@ const CoachListButton = () => {
 };
 
 const AnimatedCounter = ({ end, duration = 2 }) => {
-  // محاسبه گام و مدت زمان بر اساس مقدار نهایی
   let step = 10;
-  if (end > 100) {
-    step = 10;
-  }
-  if (end > 500) {
-    step = 50;
-  }
-  if (end > 1000) {
-    step = 100;
-  }
+  if (end > 100) step = 10;
+  if (end > 500) step = 50;
+  if (end > 1000) step = 100;
+
   const adjustedDuration =
-    end > 500
-      ? Math.min(duration, end / 500) // برای اعداد بزرگ سرعت بیشتری دارد
-      : duration;
+    end > 500 ? Math.min(duration, end / 500) : duration;
 
   return (
     <CountUp
@@ -96,6 +93,7 @@ const AnimatedCounter = ({ end, duration = 2 }) => {
       useEasing={true}
       start={0}
       step={step}
+      formattingFn={(value) => toPersianDigits(value.toLocaleString())}
     />
   );
 };
@@ -447,6 +445,7 @@ export default function Home() {
               <Typography
                 variant="h4"
                 sx={{
+                  mt:{xs:"4.5rem",md:"1rem"},
                   fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" }, // تغییر سایز فونت
                   fontWeight: "bold", // در صورت نیاز
                   textAlign: "center", // برای اطمینان از وسطچین بودن متن

@@ -21,30 +21,28 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import axios from "axios";
 import { AuthContext } from "../../contexts/AuthContext";
 import config from "../../config";
-import male1 from "../../assets/imgs/body_shapes/male/Select Field 1.svg"
-import male2 from "../../assets/imgs/body_shapes/male/Select Field 2.svg"
-import male3 from "../../assets/imgs/body_shapes/male/Select Field 3.svg"
-import male4 from "../../assets/imgs/body_shapes/male/Select Field 4.svg"
-import male5 from "../../assets/imgs/body_shapes/male/Select Field 5.svg"
-import male6 from "../../assets/imgs/body_shapes/male/Select Field 6.svg"
-import female1 from "../../assets/imgs/body_shapes/female/Select Field 1.svg"
-import female2 from "../../assets/imgs/body_shapes/female/Select Field 2.svg"
-import female3 from "../../assets/imgs/body_shapes/female/Select Field 3.svg"
-import female4 from "../../assets/imgs/body_shapes/female/Select Field 4.svg"
-import female5 from "../../assets/imgs/body_shapes/female/Select Field 5.svg"
-import female6 from "../../assets/imgs/body_shapes/female/Select Field 6.svg"
+import male1 from "../../assets/imgs/body_shapes/male/Select Field 1.svg";
+import male2 from "../../assets/imgs/body_shapes/male/Select Field 2.svg";
+import male3 from "../../assets/imgs/body_shapes/male/Select Field 3.svg";
+import male4 from "../../assets/imgs/body_shapes/male/Select Field 4.svg";
+import male5 from "../../assets/imgs/body_shapes/male/Select Field 5.svg";
+import male6 from "../../assets/imgs/body_shapes/male/Select Field 6.svg";
+import female1 from "../../assets/imgs/body_shapes/female/Select Field 1.svg";
+import female2 from "../../assets/imgs/body_shapes/female/Select Field 2.svg";
+import female3 from "../../assets/imgs/body_shapes/female/Select Field 3.svg";
+import female4 from "../../assets/imgs/body_shapes/female/Select Field 4.svg";
+import female5 from "../../assets/imgs/body_shapes/female/Select Field 5.svg";
+import female6 from "../../assets/imgs/body_shapes/female/Select Field 6.svg";
 
-
-
-
-
-
-const BodyForms = [[male1,male2,male3,male4,male5,male6],
-[female1,female2,female3,female4,female5,female6]]
+const BodyForms = [
+  [male1, male2, male3, male4, male5, male6],
+  [female1, female2, female3, female4, female5, female6],
+];
 
 const TestResultCard = ({
   onStartWritingPlan,
   setSelectedUserId,
+  setMentorshipId,
   selectedUserId,
   isreadonly,
 }) => {
@@ -58,7 +56,8 @@ const TestResultCard = ({
   const { userInfo } = useContext(AuthContext);
   const selectedUser = traineestests.find((user) => user.id === selectedUserId);
   let access_token = localStorage.getItem("access_token");
-
+  
+  console.log(access_token);
   // console.log(traineestests);
 
   function calculateAge(birthDate) {
@@ -613,11 +612,17 @@ const TestResultCard = ({
                 value={selectedUserId}
                 //   label="انتخاب شاگرد"
                 readOnly={isreadonly}
-                onChange={(e) => setSelectedUserId(e.target.value)}
+                onChange={(e) => {
+                  setSelectedUserId(e.target.value);
+                  const selectedUser = traineestests.find(
+                    (user) => user.id === e.target.value
+                  );
+                 setMentorshipId(selectedUser.mentorship_id);    
+                }}
                 sx={{ width: 300 }}
               >
                 {traineestests.map((user) => (
-                  <MenuItem key={user.id} value={user.id}>
+                  <MenuItem key={user.mentorship_id} value={user.id}>
                     {user.trainee_name}
                   </MenuItem>
                 ))}
@@ -667,7 +672,7 @@ const TestResultCard = ({
                     <Typography sx={{ whiteSpace: "nowrap" }}>
                       عضلات هدف:
                     </Typography>
-                    
+
                     <Stack
                       direction="row"
                       flexWrap="wrap"
@@ -684,7 +689,7 @@ const TestResultCard = ({
                           />
                         )
                       )}
-                    </Stack> 
+                    </Stack>
                     {/* <Typography>{selectedUser.focus_area}</Typography> */}
                   </Stack>
 
@@ -739,14 +744,19 @@ const TestResultCard = ({
                   <Typography sx={{ whiteSpace: "nowrap" }}>
                     وزن هدف: {selectedUser.goal_weight}
                   </Typography>
+                  <Box sx={{ mr: 3 }}>
+                    <img
+                      src={
+                        BodyForms[selectedUser.gender == "male" ? 0 : 1][
+                          selectedUser.body_form
+                        ]
+                      }
+                    />
+                  </Box>
                 </Stack>
 
                 {/* Body Shape */}
-                <Stack>
-          {/* {console.log(BodyForms[0][0])} */}
-                        <img src={BodyForms[selectedUser.gender=="male" ? 0:1][selectedUser.body_form]}/>
-                </Stack>
-
+                <Stack>{/* {console.log(BodyForms[0][0])} */}</Stack>
               </Stack>
             </Box>
           ) : (
