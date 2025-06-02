@@ -186,12 +186,11 @@ export default function SignUpCard() {
         `${config.API_BASE_URL}/api/auth/register/`,
         
           {
-            "first_name" : "Mo",
-            "last_name" : "Bayani",
+            "name" : username,
             "username": username,
             "email": email,
             "password": password,
-            "phone_number": "+14155552671",
+            "phone_number": "0",
             "role": "trainee"
         }
         ,
@@ -205,22 +204,24 @@ export default function SignUpCard() {
       if (response.status === 201) {
         setSuccessMessage("تبریک\nشما با موفقیت ثبت نام شدید.");
         setOpenSuccessfulModal(true);
+        // navigate("/signin");
         // console.log("User registered successfully:", response.data.user);
       }
     } catch (error) {
-      if (error.response) {
-        // اگر سرور پاسخ دهد اما خطایی وجود داشته باشد
-        setErrorMessage("ثبت نام ناموفق بود\nدوباره امتحان کنید.");
-        setOpenErrorModal(true);
-        // setError(error.response.data.errors || "Registration failed");
-        // setSuccessMessage(null);
-      } else {
-        // اگر مشکلی در ارتباط با سرور وجود داشته باشد
-        setErrorMessage("خطای سرور\n دوباره تلاش کنید");
-        setOpenErrorModal(true);
-        // setError("An error occurred while registering. Please try again.");
-        // setSuccessMessage(null);
-      }
+      let msg = "ثبت نام ناموفق بود ، لطفا دوباره تلاش کنید.";
+      if (error.response?.status === 400) {
+        
+        // console.log(error.response);
+        if(error.response.data.errors.username){
+           msg = "نام کاربری تکراری است.";
+        }
+        else if(error.response.data.errors.email){
+           msg = "ایمیل تکراری است.";
+        }
+        
+      } 
+      setErrorMessage(msg);
+      setOpenErrorModal(true);
     }
   };
 

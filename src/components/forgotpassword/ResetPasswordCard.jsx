@@ -17,7 +17,7 @@ import { BorderAll } from "@mui/icons-material";
 import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
 import InputAdornment from "@mui/material/InputAdornment";
-import { Paper } from "@mui/material";
+import { Paper, Stack } from "@mui/material";
 import axios from "axios";
 import ErrorModal from "../modals/ErrorModal";
 import IconButton from "@mui/material/IconButton";
@@ -27,6 +27,7 @@ import { useNavigate } from "react-router-dom";
 import SuccessfulModal from "../modals/SuccessfulModal";
 import SuccessModal from "../modals/SuccessfulModal";
 import config from "../../config";
+import LoginIcon from "@mui/icons-material/Login";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -52,6 +53,7 @@ export default function ResetPasswordCard(token) {
   const [errorMessage, setErrorMessage] = React.useState("");
   const [openSuccessModal, setOpenSuccessModal] = React.useState(false);
   const [successMessage, setSuccessMessage] = React.useState("");
+  const navigate = useNavigate();
 
   const handleCloseErrorModal = () => {
     setOpenErrorModal(false); // بستن مودال
@@ -84,7 +86,6 @@ export default function ResetPasswordCard(token) {
     // console.log(token);
 
     try {
-     
       const response = await axios.post(
         `${config.API_BASE_URL}/api/auth/reset-password/${token.token}/`,
         { new_password: password, confirm_password: confirmpassword },
@@ -97,14 +98,17 @@ export default function ResetPasswordCard(token) {
 
       setSuccessMessage("رمز عبور با موفقیت تغییر یافت.");
       setOpenSuccessModal(true);
+      navigate("/signin");
     } catch (error) {
       console.error(error);
       let msg = "خطایی رخ داده است. لطفاً دوباره تلاش کنید.";
-      if (error.response?.data?.detail) {
-        msg = error.response.data.detail;
-      } else if (error.response?.data?.non_field_errors) {
-        msg = error.response.data.non_field_errors.join(" ");
+
+      if (error.response?.status === 400) {
+        // بررسی وجود جزئیات خطا در پاسخ
+        msg =
+          "توکن منقضی شده است یا معتبر نیست. لطفاً مجدداً درخواست بازیابی رمز عبور ارسال کنید.";
       }
+
       setErrorMessage(msg);
       setOpenErrorModal(true);
     }
@@ -156,9 +160,29 @@ export default function ResetPasswordCard(token) {
       }}
     >
       <Box component="form" sx={{ display: "flex", flexDirection: "column" }}>
-        <Box sx={{ marginTop: "1rem" }}>
-          <Typography sx={{ fontSize: "150%" }}>تغییر رمز عبور</Typography>
-        </Box>
+        <Stack direction={"row"} gap={23}>
+          <Box sx={{ marginTop: "1rem" }}>
+            <Typography sx={{ fontSize: "150%" }}> تغییر رمز عبور :</Typography>
+          </Box>
+          <Box sx={{ alignSelf: "flex-end" }}>
+            <IconButton
+              onClick={() => navigate("/signin")}
+              sx={{
+                // marginBottom: 1,
+                backgroundColor: "#f5f5f5",
+                color: "#00A359",
+                "&:hover": {
+                  backgroundColor: "#e0e0e0",
+                  color: "#008A4F",
+                },
+                boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                marginLeft: "0.5rem",
+              }}
+            >
+              <LoginIcon />
+            </IconButton>
+          </Box>
+        </Stack>
 
         <FormControl sx={{ marginTop: "2.5rem" }}>
           <TextField
