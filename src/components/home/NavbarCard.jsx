@@ -5,10 +5,6 @@ import {
   Button,
   styled,
   Box,
-  Menu,
-  MenuItem,
-  Typography,
-  Divider,
   useMediaQuery,
   useTheme,
   IconButton,
@@ -16,21 +12,14 @@ import {
   List,
   ListItem,
   ListItemText,
-  Collapse,
   Stack,
-  Grow,
-  Fade,
 } from "@mui/material";
 import {
-  KeyboardArrowDown,
   Menu as MenuIcon,
-  ExpandMore,
-  ExpandLess,
 } from "@mui/icons-material";
 import Vazneh from "../../assets/imgs/home/vazneh.png";
-// import { isUserLoggedIn } from "../../utils/auth.js";
 import AvatarBox from "./AvatarBox.jsx";
-import { useNavigate } from "react-router-dom"; // import useNavigate
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext.jsx";
 
 const TransparentAppBar = styled(AppBar, {
@@ -38,76 +27,90 @@ const TransparentAppBar = styled(AppBar, {
     prop !== "isScrolled" && prop !== "showInitialBorder",
 })(({ theme, isScrolled, showInitialBorder }) => ({
   width: "100%",
-  backgroundColor: isScrolled ? "rgba(0, 68, 27, 0.7)" : "transparent",
-  backdropFilter: isScrolled ? "blur(10px)" : "none",
-  boxShadow: isScrolled ? "0 4px 10px rgba(0, 0, 0, 0.1)" : "none",
-  borderRadius: "0 0 12px 12px",
+  background: isScrolled
+    ? "rgba(0, 68, 27, 0.75)"
+    : "linear-gradient(to right, rgba(255,255,255,0.2), rgba(255,255,255,0.1))",
+  backdropFilter: isScrolled ? "blur(12px)" : "blur(8px)",
+  boxShadow: isScrolled ? "0 8px 20px rgba(0, 0, 0, 0.2)" : "0 4px 12px rgba(0,0,0,0.1)",
+  borderRadius: "0 0 20px 20px",
   direction: "rtl",
-  borderBottom:
-    !isScrolled && showInitialBorder
-      ? "2px solid rgba(76, 175, 80, 0.4)"
-      : "none",
-  transition:
-    "background-color 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease, border-bottom 0.3s ease",
+  borderBottom: !isScrolled && showInitialBorder
+    ? "1px solid rgba(76, 175, 80, 0.4)"
+    : "none",
+  transition: "all 0.4s ease-in-out",
 }));
 
 const CustomTextButton = styled(Button)(({ theme }) => ({
   color: "black",
   fontWeight: "bold",
+  padding: "6px 16px",
+  borderRadius: "12px",
+  transition: "all 0.3s ease",
   "&:hover": {
-    backgroundColor: "rgba(28, 31, 209, 0.1)",
+    backgroundColor: "rgba(76, 175, 80, 0.1)",
+    transform: "translateY(-2px)",
+    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
   },
 }));
 
 const GradientButton = styled(Button)(({ theme }) => ({
-  background: "linear-gradient(45deg, #4CAF50 30%, #2E7D32 90%)",
+  background: "linear-gradient(120deg, #4CAF50, #2E7D32)",
   color: "white",
   fontWeight: "bold",
-  borderRadius: "20px",
-  padding: "8px 24px",
-  boxShadow: "0 3px 5px 2px rgba(76, 175, 80, .3)",
+  borderRadius: "30px",
+  padding: "10px 26px",
+  boxShadow: "0 4px 15px rgba(76, 175, 80, 0.4)",
   marginLeft: theme.spacing(1),
+  transition: "all 0.3s ease",
   [theme.breakpoints.down("sm")]: {
     padding: "6px 12px",
     fontSize: "0.75rem",
   },
   "&:hover": {
-    background: "linear-gradient(45deg, #3e8e41 30%, #1B5E20 90%)",
+    background: "linear-gradient(120deg, #3e8e41, #1B5E20)",
+    transform: "scale(1.05)",
   },
 }));
 
 const OutlineButton = styled(Button)(({ theme }) => ({
   border: "2px solid #4CAF50",
   color: "#4CAF50",
-  backgroundColor: "white",
+  backgroundColor: "#ffffffee",
   fontWeight: "bold",
-  borderRadius: "20px",
+  borderRadius: "30px",
   padding: "6px 22px",
+  transition: "all 0.3s ease",
   [theme.breakpoints.down("sm")]: {
     padding: "4px 12px",
     fontSize: "0.75rem",
   },
   "&:hover": {
-    backgroundColor: "white",
-    border: "2px solid #3e8e41",
-    color: "#3e8e41",
+    backgroundColor: "#f0fff0",
+    border: "2px solid #388e3c",
+    color: "#388e3c",
+    transform: "translateY(-1px)",
+    boxShadow: "0 3px 6px rgba(0,0,0,0.1)",
   },
 }));
 
 const LogoImage = styled("img")(({ theme }) => ({
-  height: "50px",
+  height: "52px",
   width: "auto",
   marginRight: theme.spacing(2),
   cursor: "pointer",
-  transition: "transform 0.3s ease, opacity 0.3s ease",
+  borderRadius: "12px",
+  transition: "all 0.3s ease",
+  boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
   "&:hover": {
-    transform: "scale(1.05)",
-    opacity: 0.85,
+    transform: "scale(1.08) rotate(-1deg)",
+    opacity: 0.9,
+    boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
   },
   [theme.breakpoints.down("sm")]: {
-    height: "40px",
+    height: "42px",
   },
 }));
+
 
 const BeautifulAppBar = ({ showInitialBorder = false }) => {
   const theme = useTheme();
@@ -147,7 +150,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
   }, []);
 
   const handleOpenProgramsMenu = (event) => {
-    setAnchorElPrograms(event.currentTarget);
+   navigate("/about_us")
   };
 
   const handleExerciselistclick = (event) => {
@@ -171,7 +174,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
   };
 
   const handleProgramsMobileClick = () => {
-    setOpenProgramsMobile(!openProgramsMobile);
+    navigate("/about_us")
   };
 
   const handleMovementsMobileClick = () => {
@@ -223,12 +226,13 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
       <List>
         {[
           { label: "لیست مربی ها", key: "coaches" },
-          { label: "سوالات متداول", key: "faq" },
+          
           {
             label: "بانک حرکات ورزشی",
             key: "movements",
             onClick: handleMovementsMobileClick,
           },
+          { label: "سوالات متداول", key: "faq" },
         ].map((item) => (
           <ListItem
             key={item.key}
@@ -269,39 +273,9 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
             px: 2,
           }}
         >
-          <ListItemText primary="برنامه‌های ورزشی" />
-          {openProgramsMobile ? <ExpandLess /> : <ExpandMore />}
+          <ListItemText primary="درباره ما" />
+          
         </ListItem>
-
-        <Collapse in={openProgramsMobile} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            {[
-              { label: "برنامه غذایی", key: "diet" },
-              { label: "برنامه شکم و پهلو", key: "abs" },
-              { label: "برنامه اختصاصی", key: "custom" },
-            ].map((item) => (
-              <ListItem
-                key={item.key}
-                button
-                sx={{
-                  pl: 4,
-                  py: 1,
-                  borderRadius: 2,
-                  transition: "all 0.3s ease",
-                  "&:hover": {
-                    bgcolor: "primary.light",
-                    color: "#fff",
-                    cursor: "pointer",
-                    transform: "translateX(-4px)",
-                  },
-                }}
-                onClick={() => handleMenuItemClick(item.key)}
-              >
-                <ListItemText primary={item.label} />
-              </ListItem>
-            ))}
-          </List>
-        </Collapse>
       </List>
 
       <Box
@@ -414,123 +388,37 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
                   alignItems: "center",
                 }}
               >
-                <CustomTextButton
-                  onClick={() => handleMenuItemClick("coaches")}
-                  sx={fontSizeResponsive}
-                >
-                  لیست مربی ها
-                </CustomTextButton>
+
+                
+                  <CustomTextButton
+                    onClick={handleOpenProgramsMenu}
+                    sx={fontSizeResponsive}
+                  >
+                    درباره ما
+                  </CustomTextButton>
+                  
+               
+                
                 <CustomTextButton
                   onClick={() => handleMenuItemClick("FAQ")}
                   sx={fontSizeResponsive}
                 >
                   سوالات متداول
                 </CustomTextButton>
-
-                {/* --- منوی برنامه‌ها --- */}
-                <Box>
-                  <Button
-                    endIcon={<KeyboardArrowDown />}
-                    onClick={handleOpenProgramsMenu}
-                    sx={{
-                      color: "black",
-                      fontWeight: "bold",
-                      "&:hover": { backgroundColor: "rgba(0,0,0,0.05)" },
-                      ...fontSizeResponsive,
-                    }}
-                  >
-                    برنامه‌های ورزشی
-                  </Button>
-                  <Menu
-                    anchorEl={anchorElPrograms}
-                    open={Boolean(anchorElPrograms)}
-                    onClose={handleCloseMenu}
-                    TransitionComponent={Grow}
-                    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                    transformOrigin={{ vertical: "top", horizontal: "right" }}
-                    PaperProps={{
-                      sx: {
-                        mt: 1,
-                        borderRadius: "12px",
-                        boxShadow: "0px 6px 24px rgba(0, 0, 0, 0.12)",
-                        direction: "rtl",
-                        minWidth: 180,
-                      },
-                    }}
-                  >
-                    {[
-                      { key: "diet", label: "برنامه غذایی" },
-                      { key: "abs", label: "برنامه شکم و پهلو" },
-                      { key: "custom", label: "برنامه اختصاصی" },
-                    ].map(({ key, label }) => (
-                      <MenuItem
-                        key={key}
-                        onClick={() => handleMenuItemClick(key)}
-                        sx={{
-                          transition: "all 0.2s",
-                          "&:hover": { backgroundColor: "#f5f5f5" },
-                        }}
-                      >
-                        <Typography sx={fontSizeResponsive} width="100%">
-                          {label}
-                        </Typography>
-                      </MenuItem>
-                    ))}
-                  </Menu>
-                </Box>
-
-                {/* --- منوی حرکات --- */}
-                <Box>
-                  <Button
+                  <CustomTextButton
                     // endIcon={<KeyboardArrowDown />}
                     onClick={handleExerciselistclick}
-                    sx={{
-                      color: "black",
-                      fontWeight: "bold",
-                      "&:hover": { backgroundColor: "rgba(0,0,0,0.05)" },
-                      ...fontSizeResponsive,
-                    }}
+                    sx={fontSizeResponsive}
                   >
                     بانک حرکات ورزشی
-                  </Button>
-                  {/* <Menu
-                    anchorEl={anchorElMovements}
-                    open={Boolean(anchorElMovements)}
-                    onClose={handleCloseMenu}
-                    TransitionComponent={Grow}
-                    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                    transformOrigin={{ vertical: "top", horizontal: "right" }}
-                    PaperProps={{
-                      sx: {
-                        mt: 1,
-                        borderRadius: "12px",
-                        boxShadow: "0px 6px 24px rgba(0, 0, 0, 0.12)",
-                        direction: "rtl",
-                        minWidth: 180,
-                      },
-                    }}
-                  >
-                    {[
-                      { key: "chest", label: "حرکات سینه" },
-                      { key: "abs-exercises", label: "حرکات شکم و پهلو" },
-                      { key: "legs", label: "حرکات پا" },
-                      { key: "shoulders", label: "حرکات سرشانه" },
-                    ].map(({ key, label }) => (
-                      <MenuItem
-                        key={key}
-                        onClick={() => handleMenuItemClick(key)}
-                        sx={{
-                          transition: "all 0.2s",
-                          "&:hover": { backgroundColor: "#f5f5f5" },
-                        }}
-                      >
-                        <Typography sx={fontSizeResponsive} width="100%">
-                          {label}
-                        </Typography>
-                      </MenuItem>
-                    ))}
-                  </Menu> */}
-                </Box>
+                  </CustomTextButton>
+                
+                <CustomTextButton
+                  onClick={() => handleMenuItemClick("coaches")}
+                  sx={fontSizeResponsive}
+                >
+                  لیست مربی ها
+                </CustomTextButton>
               </Box>
 
               {/* دکمه‌ها */}
