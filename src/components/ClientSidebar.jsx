@@ -44,17 +44,14 @@ const SidebarContent = ({
   <Box
     sx={{
       width: open ? drawerWidth : closedDrawerWidth,
-      p: 0,
-      m: 0,
       display: "flex",
       flexDirection: "column",
       height: "100%",
       transition: "width 0.2s",
-      ml: 2,
-      boxSizing: "border-box"
+      overflowX: "hidden",
+      boxSizing: "border-box",
     }}
   >
-    {/* Collapse/Expand Button (Desktop only) */}
     {!isMobile && (
       <IconButton
         onClick={() => setOpen(!open)}
@@ -68,15 +65,16 @@ const SidebarContent = ({
       </IconButton>
     )}
 
-    {/* User section */}
     {open && (
-      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", mt: 2, mb: 2 }}>
-        <Avatar src={userInfo?.avatar || "/path/to/user.jpg"} sx={{ width: 56, height: 56, mb: 1 }} />
-        <Typography fontWeight="bold" fontSize={16}>{userInfo?.name || "نام کاربر"}</Typography>
-      </Box>
+      <>
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", mt: 2 }}>
+          <Avatar src={userInfo?.avatar || "/path/to/user.jpg"} sx={{ width: 56, height: 56, mb: 1 }} />
+          <Typography fontWeight="bold" fontSize={16}>{userInfo?.name || "نام کاربر"}</Typography>
+        </Box>
+        <Box sx={{ width: "80%", borderBottom: "1px solid #ddd", my: 2, alignSelf: "center" }} />
+      </>
     )}
 
-    {/* Menu */}
     <List sx={{ p: 0 }}>
       {menuItems.map((item) => {
         const isActive = currentPath === item.link;
@@ -89,8 +87,16 @@ const SidebarContent = ({
             sx={{
               px: open ? 2 : 1,
               justifyContent: open ? "flex-start" : "center",
-              color: isActive ? green : "inherit",
+              backgroundColor: isActive ? green : "transparent",
+              color: isActive ? "#fff" : "inherit",
               mb: open ? 0 : 2,
+              '& .MuiListItemIcon-root': { color: isActive ? "#fff" : "inherit" },
+              '& .MuiTypography-root': {
+                fontWeight: isActive ? "bold" : "normal",
+                fontSize: 16,
+                color: isActive ? "#fff" : "inherit",
+                ml: 2,
+              },
               '&:hover': {
                 background: "#f5f5f5",
                 color: green,
@@ -103,7 +109,6 @@ const SidebarContent = ({
             <ListItemIcon
               sx={{
                 minWidth: 0,
-                color: isActive ? green : "inherit",
                 mr: open ? 2.5 : 0,
                 justifyContent: "center"
               }}
@@ -111,20 +116,11 @@ const SidebarContent = ({
               {item.icon}
             </ListItemIcon>
             {open && (
-              <ListItemText
-                primary={item.text}
-                sx={{
-                  '.MuiTypography-root': {
-                    fontWeight: isActive ? "bold" : "normal",
-                    color: isActive ? green : "inherit",
-                    fontSize: 16,
-                    ml: 2
-                  }
-                }}
-              />
+              <ListItemText primary={item.text} />
             )}
           </ListItem>
         );
+
         return open ? listItem : (
           <Tooltip key={item.text} title={item.text} placement="left">
             {listItem}
@@ -132,7 +128,7 @@ const SidebarContent = ({
         );
       })}
     </List>
-    {/* Message section: only icon and label */}
+
     <List sx={{ p: 0 }}>
       <Tooltip title="پیام‌ها" placement="left" disableHoverListener={open}>
         <ListItem
@@ -155,11 +151,11 @@ const SidebarContent = ({
           <ListItemIcon sx={{ minWidth: 0, mr: open ? 2.5 : 0, justifyContent: "center", color: "black" }}>
             <MailIcon />
           </ListItemIcon>
-          {open && <ListItemText primary="پیام‌ها" sx={{ '.MuiTypography-root': { fontSize: 16, color: "black", ml: 2 } }} />}
+          {open && <ListItemText primary="پیام‌ها" sx={{ '.MuiTypography-root': { fontSize: 16, ml: 2 } }} />}
         </ListItem>
       </Tooltip>
     </List>
-    {/* Logout at the bottom */}
+
     <Box sx={{ mt: "auto", mb: 2 }}>
       <ListItem
         button
@@ -167,7 +163,6 @@ const SidebarContent = ({
         sx={{
           px: open ? 2 : 1,
           justifyContent: open ? "flex-start" : "center",
-          mb: open ? 0 : 2,
           '&:hover': {
             background: "#f5f5f5",
             color: green,
@@ -186,24 +181,18 @@ const SidebarContent = ({
   </Box>
 );
 
-const ClientSidebar = ({ onSidebarToggle, sidebarOpen }) => {
+const ClientSidebar = () => {
   const [open, setOpen] = useState(true);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { userInfo } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
-
-  // Mobile: only hamburger icon, sidebar slides in
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // Logout handler
   const handleLogout = () => {
-    // Remove session/token (adjust as needed for your app)
     localStorage.clear();
     sessionStorage.clear();
-    // If you use cookies, clear them here as well
-    // Redirect to home
     navigate("/");
   };
 
@@ -220,7 +209,6 @@ const ClientSidebar = ({ onSidebarToggle, sidebarOpen }) => {
             background: "#fff",
             boxShadow: 2,
             p: 1,
-            m: 0,
           }}
         >
           <MenuIcon />
@@ -234,8 +222,7 @@ const ClientSidebar = ({ onSidebarToggle, sidebarOpen }) => {
               width: drawerWidth,
               bgcolor: "#fff",
               boxShadow: "0 0 16px 0 #0002",
-              p: 0,
-              m: 0
+              overflowX: "hidden"
             }
           }}
         >
@@ -253,7 +240,6 @@ const ClientSidebar = ({ onSidebarToggle, sidebarOpen }) => {
     );
   }
 
-  // Desktop sidebar with open/close mode
   return (
     <Drawer
       variant="permanent"
@@ -264,9 +250,7 @@ const ClientSidebar = ({ onSidebarToggle, sidebarOpen }) => {
           width: open ? drawerWidth : closedDrawerWidth,
           bgcolor: "#fff",
           boxShadow: "0 0 16px 0 #0002",
-          borderLeft: "none",
-          p: 0,
-          m: 0,
+          overflowX: "hidden",
           transition: "width 0.2s"
         }
       }}
