@@ -17,6 +17,7 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useTheme, useMediaQuery } from "@mui/material";
 import { AuthContext } from '../contexts/AuthContext.jsx';
 import { useLocation } from "react-router-dom";
+import { position } from "stylis";
 
 const menuItems = [
   { text: "صفحه اصلی", icon: <HomeIcon />, link: "/" },
@@ -50,7 +51,8 @@ const SidebarContent = ({
       flexDirection: "column",
       height: "100%",
       transition: "width 0.2s",
-      ...(isMobile && { mt: 7 }) // margin-top for mobile header
+      ...(isMobile && { mt: 7 }) ,
+      
     }}
   >
     {/* Collapse/Expand Button (Desktop only) */}
@@ -189,7 +191,7 @@ const ClientSidebar = () => {
           <MenuIcon />
         </IconButton>
         <Drawer
-          anchor="right"
+          anchor="left"
           open={mobileOpen}
           onClose={() => setMobileOpen(false)}
           PaperProps={{
@@ -220,7 +222,7 @@ const ClientSidebar = () => {
   return (
     <Drawer
       variant="permanent"
-      anchor="right"
+      anchor="left"
       open
       PaperProps={{
         sx: {
