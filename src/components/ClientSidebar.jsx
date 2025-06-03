@@ -32,15 +32,6 @@ const menuItems = [
   { text: "تغییر رمز عبور", icon: <VpnKeyIcon />, link: "/change-password" },
 ];
 
-const trainerMenuItems = [
-  { text: "صفحه اصلی", icon: <HomeIcon />, link: "/" },
-  { text: "نوشتن برنامه جدید", icon: <AddIcon />, link: "/new-program" },
-  { text: "لیست شاگرد ها", icon: <AccountCircleIcon />, link: "/students" },
-  { text: "اعلانات", icon: <NotificationsIcon sx={{ color: 'red' }} />, link: "/notifications" },
-  { text: "تغییر پروفایل", icon: <EditIcon />, link: "/editprofile" },
-  { text: "تغییر رمز عبور", icon: <VpnKeyIcon />, link: "/change-password" },
-];
-
 const drawerWidth = 250;
 const closedDrawerWidth = 64;
 const green = "#00AF66";
@@ -228,6 +219,8 @@ const ClientSidebar = () => {
     localStorage.clear();
     sessionStorage.clear();
     navigate("/");
+    window.location.reload();
+
   };
 
   useEffect(() => {

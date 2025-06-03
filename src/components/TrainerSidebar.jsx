@@ -13,17 +13,20 @@ import EditIcon from '@mui/icons-material/Edit';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import MailIcon from '@mui/icons-material/Mail';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import { useTheme, useMediaQuery } from "@mui/material";
 import { AuthContext } from '../contexts/AuthContext.jsx';
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import config from "../config"; // adjust the path if needed
 
 const menuItems = [
   { text: "صفحه اصلی", icon: <HomeIcon />, link: "/" },
-  { text: "مشاهده شاگردان", icon: <ArticleIcon />, link: "/students" },
-  { text: "دریافت شاگرد جدید", icon: <AddIcon />, link: "/new-student" },
-  { text: "اعلان‌ها", icon: <AccessTimeIcon />, link: "/notifications" },
-  { text: "تغییر اطلاعات کاربری", icon: <EditIcon />, link: "/editprofile" },
-  { text: "تغییر رمز عبور", icon: <VpnKeyIcon />, link: "/change-password" },
+  { text: "مشاهده شاگرد ها", icon: <ArticleIcon />, link: "/trainer_students" },
+  { text: "نوشتن برنامه جدید", icon: <AddIcon />, link: "/createworkoutplan" },
+  { text: "اعلانات", icon: <NotificationsNoneIcon />, link: "/notifications" },
+  { text: "تغییر اطلاعات کاربری", icon: <EditIcon />, link: "/trainereditprofile" },
+  { text: "تغییر رمز عبور", icon: <VpnKeyIcon />, link: "/changepasswordtrainer" },
 ];
 
 const drawerWidth = 250;
@@ -64,15 +67,18 @@ const SidebarContent = ({
     )}
 
     {open && userInfo && (
-      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", mt: 2 }}>
-        <Avatar src={userInfo.profile_picture || "/path/to/user.jpg"} sx={{ width: 56, height: 56, mb: 1 }} />
+      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", mt: 1, mb: 2 }}>
+        <Avatar
+          src={userInfo.profile_picture ? `${config.API_BASE_URL}${userInfo.profile_picture}` : "/path/to/user.jpg"}
+          sx={{ width: 64, height: 64, mb: 1 }}
+        />
         <Typography fontWeight="bold" fontSize={16}>{userInfo.name || "نام کاربر"}</Typography>
         <Typography fontSize={14} color="text.secondary">
-          {userInfo.usertype === "trainee" ? "شاگرد" : "مربی"}
+          {userInfo.usertype === "coach" ? "مربی" : "شاگرد"}
         </Typography>
       </Box>
     )}
-    <Box sx={{ width: "80%", borderBottom: "1px solid #ddd", my: 2, alignSelf: "center" }} />
+    <Box sx={{ width: "80%", borderBottom: "1px solid #ddd", my: 1, alignSelf: "center" }} />
 
     <List sx={{ p: 0 }}>
       {menuItems.map((item) => {
@@ -110,22 +116,8 @@ const SidebarContent = ({
                 minWidth: 0,
                 mr: open ? 2.5 : 0,
                 justifyContent: "center",
-                ...(item.text === "اعلان‌ها" && { position: "relative" }),
               }}
             >
-              {item.text === "اعلان‌ها" && (
-                <Box
-                  sx={{
-                    width: 8,
-                    height: 8,
-                    bgcolor: "red",
-                    borderRadius: "50%",
-                    position: "absolute",
-                    top: 6,
-                    right: 6,
-                  }}
-                />
-              )}
               {item.icon}
             </ListItemIcon>
             {open && (
@@ -214,18 +206,13 @@ const TrainerSidebar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const response = await fetch("http://45.144.50.12:8000/api/auth/whoami/", {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }, // Adjust token logic as needed
-        });
-        const data = await response.json();
-        setUserInfo(data);
-      } catch (error) {
-        console.error("Failed to fetch user info:", error);
+    axios.get(`${config.API_BASE_URL}/api/auth/whoami/`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access")}`
       }
-    };
-    fetchUserInfo();
+    })
+    .then(response => setUserInfo(response.data))
+    .catch(err => console.error("Failed to fetch user info", err));
   }, []);
 
   useEffect(() => {
@@ -236,6 +223,7 @@ const TrainerSidebar = () => {
     localStorage.clear();
     sessionStorage.clear();
     navigate("/");
+    window.location.reload();
   };
 
   if (isMobile) {
@@ -295,7 +283,7 @@ const TrainerSidebar = () => {
           bgcolor: "#fff",
           boxShadow: "0 0 16px 0 #0002",
           overflowX: "hidden",
-          transition: "width 0.2s"
+          transition: "width 0.2s",
         }
       }}
     >
