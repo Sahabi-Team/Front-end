@@ -76,8 +76,6 @@ const GradientButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-
-
 const OutlineButton = styled(Button)(({ theme }) => ({
   border: "2px solid #4CAF50",
   color: "#4CAF50",
@@ -96,9 +94,6 @@ const OutlineButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-
-
-
 const LogoImage = styled("img")(({ theme }) => ({
   height: "50px",
   width: "auto",
@@ -113,11 +108,6 @@ const LogoImage = styled("img")(({ theme }) => ({
     height: "40px",
   },
 }));
-
-
-
-
-
 
 const BeautifulAppBar = ({ showInitialBorder = false }) => {
   const theme = useTheme();
@@ -143,8 +133,8 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
   const handlefaqclick = () => {
     navigate("/FAQ");
   };
-  
-   const handleLogoClick = () => {
+
+  const handleLogoClick = () => {
     navigate("/");
   };
 
@@ -161,7 +151,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
   };
 
   const handleExerciselistclick = (event) => {
-    navigate('/exercises');
+    navigate("/exercises");
   };
 
   const handleCloseMenu = () => {
@@ -170,7 +160,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
   };
 
   const handleMenuItemClick = (sectionId) => {
-    if (sectionId == "FAQ") navigate("/FAQ");
+    if (sectionId == "faq") navigate("/FAQ");
     else if (sectionId == "coaches") navigate("/trainers");
     handleCloseMenu();
     setMobileOpen(false);
@@ -185,7 +175,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
   };
 
   const handleMovementsMobileClick = () => {
-    setOpenMovementsMobile(!openMovementsMobile);
+    navigate("/exercises");
   };
 
   const { userInfo, logout } = useContext(AuthContext);
@@ -211,62 +201,150 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
   };
 
   const drawer = (
-    <Box sx={{ width: 250, padding: 2 }}>
+    <Box
+      sx={{
+        width: 250,
+        padding: 2,
+        bgcolor: "#fefefe",
+        borderRadius: "0 8px 8px 0",
+        boxShadow: 3,
+        height: "100%",
+      }}
+    >
       <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
-        <LogoImage src={Vazneh} alt="لوگو وزنه"  onClick={handleLogoClick} />
+        <LogoImage
+          src={Vazneh}
+          alt="لوگو وزنه"
+          onClick={handleLogoClick}
+          style={{ cursor: "pointer" }}
+        />
       </Box>
+
       <List>
-        <ListItem button onClick={() => handleMenuItemClick("coaches")}>
-          <ListItemText primary="لیست مربی ها" />
-        </ListItem>
-        <ListItem button onClick={() => handleMenuItemClick("faq")}>
-          <ListItemText primary="سوالات متداول" />
-        </ListItem>
-        <ListItem button onClick={handleProgramsMobileClick}>
+        {[
+          { label: "لیست مربی ها", key: "coaches" },
+          { label: "سوالات متداول", key: "faq" },
+          {
+            label: "بانک حرکات ورزشی",
+            key: "movements",
+            onClick: handleMovementsMobileClick,
+          },
+        ].map((item) => (
+          <ListItem
+            key={item.key}
+            button
+            onClick={() =>
+              item.onClick ? item.onClick() : handleMenuItemClick(item.key)
+            }
+            sx={{
+              borderRadius: 2,
+              transition: "all 0.3s ease",
+              "&:hover": {
+                bgcolor: "primary.light",
+                color: "#fff",
+                cursor: "pointer",
+                transform: "scale(1.03)",
+              },
+              my: 0.5,
+              px: 2,
+            }}
+          >
+            <ListItemText primary={item.label} />
+          </ListItem>
+        ))}
+
+        <ListItem
+          button
+          onClick={handleProgramsMobileClick}
+          sx={{
+            borderRadius: 2,
+            transition: "all 0.3s ease",
+            "&:hover": {
+              bgcolor: "primary.light",
+              color: "#fff",
+              cursor: "pointer",
+              transform: "scale(1.03)",
+            },
+            my: 0.5,
+            px: 2,
+          }}
+        >
           <ListItemText primary="برنامه‌های ورزشی" />
           {openProgramsMobile ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
+
         <Collapse in={openProgramsMobile} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("diet")}>
-              <ListItemText primary="برنامه غذایی" />
-            </ListItem>
-            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("abs")}>
-              <ListItemText primary="برنامه شکم و پهلو" />
-            </ListItem>
-            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("custom")}>
-              <ListItemText primary="برنامه اختصاصی" />
-            </ListItem>
-          </List>
-        </Collapse>
-        <ListItem button onClick={handleMovementsMobileClick}>
-          <ListItemText primary="بانک حرکات ورزشی" />
-          {openMovementsMobile ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
-        <Collapse in={openMovementsMobile} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("chest")}>
-              <ListItemText primary="حرکات سینه" />
-            </ListItem>
-            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("abs-exercises")}>
-              <ListItemText primary="حرکات شکم و پهلو" />
-            </ListItem>
-            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("legs")}>
-              <ListItemText primary="حرکات پا" />
-            </ListItem>
-            <ListItem button sx={{ pl: 4 }} onClick={() => handleMenuItemClick("shoulders")}>
-              <ListItemText primary="حرکات سرشانه" />
-            </ListItem>
+            {[
+              { label: "برنامه غذایی", key: "diet" },
+              { label: "برنامه شکم و پهلو", key: "abs" },
+              { label: "برنامه اختصاصی", key: "custom" },
+            ].map((item) => (
+              <ListItem
+                key={item.key}
+                button
+                sx={{
+                  pl: 4,
+                  py: 1,
+                  borderRadius: 2,
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    bgcolor: "primary.light",
+                    color: "#fff",
+                    cursor: "pointer",
+                    transform: "translateX(-4px)",
+                  },
+                }}
+                onClick={() => handleMenuItemClick(item.key)}
+              >
+                <ListItemText primary={item.label} />
+              </ListItem>
+            ))}
           </List>
         </Collapse>
       </List>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 1, mt: 2 }}>
-        <GradientButton variant="contained" onClick={handleFreeTestClick}>تست رایگان</GradientButton>
-        {!isLoggedIn ?  (
-                    <OutlineButton variant="outlined" onClick={handlesigninclick} sx={fontSizeResponsive}>
-                      ورود
-                    </OutlineButton>
-                  ):(<></>)}
+
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 1,
+          mt: 2,
+          alignItems: "center",
+        }}
+      >
+        <GradientButton
+          variant="contained"
+          onClick={handleFreeTestClick}
+          sx={{
+            width: 220, // عرض ثابت
+            fontWeight: "bold",
+            fontSize: "0.95rem",
+          }}
+        >
+          تست رایگان
+        </GradientButton>
+
+        {!isLoggedIn && (
+          <OutlineButton
+            variant="outlined"
+            onClick={handlesigninclick}
+            sx={{
+              width: 220, // عرض برابر با دکمه بالا
+              fontSize: "0.95rem",
+              fontWeight: "bold",
+              borderColor: "primary.main",
+              color: "primary.main",
+              "&:hover": {
+                borderColor: "primary.dark",
+                backgroundColor: "primary.light",
+                color: "#fff",
+              },
+            }}
+          >
+            ورود
+          </OutlineButton>
+        )}
       </Box>
     </Box>
   );
@@ -277,27 +355,39 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
         isScrolled={isScrolled}
         showInitialBorder={showInitialBorder}
       >
-        
-        <Toolbar sx={{ justifyContent: "space-between"}}>
+        <Toolbar sx={{ justifyContent: "space-between" }}>
           {/* <LogoImage src={Vazneh} alt="لوگو وزنه" /> */}
           {isMobile ? (
             <>
-              
-              <Box sx={{ display: "flex", alignItems: "center", ml: "5rem", gap:1}}>
-              <LogoImage src={Vazneh} alt="لوگو وزنه"  onClick={handleLogoClick} />
-                <Stack direction="row" >
-                   
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  ml: "5rem",
+                  gap: 1,
+                }}
+              >
+                <LogoImage
+                  src={Vazneh}
+                  alt="لوگو وزنه"
+                  onClick={handleLogoClick}
+                />
+                <Stack direction="row">
                   {isLoggedIn ? (
                     <AvatarBox />
                   ) : (
                     // <OutlineButton variant="outlined" onClick={handlesigninclick} sx={fontSizeResponsive}>
                     //   ورود
                     // </OutlineButton>
-                    <GradientButton variant="contained" onClick={handleFreeTestClick} sx={fontSizeResponsive}>
-                    تست رایگان
-                  </GradientButton> 
+                    <GradientButton
+                      variant="contained"
+                      onClick={handleFreeTestClick}
+                      sx={fontSizeResponsive}
+                    >
+                      تست رایگان
+                    </GradientButton>
                   )}
-                </Stack> 
+                </Stack>
               </Box>
               <IconButton
                 color="inherit"
@@ -311,8 +401,11 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
             </>
           ) : (
             <>
-              <LogoImage src={Vazneh} alt="لوگو وزنه"  onClick={handleLogoClick}/>
-
+              <LogoImage
+                src={Vazneh}
+                alt="لوگو وزنه"
+                onClick={handleLogoClick}
+              />
               <Box
                 sx={{
                   display: "flex",

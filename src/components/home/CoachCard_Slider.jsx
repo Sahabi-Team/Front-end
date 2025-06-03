@@ -68,6 +68,29 @@ export default function CoachSlider() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const [spaceBetween, setSpaceBetween] = useState(24);
+
+  // تابع محاسبه spaceBetween برای بازه 460 تا 600
+  const calculateSpace = (width) => {
+    if (width < 460) return 24;
+    if (width >= 600) return 10;
+    // از 460 تا 600 هر پیکسل، 0.1% کم شود
+    let percent = 10 - (width - 460) * 0.9;
+    return percent;
+  };
+
+  useEffect(() => {
+    const updateSpace = () => {
+      const w = window.innerWidth;
+      setSpaceBetween(calculateSpace(w));
+    };
+
+    updateSpace(); // در بارگذاری اولیه
+
+    window.addEventListener("resize", updateSpace);
+    return () => window.removeEventListener("resize", updateSpace);
+  }, []);
+
   if (loading) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" py={6}>
@@ -98,7 +121,7 @@ export default function CoachSlider() {
           modules={[Pagination, Autoplay]}
           breakpoints={{
             0: { slidesPerView: 1, spaceBetween: 24 },
-            480: { slidesPerView: 1, spaceBetween: 24 },
+            460: { slidesPerView: 1, spaceBetween: 24 },
             720: { slidesPerView: 1.5, spaceBetween: "-%5" },
             768: { slidesPerView: 1.5, spaceBetween: "-7%" },
           }}
@@ -117,7 +140,7 @@ export default function CoachSlider() {
           ))}
         </Swiper>
 
-        <Box display="flex" justifyContent="center" gap={1}>
+        {/* <Box display="flex" justifyContent="center" gap={1}>
           <IconButton
             onClick={() => swiperRef.current?.swiper.slidePrev()}
             sx={{
@@ -153,7 +176,7 @@ export default function CoachSlider() {
           >
             <ChevronLeft fontSize="medium" />
           </IconButton>
-        </Box>
+        </Box> */}
 
         {/* استایل‌های سه‌بعدی */}
         <style jsx>{`
@@ -165,10 +188,10 @@ export default function CoachSlider() {
 
           .three-d-card {
             background-color: #fff;
-            border-radius: 16px;
+            border-radius: 22px;
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-            padding: 16px;
-            width: 390px; /* Default width */
+            padding: 13px;
+            width: 298px; /* Default width */
             transition: all 0.5s ease;
             transform-style: preserve-3d;
           }
