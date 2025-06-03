@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import {
-  Drawer, List, ListItem, ListItemIcon, ListItemText, Divider, IconButton, Avatar, Box, Typography, Tooltip
+  Drawer, List, ListItem, ListItemIcon, ListItemText, IconButton, Avatar, Box, Typography, Tooltip
 } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -16,8 +16,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useTheme, useMediaQuery } from "@mui/material";
 import { AuthContext } from '../contexts/AuthContext.jsx';
-import { useLocation } from "react-router-dom";
-import { position } from "stylis";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const menuItems = [
   { text: "صفحه اصلی", icon: <HomeIcon />, link: "/" },
@@ -51,8 +50,8 @@ const SidebarContent = ({
       flexDirection: "column",
       height: "100%",
       transition: "width 0.2s",
-      ...(isMobile && { mt: 7 }) ,
-      
+      ml: 2,
+      boxSizing: "border-box"
     }}
   >
     {/* Collapse/Expand Button (Desktop only) */}
@@ -81,7 +80,7 @@ const SidebarContent = ({
     <List sx={{ p: 0 }}>
       {menuItems.map((item) => {
         const isActive = currentPath === item.link;
-        return (
+        const listItem = (
           <ListItem
             button
             key={item.text}
@@ -91,7 +90,13 @@ const SidebarContent = ({
               px: open ? 2 : 1,
               justifyContent: open ? "flex-start" : "center",
               color: isActive ? green : "inherit",
-              '&:hover': { background: "#f5f5f5" },
+              mb: open ? 0 : 2,
+              '&:hover': {
+                background: "#f5f5f5",
+                color: green,
+                '& .MuiListItemIcon-root': { color: green },
+                '& .MuiTypography-root': { color: green }
+              },
               transition: "all 0.2s"
             }}
           >
@@ -113,43 +118,62 @@ const SidebarContent = ({
                     fontWeight: isActive ? "bold" : "normal",
                     color: isActive ? green : "inherit",
                     fontSize: 16,
-                    ml: 2 // Increase distance between icon and text
+                    ml: 2
                   }
                 }}
               />
             )}
           </ListItem>
         );
+        return open ? listItem : (
+          <Tooltip key={item.text} title={item.text} placement="left">
+            {listItem}
+          </Tooltip>
+        );
       })}
     </List>
-    <Divider sx={{ my: 2 }} />
     {/* Message section: only icon and label */}
     <List sx={{ p: 0 }}>
-      <ListItem
-        button
-        component="a"
-        href="/messages"
-        sx={{
-          px: open ? 2 : 1,
-          justifyContent: open ? "flex-start" : "center",
-          transition: "all 0.2s"
-        }}
-      >
-        <ListItemIcon sx={{ minWidth: 0, mr: open ? 2.5 : 0, justifyContent: "center" }}>
-          <MailIcon />
-        </ListItemIcon>
-        {open && <ListItemText primary="پیام‌ها" sx={{ '.MuiTypography-root': { fontSize: 16, ml: 2 } }} />}
-      </ListItem>
+      <Tooltip title="پیام‌ها" placement="left" disableHoverListener={open}>
+        <ListItem
+          button
+          component="a"
+          href="/messages"
+          sx={{
+            px: open ? 2 : 1,
+            justifyContent: open ? "flex-start" : "center",
+            mb: open ? 0 : 2,
+            '&:hover': {
+              background: "#f5f5f5",
+              color: "black",
+              '& .MuiListItemIcon-root': { color: green },
+              '& .MuiTypography-root': { color: "black" }
+            },
+            transition: "all 0.2s"
+          }}
+        >
+          <ListItemIcon sx={{ minWidth: 0, mr: open ? 2.5 : 0, justifyContent: "center", color: "black" }}>
+            <MailIcon />
+          </ListItemIcon>
+          {open && <ListItemText primary="پیام‌ها" sx={{ '.MuiTypography-root': { fontSize: 16, color: "black", ml: 2 } }} />}
+        </ListItem>
+      </Tooltip>
     </List>
     {/* Logout at the bottom */}
     <Box sx={{ mt: "auto", mb: 2 }}>
-      <Divider sx={{ mb: 1 }} />
       <ListItem
         button
         onClick={logout}
         sx={{
           px: open ? 2 : 1,
           justifyContent: open ? "flex-start" : "center",
+          mb: open ? 0 : 2,
+          '&:hover': {
+            background: "#f5f5f5",
+            color: green,
+            '& .MuiListItemIcon-root': { color: green },
+            '& .MuiTypography-root': { color: green }
+          },
           transition: "all 0.2s"
         }}
       >
@@ -162,15 +186,26 @@ const SidebarContent = ({
   </Box>
 );
 
-const ClientSidebar = () => {
+const ClientSidebar = ({ onSidebarToggle, sidebarOpen }) => {
   const [open, setOpen] = useState(true);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const { userInfo, logout } = useContext(AuthContext);
+  const { userInfo } = useContext(AuthContext);
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Mobile: only hamburger icon, sidebar slides in
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  // Logout handler
+  const handleLogout = () => {
+    // Remove session/token (adjust as needed for your app)
+    localStorage.clear();
+    sessionStorage.clear();
+    // If you use cookies, clear them here as well
+    // Redirect to home
+    navigate("/");
+  };
 
   if (isMobile) {
     return (
@@ -200,14 +235,14 @@ const ClientSidebar = () => {
               bgcolor: "#fff",
               boxShadow: "0 0 16px 0 #0002",
               p: 0,
-              m: 0,
+              m: 0
             }
           }}
         >
           <SidebarContent
             onClose={() => setMobileOpen(false)}
             userInfo={userInfo}
-            logout={logout}
+            logout={handleLogout}
             open={true}
             setOpen={() => {}}
             isMobile={true}
@@ -238,7 +273,7 @@ const ClientSidebar = () => {
     >
       <SidebarContent
         userInfo={userInfo}
-        logout={logout}
+        logout={handleLogout}
         open={open}
         setOpen={setOpen}
         isMobile={false}
