@@ -1,82 +1,69 @@
 import React, { useContext } from "react";
-import CssBaseline from '@mui/material/CssBaseline';
-import Stack from '@mui/material/Stack';
-import SignUpCard from '../components/signup/SignUpCard';
-import { Box , Paper,Container} from '@mui/material';
-import SignUp_img from '../components/signup/SignUp_img'
-import Footer from "../components/Footer";
+import CssBaseline from "@mui/material/CssBaseline";
+import Stack from "@mui/material/Stack";
+import SignUpCard from "../components/signup/SignUpCard";
+import { Box, Paper, Container } from "@mui/material";
+import SignUp_img from "../components/signup/SignUp_img";
+import CompactFooter from "../components/CompactFooter";
 import { AuthContext } from "../contexts/AuthContext";
 
-
 export default function Sign_up(props) {
+  const { userInfo, logout } = useContext(AuthContext);
 
-
-   const { userInfo, logout } = useContext(AuthContext);
-  
-    if(userInfo){
-      window.location.href = "/";
-
-    }
+  if (userInfo) {
+    window.location.href = "/";
+  }
 
   return (
-   <>
-    
-            <CssBaseline enableColorScheme />
-      
-    
-        <Container
+    <>
+      <CssBaseline enableColorScheme />
+
+      <Box
         sx={{
+          minHeight: "100vh",
           display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "70vh",
-          mb:10
+          flexDirection: "column",
         }}
       >
-    <Paper elevation={20} sx={{borderRadius : '30px 30px 30px 30px'}} >
-      
-      <CssBaseline enableColorScheme />
-      <Stack
-        direction="column"
-        component="main"
-        sx={[
-          {
-            justifyContent: 'center',
-            height: 'calc((1 - var(--template-frame-height, 0)) * 100%)',
-            // marginTop: 'max(20px - var(--template-frame-height, 0px), 0px)',
-            minHeight: '100%',
-          },
-        ]}
-      >
-        <Stack
-          direction={{ xs: 'column-reverse', md: 'row' }}
+        <Container
           sx={{
-            justifyContent: 'center',
-            mx: 'auto',
+            flex: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            py: 5,
           }}
         >
-          <Stack
-            direction={{ xs: 'column-reverse', md: 'row' }}
-            sx={{
-              justifyContent: 'center',
-              m: 'auto',
-            }}
-          >
-            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <SignUp_img/>
-            </Box>
-            
-             
-             <SignUpCard/>
-             
-           
-            
-          </Stack>
-        </Stack>
-      </Stack>
-      </Paper>
-      </Container>
-      <Footer />
-      </>
+          <Paper elevation={20} sx={{ borderRadius: "30px" }}>
+            <Stack
+              direction="column"
+              component="main"
+              sx={{
+                justifyContent: "center",
+                minHeight: "100%",
+              }}
+            >
+              <Stack
+                direction={{ xs: "column-reverse", md: "row" }}
+                sx={{
+                  justifyContent: "center",
+                  mx: "auto",
+                }}
+              >
+                <Box sx={{ display: { xs: "none", md: "flex" } }}>
+                  <SignUp_img />
+                </Box>
+
+                <SignUpCard />
+              </Stack>
+            </Stack>
+          </Paper>
+        </Container>
+
+        <Box component="footer" sx={{ mt: "auto" }}>
+          <CompactFooter />
+        </Box>
+      </Box>
+    </>
   );
 }

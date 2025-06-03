@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import MuiCard from "@mui/material/Card";
@@ -28,6 +28,7 @@ import SuccessfulModal from "../modals/SuccessfulModal";
 import SuccessModal from "../modals/SuccessfulModal";
 import config from "../../config";
 import LoginIcon from "@mui/icons-material/Login";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -54,6 +55,8 @@ export default function ResetPasswordCard(token) {
   const [openSuccessModal, setOpenSuccessModal] = React.useState(false);
   const [successMessage, setSuccessMessage] = React.useState("");
   const navigate = useNavigate();
+    const { userInfo, logout } = useContext(AuthContext);
+  
 
   const handleCloseErrorModal = () => {
     setOpenErrorModal(false); // بستن مودال
@@ -153,6 +156,9 @@ export default function ResetPasswordCard(token) {
     }
   };
 
+  if(userInfo){
+    navigate("/404");
+  }
   return (
     <Card
       variant="outlined"
@@ -353,6 +359,7 @@ export default function ResetPasswordCard(token) {
           </Box>
         </FormControl>
       </Box>
+    
 
       <ErrorModal
         open={openErrorModal}
@@ -366,5 +373,7 @@ export default function ResetPasswordCard(token) {
       />
       <SuccessfulModal />
     </Card>
+    
   );
+
 }

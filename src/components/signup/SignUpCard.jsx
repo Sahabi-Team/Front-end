@@ -251,7 +251,7 @@ export default function SignUpCard() {
         onClick={handleHomeClick}
         sx={{
           position: "absolute",
-           top:55,
+           top:95,
           right:438.5,
           color: "primary.main",
           "&:hover": {

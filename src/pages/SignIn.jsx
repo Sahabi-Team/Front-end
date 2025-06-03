@@ -4,74 +4,59 @@ import Stack from "@mui/material/Stack";
 import SignInCard from "../components/signin/SignInCard";
 import SignIn_img from "../components/signin/SignIn_img";
 import { Box, Container, Paper } from "@mui/material";
-import NavBar from "../components/home/NavbarCard";
-// import Container from '@mui/material/Container';
-import CFooter from "../components/CompactFooter";
-import Footer from "../components/Footer"
+import CompactFooter from "../components/CompactFooter";
 import { AuthContext } from "../contexts/AuthContext";
 
-export default function Sign_in(props) {
+export default function Sign_in() {
+  const { userInfo } = useContext(AuthContext);
 
-    const { userInfo, logout } = useContext(AuthContext);
-  
-    if(userInfo){
-      window.location.href = "/";
+  if (userInfo) {
+    window.location.href = "/";
+    return null; // جلوگیری از رندر اضافی
+  }
 
-    }
-else
   return (
     <>
-      {/* <NavBar /> */}
       <CssBaseline enableColorScheme />
-     
-
-        <Container
+      
+      {/* ساختار اصلی صفحه با minHeight برابر 100vh */}
+      <Box
         sx={{
           display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "70vh",
           flexDirection: "column",
-          mt:5
+          minHeight: "100vh",
         }}
       >
-        <Paper
-          elevation={24} // مقدار سایه (0 تا 24)
+        {/* محتوای اصلی */}
+        <Container
           sx={{
-            // p: 3, // padding داخلی
-            borderRadius: "30px", // گوشه‌های گرد
-            // width: '100%',
-            maxWidth: "lg", // یا اندازه دلخواه
-            backdropFilter: "blur(8px)", // افکت بلور پس‌زمینه (اختیاری)
-            backgroundColor: "rgba(255, 255, 255, 0.8)", // پس‌زمینه نیمه شفاف
+            flex: 1, // بخش اصلی صفحه بسط داده می‌شود
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            mt: 5,
           }}
         >
-        
-          <Stack
-            direction="column"
-            component="main"
-            sx={[
-              {
-                justifyContent: "center",
-                height: "calc((1 - var(--template-frame-height, 0)) * 100%)",
-                // marginTop: "max(40px - var(--template-frame-height, 0px), 0px)",
-                minHeight: "100%",
-              },
-            ]}
+          <Paper
+            elevation={24}
+            sx={{
+              borderRadius: "30px",
+              maxWidth: "lg",
+              backdropFilter: "blur(8px)",
+              backgroundColor: "rgba(255, 255, 255, 0.8)",
+            }}
           >
             <Stack
-              direction={{ xs: "column-reverse", md: "row" }}
+              direction="column"
+              component="main"
               sx={{
                 justifyContent: "center",
-                mx: "auto",
+                minHeight: "100%",
               }}
             >
               <Stack
                 direction={{ xs: "column-reverse", md: "row" }}
-                sx={{
-                  justifyContent: "center",
-                  m: "auto",
-                }}
+                sx={{ justifyContent: "center", mx: "auto" }}
               >
                 <Box sx={{ display: { xs: "none", md: "flex" } }}>
                   <SignIn_img />
@@ -80,10 +65,14 @@ else
                 <SignInCard />
               </Stack>
             </Stack>
-          </Stack>
-        </Paper>
-      </Container>
-      {/* <Footer/> */}
+          </Paper>
+        </Container>
+
+        {/* فوتر در پایین صفحه */}
+        <Box component="footer">
+          <CompactFooter />
+        </Box>
+      </Box>
     </>
   );
 }
