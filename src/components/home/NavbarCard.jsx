@@ -163,7 +163,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
   };
 
   const handleMenuItemClick = (sectionId) => {
-    if (sectionId == "faq") navigate("/FAQ");
+    if (sectionId == "faq") navigate("/faq");
     else if (sectionId == "coaches") navigate("/trainers");
     handleCloseMenu();
     setMobileOpen(false);
@@ -400,7 +400,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
                
                 
                 <CustomTextButton
-                  onClick={() => handleMenuItemClick("FAQ")}
+                  onClick={() => handleMenuItemClick("faq")}
                   sx={fontSizeResponsive}
                 >
                   سوالات متداول
