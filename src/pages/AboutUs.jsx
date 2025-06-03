@@ -11,7 +11,7 @@ import Navbar from "../components/home/NavbarCard";
 import Footer from '../components/Footer';
 
 const teamMembers = [
-  'مهدی شرف بیانی',
+   'محمد شرف بیانی',
   'نازنین شریفی',
   'معین خان محمدی',
   'علی کارگر',
