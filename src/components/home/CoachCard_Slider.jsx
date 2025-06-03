@@ -140,7 +140,7 @@ export default function CoachSlider() {
           ))}
         </Swiper>
 
-        <Box display="flex" justifyContent="center" gap={1}>
+        {/* <Box display="flex" justifyContent="center" gap={1}>
           <IconButton
             onClick={() => swiperRef.current?.swiper.slidePrev()}
             sx={{
@@ -176,7 +176,7 @@ export default function CoachSlider() {
           >
             <ChevronLeft fontSize="medium" />
           </IconButton>
-        </Box>
+        </Box> */}
 
         {/* استایل‌های سه‌بعدی */}
         <style jsx>{`

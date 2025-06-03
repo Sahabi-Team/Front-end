@@ -454,7 +454,8 @@ export default function WorkoutDetails() {
     const dayMap = {};
 
     exercises.forEach((exercise) => {
-      const { day, id, reps, sets } = exercise;
+      console.log(exercise);
+      const { day, exercise_id, reps, sets } = exercise;
 
       // اگر روز هنوز در dayMap تعریف نشده، ایجادش کن
       if (!dayMap[day]) {
@@ -472,8 +473,8 @@ export default function WorkoutDetails() {
 
       // اضافه کردن تمرین به لیست تمرین‌های آن روز
       dayMap[day].exercises.push({
-        id,
-        name: `تمرین ${id}`, // یا اگر نام واقعی از API داری، اینجا جایگزین کن
+        exercise_id,
+        name: `تمرین ${exercise_id}`, // یا اگر نام واقعی از API داری، اینجا جایگزین کن
         sets: setsArray,
       });
     });
@@ -640,7 +641,7 @@ export default function WorkoutDetails() {
                                   fontWeight="bold"
                                   gutterBottom
                                   component={Link}
-                                  to={`/exercisedetail/${exercise.id}`}
+                                  to={`/exercisedetail/${exercise.exercise_id}`}
                                   sx={{
                                     display: "flex",
                                     alignItems: "center",

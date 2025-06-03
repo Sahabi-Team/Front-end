@@ -21,7 +21,7 @@ const CoachTestimonialCard = ({
   return (
     <Card
       sx={{
-        width: 370,
+        width: {xs:320 , sm:370},
         minHeight: 260,
         height: 500,
         borderRadius: 4,
