@@ -18,6 +18,9 @@ import { useTheme, useMediaQuery } from "@mui/material";
 import { AuthContext } from '../contexts/AuthContext.jsx';
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import config  from "../config.js";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const menuItems = [
   { text: "صفحه اصلی", icon: <HomeIcon />, link: "/" },
@@ -26,6 +29,15 @@ const menuItems = [
   { text: "نتایج تست ها", icon: <BarChartIcon />, link: "/test_result" },
   { text: "آنالیز دوره", icon: <AccessTimeIcon />, link: "/analysis" },
   { text: "تغییر اطلاعات کاربری", icon: <EditIcon />, link: "/editprofile" },
+  { text: "تغییر رمز عبور", icon: <VpnKeyIcon />, link: "/change-password" },
+];
+
+const trainerMenuItems = [
+  { text: "صفحه اصلی", icon: <HomeIcon />, link: "/" },
+  { text: "نوشتن برنامه جدید", icon: <AddIcon />, link: "/new-program" },
+  { text: "لیست شاگرد ها", icon: <AccountCircleIcon />, link: "/students" },
+  { text: "اعلانات", icon: <NotificationsIcon sx={{ color: 'red' }} />, link: "/notifications" },
+  { text: "تغییر پروفایل", icon: <EditIcon />, link: "/editprofile" },
   { text: "تغییر رمز عبور", icon: <VpnKeyIcon />, link: "/change-password" },
 ];
 
