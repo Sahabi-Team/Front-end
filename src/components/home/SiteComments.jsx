@@ -1,6 +1,11 @@
 import React from 'react';
 import { Stack, Paper, Box, useMediaQuery, useTheme } from '@mui/material';
 import CommentCard from './CommentCard'; // مسیر صحیح ایمپورت
+import etemad from "../../assets/imgs/Comments/etemad.jpg";
+import khalaj from "../../assets/imgs/Comments/khalaj.jpg";
+import mohsen from "../../assets/imgs/Comments/mohsen.jpg";
+import pooya from "../../assets/imgs/Comments/pooya.jpg";
+import seyyed from "../../assets/imgs/Comments/seyyed.jpg";
 
 const CustomGridManual = () => {
   const theme = useTheme();
@@ -12,7 +17,7 @@ const CustomGridManual = () => {
       <Stack spacing={5}>
         <CommentCard
           name="محسن معین فر"
-          avatar="https://via.placeholder.com/150"
+          avatar={etemad}
           role="کشتی گیر"
           rating={5}
           comment="گرفتن برنامه از جیمی‌فیتو خیلی بهم کمک کرد چون میتونستم هر حرکتی که بلد نیستم رو از لیست حرکات ورزشی ببینم و دیدن آنالیز کلی بهم انگیزه زیادی برای ادامه دادن میداد!"
@@ -66,7 +71,7 @@ const CustomGridManual = () => {
       <Stack direction="row" spacing={2}>
         <CommentCard
           name="محسن معین فر"
-          avatar="https://via.placeholder.com/150"
+          avatar={etemad}
           role="کشتی گیر"
           rating={5}
           comment="گرفتن برنامه از جیمی‌فیتو خیلی بهم کمک کرد چون میتونستم هر حرکتی که بلد نیستم رو از لیست حرکات ورزشی ببینم و دیدن آنالیز کلی بهم انگیزه زیادی برای ادامه دادن میداد!"
@@ -75,7 +80,7 @@ const CustomGridManual = () => {
         <Box sx={{ width: 370, height: 200 }} />
         <CommentCard
           name="محسن معین فر"
-          avatar="https://via.placeholder.com/150"
+          avatar={mohsen}
           role="کشتی گیر"
           rating={5}
           comment="گرفتن برنامه از جیمی‌فیتو خیلی بهم کمک کرد چون میتونستم هر حرکتی که بلد نیستم رو از لیست حرکات ورزشی ببینم و دیدن آنالیز کلی بهم انگیزه زیادی برای ادامه دادن میداد!"
@@ -88,7 +93,7 @@ const CustomGridManual = () => {
         <Box sx={{ width: 370, height: 200 }} />
         <CommentCard
           name="محسن معین فر"
-          avatar="https://via.placeholder.com/150"
+          avatar={pooya}
           role="کشتی گیر"
           rating={5}
           comment="گرفتن برنامه از جیمی‌فیتو خیلی بهم کمک کرد چون میتونستم هر حرکتی که بلد نیستم رو از لیست حرکات ورزشی ببینم و دیدن آنالیز کلی بهم انگیزه زیادی برای ادامه دادن میداد!"
@@ -102,7 +107,7 @@ const CustomGridManual = () => {
       <Stack direction="row" spacing={2}>
         <CommentCard
           name="محسن معین فر"
-          avatar="https://via.placeholder.com/150"
+          avatar={khalaj}
           role="کشتی گیر"
           rating={5}
           comment="گرفتن برنامه از جیمی‌فیتو خیلی بهم کمک کرد چون میتونستم هر حرکتی که بلد نیستم رو از لیست حرکات ورزشی ببینم و دیدن آنالیز کلی بهم انگیزه زیادی برای ادامه دادن میداد!"
@@ -111,7 +116,7 @@ const CustomGridManual = () => {
         <Box sx={{ width: 370, height: 200 }} />
         <CommentCard
           name="محسن معین فر"
-          avatar="https://via.placeholder.com/150"
+          avatar={seyyed}
           role="کشتی گیر"
           rating={5}
           comment="گرفتن برنامه از جیمی‌فیتو خیلی بهم کمک کرد چون میتونستم هر حرکتی که بلد نیستم رو از لیست حرکات ورزشی ببینم و دیدن آنالیز کلی بهم انگیزه زیادی برای ادامه دادن میداد!"
