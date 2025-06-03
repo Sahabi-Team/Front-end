@@ -30,6 +30,7 @@ import ContactUs from './pages/ContactUs.jsx';
 import InternalServerErrorPage from "./pages/InternalServerErrorPage";
 import TrainerProfile from './pages/TrainerProfile.jsx';
 import ChangePasswordTrainer from './pages/ChangePasswordTrainer.jsx';
+import Chat from './pages/Chat.jsx';
 
 import CreateWorkoutPlan from './pages/CreateWorkoutPlan.jsx';
 import WorkoutPreview from './components/CreateWorkoutPlan/WorkoutPreview.jsx'
@@ -131,6 +132,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="/workoutpreview" element={<WorkoutPreview />} />
               <Route path="/trainer_profile/:trainerID" element={<TrainerProfile />} />
               <Route path="/changepasswordtrainer" element={<ChangePasswordTrainer />} />
+              <Route path="/chat" element={<Chat />} />
             </Routes>
           </AuthProvider>
         </BrowserRouter>
