@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Drawer, List, ListItem, ListItemIcon, ListItemText, IconButton, Avatar, Box, Typography, Tooltip
 } from "@mui/material";
@@ -17,6 +17,7 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useTheme, useMediaQuery } from "@mui/material";
 import { AuthContext } from '../contexts/AuthContext.jsx';
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const menuItems = [
   { text: "صفحه اصلی", icon: <HomeIcon />, link: "/" },
@@ -40,61 +41,121 @@ const SidebarContent = ({
   setOpen,
   isMobile,
   currentPath
-}) => (
-  <Box
-    sx={{
-      width: open ? drawerWidth : closedDrawerWidth,
-      display: "flex",
-      flexDirection: "column",
-      height: "100%",
-      transition: "width 0.2s",
-      overflowX: "hidden",
-      boxSizing: "border-box",
-    }}
-  >
-    {!isMobile && (
-      <IconButton
-        onClick={() => setOpen(!open)}
-        sx={{
-          alignSelf: open ? "flex-end" : "center",
-          mt: 1,
-          mb: 1,
-        }}
-      >
-        {open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-      </IconButton>
-    )}
+}) => {
+  const role = userInfo?.usertype === "coach" ? "مربی" : "شاگرد";
 
-    {open && (
-      <>
-        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", mt: 2 }}>
-          <Avatar src={userInfo?.avatar || "/path/to/user.jpg"} sx={{ width: 56, height: 56, mb: 1 }} />
-          <Typography fontWeight="bold" fontSize={16}>{userInfo?.name || "نام کاربر"}</Typography>
-        </Box>
-        <Box sx={{ width: "80%", borderBottom: "1px solid #ddd", my: 2, alignSelf: "center" }} />
-      </>
-    )}
+  return (
+    <Box
+      sx={{
+        width: open ? drawerWidth : closedDrawerWidth,
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        transition: "width 0.2s",
+        overflowX: "hidden",
+        boxSizing: "border-box",
+      }}
+    >
+      {!isMobile && (
+        <IconButton
+          onClick={() => {
+            setOpen(!open);
+            localStorage.setItem("sidebarOpen", String(!open)); // persist state
+          }}
+          sx={{
+            alignSelf: open ? "flex-end" : "center",
+            mt: 1,
+            mb: 1,
+          }}
+        >
+          {open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+        </IconButton>
+      )}
 
-    <List sx={{ p: 0 }}>
-      {menuItems.map((item) => {
-        const isActive = currentPath === item.link;
-        const listItem = (
+      {open && (
+        <>
+          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", mt: 2 }}>
+            <Avatar
+              src={`http://45.144.50.12:8000${userInfo?.profile_picture || ""}`}
+              sx={{ width: 64, height: 64, mb: 1 }}
+            />
+            <Typography fontWeight="bold" fontSize={16}>{userInfo?.name || "نام کاربر"}</Typography>
+            <Typography fontSize={14} color="text.secondary">{role}</Typography>
+          </Box>
+          <Box sx={{ width: "80%", borderBottom: "1px solid #ddd", my: 2, alignSelf: "center" }} />
+        </>
+      )}
+
+      <List sx={{ p: 0 }}>
+        {menuItems.map((item) => {
+          const isActive = currentPath === item.link;
+          const listItem = (
+            <ListItem
+              button
+              key={item.text}
+              component="a"
+              href={item.link}
+              sx={{
+                px: open ? 2 : 1,
+                justifyContent: open ? "flex-start" : "center",
+                backgroundColor: isActive ? green : "transparent",
+                color: isActive ? "#fff" : "inherit",
+                mb: open ? 0 : 2,
+                '& .MuiListItemIcon-root': { color: isActive ? "#fff" : "inherit" },
+                '& .MuiTypography-root': {
+                  fontWeight: isActive ? "bold" : "normal",
+                  fontSize: 16,
+                  color: isActive ? "#fff" : "inherit",
+                  ml: 2,
+                },
+                '&:hover': {
+                  background: "#f5f5f5",
+                  color: green,
+                  '& .MuiListItemIcon-root': { color: green },
+                  '& .MuiTypography-root': { color: green }
+                },
+                transition: "all 0.2s"
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 2.5 : 0,
+                  justifyContent: "center"
+                }}
+              >
+                {item.icon}
+              </ListItemIcon>
+              {open && <ListItemText primary={item.text} />}
+            </ListItem>
+          );
+
+          return open ? listItem : (
+            <Tooltip key={item.text} title={item.text} placement="left">
+              {listItem}
+            </Tooltip>
+          );
+        })}
+      </List>
+
+      {/* Messages */}
+      <List sx={{ p: 0 }}>
+        <Tooltip title="پیام‌ها" placement="left" disableHoverListener={open}>
           <ListItem
             button
-            key={item.text}
             component="a"
-            href={item.link}
+            href="/messages"
             sx={{
               px: open ? 2 : 1,
               justifyContent: open ? "flex-start" : "center",
-              backgroundColor: isActive ? green : "transparent",
-              color: isActive ? "#fff" : "inherit",
+              backgroundColor: currentPath === "/messages" ? green : "transparent",
+              color: currentPath === "/messages" ? "#fff" : "inherit",
               mb: open ? 0 : 2,
-              '& .MuiListItemIcon-root': { color: isActive ? "#fff" : "inherit" },
+              '& .MuiListItemIcon-root': { color: currentPath === "/messages" ? "#fff" : "inherit" },
               '& .MuiTypography-root': {
-                fontWeight: isActive ? "bold" : "normal",
+                fontWeight: currentPath === "/messages" ? "bold" : "normal",
                 fontSize: 16,
-                color: isActive ? "#fff" : "inherit",
+                color: currentPath === "/messages" ? "#fff" : "inherit",
                 ml: 2,
               },
               '&:hover': {
@@ -106,89 +167,50 @@ const SidebarContent = ({
               transition: "all 0.2s"
             }}
           >
-            <ListItemIcon
-              sx={{
-                minWidth: 0,
-                mr: open ? 2.5 : 0,
-                justifyContent: "center"
-              }}
-            >
-              {item.icon}
+            <ListItemIcon sx={{ minWidth: 0, mr: open ? 2.5 : 0, justifyContent: "center" }}>
+              <MailIcon />
             </ListItemIcon>
-            {open && (
-              <ListItemText primary={item.text} />
-            )}
+            {open && <ListItemText primary="پیام‌ها" />}
           </ListItem>
-        );
+        </Tooltip>
+      </List>
 
-        return open ? listItem : (
-          <Tooltip key={item.text} title={item.text} placement="left">
-            {listItem}
-          </Tooltip>
-        );
-      })}
-    </List>
-
-    <List sx={{ p: 0 }}>
-      <Tooltip title="پیام‌ها" placement="left" disableHoverListener={open}>
+      {/* Logout */}
+      <Box sx={{ mt: "auto", mb: 2 }}>
         <ListItem
           button
-          component="a"
-          href="/messages"
+          onClick={logout}
           sx={{
             px: open ? 2 : 1,
             justifyContent: open ? "flex-start" : "center",
-            mb: open ? 0 : 2,
             '&:hover': {
               background: "#f5f5f5",
-              color: "black",
+              color: green,
               '& .MuiListItemIcon-root': { color: green },
-              '& .MuiTypography-root': { color: "black" }
+              '& .MuiTypography-root': { color: green }
             },
             transition: "all 0.2s"
           }}
         >
-          <ListItemIcon sx={{ minWidth: 0, mr: open ? 2.5 : 0, justifyContent: "center", color: "black" }}>
-            <MailIcon />
+          <ListItemIcon sx={{ minWidth: 0, mr: open ? 2.5 : 0, justifyContent: "center" }}>
+            <ExitToAppIcon />
           </ListItemIcon>
-          {open && <ListItemText primary="پیام‌ها" sx={{ '.MuiTypography-root': { fontSize: 16, ml: 2 } }} />}
+          {open && <ListItemText primary="خروج" sx={{ '.MuiTypography-root': { fontSize: 16, ml: 2 } }} />}
         </ListItem>
-      </Tooltip>
-    </List>
-
-    <Box sx={{ mt: "auto", mb: 2 }}>
-      <ListItem
-        button
-        onClick={logout}
-        sx={{
-          px: open ? 2 : 1,
-          justifyContent: open ? "flex-start" : "center",
-          '&:hover': {
-            background: "#f5f5f5",
-            color: green,
-            '& .MuiListItemIcon-root': { color: green },
-            '& .MuiTypography-root': { color: green }
-          },
-          transition: "all 0.2s"
-        }}
-      >
-        <ListItemIcon sx={{ minWidth: 0, mr: open ? 2.5 : 0, justifyContent: "center" }}>
-          <ExitToAppIcon />
-        </ListItemIcon>
-        {open && <ListItemText primary="خروج" sx={{ '.MuiTypography-root': { fontSize: 16, ml: 2 } }} />}
-      </ListItem>
+      </Box>
     </Box>
-  </Box>
-);
+  );
+};
 
 const ClientSidebar = () => {
-  const [open, setOpen] = useState(true);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const { userInfo } = useContext(AuthContext);
+  const { userInfo: authContextUserInfo } = useContext(AuthContext);
+  const [userInfo, setUserInfo] = useState(authContextUserInfo || null);
+  const [open, setOpen] = useState(localStorage.getItem("sidebarOpen") === "false" ? false : true);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -196,23 +218,35 @@ const ClientSidebar = () => {
     navigate("/");
   };
 
+  useEffect(() => {
+    axios.get("http://45.144.50.12:8000/api/auth/whoami/", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access")}`
+      }
+    })
+    .then(response => setUserInfo(response.data))
+    .catch(err => console.error("Failed to fetch user info", err));
+  }, []);
+
   if (isMobile) {
     return (
       <>
-        <IconButton
-          onClick={() => setMobileOpen(true)}
-          sx={{
-            position: "fixed",
-            top: 16,
-            right: 16,
-            zIndex: 2000,
-            background: "#fff",
-            boxShadow: 2,
-            p: 1,
-          }}
-        >
-          <MenuIcon />
-        </IconButton>
+        {!mobileOpen && (
+          <IconButton
+            onClick={() => setMobileOpen(true)}
+            sx={{
+              position: "fixed",
+              top: 16,
+              left: 16,
+              zIndex: 2000,
+              background: "#fff",
+              boxShadow: 2,
+              p: 1
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+        )}
         <Drawer
           anchor="left"
           open={mobileOpen}
