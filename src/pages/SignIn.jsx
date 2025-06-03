@@ -32,7 +32,7 @@ else
           alignItems: "center",
           height: "70vh",
           flexDirection: "column",
-          mb:10
+          mt:5
         }}
       >
         <Paper
@@ -83,7 +83,7 @@ else
           </Stack>
         </Paper>
       </Container>
-      <Footer/>
+      {/* <Footer/> */}
     </>
   );
 }

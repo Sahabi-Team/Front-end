@@ -21,6 +21,7 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import axios from "axios";
 import { AuthContext } from "../../contexts/AuthContext";
 import config from "../../config";
+import { useNavigate } from "react-router-dom";
 import male1 from "../../assets/imgs/body_shapes/male/Select Field 1.svg";
 import male2 from "../../assets/imgs/body_shapes/male/Select Field 2.svg";
 import male3 from "../../assets/imgs/body_shapes/male/Select Field 3.svg";
@@ -60,6 +61,7 @@ const TestResultCard = ({
   const { userInfo } = useContext(AuthContext);
   const selectedUser = traineestests.find((user) => user.id === selectedUserId);
   let access_token = localStorage.getItem("access_token");
+  const navigate = useNavigate();
 
   console.log(access_token);
   // console.log(traineestests);
@@ -90,7 +92,7 @@ const TestResultCard = ({
         );
         setTraineestests(response.data);
       } catch (error) {
-        console.error("خطا در گرفتن لیست شاگردها:", error);
+        navigate("/500");
       } finally {
         setLoading(false);
       }
@@ -146,7 +148,7 @@ const TestResultCard = ({
                 }}
                 sx={{ width: 250 }}
               >
-                 {traineestests.map((user) => (
+                {traineestests.map((user) => (
                   <MenuItem key={user.mentorship_id} value={user.id}>
                     {user.trainee_name}
                   </MenuItem>
@@ -167,91 +169,94 @@ const TestResultCard = ({
           {selectedUser ? (
             <Box>
               <Stack direction="column" gap={4} alignItems="flex-start">
-                 <Typography sx={{ whiteSpace: "nowrap" }}>
-                    {selectedUser.gender
-                      ? `جنسیت: ${selectedUser.gender == "male" ? "مرد" : "زن"}`
-                      : ""}
+                <Typography sx={{ whiteSpace: "nowrap" }}>
+                  {selectedUser.gender
+                    ? `جنسیت: ${selectedUser.gender == "male" ? "مرد" : "زن"}`
+                    : ""}
+                </Typography>
+
+                <Typography sx={{ whiteSpace: "nowrap" }}>
+                  سن:{" "}
+                  {toPersianDigits(
+                    calculateAge(new Date(selectedUser.birth_date))
+                  )}
+                </Typography>
+                <Typography sx={{ whiteSpace: "nowrap" }}>
+                  مکان تمرین: {selectedUser.equipment}
+                </Typography>
+                <Typography sx={{ whiteSpace: "nowrap" }}>
+                  هدف از ورزش: {selectedUser.goal}
+                </Typography>
+
+                <Stack direction="row" gap={1}>
+                  <Typography sx={{ whiteSpace: "nowrap" }}>
+                    عضلات هدف:
                   </Typography>
 
-                  <Typography sx={{ whiteSpace: "nowrap" }}>
-                    سن: {toPersianDigits(calculateAge(new Date(selectedUser.birth_date)))}
-                  </Typography>
-                  <Typography sx={{ whiteSpace: "nowrap" }}>
-                    مکان تمرین: {selectedUser.equipment}
-                  </Typography>
-                  <Typography sx={{ whiteSpace: "nowrap" }}>
-                    هدف از ورزش: {selectedUser.goal}
-                  </Typography>
-
-                  <Stack direction="row" gap={1}>
-                    <Typography sx={{ whiteSpace: "nowrap" }}>
-                      عضلات هدف:
-                    </Typography>
-
-                    <Stack
-                      direction="row"
-                      flexWrap="wrap"
-                      gap={1}
-                      sx={{ maxWidth: 300 }} // یا هر عرضی که تقریبا برای 3 چیپ کافیه
-                    >
-                      {(selectedUser.focus_area.split(",") || []).map(
-                        (muscle, index) => (
-                          <Chip
-                            key={index}
-                            label={muscle.trim()}
-                            color="primary"
-                            variant="outlined"
-                          />
-                        )
-                      )}
-                    </Stack>
-                    {/* <Typography>{selectedUser.focus_area}</Typography> */}
+                  <Stack
+                    direction="row"
+                    flexWrap="wrap"
+                    gap={1}
+                    sx={{ maxWidth: 300 }} // یا هر عرضی که تقریبا برای 3 چیپ کافیه
+                  >
+                    {(selectedUser.focus_area.split(",") || []).map(
+                      (muscle, index) => (
+                        <Chip
+                          key={index}
+                          label={muscle.trim()}
+                          color="primary"
+                          variant="outlined"
+                        />
+                      )
+                    )}
                   </Stack>
+                  {/* <Typography>{selectedUser.focus_area}</Typography> */}
+                </Stack>
 
-                  <Stack direction="row" gap={1}>
-                    <Typography sx={{ whiteSpace: "nowrap" }}>
-                      بیماری‌ها:
-                    </Typography>
-                    <Stack
-                      direction="row"
-                      flexWrap="wrap"
-                      gap={1}
-                      sx={{ maxWidth: 300 }}
-                    >
-                      {(selectedUser.diseases?.split(",") || []).map(
-                        (issue, index) => (
-                          <Chip
-                            key={index}
-                            label={issue.trim()}
-                            color="error"
-                            variant="outlined"
-                          />
-                        )
-                      )}
-                    </Stack>
-                    {/* <Typography>{selectedUser.diseases}</Typography> */}
+                <Stack direction="row" gap={1}>
+                  <Typography sx={{ whiteSpace: "nowrap" }}>
+                    بیماری‌ها:
+                  </Typography>
+                  <Stack
+                    direction="row"
+                    flexWrap="wrap"
+                    gap={1}
+                    sx={{ maxWidth: 300 }}
+                  >
+                    {(selectedUser.diseases?.split(",") || []).map(
+                      (issue, index) => (
+                        <Chip
+                          key={index}
+                          label={issue.trim()}
+                          color="error"
+                          variant="outlined"
+                        />
+                      )
+                    )}
                   </Stack>
-                  <Typography sx={{ whiteSpace: "nowrap" }}>
-                    قد: {toPersianDigits(selectedUser.height)}
-                  </Typography>
-                  <Typography sx={{ whiteSpace: "nowrap" }}>
-                    زمان هفتگی: {selectedUser.workout_days}
-                  </Typography>
-                   <Typography sx={{ whiteSpace: "nowrap" }}>
-                    وزن: {toPersianDigits(selectedUser.weight)}
-                  </Typography>
-                  <Typography sx={{ whiteSpace: "nowrap" }}>
-                    وزن هدف: {toPersianDigits(selectedUser.goal_weight)}
-                  </Typography>
-                  <Box sx={{ mr: 3 }}>
-                    <img
-                      src={
-                        BodyForms[selectedUser.gender == "male" ? 0 : 1][
-                          selectedUser.body_form
-                        ]
-                      }
-                    />
-                  </Box>
+                  {/* <Typography>{selectedUser.diseases}</Typography> */}
+                </Stack>
+                <Typography sx={{ whiteSpace: "nowrap" }}>
+                  قد: {toPersianDigits(selectedUser.height)}
+                </Typography>
+                <Typography sx={{ whiteSpace: "nowrap" }}>
+                  زمان هفتگی: {selectedUser.workout_days}
+                </Typography>
+                <Typography sx={{ whiteSpace: "nowrap" }}>
+                  وزن: {toPersianDigits(selectedUser.weight)}
+                </Typography>
+                <Typography sx={{ whiteSpace: "nowrap" }}>
+                  وزن هدف: {toPersianDigits(selectedUser.goal_weight)}
+                </Typography>
+                <Box sx={{ mr: 3 }}>
+                  <img
+                    src={
+                      BodyForms[selectedUser.gender == "male" ? 0 : 1][
+                        selectedUser.body_form
+                      ]
+                    }
+                  />
+                </Box>
               </Stack>
             </Box>
           ) : (
@@ -351,7 +356,10 @@ const TestResultCard = ({
                   </Typography>
 
                   <Typography sx={{ whiteSpace: "nowrap" }}>
-                    سن: {toPersianDigits(calculateAge(new Date(selectedUser.birth_date)))}
+                    سن:{" "}
+                    {toPersianDigits(
+                      calculateAge(new Date(selectedUser.birth_date))
+                    )}
                   </Typography>
                   <Typography sx={{ whiteSpace: "nowrap" }}>
                     مکان تمرین: {selectedUser.equipment}
@@ -538,7 +546,10 @@ const TestResultCard = ({
                   </Typography>
 
                   <Typography sx={{ whiteSpace: "nowrap" }}>
-                    سن: {toPersianDigits(calculateAge(new Date(selectedUser.birth_date)))}
+                    سن:{" "}
+                    {toPersianDigits(
+                      calculateAge(new Date(selectedUser.birth_date))
+                    )}
                   </Typography>
                   <Typography sx={{ whiteSpace: "nowrap" }}>
                     مکان تمرین: {selectedUser.equipment}
@@ -731,7 +742,10 @@ const TestResultCard = ({
                   </Typography>
 
                   <Typography sx={{ whiteSpace: "nowrap" }}>
-                    سن: {toPersianDigits(calculateAge(new Date(selectedUser.birth_date)))}
+                    سن:{" "}
+                    {toPersianDigits(
+                      calculateAge(new Date(selectedUser.birth_date))
+                    )}
                   </Typography>
                   <Typography sx={{ whiteSpace: "nowrap" }}>
                     مکان تمرین: {selectedUser.equipment}

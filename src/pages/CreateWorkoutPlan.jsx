@@ -67,6 +67,8 @@ export default function WorkoutPlans() {
 
   const navigate = useNavigate();
 
+  if(userInfo.usertype=="trainer"){
+
   if (loading) {
     return (
       <Fade in={loadingVisible} timeout={800}>
@@ -201,4 +203,9 @@ export default function WorkoutPlans() {
       />
     </>
   );
+
+}
+else{
+  navigate("/404");
+}
 }
