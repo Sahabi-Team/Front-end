@@ -125,6 +125,41 @@ const ChatApp = () => {
       return;
     }
 
+    // const fetchChatHistory = async () => {
+    //   try {
+    //     const response = await axios.get(`${config.API_BASE_URL}/chat/${selectedContactId}/history/`,
+    //       {
+    //         headers:
+    //         {
+    //           Authorization: `Bearer ${token}`
+    //         },
+    //         params:
+    //         {
+    //           start: "2024-01-01T00:00:00",
+    //           end: "2026-01-01T00:00:00",
+    //         }
+    //       }
+    //     );
+        
+    //     const history = response.data.map(msg => ({
+    //       fromMe: msg.sender === currentUserId, // شناسه کاربر را از whoami گرفته‌ایم
+    //       text: msg.message,
+    //       date: moment(msg.timestamp),
+    //       time: moment(msg.timestamp).format('HH:mm')
+    //     }));
+
+    //     setMessages(prev => ({
+    //       ...prev,
+    //       [selectedId]: history // جایگزینی تاریخچه
+    //     }));
+
+    //   }
+    //   catch (err) {
+    //     console.error("خطا در دریافت تاریخچه چت:", err);
+    //   }
+    // }
+    // fetchChatHistory();
+
     const ws = new WebSocket(`ws://45.144.50.12:8000/ws/chat/${selectedContactId}/?token=${token}`);
     ws.onopen = () => {
       console.log("WebSocket connected");

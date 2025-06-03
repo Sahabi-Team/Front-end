@@ -44,13 +44,13 @@ const ChatBox = ({ messages, newMessage, setNewMessage, handleSend }) => {
                 maxWidth: '60%',
                 bgcolor: msg.fromMe ? '#4caf50' : '#e0f2f1',
                 color: msg.fromMe ? '#fff' : '#000',
-                borderRadius: 2,
+                borderRadius: msg.fromMe ? "12px 12px 12px 0px" : "12px 12px 0px 12px",
                 textAlign: 'right',
                 whiteSpace: 'pre-wrap',
                 wordBreak: 'break-word'
               }}
             >
-              <Typography variant="body2">{msg.text}</Typography>
+              <Typography variant="body1" textAlign="left">{msg.text}</Typography>
               <Typography variant="caption" display="block" textAlign="right" mt={1} sx={{ direction: 'ltr' }}>
                 {msg.time}
               </Typography>
@@ -63,7 +63,7 @@ const ChatBox = ({ messages, newMessage, setNewMessage, handleSend }) => {
       <Box display="flex" alignItems="center" p={1} bgcolor="#fff" height="64px">
         <TextField
           fullWidth
-          placeholder="پیامی بنویسید..."
+          placeholder="پیامی بنویسید ..."
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           variant="outlined"
