@@ -160,16 +160,17 @@ const TestResultPage = () => {
 
   // User info data
   const userInfo = {
-    gender: 'مرد', // You might want to add this to your API
+    gender: testData.gender,
     height: testData.height,
     weight: testData.weight,
-    targetWeight: testData.goal_weight,
-    age: new Date().getFullYear() - new Date(testData.birth_date).getFullYear()-621,
-    availableTime: testData.workout_days,
-    trainingLocation: testData.equipment,
-    targetMuscles: testData.focus_area,
-    fitnessGoal: testData.goal,
-    medicalConditions: testData.diseases
+    goal_weight: testData.goal_weight,
+    birth_date: testData.birth_date,
+    workout_days: testData.workout_days,
+    equipment: testData.equipment,
+    focus_area: testData.focus_area,
+    goal: testData.goal,
+    diseases: testData.diseases,
+    body_form: testData.body_form
   };
   
   return (
