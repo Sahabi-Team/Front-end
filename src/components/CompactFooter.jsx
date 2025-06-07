@@ -4,7 +4,8 @@ import {
   Container,
   Typography,
   Link,
-  IconButton
+  IconButton,
+  Grid
 } from '@mui/material';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import TwitterIcon from '@mui/icons-material/Twitter';
@@ -18,43 +19,33 @@ const CompactFooter = () => {
         backgroundColor: '#00994d',
         color: 'white',
         mt: 4,
-        marginBottom: 0,
         borderTopLeftRadius: 50,
         borderTopRightRadius: 50,
-        paddingY: 3,
+        py: { xs: 3, md: 2 },
         width: '100%',
         boxShadow: '0px -6px 5px rgba(0,0,0,0.10)',
       }}
     >
       <Container maxWidth="lg">
-        {/* Responsive row */}
-        <Box
+        {/* Navigation Links */}
+        <Grid
+          container
+          spacing={{ xs: 2, md: 8 }}
+          justifyContent="center"
+          alignItems="center"
           sx={{
-            display: 'flex',
-            flexDirection: { sm: 'column', md: 'row' },
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: 3,
-            marginBottom: 1,
+            mb: { xs: 1, md: 0 },
           }}
         >
-          {/* Navigation Links */}
-          <Box
-            sx={{
-              display: 'flex',
-              // flexWrap: 'nowrap',
-              gap: 1,
-              justifyContent: { xs: 'center', sm: 'flex-start' },
-              fontWeight: 'bold',
-              fontSize: '18px',
-            }}
-          >
+          <Grid item xs={6} md="auto">
             <Link href="/" color="inherit" underline="none"
               sx={{
                 transition: 'background 0.2s, color 0.2s',
                 borderRadius: 2,
                 px: 1.5,
                 py: 0.5,
+                fontSize: { xs: '15px', sm: '17px', md: '20px' },
+                fontWeight: 'bold',
                 '&:hover': {
                   backgroundColor: 'rgba(0, 175, 102, 0.08)',
                   color: '#fff',
@@ -63,12 +54,16 @@ const CompactFooter = () => {
                 }
               }}
             >صفحه اصلی</Link>
+          </Grid>
+          <Grid item xs={6} md="auto">
             <Link href="/about_us" color="inherit" underline="none"
               sx={{
                 transition: 'background 0.2s, color 0.2s',
                 borderRadius: 2,
                 px: 1.5,
                 py: 0.5,
+                fontSize: { xs: '15px', sm: '17px', md: '20px' },
+                fontWeight: 'bold',
                 '&:hover': {
                   backgroundColor: 'rgba(0, 175, 102, 0.08)',
                   color: '#fff',
@@ -77,12 +72,16 @@ const CompactFooter = () => {
                 }
               }}
             >درباره ما</Link>
+          </Grid>
+          <Grid item xs={6} md="auto">
             <Link href="/faq" color="inherit" underline="none"
               sx={{
                 transition: 'background 0.2s, color 0.2s',
                 borderRadius: 2,
                 px: 1.5,
                 py: 0.5,
+                fontSize: { xs: '15px', sm: '17px', md: '20px' },
+                fontWeight: 'bold',
                 '&:hover': {
                   backgroundColor: 'rgba(0, 175, 102, 0.08)',
                   color: '#fff',
@@ -91,12 +90,16 @@ const CompactFooter = () => {
                 }
               }}
             >سوالات متداول</Link>
+          </Grid>
+          <Grid item xs={6} md="auto">
             <Link href="/contact_us" color="inherit" underline="none"
               sx={{
                 transition: 'background 0.2s, color 0.2s',
                 borderRadius: 2,
                 px: 1.5,
                 py: 0.5,
+                fontSize: { xs: '15px', sm: '17px', md: '20px' },
+                fontWeight: 'bold',
                 '&:hover': {
                   backgroundColor: 'rgba(0, 175, 102, 0.08)',
                   color: '#fff',
@@ -105,40 +108,67 @@ const CompactFooter = () => {
                 }
               }}
             >ارتباط با ما</Link>
-          </Box>
+          </Grid>
+        </Grid>
 
-          {/* Social Media */}
-          <Box
+        {/* Social title - visible only on mobile */}
+        <Typography
+          variant="body1"
+          sx={{
+            display: { xs: 'block', md: 'none' }, // Display block on mobile, none on desktop
+            textAlign: 'center',
+            mb: 1,
+            fontWeight: 500,
+            fontSize: { xs: 15, sm: 16 }
+          }}
+        >
+          ما را در شبکه های اجتماعی دنبال کنید
+        </Typography>
+
+        {/* Social icons */}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: { xs: 'center', md: 'center' }, // Center on mobile, right-align on desktop
+            alignItems: 'center',
+            gap: 2,
+            mt: 1.5
+          }}
+        >
+          {/* Social title - visible only on desktop */}
+          <Typography
+            variant="body1"
             sx={{
-              display: 'flex',
-              flexWrap: 'nowrap',
-              alignItems: 'center',
-              gap: 2,
-              justifyContent: { xs: 'center', sm: 'flex-end' },
+              display: { xs: 'none', md: 'block' }, // Display none on mobile, block on desktop
+              whiteSpace: 'nowrap',
+              mr: 1
             }}
           >
-            <Typography variant="body1" sx={{ whiteSpace: 'nowrap' }}>
-              ما را در شبکه های اجتماعی دنبال کنید
-            </Typography>
-            <a href="https://t.me/gymbato" target="_blank" rel="noopener noreferrer" aria-label="Gymbato Telegram" style={{ textDecoration: 'none', color: 'inherit' }}>
-              <IconButton color="inherit"><TelegramIcon /></IconButton>
-            </a>
-            <a href="https://twitter.com/gymbato" target="_blank" rel="noopener noreferrer" aria-label="Gymbato Twitter" style={{ textDecoration: 'none', color: 'inherit' }}>
-              <IconButton color="inherit"><TwitterIcon /></IconButton>
-            </a>
-            <a href="https://linkedin.com/company/gymbato" target="_blank" rel="noopener noreferrer" aria-label="Gymbato LinkedIn" style={{ textDecoration: 'none', color: 'inherit' }}>
-              <IconButton color="inherit"><LinkedInIcon /></IconButton>
-            </a>
-            <a href="https://instagram.com/gymbato" target="_blank" rel="noopener noreferrer" aria-label="Gymbato Instagram" style={{ textDecoration: 'none', color: 'inherit' }}>
-              <IconButton color="inherit"><InstagramIcon /></IconButton>
-            </a>
-
-          </Box>
+            ما را در شبکه های اجتماعی دنبال کنید
+          </Typography>
+          <a href="https://t.me/gymbato" target="_blank" rel="noopener noreferrer" aria-label="Gymbato Telegram" style={{ color: 'inherit' }}>
+            <IconButton color="inherit"><TelegramIcon /></IconButton>
+          </a>
+          <a href="https://twitter.com/gymbato" target="_blank" rel="noopener noreferrer" aria-label="Gymbato Twitter" style={{ color: 'inherit' }}>
+            <IconButton color="inherit"><TwitterIcon /></IconButton>
+          </a>
+          <a href="https://linkedin.com/company/gymbato" target="_blank" rel="noopener noreferrer" aria-label="Gymbato LinkedIn" style={{ color: 'inherit' }}>
+            <IconButton color="inherit"><LinkedInIcon /></IconButton>
+          </a>
+          <a href="https://instagram.com/gymbato" target="_blank" rel="noopener noreferrer" aria-label="Gymbato Instagram" style={{ color: 'inherit' }}>
+            <IconButton color="inherit"><InstagramIcon /></IconButton>
+          </a>
         </Box>
 
         {/* Copyright */}
-        <Typography variant="caption" align="center" display="block" sx={{ mt: 1 }}>
-          {'\u00A9'} کلیه حقوق این سایت متعلق به مجموعه سحابی می‌باشد
+        <Typography
+          variant="caption"
+          align="center"
+          display="block"
+          sx={{ mt: 2, fontSize: { xs: '12px', sm: '13px' } }}
+        >
+          {'\u00A9'} تمامی حقوق این سایت متعلق به مجموعه سحابی می‌باشد
         </Typography>
       </Container>
     </Box>
