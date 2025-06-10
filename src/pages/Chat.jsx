@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Box, Divider, CssBaseline } from '@mui/material';
+import { Box, Divider, CssBaseline, CircularProgress, Typography } from '@mui/material';
 import moment from 'jalali-moment';
 import ContactList from '../components/Chat/ContactList';
 import ChatBox from '../components/Chat/ChatBox';
@@ -50,6 +50,7 @@ const ChatApp = () => {
   const [contacts, setContacts] = useState([]);
   const [messages, setMessages] = useState({});
   const [selectedContactId, setSelectedContactId] = useState(null);
+  const [isSelectedMentorshipActive, setIsSelectedMentorshipActive] = useState(false);
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const [socket, setSocket] = useState(null);
@@ -64,6 +65,7 @@ const ChatApp = () => {
           //setErrorMessage("لطفاً ابتدا وارد حساب کاربری خود شوید.");
           //setOpenErrorModal(true);
           console.error("کاربر وارد نشده است.");
+          //setLoading(false);
           return;
         }
 
@@ -90,17 +92,22 @@ const ChatApp = () => {
             id: mentorship.id,
             name: targetUser?.name,
             profilePicture: targetUser?.profile_picture,
+            is_active: mentorship.is_active,
             lastMessage: '', // بعداً می‌تونی آخرین پیام رو اینجا بیاری
             unread: false,
           };
         });
 
         setContacts(contacts_list);
-        if (contacts_list.length > 0)
-          setSelectedContactId(contacts_list[0].id); // اولین مخاطب به عنوان پیش‌فرض انتخاب شه
+        if (contacts_list.length > 0) {
+          const firstContact = contacts_list[0];
+          setSelectedContactId(firstContact.id); // اولین مخاطب به عنوان پیش‌فرض انتخاب شه
+          setIsSelectedMentorshipActive(firstContact.is_active) 
+        }
 
         setLoading(false);
       }
+
       catch (error) {
         console.error('خطا در گرفتن لیست منتورشیپ‌ها:', error);
         if (error.response?.status === 404)
@@ -123,10 +130,12 @@ const ChatApp = () => {
       //setErrorMessage("لطفاً ابتدا وارد حساب کاربری خود شوید.");
       //setOpenErrorModal(true);
       console.error("کاربر وارد نشده است.");
+      //setLoading(false);
       return;
     }
 
     const fetchChatHistory = async () => {
+      setLoading(true);
       try {
         const response = await axios.get(`${config.API_BASE_URL}/api/chat/${selectedContactId}/history/`,
           {
@@ -161,9 +170,15 @@ const ChatApp = () => {
           [selectedContactId]: response.data
         }));
 
+        setLoading(false);
       }
-      catch (err) {
-        console.error("خطا در دریافت تاریخچه چت:", err);
+      catch (error) {
+        console.error("خطا در دریافت تاریخچه چت:", error);
+        if (error.response?.status === 404)
+          navigate("/404");
+        if (error.response?.status === 500)
+          navigate("/500");
+        setLoading(false);
       }
     }
     fetchChatHistory();
@@ -199,6 +214,8 @@ const ChatApp = () => {
 
   const handleSelect = (id) => {
     setSelectedContactId(id);
+    const selected = contacts.find(c => c.id === id);
+    setIsSelectedMentorshipActive(selected?.is_active ?? false);
     // خوانده شدن پیام
     setContacts(prev =>
       prev.map(c =>
@@ -231,20 +248,32 @@ const ChatApp = () => {
       <Box sx={{flexGrow: 1}}>
         <Header pageTitle="صفحه مربی" />
         <ContentContainer>
-          <Box display="flex" height="100vh">
-            <ContactList
-              contacts={contacts}
-              selectedId={selectedContactId}
-              onSelect={handleSelect}
-            />
-            <Divider orientation="vertical" flexItem />
-            <ChatBox
-              messages={messages[selectedContactId] || []}
-              newMessage={newMessage}
-              setNewMessage={setNewMessage}
-              handleSend={handleSend}
-            />
-          </Box>
+          {loading ? (
+            <>
+              <CircularProgress />
+              <Typography fontSize={20} mt={2}>در حال دریافت پیام ها...</Typography>
+            </>
+          ) : contacts.length === 0 ? (
+            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+              <Typography fontSize={32}>هیچ گفت‌وگویی وجود ندارد!</Typography>
+            </Box>
+          ) : (
+            <Box display="flex" height="100vh">
+              <ContactList
+                contacts={contacts}
+                selectedId={selectedContactId}
+                onSelect={handleSelect}
+              />
+              <Divider orientation="vertical" flexItem />
+              <ChatBox
+                messages={messages[selectedContactId] || []}
+                newMessage={newMessage}
+                setNewMessage={setNewMessage}
+                handleSend={handleSend}
+                isActive={isSelectedMentorshipActive}
+              />
+            </Box>
+          )}
         </ContentContainer>
       </Box>
     </Box>

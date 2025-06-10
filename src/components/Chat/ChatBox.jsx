@@ -1,4 +1,3 @@
-// components/ChatBox.js
 import React, { useRef, useEffect } from 'react';
 import {
   Box, TextField, IconButton, Typography, Paper, Divider,
@@ -6,7 +5,7 @@ import {
 } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 
-const ChatBox = ({ messages, newMessage, setNewMessage, handleSend }) => {
+const ChatBox = ({ messages, newMessage, setNewMessage, handleSend, isActive }) => {
   const messageEndRef = useRef(null);
 
   useEffect(() => {
@@ -34,7 +33,7 @@ const ChatBox = ({ messages, newMessage, setNewMessage, handleSend }) => {
 						
 					>
 						<Typography variant="caption" color="textSecondary" alignSelf={"center"}>
-							{msg.date.locale('fa').format('jD jMMMM jYYYY')}
+							{msg.date}
 						</Typography>
             <Box
               component={Paper}
@@ -63,15 +62,16 @@ const ChatBox = ({ messages, newMessage, setNewMessage, handleSend }) => {
       <Box display="flex" alignItems="center" p={1} bgcolor="#fff" height="64px">
         <TextField
           fullWidth
-          placeholder="پیامی بنویسید ..."
+          placeholder={isActive ? "پیامی بنویسید ..." : "دوره ورزشی شما به اتمام رسیده است. امکان ارسال پیام وجود ندارد!"}
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           variant="outlined"
-          onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+          onKeyDown={(e) => isActive && e.key === 'Enter' && handleSend()}
+          disabled={!isActive}
 					InputProps={{
 						endAdornment: (
 							<InputAdornment position="end">
-								<IconButton color="primary" onClick={handleSend} edge="end">
+								<IconButton color="primary" onClick={handleSend} edge="end" disabled={!isActive}>
 									<SendIcon sx={{ transform: 'rotate(180deg)' }} />
 								</IconButton>
 							</InputAdornment>
