@@ -8,6 +8,7 @@ import Sidebar from '../components/TrainerSidebar';
 import ContentContainer from '../components/ContentContainer';
 import axios from 'axios';
 import config from '../config';
+import { useNavigate } from 'react-router';
 
 
 
@@ -47,11 +48,12 @@ const ChatApp = () => {
   const messageEndRef = useRef(null);
   const [currentUserId, setCurrentUserId] = useState(null);
   const [contacts, setContacts] = useState([]);
-  const [messages, setMessages] = useState(initialMessages);
+  const [messages, setMessages] = useState({});
   const [selectedContactId, setSelectedContactId] = useState(null);
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const [socket, setSocket] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -84,7 +86,6 @@ const ChatApp = () => {
         // 3. ساختن لیست مخاطبین بر اساس نقش
         const contacts_list = mentorshipsResponse.data.map((mentorship) => {
           const targetUser = usertype === "trainer" ? mentorship.trainee?.user : mentorship.trainer?.user;
-
           return {
             id: mentorship.id,
             name: targetUser?.name,
@@ -125,40 +126,47 @@ const ChatApp = () => {
       return;
     }
 
-    // const fetchChatHistory = async () => {
-    //   try {
-    //     const response = await axios.get(`${config.API_BASE_URL}/chat/${selectedContactId}/history/`,
-    //       {
-    //         headers:
-    //         {
-    //           Authorization: `Bearer ${token}`
-    //         },
-    //         params:
-    //         {
-    //           start: "2024-01-01T00:00:00",
-    //           end: "2026-01-01T00:00:00",
-    //         }
-    //       }
-    //     );
+    const fetchChatHistory = async () => {
+      try {
+        const response = await axios.get(`${config.API_BASE_URL}/api/chat/${selectedContactId}/history/`,
+          {
+            headers:
+            {
+              Authorization: `Bearer ${token}`
+            },
+            params:
+            {
+              start: "2024-01-01T00:00:00",
+              end: "2026-01-01T00:00:00",
+            }
+          }
+        );
         
-    //     const history = response.data.map(msg => ({
-    //       fromMe: msg.sender === currentUserId, // شناسه کاربر را از whoami گرفته‌ایم
-    //       text: msg.message,
-    //       date: moment(msg.timestamp),
-    //       time: moment(msg.timestamp).format('HH:mm')
-    //     }));
+        const history = response.data.map(msg => ({
+          fromMe: msg.fromMe,
+          text: msg.text,
+          date: moment(msg.date, "YYYY-MM-DD").locale("fa"), // برای نمایش تاریخ به جلالی
+          time: moment(`${msg.date} ${msg.time}`, "YYYY-MM-DD HH:mm:ss")
+            .locale("fa")
+            .format("HH:mm") // فقط ساعت و دقیقه
+        }));
 
-    //     setMessages(prev => ({
-    //       ...prev,
-    //       [selectedId]: history // جایگزینی تاریخچه
-    //     }));
+        const formatted = response.data.map(msg => ({
+          ...msg,
+          date: moment(msg.date), // تبدیل رشته تاریخ به moment object
+        }));
 
-    //   }
-    //   catch (err) {
-    //     console.error("خطا در دریافت تاریخچه چت:", err);
-    //   }
-    // }
-    // fetchChatHistory();
+        setMessages(prev => ({
+          ...prev,
+          [selectedContactId]: response.data
+        }));
+
+      }
+      catch (err) {
+        console.error("خطا در دریافت تاریخچه چت:", err);
+      }
+    }
+    fetchChatHistory();
 
     const ws = new WebSocket(`ws://45.144.50.12:8000/ws/chat/${selectedContactId}/?token=${token}`);
     ws.onopen = () => {
