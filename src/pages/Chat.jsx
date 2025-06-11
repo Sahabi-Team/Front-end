@@ -176,6 +176,7 @@ const ChatApp = () => {
     }
     fetchChatHistory();
 
+    //Connect to WebSocket
     const ws = new WebSocket(`ws://45.144.50.12:8000/ws/chat/${selectedContactId}/?token=${token}`);
     ws.onopen = () => {
       console.log("WebSocket connected");
@@ -251,7 +252,7 @@ const ChatApp = () => {
               <Typography fontSize={32}>هیچ گفت‌وگویی وجود ندارد!</Typography>
             </Box>
           ) : (
-            <Box display="flex" height="100vh">
+            <Box display="flex" height="90vh">
               <ContactList
                 contacts={contacts}
                 selectedId={selectedContactId}
