@@ -1,11 +1,9 @@
 import React, { useRef, useEffect } from 'react';
-import {
-  Box, TextField, IconButton, Typography, Paper, Divider,
-	InputAdornment
-} from '@mui/material';
+import { Box, TextField, IconButton, Typography, Paper, InputAdornment } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 
 const ChatBox = ({ messages, newMessage, setNewMessage, handleSend, isActive }) => {
+  const toPersianDigits = (str) => str.replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
   const messageEndRef = useRef(null);
 
   useEffect(() => {
@@ -25,7 +23,7 @@ const ChatBox = ({ messages, newMessage, setNewMessage, handleSend, isActive }) 
         {messages.map((msg, idx) => (
           <Box
 						key={idx}
-						mb={2}
+						mb={2} ///////////////////////////////////////////////////////////////////////////////////////
 						alignSelf={msg.fromMe ? 'flex-start' : 'flex-end'}
 						display="flex"
 						flexDirection="column"
@@ -33,13 +31,14 @@ const ChatBox = ({ messages, newMessage, setNewMessage, handleSend, isActive }) 
 						
 					>
 						<Typography variant="caption" color="textSecondary" alignSelf={"center"}>
-							{msg.date}
+							{toPersianDigits(msg.date.locale("fa").format('jD jMMMM jYYYY'))}
 						</Typography>
             <Box
               component={Paper}
               elevation={1}
               sx={{
                 p: 1.5,
+                my: 2,
                 maxWidth: '60%',
                 bgcolor: msg.fromMe ? '#4caf50' : '#e0f2f1',
                 color: msg.fromMe ? '#fff' : '#000',
@@ -49,9 +48,9 @@ const ChatBox = ({ messages, newMessage, setNewMessage, handleSend, isActive }) 
                 wordBreak: 'break-word'
               }}
             >
-              <Typography variant="body1" textAlign="left">{msg.text}</Typography>
+              <Typography variant="body1" textAlign="left">{toPersianDigits(msg.text)}</Typography>
               <Typography variant="caption" display="block" textAlign="right" mt={1} sx={{ direction: 'ltr' }}>
-                {msg.time}
+                {toPersianDigits(msg.time)}
               </Typography>
             </Box>
           </Box>

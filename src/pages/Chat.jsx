@@ -135,7 +135,7 @@ const ChatApp = () => {
     }
 
     const fetchChatHistory = async () => {
-      setLoading(true);
+      //setLoading(true);
       try {
         const response = await axios.get(`${config.API_BASE_URL}/api/chat/${selectedContactId}/history/`,
           {
@@ -145,8 +145,8 @@ const ChatApp = () => {
             },
             params:
             {
-              start: "2024-01-01T00:00:00",
-              end: "2026-01-01T00:00:00",
+              start: "2000-01-01T00:00:00",
+              end: "2030-01-01T00:00:00",
             }
           }
         );
@@ -154,23 +154,16 @@ const ChatApp = () => {
         const history = response.data.map(msg => ({
           fromMe: msg.fromMe,
           text: msg.text,
-          date: moment(msg.date, "YYYY-MM-DD").locale("fa"), // برای نمایش تاریخ به جلالی
-          time: moment(`${msg.date} ${msg.time}`, "YYYY-MM-DD HH:mm:ss")
-            .locale("fa")
-            .format("HH:mm") // فقط ساعت و دقیقه
-        }));
-
-        const formatted = response.data.map(msg => ({
-          ...msg,
-          date: moment(msg.date), // تبدیل رشته تاریخ به moment object
+          date: moment(msg.date, "YYYY-MM-DD").locale("fa"),
+          time: moment(`${msg.date} ${msg.time}`, "YYYY-MM-DD HH:mm:ss").locale("fa").format("HH:mm")
         }));
 
         setMessages(prev => ({
           ...prev,
-          [selectedContactId]: response.data
+          [selectedContactId]: history
         }));
 
-        setLoading(false);
+        //setLoading(false);
       }
       catch (error) {
         console.error("خطا در دریافت تاریخچه چت:", error);
@@ -178,7 +171,7 @@ const ChatApp = () => {
           navigate("/404");
         if (error.response?.status === 500)
           navigate("/500");
-        setLoading(false);
+        //setLoading(false);
       }
     }
     fetchChatHistory();
