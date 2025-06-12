@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Container, Chip, Stack, Avatar, Typography, CircularProgress } from '@mui/material';
+import { Box, Container, Chip, Stack, Avatar, Typography, CircularProgress, Button } from '@mui/material';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import HomeIcon from '@mui/icons-material/Home';
+import AddIcon from '@mui/icons-material/Add';
 import { styled } from '@mui/material/styles';
 import BMICard from '../components/TestResult/BMICard';
 import BFPCard from '../components/TestResult/BFPCard';
@@ -114,21 +116,68 @@ const TestResultPage = () => {
     );
   }
 
-  if (error) {
+
+  if (error |  !testData) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <Typography color="error">{error}</Typography>
+      <Box sx={{ 
+        display: 'flex', 
+        flexDirection: 'column', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        minHeight: '100vh',
+        textAlign: 'center',
+        background: 'none',
+        p: 3
+      }}>
+        <Navbar></Navbar>
+        <Avatar sx={{ bgcolor: '#00AF66', width: 100, height: 100, mb: 1 }}>
+          <AssignmentIcon sx={{ fontSize: 50 }} />
+        </Avatar>
+        <Typography variant="h4" fontWeight="bold" gutterBottom>
+          نتیجه تست بدنسازی
+        </Typography>
+        <Typography variant="h6" color="text.secondary" sx={{ mb: 4 }}>
+          هیچ تستی یافت نشد
+        </Typography>
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+          <Button
+            variant="contained"
+            startIcon={<HomeIcon />}
+            onClick={() => navigate('/')}
+            sx={{
+              bgcolor: '#00AF66',
+              '&:hover': { bgcolor: '#008c52' },
+              px: 4,
+              py: 1.5,
+              borderRadius: 2
+            }}
+          >
+            بازگشت به خانه
+          </Button>
+          <Button
+            variant="outlined"
+            startIcon={<AddIcon />}
+            onClick={() => navigate('/test')}
+            sx={{
+              borderColor: '#00AF66',
+              color: '#00AF66',
+              '&:hover': {
+                borderColor: '#008c52',
+                bgcolor: 'rgba(0, 175, 102, 0.04)'
+              },
+              px: 4,
+              py: 1.5,
+              borderRadius: 2
+            }}
+          >
+            تست جدید
+          </Button>
+        </Stack>
+        
       </Box>
     );
   }
 
-  if (!testData) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <Typography>اطلاعات تست یافت نشد</Typography>
-      </Box>
-    );
-  }
 
   // Calculate BMI
   const calculateBMI = (weight, height) => {
@@ -160,16 +209,17 @@ const TestResultPage = () => {
 
   // User info data
   const userInfo = {
-    gender: 'مرد', // You might want to add this to your API
+    gender: testData.gender,
     height: testData.height,
     weight: testData.weight,
-    targetWeight: testData.goal_weight,
-    age: new Date().getFullYear() - new Date(testData.birth_date).getFullYear()-621,
-    availableTime: testData.workout_days,
-    trainingLocation: testData.equipment,
-    targetMuscles: testData.focus_area,
-    fitnessGoal: testData.goal,
-    medicalConditions: testData.diseases
+    goal_weight: testData.goal_weight,
+    birth_date: testData.birth_date,
+    workout_days: testData.workout_days,
+    equipment: testData.equipment,
+    focus_area: testData.focus_area,
+    goal: testData.goal,
+    diseases: testData.diseases,
+    body_form: testData.body_form
   };
   
   return (
