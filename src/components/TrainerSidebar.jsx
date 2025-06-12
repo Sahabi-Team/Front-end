@@ -222,7 +222,7 @@ const SidebarContent = ({
   );
 };
 
-const ClientSidebar = ({ onSidebarToggle }) => {
+const TrainerSidebar = ({ onSidebarToggle }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const { userInfo: authContextUserInfo } = useContext(AuthContext);
@@ -379,4 +379,4 @@ const ClientSidebar = ({ onSidebarToggle }) => {
   );
 };
 
-export default ClientSidebar;
+export default TrainerSidebar;

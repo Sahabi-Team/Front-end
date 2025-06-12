@@ -16,8 +16,17 @@ const TrainerStudentsPage = () => {
   const [filteredStudents, setFilteredStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
+  const getInitialSidebarState = () => {
+    const savedState = localStorage.getItem("sidebarOpen");
+    return savedState !== "false";
+  };
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(getInitialSidebarState);
+
+  const handleSidebarToggle = (open) => {
+    setIsSidebarOpen(open);
+  };
   // Fetch trainees from API
   useEffect(() => {
     const fetchTrainees = async () => {
@@ -87,11 +96,11 @@ const TrainerStudentsPage = () => {
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: '#F5F5F5' }}>
-      <Sidebar />
+      <Sidebar onSidebarToggle={handleSidebarToggle} />
       
       <Box sx={{ flexGrow: 1 }}>
         <Header pageTitle="صفحه مربی" />
-        <ContentContainer>
+        <ContentContainer isSidebarOpen={isSidebarOpen}>
           {/* Header with title and search */}
           <Box sx={{ 
             display: 'flex', 
