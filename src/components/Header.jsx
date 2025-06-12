@@ -1,60 +1,55 @@
 import React from 'react';
-import { Box, Typography, IconButton, Badge } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import Brightness4Icon from '@mui/icons-material/Brightness4'; // Moon icon
+import { Box, Typography } from '@mui/material';
+import logo from "../assets/Logo/Logo.svg";
 
+// Define your sidebar widths
 const drawerWidth = 240;
 const closedDrawerWidth = 60;
 
-// The Header now needs to know if it's mobile view and have a click handler for the menu
-const Header = ({ pageTitle, isSidebarOpen, isMobile, onMenuClick }) => {
+const Header = ({ pageTitle, isSidebarOpen }) => {
   return (
     <Box 
-      sx={{
-        // Use margin to respect the DESKTOP sidebar
-        // On mobile, this will be 0, making the header full-width
-        marginLeft: !isMobile ? (isSidebarOpen ? `${drawerWidth}px` : `${closedDrawerWidth}px`) : 0,
+      sx={{ 
+        // This is the core logic, just like your ContentContainer
+        marginLeft: isSidebarOpen ? `${drawerWidth}px` : `${closedDrawerWidth}px`,
         transition: 'margin-left 0.3s ease-in-out',
-        height: '70px', // A slightly smaller header might look better on mobile
+
+        // Styling for the header itself
+        height: '85px',
         backgroundColor: '#ffffff',
-        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
+        
+        // Flex properties to align items inside
         display: 'flex', 
+        justifyContent: 'space-between', 
         alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '0 16px', // Standard padding
+        padding: '0 32px',
         boxSizing: 'border-box',
       }}
     >
-      {/* Right side of Header (for RTL) */}
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-         {/* The page title */}
-        <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: '20px' }}>
-          {pageTitle}
-        </Typography>
-      </Box>
+      <Typography 
+        variant="h6" 
+        sx={{
+          color: '#000',
+          fontWeight: 'bold',
+          fontSize: '25px'
+        }}
+      >
+        {pageTitle}
+      </Typography>
 
-      {/* Left side of Header (for RTL) */}
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        {/* These icons are always visible */}
-        <IconButton>
-            <Brightness4Icon />
-        </IconButton>
-        <IconButton>
-          <Badge badgeContent={1} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        
-        {/* NEW: The hamburger menu icon, ONLY visible on mobile */}
-        {isMobile && (
-          <IconButton
-            edge="end"
-            onClick={onMenuClick} // Trigger the function passed from MainLayout
-          >
-            <MenuIcon />
-          </IconButton>
-        )}
+        <Typography 
+          variant="subtitle1" 
+          sx={{ color: '#000', fontWeight: 'bold' }}
+        >
+          جیمباتو
+        </Typography>
+        <img 
+          src={logo}
+          alt="Jimbato Logo" 
+          style={{ width: '50px', height: '50px' }}
+        />
       </Box>
     </Box>
   );
