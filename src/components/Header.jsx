@@ -1,60 +1,60 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
-import logo from "../assets/Logo/Logo.svg";
+import { Box, Typography, IconButton, Badge } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import Brightness4Icon from '@mui/icons-material/Brightness4'; // Moon icon
 
-// It's good practice to define these widths as constants
 const drawerWidth = 240;
 const closedDrawerWidth = 60;
-export const headerHeight = '85px'; // Export the height so other components can use it
 
-const Header = ({ pageTitle, isSidebarOpen }) => {
+// The Header now needs to know if it's mobile view and have a click handler for the menu
+const Header = ({ pageTitle, isSidebarOpen, isMobile, onMenuClick }) => {
   return (
     <Box 
-      sx={{ 
-        // Positioning and Sizing Logic
-        position: 'fixed',
-        top: 0,
-        right: 0,
-        height: headerHeight,
-        width: `calc(100% - ${isSidebarOpen ? drawerWidth : closedDrawerWidth}px)`,
-        transition: 'width 0.3s ease',
-        zIndex: 1100, // Keep it above content but below the sidebar (sidebar is 1200)
-
-        // Styling
+      sx={{
+        // Use margin to respect the DESKTOP sidebar
+        // On mobile, this will be 0, making the header full-width
+        marginLeft: !isMobile ? (isSidebarOpen ? `${drawerWidth}px` : `${closedDrawerWidth}px`) : 0,
+        transition: 'margin-left 0.3s ease-in-out',
+        height: '70px', // A slightly smaller header might look better on mobile
+        backgroundColor: '#ffffff',
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
         display: 'flex', 
-        justifyContent: 'space-between', 
         alignItems: 'center',
-        padding: '0 32px', // Adjusted padding for a cleaner look
-        backgroundColor: '#fff',
-        borderBottom: '1px solid #e0e0e0', // Adds a subtle separator
+        justifyContent: 'space-between',
+        padding: '0 16px', // Standard padding
         boxSizing: 'border-box',
       }}
     >
-      {/* Page Title */}
-      <Typography 
-        variant="h6" 
-        sx={{
-          color: '#000',
-          fontWeight: 'bold',
-          fontSize: '25px'
-        }}
-      >
-        {pageTitle}
-      </Typography>
-
-      {/* Logo */}
+      {/* Right side of Header (for RTL) */}
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <Typography 
-          variant="subtitle1" 
-          sx={{ color: '#000', fontWeight: 'bold' }}
-        >
-          جیمباتو
+         {/* The page title */}
+        <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: '20px' }}>
+          {pageTitle}
         </Typography>
-        <img 
-          src={logo}
-          alt="Jimbato Logo" 
-          style={{ width: '50px', height: '50px' }}
-        />
+      </Box>
+
+      {/* Left side of Header (for RTL) */}
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        {/* These icons are always visible */}
+        <IconButton>
+            <Brightness4Icon />
+        </IconButton>
+        <IconButton>
+          <Badge badgeContent={1} color="error">
+            <NotificationsIcon />
+          </Badge>
+        </IconButton>
+        
+        {/* NEW: The hamburger menu icon, ONLY visible on mobile */}
+        {isMobile && (
+          <IconButton
+            edge="end"
+            onClick={onMenuClick} // Trigger the function passed from MainLayout
+          >
+            <MenuIcon />
+          </IconButton>
+        )}
       </Box>
     </Box>
   );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, InputBase, Typography, Avatar, Divider, Chip } from '@mui/material';
+import { Box, InputBase, Typography, Avatar, Divider, Chip ,useMediaQuery} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import EmailIcon from '@mui/icons-material/Email';
 import EditIcon from '@mui/icons-material/Edit';
@@ -9,6 +9,7 @@ import Header from '../components/Header';
 import ContentContainer from '../components/ContentContainer';
 import Sidebar from '../components/TrainerSidebar';
 import config from '../config';
+
 
 const TrainerStudentsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -22,6 +23,7 @@ const TrainerStudentsPage = () => {
     return savedState !== "false";
   };
 
+  
   const [isSidebarOpen, setIsSidebarOpen] = useState(getInitialSidebarState);
 
   const handleSidebarToggle = (open) => {
@@ -99,7 +101,7 @@ const TrainerStudentsPage = () => {
       <Sidebar onSidebarToggle={handleSidebarToggle} />
       
       <Box sx={{ flexGrow: 1 }}>
-        <Header pageTitle="صفحه مربی" />
+        <Header isSidebarOpen={isSidebarOpen}  pageTitle="صفحه مربی" />
         <ContentContainer isSidebarOpen={isSidebarOpen}>
           {/* Header with title and search */}
           <Box sx={{ 

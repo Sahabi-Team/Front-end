@@ -1,22 +1,34 @@
 import React, { useState, useEffect, useContext } from "react";
 import {
-  Drawer, List, ListItem, ListItemIcon, ListItemText, IconButton, Avatar, Box, Typography, Tooltip
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  IconButton,
+  Avatar,
+  Box,
+  Typography,
+  Tooltip,
 } from "@mui/material";
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import HomeIcon from '@mui/icons-material/Home';
-import ArticleIcon from '@mui/icons-material/Article';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import VpnKeyIcon from '@mui/icons-material/VpnKey';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import CloseIcon from '@mui/icons-material/Close';
-import { useTheme, useMediaQuery } from "@mui/material";
-import { AuthContext } from '../contexts/AuthContext.jsx';
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import HomeIcon from "@mui/icons-material/Home";
+import ArticleIcon from "@mui/icons-material/Article";
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import VpnKeyIcon from "@mui/icons-material/VpnKey";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import CloseIcon from "@mui/icons-material/Close";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import { useLocation, useNavigate } from "react-router-dom";
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import { AuthContext } from "../contexts/AuthContext.jsx";
 import axios from "axios";
+
+// --- Constants ---
+const drawerWidth = 240;
+const closedDrawerWidth = 60;
+const green = "#00AF66";
 
 const menuItems = [
   { text: "صفحه اصلی", icon: <HomeIcon />, link: "/" },
@@ -27,57 +39,47 @@ const menuItems = [
   { text: "تغییر رمز عبور", icon: <VpnKeyIcon />, link: "/changepasswordtrainer" },
 ];
 
-
-const drawerWidth = 240;
-const closedDrawerWidth = 60;
-const green = "#00AF66";
-
+// --- Sub-component for the Drawer's Content ---
+// This remains largely the same, but is now controlled by props.
 const SidebarContent = ({
   onClose,
   userInfo,
   logout,
-  open,
-  setOpen,
+  isDesktopOpen,
+  onDesktopToggle,
   isMobile,
-  currentPath
+  currentPath,
 }) => {
   const role = "مربی";
+  const open = isDesktopOpen || isMobile; // In mobile, the content is always in the "open" state.
 
   return (
     <Box
       sx={{
-        width: isMobile ? drawerWidth : (open ? drawerWidth : closedDrawerWidth),
+        width: "100%", // The Drawer itself controls the width now.
         display: "flex",
         flexDirection: "column",
         height: "100%",
-        transition: "width 0.2s",
         overflowX: "hidden",
-        boxSizing: "border-box",
       }}
     >
-      {/* Mobile close button - only shown in mobile mode */}
+      {/* Close button for mobile drawer */}
       {isMobile && (
-        <Box sx={{ 
-          display: "flex", 
-          justifyContent: "flex-end", 
-          p: 1,
-        }}>
+        <Box sx={{ display: "flex", justifyContent: "flex-start", p: 1 }}>
           <IconButton onClick={onClose}>
             <CloseIcon />
           </IconButton>
         </Box>
       )}
 
-      {/* Desktop toggle button */}
+      {/* Toggle button for desktop drawer */}
       {!isMobile && (
         <IconButton
-          onClick={() => {
-            setOpen(!open);
-            localStorage.setItem("sidebarOpen", String(!open));
-          }}
+          onClick={onDesktopToggle}
           sx={{
-            alignSelf: open ? "flex-end" : "center",
+            alignSelf: open ? "flex-start" : "center",
             my: 0.5,
+            mx: open ? 1 : 'auto'
           }}
         >
           {open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
@@ -85,22 +87,20 @@ const SidebarContent = ({
       )}
 
       {/* User profile section */}
-      {(open || isMobile) && (
+      {open && (
         <>
-          <Box sx={{ 
-            display: "flex", 
-            flexDirection: "column", 
-            alignItems: "center", 
-            my: 1,
-            px: 1
-          }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              my: 1,
+              px: 1,
+            }}
+          >
             <Avatar
               src={`http://45.144.50.12:8000${userInfo?.profile_picture || ""}`}
-              sx={{ 
-                width: 56,
-                height: 56,
-                boxShadow: `0 0 0 3px ${green}`,
-              }}
+              sx={{ width: 56, height: 56, boxShadow: `0 0 0 3px ${green}` }}
             />
             <Typography fontWeight="bold" fontSize={15} textAlign="center" mt={0.5}>
               {userInfo?.name || "نام کاربر"}
@@ -109,20 +109,24 @@ const SidebarContent = ({
               {role}
             </Typography>
           </Box>
-          <Box sx={{ 
-            width: "80%", 
-            borderBottom: "1px solid #e0e0e0", 
-            my: 1,
-            alignSelf: "center" 
-          }} />
+          <Box sx={{ width: "80%", borderBottom: "1px solid #e0e0e0", my: 1, alignSelf: "center" }} />
         </>
       )}
 
-      {/* Main menu items including messages */}
-      <List sx={{ p: 0, flex: 1 }}>
+      {/* Menu Items */}
+      <List sx={{ p: 0, flex: 1, textAlign: "right" }}>
         {menuItems.map((item) => {
           const isActive = currentPath === item.link;
-          const listItem = (
+          const listItemContent = (
+            <>
+              <ListItemIcon sx={{ minWidth: 0, ml: open ? 1.5 : 0, justifyContent: "center", color: isActive ? "#fff" : "#666" }}>
+                {item.icon}
+              </ListItemIcon>
+              {open && <ListItemText primary={item.text} sx={{ color: isActive ? "#fff" : "#333", fontWeight: isActive ? "bold" : "normal" }} />}
+            </>
+          );
+
+          return (
             <ListItem
               button
               key={item.text}
@@ -130,105 +134,47 @@ const SidebarContent = ({
               href={item.link}
               onClick={isMobile ? onClose : undefined}
               sx={{
-                px: (open || isMobile) ? 1.5 : 0.5,
-                py: 1,
-                mx: isMobile ? 0.5 : 0,
-                mb: isMobile ? 0.5 : (open ? 0.25 : 1),
-                borderRadius: isMobile ? 1 : 0,
-                justifyContent: (open || isMobile) ? "flex-start" : "center",
+                px: open ? 1.5 : 0.5, py: 1, mx: 0.5, mb: 0.5,
+                borderRadius: 1,
+                justifyContent: open ? "flex-start" : "center",
                 backgroundColor: isActive ? green : "transparent",
-                color: isActive ? "#fff" : "inherit",
-                '& .MuiListItemIcon-root': { color: isActive ? "#fff" : "#666" },
-                '& .MuiTypography-root': {
-                  fontWeight: isActive ? "bold" : "normal",
-                  fontSize: 14,
-                  color: isActive ? "#fff" : "#333",
-                },
-                '&:hover': {
-                  background: isActive ? green : (isMobile ? "#f8f9fa" : "#f5f5f5"),
+                "&:hover": {
+                  background: isActive ? green : "#f5f5f5",
                   color: isActive ? "#fff" : green,
-                  '& .MuiListItemIcon-root': { color: isActive ? "#fff" : green },
-                  '& .MuiTypography-root': { color: isActive ? "#fff" : green }
+                  "& .MuiListItemIcon-root": { color: isActive ? "#fff" : green },
                 },
-                transition: "all 0.2s ease"
               }}
             >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: (open || isMobile) ? 1.5 : 0,
-                  justifyContent: "center"
-                }}
-              >
-                {item.icon}
-              </ListItemIcon>
-              {(open || isMobile) && <ListItemText primary={item.text} />}
+              {open ? listItemContent : <Tooltip title={item.text} placement="left">{listItemContent}</Tooltip>}
             </ListItem>
-          );
-
-          return (open || isMobile) ? listItem : (
-            <Tooltip key={item.text} title={item.text} placement="left">
-              {listItem}
-            </Tooltip>
           );
         })}
       </List>
 
-      {/* Logout */}
-      <Box sx={{ mt: "auto", mb: 1, px: isMobile ? 0.5 : 0 }}>
-        <ListItem
-          button
-          onClick={() => {
-            logout();
-            if (isMobile) onClose();
-          }}
-          sx={{
-            px: (open || isMobile) ? 1.5 : 0.5,
-            py: 1,
-            borderRadius: isMobile ? 1 : 0,
-            justifyContent: (open || isMobile) ? "flex-start" : "center",
-            '&:hover': {
-              background: isMobile ? "#f8f9fa" : "#f5f5f5",
-              color: green,
-              '& .MuiListItemIcon-root': { color: green },
-              '& .MuiTypography-root': { color: green }
-            },
-            transition: "all 0.2s ease"
-          }}
-        >
-          <ListItemIcon sx={{ 
-            minWidth: 0, 
-            mr: (open || isMobile) ? 1.5 : 0, 
-            justifyContent: "center",
-            color: "#666"
-          }}>
+      {/* Logout Button */}
+      <Box sx={{ mt: "auto", mb: 1, px: 0.5 }}>
+        <ListItem button onClick={() => { logout(); if (isMobile) onClose(); }} sx={{ justifyContent: open ? "flex-start" : "center", borderRadius: 1 }}>
+          <ListItemIcon sx={{ minWidth: 0, ml: open ? 1.5 : 0, justifyContent: "center" }}>
             <ExitToAppIcon />
           </ListItemIcon>
-          {(open || isMobile) && (
-            <ListItemText 
-              primary="خروج" 
-              sx={{ 
-                '.MuiTypography-root': { 
-                  fontSize: 14, 
-                  color: "#333",
-                  fontWeight: "normal"
-                } 
-              }} 
-            />
-          )}
+          {open && <ListItemText primary="خروج" />}
         </ListItem>
       </Box>
     </Box>
   );
 };
 
-const TrainerSidebar = ({ onSidebarToggle }) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+// --- Main Sidebar Component ---
+// This is the primary component you export. It is now a "controlled" component.
+const TrainerSidebar = ({
+  isMobile,
+  isDesktopOpen,
+  onDesktopToggle,
+  isMobileOpen,
+  onMobileClose,
+}) => {
   const { userInfo: authContextUserInfo } = useContext(AuthContext);
   const [userInfo, setUserInfo] = useState(authContextUserInfo || null);
-  const [open, setOpen] = useState(!isMobile && localStorage.getItem("sidebarOpen") !== "false");
-  const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -239,140 +185,41 @@ const TrainerSidebar = ({ onSidebarToggle }) => {
     window.location.reload();
   };
 
-  const handleSetOpen = (newOpen) => {
-    setOpen(newOpen);
-    if (onSidebarToggle) {
-      onSidebarToggle(newOpen);
-    }
-  };
-
-  const handleMobileToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
   useEffect(() => {
-    axios.get("http://45.144.50.12:8000/api/auth/whoami/", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access")}`
-      }
-    })
-    .then(response => setUserInfo(response.data))
-    .catch(err => console.error("Failed to fetch user info", err));
+    // This logic to fetch user info can remain here
+    axios
+      .get("http://45.144.50.12:8000/api/auth/whoami/", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+      })
+      .then((response) => setUserInfo(response.data))
+      .catch((err) => console.error("Failed to fetch user info", err));
   }, []);
 
-  useEffect(() => {
-    if (onSidebarToggle && !isMobile) {
-      onSidebarToggle(open);
-    }
-  }, [open, isMobile, onSidebarToggle]);
-
-  // Prevent body scroll when mobile drawer is open
-  useEffect(() => {
-    if (isMobile) {
-      if (mobileOpen) {
-        document.body.style.overflow = 'hidden';
-        document.body.style.paddingRight = '0px'; // Prevent shift from scrollbar
-      } else {
-        document.body.style.overflow = '';
-      }
-    }
-  }, [mobileOpen, isMobile]);
-
-  if (isMobile) {
-    return (
-      <>
-        {/* Mobile menu button - only shown when drawer is closed */}
-        {!mobileOpen && (
-          <IconButton
-            onClick={handleMobileToggle}
-            sx={{
-              position: "fixed",
-              top: 12,
-              left: 12,
-              zIndex: 1200, // Lower than drawer z-index
-              width: 40,
-              height: 40,
-              backgroundColor: "#fff",
-              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-              border: "1px solid #e0e0e0",
-              '&:hover': {
-                backgroundColor: "#f8f9fa",
-              },
-              transition: "all 0.2s ease"
-            }}
-          >
-            <MenuIcon sx={{ color: "#333", fontSize: 24 }} />
-          </IconButton>
-        )}
-
-        {/* Mobile drawer */}
-        <Drawer
-          anchor="left"
-          open={mobileOpen}
-          onClose={() => setMobileOpen(false)}
-          ModalProps={{
-            keepMounted: true,
-          }}
-          SlideProps={{
-            direction: "left"
-          }}
-          PaperProps={{
-            sx: {
-              width: drawerWidth,
-              bgcolor: "#fff",
-              boxShadow: "2px 0 8px rgba(0,0,0,0.1)",
-              overflowX: "hidden",
-              overflowY: "auto"
-            }
-          }}
-          sx={{
-            '& .MuiDrawer-paper': {
-              border: 'none',
-            },
-            '& .MuiBackdrop-root': {
-              backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            }
-          }}
-        >
-          <SidebarContent
-            onClose={() => setMobileOpen(false)}
-            userInfo={userInfo}
-            logout={handleLogout}
-            open={true}
-            setOpen={() => {}}
-            isMobile={true}
-            currentPath={location.pathname}
-          />
-        </Drawer>
-      </>
-    );
-  }
-
-  // Desktop sidebar
   return (
     <Drawer
-      variant="permanent"
-      anchor="left"
-      open
+      variant={isMobile ? "temporary" : "permanent"}
+      anchor="right"
+      open={isMobile ? isMobileOpen : true} // "open" controls visibility for temp, but permanent is always "open"
+      onClose={onMobileClose}
+      ModalProps={{
+        keepMounted: true, // Improves mobile performance
+      }}
       PaperProps={{
         sx: {
-          width: open ? drawerWidth : closedDrawerWidth,
-          bgcolor: "#fff",
+          width: isMobile ? drawerWidth : isDesktopOpen ? drawerWidth : closedDrawerWidth,
+          transition: isMobile ? undefined : "width 0.3s ease",
           boxShadow: "0 0 8px 0 #0001",
-          overflowX: "hidden",
-          transition: "width 0.3s ease",
-          position: "fixed",
-          height: "100vh",
-          zIndex: 1200
-        }
+          right: 0,
+        },
       }}
     >
       <SidebarContent
+        isMobile={isMobile}
+        isDesktopOpen={isDesktopOpen}
+        onDesktopToggle={onDesktopToggle}
+        onClose={onMobileClose}
         userInfo={userInfo}
         logout={handleLogout}
-        open={open}
-        setOpen={handleSetOpen}
-        isMobile={false}
         currentPath={location.pathname}
       />
     </Drawer>
