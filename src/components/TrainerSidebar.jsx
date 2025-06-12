@@ -12,10 +12,12 @@ import EditIcon from '@mui/icons-material/Edit';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import CloseIcon from '@mui/icons-material/Close';
+import MailIcon from '@mui/icons-material/Mail';
 import { useTheme, useMediaQuery } from "@mui/material";
 import { AuthContext } from '../contexts/AuthContext.jsx';
 import { useLocation, useNavigate } from "react-router-dom";
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import config from "../config.js";
 import axios from "axios";
 
 const menuItems = [
@@ -25,6 +27,8 @@ const menuItems = [
   { text: "اعلانات", icon: <NotificationsNoneIcon />, link: "/notifications" },
   { text: "تغییر اطلاعات کاربری", icon: <EditIcon />, link: "/trainereditprofile" },
   { text: "تغییر رمز عبور", icon: <VpnKeyIcon />, link: "/changepasswordtrainer" },
+  { text: "پیام‌ها", icon: <MailIcon />, link: "/chat" }, 
+
 ];
 
 
@@ -95,7 +99,7 @@ const SidebarContent = ({
             px: 1
           }}>
             <Avatar
-              src={`http://45.144.50.12:8000${userInfo?.profile_picture || ""}`}
+              src={`${config.API_BASE_URL}${userInfo?.profile_picture || ""}`}
               sx={{ 
                 width: 56,
                 height: 56,
@@ -251,7 +255,7 @@ const TrainerSidebar = ({ onSidebarToggle }) => {
   };
 
   useEffect(() => {
-    axios.get("http://45.144.50.12:8000/api/auth/whoami/", {
+    axios.get(`${config.API_BASE_URL}/api/auth/whoami/`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access")}`
       }

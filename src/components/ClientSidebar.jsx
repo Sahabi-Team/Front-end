@@ -18,6 +18,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useTheme, useMediaQuery } from "@mui/material";
 import { AuthContext } from '../contexts/AuthContext.jsx';
 import { useLocation, useNavigate } from "react-router-dom";
+import config from "../config.js";
 import axios from "axios";
 
 const menuItems = [
@@ -98,7 +99,7 @@ const SidebarContent = ({
             px: 1
           }}>
             <Avatar
-              src={`http://45.144.50.12:8000${userInfo?.profile_picture || ""}`}
+              src={`${config.API_BASE_URL}${userInfo?.profile_picture || ""}`}
               sx={{ 
                 width: 56,
                 height: 56,

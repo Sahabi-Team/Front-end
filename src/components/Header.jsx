@@ -38,18 +38,19 @@ const Header = ({ pageTitle, isSidebarOpen }) => {
         {pageTitle}
       </Typography>
 
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <Typography 
-          variant="subtitle1" 
-          sx={{ color: '#000', fontWeight: 'bold' }}
-        >
-          جیمباتو
-        </Typography>
+      <Box sx={{ display: 'flex',flexDirection : 'column' ,alignItems: 'center', gap: 1 }}>
+
         <img 
           src={logo}
           alt="Jimbato Logo" 
-          style={{ width: '50px', height: '50px' }}
+          style={{ width: '40px', height: '40px' }}
         />
+        <Typography 
+          variant="subtitle1" 
+          sx={{ color: '#000', fontWeight: 'bold' ,fontSize: '14px'}}
+        >
+          جیمباتو
+        </Typography>
       </Box>
     </Box>
   );
