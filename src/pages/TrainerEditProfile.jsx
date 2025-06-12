@@ -12,6 +12,7 @@ import EditProfileForm from "../components/TrainerEditProfile/EditProfileForm.js
 import { AuthContext } from '../contexts/AuthContext.jsx';
 import Header from '../components/Header';
 import config from '../config';
+import { observeTimeline } from "framer-motion";
 
 const EditProfile = () => { 
  
@@ -30,6 +31,7 @@ const EditProfile = () => {
       email: "",
       phone: "",
       password: "********",
+
     });  
     const [profileImage, setProfileImage] = useState(null);
     const [errors, setErrors] = useState({});
@@ -70,10 +72,14 @@ const EditProfile = () => {
     }, []);
    
     useEffect(() => {
-              if (!userInfo) {
-                navigate('/signin');
-              }
-            }, [userInfo, navigate]);
+               if (!userInfo) {
+                 navigate('/signin');
+               }
+               if (userInfo.usertype !=="trainer")
+               {
+               navigate ('/404');
+               }
+             }, [userInfo, navigate]);
               
 
     useEffect(() => {
@@ -148,8 +154,10 @@ const EditProfile = () => {
         formData.append('email', userData.email);
         formData.append('username', userData.username);
         formData.append('phone_number', userData.phone);
+         formData.append('name', userData.phone);
+       
         
-        
+      
         if (profileImage) {
           formData.append('profile_picture', profileImage);
         }
@@ -158,7 +166,7 @@ const EditProfile = () => {
         }
         
         await trainerProfileAPI.updateProfile(formData);
-       // alert("اطلاعات با موفقیت به‌روزرسانی شد");
+     
       } catch (error) {
         console.error("Update error:", error);
         alert("خطا در به‌روزرسانی پروفایل");
@@ -181,7 +189,7 @@ const EditProfile = () => {
         await trainerProfileAPI.deleteAvatar();
         setProfileImage(null);
         setProfileImageUrl(null);
-      //  alert("عکس پروفایل با موفقیت حذف شد");
+     
       } catch (error) {
         console.error("حذف عکس ناموفق بود:", error);
       }

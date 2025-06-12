@@ -36,7 +36,7 @@ const ExerciseFilters = ({ filters, setFilters, onApply }) => {
         backgroundColor: "white",
         borderRadius: "16px",
         padding: 2,
-        width: 250,
+       // width: 250,
         boxShadow: 3,
       
       }}
@@ -84,7 +84,7 @@ const ExerciseFilters = ({ filters, setFilters, onApply }) => {
   );
 };
 
-// برچسب فارسی برای هر فیلتر
+
 const getFilterLabel = (key) => {
   switch (key) {
     case "level":

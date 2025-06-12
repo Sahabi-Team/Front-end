@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";  
+import React, { useEffect ,useContext} from "react";  
 import {
   Box,
   Container,
@@ -20,6 +20,7 @@ import { trainerProfileAPI } from '../services/TrainerProfileApi.jsx';
 import { useNavigate } from "react-router-dom";
 import TrainerSidebar from "../components/TrainerSidebar.jsx";
 import Header from '../components/Header';
+import { AuthContext } from '../contexts/AuthContext.jsx';
 
 const Card = styled(Paper)(({ theme }) => ({
   display: "flex",
@@ -45,7 +46,8 @@ function ResetPassword() {
   const [errorMessage, setErrorMessage] = React.useState("");
   const [openSuccessModal, setOpenSuccessModal] = React.useState(false);
   const [successMessage, setSuccessMessage] = React.useState("");
-   const navigate = useNavigate();
+  const { userInfo } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
@@ -106,7 +108,7 @@ function ResetPassword() {
     }
     if (pass.length < 8) {
       setPasswordError(true);
-      setPasswordErrorMessage("رمز عبور نباید کمتر از 8 کاراکتر باشد.");
+      setPasswordErrorMessage("رمز عبور نباید کمتر از ۸ کاراکتر باشد.");
       return false;
     }
     setPasswordError(false);
@@ -130,10 +132,22 @@ function ResetPassword() {
     return true;
   };
 
+  
+     useEffect(() => {
+                if (!userInfo) {
+                  navigate('/signin');
+                }
+                if (userInfo.usertype !=="trainer")
+                {
+                navigate ('/404');
+                }
+              }, [userInfo, navigate]);
+  
+
     useEffect(() => {
         document.body.style.background = "#F5F5F5";
         return () => {
-       document.body.style.background = "#F5F5F5"; // پس‌زمینه‌ی پیش‌فرض برمی‌گردد
+       document.body.style.background = "#F5F5F5"; 
               };
       }, []);
 

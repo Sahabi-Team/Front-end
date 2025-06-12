@@ -29,7 +29,7 @@ const menuItems = [
   { text: "نتایج تست ها", icon: <BarChartIcon />, link: "/test_result" },
   { text: "آنالیز دوره", icon: <AccessTimeIcon />, link: "/analysis" },
   { text: "تغییر اطلاعات کاربری", icon: <EditIcon />, link: "/editprofile" },
-  { text: "تغییر رمز عبور", icon: <VpnKeyIcon />, link: "/change-password" },
+  { text: "تغییر رمز عبور", icon: <VpnKeyIcon />, link: "/changepasswordtrainee" },
 ];
 
 const drawerWidth = 250;

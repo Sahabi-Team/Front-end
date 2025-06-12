@@ -6,7 +6,7 @@ const SearchBar = ({ onResults }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearch = () => {
-    onResults(searchTerm); // فقط عبارت جستجو را به بالا پاس می‌دهیم
+    onResults(searchTerm); 
   };
 
   return (
@@ -15,8 +15,8 @@ const SearchBar = ({ onResults }) => {
       sx={{
         display: "flex",
         alignItems: "center",
-        width: "90%",
-        maxWidth: 1200,
+       // width: "90%",
+       // maxWidth: 1200,
         mx: "auto",
         mb: 4,
         mr:0,
@@ -25,14 +25,14 @@ const SearchBar = ({ onResults }) => {
         borderRadius: 2,
       }}
     >
-      {/* عنوان بانک حرکات ورزشی در سمت راست */}
+     
       <Box sx={{ flexGrow: 1, textAlign: "LEFT" }}>
         <Typography fontSize={24} fontWeight={500}>
           بانک حرکات ورزشی
         </Typography>
       </Box>
 
-      {/* کادر جستجو در سمت چپ */}
+      
       <Paper component="form" onSubmit={(e) => {e.preventDefault(); handleSearch();}} sx={{p: "0px 0px 0px 5px", display: "flex", borderRadius: "6px", backgroundColor:"#F7F7F7"}}>
         <InputBase
           sx={{ ml: 1, flex: 1 }}

@@ -1,15 +1,29 @@
 import React from "react";
-import { TextField, Button, Grid, InputLabel,
-    MenuItem,
-    Select,
-    FormControl } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  FormControl,
+} from "@mui/material";
 
-const EditProfileForm = ({ 
-  userData, 
-  errors, 
-  handleChange, 
-  handleSubmit 
-}) => {
+
+const toPersianDigits = (str) => {
+  return String(str).replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
+};
+
+const EditProfileForm = ({ userData, errors, handleChange, handleSubmit }) => {
+ 
+  const handlePersianInputChange = (e) => {
+    const { name, value } = e.target;
+    const englishNumber = value.replace(/[۰-۹]/g, (d) =>
+      "۰۱۲۳۴۵۶۷۸۹".indexOf(d)
+    );
+    handleChange({ target: { name, value: englishNumber } });
+  };
+
   return (
     <form onSubmit={handleSubmit} style={{ width: "85%" }}>
       <Grid container spacing={3}>
@@ -22,7 +36,7 @@ const EditProfileForm = ({
             name="firstName"
             value={userData.firstName}
             onChange={handleChange}
-            error={Boolean(errors.firstName)} 
+            error={Boolean(errors.firstName)}
             helperText={errors.firstName}
             variant="outlined"
             sx={textFieldStyle}
@@ -36,7 +50,7 @@ const EditProfileForm = ({
             name="lastName"
             value={userData.lastName}
             onChange={handleChange}
-            error={Boolean(errors.lastName)} 
+            error={Boolean(errors.lastName)}
             helperText={errors.lastName}
             variant="outlined"
             sx={textFieldStyle}
@@ -52,7 +66,7 @@ const EditProfileForm = ({
             name="bio"
             value={userData.bio}
             onChange={handleChange}
-            error={Boolean(errors.bio)} 
+            error={Boolean(errors.bio)}
             helperText={errors.bio}
             multiline
             rows={4}
@@ -66,58 +80,50 @@ const EditProfileForm = ({
           <label style={labelStyle}>سابقه کاری (سال)</label>
           <TextField
             fullWidth
-            placeholder="مثال: 5"
+            placeholder="مثال: ۵"
             name="experience"
-            type="number"
-            value={userData.experience}
-            onChange={handleChange}
-            error={Boolean(errors.experience)} 
+            type="text"
+            value={toPersianDigits(userData.experience || "")}
+            onChange={handlePersianInputChange}
+            error={Boolean(errors.experience)}
             helperText={errors.experience}
             variant="outlined"
             sx={textFieldStyle}
-            inputProps={{ 
-                min: 1, // حداقل مقدار ۰
-                step: 1 // فقط اعداد صحیح
-              }}
           />
         </Grid>
         <Grid item xs={12} md={4}>
-            <label style={labelStyle}>قابلیت رزرو</label>
-            <FormControl fullWidth>
-                <Select
-                name="isAvailableForReservation"
-                value={userData.isAvailableForReservation ? "true" : "false"}
-                onChange={handleChange}
-                sx={{
-                    ...textFieldStyle,
-                    textAlign: 'left',
-                    '& .MuiSelect-select': {
-                    textAlign: 'left'
-                    }
-                }}
-                >
-                <MenuItem value="true">بله</MenuItem>
-                <MenuItem value="false">خیر</MenuItem>
-                </Select>
-            </FormControl>
-            </Grid>
+          <label style={labelStyle}>قابلیت رزرو</label>
+          <FormControl fullWidth>
+            <Select
+              name="isAvailableForReservation"
+              value={userData.isAvailableForReservation ? "true" : "false"}
+              onChange={handleChange}
+              sx={{
+                ...textFieldStyle,
+                textAlign: "left",
+                "& .MuiSelect-select": {
+                  textAlign: "left",
+                },
+              }}
+            >
+              <MenuItem value="true">بله</MenuItem>
+              <MenuItem value="false">خیر</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
         <Grid item xs={12} md={4}>
           <label style={labelStyle}>هزینه دریافتی (هزارتومان)</label>
           <TextField
             fullWidth
-            placeholder="هزینه دریافتی را به عدد وارد کنید"
+            placeholder="مثال: ۲۰۰"
             name="price"
-            type="number"
-            value={userData.price}
-            onChange={handleChange}
-            error={Boolean(errors.price)} 
+            type="text"
+            value={toPersianDigits(userData.price || "")}
+            onChange={handlePersianInputChange}
+            error={Boolean(errors.price)}
             helperText={errors.price}
             variant="outlined"
             sx={textFieldStyle}
-            inputProps={{ 
-                min: 0, // حداقل مقدار ۰
-                step: 1 // فقط اعداد صحیح
-              }}
           />
         </Grid>
 
@@ -130,7 +136,7 @@ const EditProfileForm = ({
             name="specialties"
             value={userData.specialties}
             onChange={handleChange}
-            error={Boolean(errors.specialties)} 
+            error={Boolean(errors.specialties)}
             helperText={errors.specialties}
             multiline
             rows={2}
@@ -146,7 +152,7 @@ const EditProfileForm = ({
             name="certificates"
             value={userData.certificates}
             onChange={handleChange}
-            error={Boolean(errors.certificates)} 
+            error={Boolean(errors.certificates)}
             helperText={errors.certificates}
             multiline
             rows={2}
@@ -157,19 +163,19 @@ const EditProfileForm = ({
 
         {/* Save Button */}
         <Grid item xs={12}>
-          <Button 
-            type="submit" 
-            variant="contained" 
+          <Button
+            type="submit"
+            variant="contained"
             fullWidth
-            sx={{ 
-              backgroundColor: "#00A359", 
-              color: "white", 
+            sx={{
+              backgroundColor: "#00A359",
+              color: "white",
               height: "50px",
               fontSize: "20px",
               marginTop: "20px",
               borderRadius: "12px",
-              width:"150px",
-              marginBottom:"30px"
+              width: "150px",
+              marginBottom: "30px",
             }}
           >
             ذخیره تغییرات
@@ -183,25 +189,21 @@ const EditProfileForm = ({
 // Styles
 const labelStyle = {
   fontSize: "16px",
-  fontWeight: 'bold' ,
+  fontWeight: "bold",
   color: "black",
   marginBottom: "5px",
   textAlign: "right",
-  display: "block"
+  display: "block",
 };
 
 const textFieldStyle = {
-    backgroundColor: "#f0f0f0",
-    borderRadius: "12px",
-    marginTop: '10px',
-    marginBottom: "20px", 
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": { borderRadius: "12px",  border: "none" },
-    },
-    "& .MuiInputBase-input": {
-     // padding: "12px",
-    },
-   
+  backgroundColor: "#f0f0f0",
+  borderRadius: "12px",
+  marginTop: "10px",
+  marginBottom: "20px",
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": { borderRadius: "12px", border: "none" },
+  },
 };
 
 export default EditProfileForm;

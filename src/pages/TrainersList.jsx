@@ -9,6 +9,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import SuccessModal from "../components/modals/SuccessfulModal";
 import ErrorModal from "../components/modals/ErrorModal";
+import TestRequiredModal from "../components/modals/TestRequiredModal";
 import config from '../config';
 
 const TrainersList = () => {
@@ -205,7 +206,8 @@ const TrainersList = () => {
 
         <SuccessModal open={openSuccessModal} onClose={() => {setOpenSuccessModal(false); /*navigate("/");*/}} successMessage="سفارش شما با موفقیت ثبت شد." />
         <ErrorModal open={openErrorModal} onClose={() => {setOpenErrorModal(false); if(errorMessage === "لطفاً ابتدا وارد حساب کاربری خود شوید."){navigate("/signin")} }} errorMessage={errorMessage} />
-        <ErrorModal open={openTestRequiredModal} onClose={() => {setOpenTestRequiredModal(false); navigate("/test");}}errorMessage="برای ثبت سفارش، ابتدا باید تست بدنسازی انجام دهید."/>
+       <TestRequiredModal open={openTestRequiredModal} onClose={() => setOpenTestRequiredModal(false)} onConfirm={() => { setOpenTestRequiredModal(false); navigate("/test"); }}  />
+
 
       </Container>
       <Footer />

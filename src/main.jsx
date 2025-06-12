@@ -115,7 +115,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="/editprofile" element={<EditProfile />} />
               <Route path="/FAQ" element={<FAQPage />} />
               <Route path="/exercises" element={<ExercisesPage />} />
-              <Route path="/changepassword" element={<ChangePasswordClient />} />
+              <Route path="/changepasswordtrainee" element={<ChangePasswordClient />} />
               <Route path="/exercisedetail/:id" element={<ExerciseDetail />} />
               <Route path="/trainereditprofile" element={<TrainerEditProfile />} />
               <Route path="/test_result" element={<TestResultPage />} />

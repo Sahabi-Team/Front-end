@@ -3,10 +3,10 @@ import axios from 'axios';
 import config from '../config';
 
 const api = axios.create({
-  baseURL: `${config.API_BASE_URL}/api`, // آدرس ثابت بدون استفاده از process.env
+  baseURL: `${config.API_BASE_URL}/api`, 
 });
 
-// افزودن خودکار توکن به هدرها
+
 api.interceptors.request.use(config => {
   const token = localStorage.getItem('access_token');
   if (token) {
@@ -16,7 +16,6 @@ api.interceptors.request.use(config => {
   return config;
 });
 
-// ریدایرکت به صفحه ارور 500 در صورت دریافت خطای 500
 api.interceptors.response.use(
   response => response,
   error => {
@@ -28,16 +27,15 @@ api.interceptors.response.use(
 );
 
 export const profileAPI = {
-  // دریافت اطلاعات پروفایل کاربر
+ 
   getProfile: () => api.get('/trainee/info/'),
 
-  // آپدیت اطلاعات پروفایل
   updateProfile: (data) => api.put('/trainee/update/', data),
 
-  // آپلود عکس پروفایل
+  
   uploadAvatar: (file) => {
     const formData = new FormData();
-    formData.append('profile_picture', file); // اسم دقیق فیلد
+    formData.append('profile_picture', file);
     return api.put('/trainee/update/', formData);
   },
 
@@ -52,6 +50,6 @@ export const profileAPI = {
     });
   },
 
-  // تغییر رمز عبور
+ 
   changePassword: (data) => api.post('/auth/change-password/', data)
 };
