@@ -56,4 +56,3 @@ describe('SignInCard', () => {
     expect(passwordInput.value).toBe('mypassword')
   })
 })
-
