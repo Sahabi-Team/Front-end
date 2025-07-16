@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, InputBase, Typography, Avatar, Divider, Chip } from '@mui/material';
+import { Box, InputBase, Typography, Avatar, Divider, Chip ,useMediaQuery} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import EmailIcon from '@mui/icons-material/Email';
 import EditIcon from '@mui/icons-material/Edit';
@@ -10,14 +10,25 @@ import ContentContainer from '../components/ContentContainer';
 import Sidebar from '../components/TrainerSidebar';
 import config from '../config';
 
+
 const TrainerStudentsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [students, setStudents] = useState([]);
   const [filteredStudents, setFilteredStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
+  const getInitialSidebarState = () => {
+    const savedState = localStorage.getItem("sidebarOpen");
+    return savedState !== "false";
+  };
+
+  
+  const [isSidebarOpen, setIsSidebarOpen] = useState(getInitialSidebarState);
+
+  const handleSidebarToggle = (open) => {
+    setIsSidebarOpen(open);
+  };
   // Fetch trainees from API
   useEffect(() => {
     const fetchTrainees = async () => {
@@ -87,11 +98,11 @@ const TrainerStudentsPage = () => {
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: '#F5F5F5' }}>
-      <Sidebar />
+      <Sidebar onSidebarToggle={handleSidebarToggle} />
       
       <Box sx={{ flexGrow: 1 }}>
-        <Header pageTitle="صفحه مربی" />
-        <ContentContainer>
+        <Header isSidebarOpen={isSidebarOpen}  pageTitle="صفحه مربی" />
+        <ContentContainer isSidebarOpen={isSidebarOpen}>
           {/* Header with title and search */}
           <Box sx={{ 
             display: 'flex', 

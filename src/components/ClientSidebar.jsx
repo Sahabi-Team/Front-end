@@ -14,13 +14,12 @@ import EditIcon from '@mui/icons-material/Edit';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import MailIcon from '@mui/icons-material/Mail';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import CloseIcon from '@mui/icons-material/Close';
 import { useTheme, useMediaQuery } from "@mui/material";
 import { AuthContext } from '../contexts/AuthContext.jsx';
 import { useLocation, useNavigate } from "react-router-dom";
+import config from "../config.js";
 import axios from "axios";
-import config  from "../config.js";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const menuItems = [
   { text: "صفحه اصلی", icon: <HomeIcon />, link: "/" },
@@ -29,11 +28,12 @@ const menuItems = [
   { text: "نتایج تست ها", icon: <BarChartIcon />, link: "/test_result" },
   { text: "آنالیز دوره", icon: <AccessTimeIcon />, link: "/analysis" },
   { text: "تغییر اطلاعات کاربری", icon: <EditIcon />, link: "/editprofile" },
-  { text: "تغییر رمز عبور", icon: <VpnKeyIcon />, link: "/changepasswordtrainee" },
+  { text: "تغییر رمز عبور", icon: <VpnKeyIcon />, link: "/change-password" },
+  { text: "پیام‌ها", icon: <MailIcon />, link: "/chat" }, 
 ];
 
-const drawerWidth = 250;
-const closedDrawerWidth = 64;
+const drawerWidth = 240;
+const closedDrawerWidth = 60;
 const green = "#00AF66";
 
 const SidebarContent = ({
@@ -45,12 +45,12 @@ const SidebarContent = ({
   isMobile,
   currentPath
 }) => {
-  const role = userInfo?.usertype === "coach" ? "مربی" : "شاگرد";
+  const role = "شاگرد";
 
   return (
     <Box
       sx={{
-        width: open ? drawerWidth : closedDrawerWidth,
+        width: isMobile ? drawerWidth : (open ? drawerWidth : closedDrawerWidth),
         display: "flex",
         flexDirection: "column",
         height: "100%",
@@ -59,37 +59,71 @@ const SidebarContent = ({
         boxSizing: "border-box",
       }}
     >
+      {/* Mobile close button - only shown in mobile mode */}
+      {isMobile && (
+        <Box sx={{ 
+          display: "flex", 
+          justifyContent: "flex-end", 
+          p: 1,
+        }}>
+          <IconButton onClick={onClose}>
+            <CloseIcon />
+          </IconButton>
+        </Box>
+      )}
+
+      {/* Desktop toggle button */}
       {!isMobile && (
         <IconButton
           onClick={() => {
             setOpen(!open);
-            localStorage.setItem("sidebarOpen", String(!open)); // persist state
+            localStorage.setItem("sidebarOpen", String(!open));
           }}
           sx={{
             alignSelf: open ? "flex-end" : "center",
-            mt: 1,
-            mb: 1,
+            my: 0.5,
           }}
         >
           {open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
         </IconButton>
       )}
 
-      {open && (
+      {/* User profile section */}
+      {(open || isMobile) && (
         <>
-          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", mt: 2 }}>
+          <Box sx={{ 
+            display: "flex", 
+            flexDirection: "column", 
+            alignItems: "center", 
+            my: 1,
+            px: 1
+          }}>
             <Avatar
-              src={`http://45.144.50.12:8000${userInfo?.profile_picture || ""}`}
-              sx={{ width: 64, height: 64, mb: 1 }}
+              src={`${config.API_BASE_URL}${userInfo?.profile_picture || ""}`}
+              sx={{ 
+                width: 56,
+                height: 56,
+                boxShadow: `0 0 0 3px ${green}`,
+              }}
             />
-            <Typography fontWeight="bold" fontSize={16}>{userInfo?.name || "نام کاربر"}</Typography>
-            <Typography fontSize={14} color="text.secondary">{role}</Typography>
+            <Typography fontWeight="bold" fontSize={15} textAlign="center" mt={0.5}>
+              {userInfo?.name || "نام کاربر"}
+            </Typography>
+            <Typography fontSize={13} color="text.secondary" textAlign="center">
+              {role}
+            </Typography>
           </Box>
-          <Box sx={{ width: "80%", borderBottom: "1px solid #ddd", my: 2, alignSelf: "center" }} />
+          <Box sx={{ 
+            width: "80%", 
+            borderBottom: "1px solid #e0e0e0", 
+            my: 1,
+            alignSelf: "center" 
+          }} />
         </>
       )}
 
-      <List sx={{ p: 0 }}>
+      {/* Main menu items including messages */}
+      <List sx={{ p: 0, flex: 1 }}>
         {menuItems.map((item) => {
           const isActive = currentPath === item.link;
           const listItem = (
@@ -98,42 +132,45 @@ const SidebarContent = ({
               key={item.text}
               component="a"
               href={item.link}
+              onClick={isMobile ? onClose : undefined}
               sx={{
-                px: open ? 2 : 1,
-                justifyContent: open ? "flex-start" : "center",
+                px: (open || isMobile) ? 1.5 : 0.5,
+                py: 1,
+                mx: isMobile ? 0.5 : 0,
+                mb: isMobile ? 0.5 : (open ? 0.25 : 1),
+                borderRadius: isMobile ? 1 : 0,
+                justifyContent: (open || isMobile) ? "flex-start" : "center",
                 backgroundColor: isActive ? green : "transparent",
                 color: isActive ? "#fff" : "inherit",
-                mb: open ? 0 : 2,
-                '& .MuiListItemIcon-root': { color: isActive ? "#fff" : "inherit" },
+                '& .MuiListItemIcon-root': { color: isActive ? "#fff" : "#666" },
                 '& .MuiTypography-root': {
                   fontWeight: isActive ? "bold" : "normal",
-                  fontSize: 16,
-                  color: isActive ? "#fff" : "inherit",
-                  ml: 2,
+                  fontSize: 14,
+                  color: isActive ? "#fff" : "#333",
                 },
                 '&:hover': {
-                  background: "#f5f5f5",
-                  color: green,
-                  '& .MuiListItemIcon-root': { color: green },
-                  '& .MuiTypography-root': { color: green }
+                  background: isActive ? green : (isMobile ? "#f8f9fa" : "#f5f5f5"),
+                  color: isActive ? "#fff" : green,
+                  '& .MuiListItemIcon-root': { color: isActive ? "#fff" : green },
+                  '& .MuiTypography-root': { color: isActive ? "#fff" : green }
                 },
-                transition: "all 0.2s"
+                transition: "all 0.2s ease"
               }}
             >
               <ListItemIcon
                 sx={{
                   minWidth: 0,
-                  mr: open ? 2.5 : 0,
+                  mr: (open || isMobile) ? 1.5 : 0,
                   justifyContent: "center"
                 }}
               >
                 {item.icon}
               </ListItemIcon>
-              {open && <ListItemText primary={item.text} />}
+              {(open || isMobile) && <ListItemText primary={item.text} />}
             </ListItem>
           );
 
-          return open ? listItem : (
+          return (open || isMobile) ? listItem : (
             <Tooltip key={item.text} title={item.text} placement="left">
               {listItem}
             </Tooltip>
@@ -141,76 +178,60 @@ const SidebarContent = ({
         })}
       </List>
 
-      {/* Messages */}
-      <List sx={{ p: 0 }}>
-        <Tooltip title="پیام‌ها" placement="left" disableHoverListener={open}>
-          <ListItem
-            button
-            component="a"
-            href="/messages"
-            sx={{
-              px: open ? 2 : 1,
-              justifyContent: open ? "flex-start" : "center",
-              backgroundColor: currentPath === "/messages" ? green : "transparent",
-              color: currentPath === "/messages" ? "#fff" : "inherit",
-              mb: open ? 0 : 2,
-              '& .MuiListItemIcon-root': { color: currentPath === "/messages" ? "#fff" : "inherit" },
-              '& .MuiTypography-root': {
-                fontWeight: currentPath === "/messages" ? "bold" : "normal",
-                fontSize: 16,
-                color: currentPath === "/messages" ? "#fff" : "inherit",
-                ml: 2,
-              },
-              '&:hover': {
-                background: "#f5f5f5",
-                color: green,
-                '& .MuiListItemIcon-root': { color: green },
-                '& .MuiTypography-root': { color: green }
-              },
-              transition: "all 0.2s"
-            }}
-          >
-            <ListItemIcon sx={{ minWidth: 0, mr: open ? 2.5 : 0, justifyContent: "center" }}>
-              <MailIcon />
-            </ListItemIcon>
-            {open && <ListItemText primary="پیام‌ها" />}
-          </ListItem>
-        </Tooltip>
-      </List>
-
       {/* Logout */}
-      <Box sx={{ mt: "auto", mb: 2 }}>
+      <Box sx={{ mt: "auto", mb: 1, px: isMobile ? 0.5 : 0 }}>
         <ListItem
           button
-          onClick={logout}
+          onClick={() => {
+            logout();
+            if (isMobile) onClose();
+          }}
           sx={{
-            px: open ? 2 : 1,
-            justifyContent: open ? "flex-start" : "center",
+            px: (open || isMobile) ? 1.5 : 0.5,
+            py: 1,
+            borderRadius: isMobile ? 1 : 0,
+            justifyContent: (open || isMobile) ? "flex-start" : "center",
             '&:hover': {
-              background: "#f5f5f5",
+              background: isMobile ? "#f8f9fa" : "#f5f5f5",
               color: green,
               '& .MuiListItemIcon-root': { color: green },
               '& .MuiTypography-root': { color: green }
             },
-            transition: "all 0.2s"
+            transition: "all 0.2s ease"
           }}
         >
-          <ListItemIcon sx={{ minWidth: 0, mr: open ? 2.5 : 0, justifyContent: "center" }}>
+          <ListItemIcon sx={{ 
+            minWidth: 0, 
+            mr: (open || isMobile) ? 1.5 : 0, 
+            justifyContent: "center",
+            color: "#666"
+          }}>
             <ExitToAppIcon />
           </ListItemIcon>
-          {open && <ListItemText primary="خروج" sx={{ '.MuiTypography-root': { fontSize: 16, ml: 2 } }} />}
+          {(open || isMobile) && (
+            <ListItemText 
+              primary="خروج" 
+              sx={{ 
+                '.MuiTypography-root': { 
+                  fontSize: 14, 
+                  color: "#333",
+                  fontWeight: "normal"
+                } 
+              }} 
+            />
+          )}
         </ListItem>
       </Box>
     </Box>
   );
 };
 
-const ClientSidebar = () => {
+const ClientSidebar = ({ onSidebarToggle }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const { userInfo: authContextUserInfo } = useContext(AuthContext);
   const [userInfo, setUserInfo] = useState(authContextUserInfo || null);
-  const [open, setOpen] = useState(localStorage.getItem("sidebarOpen") === "false" ? false : true);
+  const [open, setOpen] = useState(!isMobile && localStorage.getItem("sidebarOpen") !== "false");
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -220,7 +241,17 @@ const ClientSidebar = () => {
     sessionStorage.clear();
     navigate("/");
     window.location.reload();
+  };
 
+  const handleSetOpen = (newOpen) => {
+    setOpen(newOpen);
+    if (onSidebarToggle) {
+      onSidebarToggle(newOpen);
+    }
+  };
+
+  const handleMobileToggle = () => {
+    setMobileOpen(!mobileOpen);
   };
 
   useEffect(() => {
@@ -233,35 +264,77 @@ const ClientSidebar = () => {
     .catch(err => console.error("Failed to fetch user info", err));
   }, []);
 
+  useEffect(() => {
+    if (onSidebarToggle && !isMobile) {
+      onSidebarToggle(open);
+    }
+  }, [open, isMobile, onSidebarToggle]);
+
+  // Prevent body scroll when mobile drawer is open
+  useEffect(() => {
+    if (isMobile) {
+      if (mobileOpen) {
+        document.body.style.overflow = 'hidden';
+        document.body.style.paddingRight = '0px'; // Prevent shift from scrollbar
+      } else {
+        document.body.style.overflow = '';
+      }
+    }
+  }, [mobileOpen, isMobile]);
+
   if (isMobile) {
     return (
       <>
+        {/* Mobile menu button - only shown when drawer is closed */}
         {!mobileOpen && (
           <IconButton
-            onClick={() => setMobileOpen(true)}
+            onClick={handleMobileToggle}
             sx={{
               position: "fixed",
-              top: 16,
-              left: 16,
-              zIndex: 2000,
-              background: "#fff",
-              boxShadow: 2,
-              p: 1
+              top: 12,
+              left: 12,
+              zIndex: 1200, // Lower than drawer z-index
+              width: 40,
+              height: 40,
+              backgroundColor: "#fff",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+              border: "1px solid #e0e0e0",
+              '&:hover': {
+                backgroundColor: "#f8f9fa",
+              },
+              transition: "all 0.2s ease"
             }}
           >
-            <MenuIcon />
+            <MenuIcon sx={{ color: "#333", fontSize: 24 }} />
           </IconButton>
         )}
+
+        {/* Mobile drawer */}
         <Drawer
           anchor="left"
           open={mobileOpen}
           onClose={() => setMobileOpen(false)}
+          ModalProps={{
+            keepMounted: true,
+          }}
+          SlideProps={{
+            direction: "left"
+          }}
           PaperProps={{
             sx: {
               width: drawerWidth,
               bgcolor: "#fff",
-              boxShadow: "0 0 16px 0 #0002",
-              overflowX: "hidden"
+              boxShadow: "2px 0 8px rgba(0,0,0,0.1)",
+              overflowX: "hidden",
+              overflowY: "auto"
+            }
+          }}
+          sx={{
+            '& .MuiDrawer-paper': {
+              border: 'none',
+            },
+            '& .MuiBackdrop-root': {
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
             }
           }}
         >
@@ -279,6 +352,7 @@ const ClientSidebar = () => {
     );
   }
 
+  // Desktop sidebar
   return (
     <Drawer
       variant="permanent"
@@ -288,9 +362,12 @@ const ClientSidebar = () => {
         sx: {
           width: open ? drawerWidth : closedDrawerWidth,
           bgcolor: "#fff",
-          boxShadow: "0 0 16px 0 #0002",
+          boxShadow: "0 0 8px 0 #0001",
           overflowX: "hidden",
-          transition: "width 0.2s"
+          transition: "width 0.3s ease",
+          position: "fixed",
+          height: "100vh",
+          zIndex: 1200
         }
       }}
     >
@@ -298,7 +375,7 @@ const ClientSidebar = () => {
         userInfo={userInfo}
         logout={handleLogout}
         open={open}
-        setOpen={setOpen}
+        setOpen={handleSetOpen}
         isMobile={false}
         currentPath={location.pathname}
       />
