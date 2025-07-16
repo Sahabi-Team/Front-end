@@ -17,7 +17,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
 import EmailIcon from "@mui/icons-material/Email";
 import InputAdornment from "@mui/material/InputAdornment";
-import { Paper } from "@mui/material";
+import { Paper, Stack } from "@mui/material";
 import { useNavigate } from "react-router";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
@@ -25,9 +25,8 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import ErrorModal from "../modals/ErrorModal";
 import SuccessfulModal from "../modals/SuccessfulModal";
 import axios from "axios";
-import HomeIcon from '@mui/icons-material/Home';
-import config from '../../config';
-
+import HomeIcon from "@mui/icons-material/Home";
+import config from "../../config";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -61,7 +60,6 @@ export default function SignUpCard() {
   const [opensuccessfulmodal, setOpenSuccessfulModal] = React.useState(false);
   const [openErrorModal, setOpenErrorModal] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
-
 
   const navigate = useNavigate();
 
@@ -184,16 +182,15 @@ export default function SignUpCard() {
     try {
       const response = await axios.post(
         `${config.API_BASE_URL}/api/auth/register/`,
-        
-          {
-            "name" : username,
-            "username": username,
-            "email": email,
-            "password": password,
-            "phone_number": "0",
-            "role": "trainee"
-        }
-        ,
+
+        {
+          name: username,
+          username: username,
+          email: email,
+          password: password,
+          phone_number: "0",
+          role: "trainee",
+        },
         {
           headers: {
             "Content-Type": "application/json",
@@ -210,16 +207,13 @@ export default function SignUpCard() {
     } catch (error) {
       let msg = "ثبت نام ناموفق بود ، لطفا دوباره تلاش کنید.";
       if (error.response?.status === 400) {
-        
         // console.log(error.response);
-        if(error.response.data.errors.username){
-           msg = "نام کاربری تکراری است.";
+        if (error.response.data.errors.username) {
+          msg = "نام کاربری تکراری است.";
+        } else if (error.response.data.errors.email) {
+          msg = "ایمیل تکراری است.";
         }
-        else if(error.response.data.errors.email){
-           msg = "ایمیل تکراری است.";
-        }
-        
-      } 
+      }
       setErrorMessage(msg);
       setOpenErrorModal(true);
     }
@@ -236,7 +230,7 @@ export default function SignUpCard() {
     return false;
   };
   const handleHomeClick = () => {
-    navigate('/'); // تغییر مسیر به صفحه اصلی
+    navigate("/"); // تغییر مسیر به صفحه اصلی
   };
 
   return (
@@ -247,31 +241,36 @@ export default function SignUpCard() {
         borderRadius: { md: "0 30px 30px 0", xs: "30px 30px 30px 30px" },
       }}
     >
-       <IconButton
-        onClick={handleHomeClick}
-        sx={{
-          position: "absolute",
-           top:95,
-          right:438.5,
-          color: "primary.main",
-          "&:hover": {
-            backgroundColor: "rgba(0, 163, 89, 0.1)",
-          },
-        }}
-      >
-        <HomeIcon />
-      </IconButton>
-      <Typography
-        component="h2"
-        variant="h4"
-        sx={{
-          width: "100%",
-          fontSize: "clamp(2rem, 10vw, 2.15rem)",
-          marginBottom: "1rem",
-        }}
-      >
-        ثبت نام در سایت
-      </Typography>
+      <Stack direction="row-reverse">
+        <IconButton
+          onClick={handleHomeClick}
+          sx={{
+            position: "absolute",
+            mr:-2.8,
+            mt:-3.3,
+            color: "primary.main",
+            "&:hover": {
+              backgroundColor: "rgba(0, 163, 89, 0.1)",
+            },
+          }}
+        >
+          <HomeIcon/>
+        </IconButton>
+
+        <Typography
+          component="h2"
+          variant="h4"
+          sx={{
+            width: "100%",
+            fontSize: "clamp(2rem, 10vw, 2.15rem)",
+            marginBottom: "1rem",
+          }}
+        >
+          ثبت نام در سایت
+        </Typography>
+
+      </Stack>
+
       <Box
         component="form"
         onSubmit={handleSubmit}
@@ -632,15 +631,15 @@ export default function SignUpCard() {
         </Button>
       </Box>
       <ErrorModal
-          open={openErrorModal}
-          onClose={handleCloseErrorModal}
-          errorMessage={errorMessage}
-        />
-        <SuccessfulModal
-         open={opensuccessfulmodal}
-         onClose={handleCloseSuccessfulModal}
-         successMessage={successmessage}
-        />
+        open={openErrorModal}
+        onClose={handleCloseErrorModal}
+        errorMessage={errorMessage}
+      />
+      <SuccessfulModal
+        open={opensuccessfulmodal}
+        onClose={handleCloseSuccessfulModal}
+        successMessage={successmessage}
+      />
     </Card>
   );
 }
