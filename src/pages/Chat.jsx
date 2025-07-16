@@ -6,6 +6,7 @@ import ChatBox from '../components/Chat/ChatBox';
 import Header from '../components/Header';
 import Sidebar from '../components/TrainerSidebar';
 import ContentContainer from '../components/ContentContainer';
+import ErrorModal from "../components/modals/ErrorModal";
 import axios from 'axios';
 import config from '../config';
 import { useNavigate } from 'react-router';
@@ -53,8 +54,12 @@ const ChatApp = () => {
   const [isSelectedMentorshipActive, setIsSelectedMentorshipActive] = useState(false);
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
+  const [openErrorModal, setOpenErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [socket, setSocket] = useState(null);
   const navigate = useNavigate();
+
+
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -62,10 +67,10 @@ const ChatApp = () => {
       try {
         const token = localStorage.getItem("access_token");
         if (!token) {
-          //setErrorMessage("لطفاً ابتدا وارد حساب کاربری خود شوید.");
-          //setOpenErrorModal(true);
+          setErrorMessage("لطفاً ابتدا وارد حساب کاربری خود شوید.");
+          setOpenErrorModal(true);
           console.error("کاربر وارد نشده است.");
-          //setLoading(false);
+          setLoading(false);
           return;
         }
 
@@ -108,7 +113,10 @@ const ChatApp = () => {
         setLoading(false);
       }
 
-      catch (error) {
+      catch (error)
+      {
+        setErrorMessage("خطا در گرفتن لیست مخاطبین");
+        setOpenErrorModal(true);
         console.error('خطا در گرفتن لیست منتورشیپ‌ها:', error);
         if (error.response?.status === 404)
           navigate("/404");
@@ -127,10 +135,10 @@ const ChatApp = () => {
 
     const token = localStorage.getItem("access_token");
     if (!token) {
-      //setErrorMessage("لطفاً ابتدا وارد حساب کاربری خود شوید.");
-      //setOpenErrorModal(true);
+      setErrorMessage("لطفاً ابتدا وارد حساب کاربری خود شوید.");
+      setOpenErrorModal(true);
       console.error("کاربر وارد نشده است.");
-      //setLoading(false);
+      setLoading(false);
       return;
     }
 
@@ -165,7 +173,10 @@ const ChatApp = () => {
 
         //setLoading(false);
       }
-      catch (error) {
+      catch (error)
+      {
+        setErrorMessage("خطا در دریافت تاریخچه گفت‌وگو");
+        setOpenErrorModal(true);
         console.error("خطا در دریافت تاریخچه چت:", error);
         if (error.response?.status === 404)
           navigate("/404");
@@ -222,6 +233,8 @@ const ChatApp = () => {
     if (!newMessage.trim()) return;
     if (!socket || socket.readyState !== WebSocket.OPEN)
     {
+      setErrorMessage("اتصال برقرار نیست! دوباره تلاش کنید");
+      setOpenErrorModal(true);
       console.warn("🚫 WebSocket is not open.");
       return;
     }
@@ -269,6 +282,8 @@ const ChatApp = () => {
             </Box>
           )}
         </ContentContainer>
+        
+        <ErrorModal open={openErrorModal} onClose={() => {setOpenErrorModal(false); if(errorMessage === "لطفاً ابتدا وارد حساب کاربری خود شوید."){navigate("/signin")} }} errorMessage={errorMessage} />
       </Box>
     </Box>
     
