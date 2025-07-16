@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Box, Divider, CssBaseline, CircularProgress, Typography } from '@mui/material';
+import { Box, Divider, CssBaseline, CircularProgress, Typography, IconButton, Avatar } from '@mui/material';
 import moment from 'jalali-moment';
 import ContactList from '../components/Chat/ContactList';
 import ChatBox from '../components/Chat/ChatBox';
@@ -10,43 +10,14 @@ import ErrorModal from "../components/modals/ErrorModal";
 import axios from 'axios';
 import config from '../config';
 import { useNavigate } from 'react-router';
+import { useMediaQuery } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBackRounded';
 
-
-
-const initialContacts = [
-  { id: 1, name: 'پویا تراشی', lastMessage: '۵ دقیقه پیش', unread: false },
-  { id: 2, name: 'علیرضا رحمی', lastMessage: '۲ روز پیش', unread: true },
-  { id: 3, name: 'سید امیرمحمد میرشمس', lastMessage: '۱۴۰۳/۱۲/۲۰', unread: false },
-  { id: 4, name: 'رضا محمدی', lastMessage: '۱۴۰۳/۱۰/۱۳', unread: true }
-];
-
-const initialMessages = {
-  1: [
-    {
-      fromMe: true,
-      text: 'سلام استاد - حال شما چطوره ؟',
-      date: moment('1403/12/19', 'jYYYY/jMM/jDD'),
-      time: '۱۰:۲۷'
-    },
-    {
-      fromMe: false,
-      text: 'عالیم! تو چطوری بی عرضه؟',
-      date: moment('1403/12/19', 'jYYYY/jMM/jDD'),
-      time: '11:37'
-    }
-  ],
-  2: [{
-      fromMe: true,
-      text: 'سلام استاد خیلی افتضاحی!',
-      date: moment('1403/12/19', 'jYYYY/jMM/jDD'),
-      time: '۱۰:۲۷'
-    },],
-  3: [],
-  4: []
-};
 
 const ChatApp = () => {
   const messageEndRef = useRef(null);
+  const isMobile = useMediaQuery('(max-width:600px)');
+  const [mobileView, setMobileView] = useState('contactsList'); // 'contactsList' | 'chatbox'
   const [currentUserId, setCurrentUserId] = useState(null);
   const [contacts, setContacts] = useState([]);
   const [messages, setMessages] = useState({});
@@ -221,6 +192,9 @@ const ChatApp = () => {
     setSelectedContactId(id);
     const selected = contacts.find(c => c.id === id);
     setIsSelectedMentorshipActive(selected?.is_active ?? false);
+    if (isMobile)
+      setMobileView('chat');
+
     // خوانده شدن پیام
     setContacts(prev =>
       prev.map(c =>
@@ -247,6 +221,7 @@ const ChatApp = () => {
     messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  const selectedContact = contacts.find(contact => contact.id === selectedContactId);
   return (
     <Box sx={{ minHeight: "100vh", display: "flex"}}>
       <Sidebar />
@@ -266,19 +241,65 @@ const ChatApp = () => {
             </Box>
           ) : (
             <Box display="flex" height="90vh">
-              <ContactList
-                contacts={contacts}
-                selectedId={selectedContactId}
-                onSelect={handleSelect}
-              />
-              <Divider orientation="vertical" flexItem />
-              <ChatBox
-                messages={messages[selectedContactId] || []}
-                newMessage={newMessage}
-                setNewMessage={setNewMessage}
-                handleSend={handleSend}
-                isActive={isSelectedMentorshipActive}
-              />
+              {/*Desktop Mode*/}
+              {!isMobile && (
+              <>
+                <ContactList
+                  contacts={contacts}
+                  selectedId={selectedContactId}
+                  onSelect={handleSelect}
+                />
+                <Divider orientation="vertical" flexItem />
+                <ChatBox
+                  messages={messages[selectedContactId] || []}
+                  newMessage={newMessage}
+                  setNewMessage={setNewMessage}
+                  handleSend={handleSend}
+                  isActive={isSelectedMentorshipActive}
+                />
+              </>
+              )}
+
+              {/*Mobile Mode: Contacts List*/}
+              {isMobile && mobileView === 'contactsList' && (
+                <ContactList
+                  contacts={contacts}
+                  selectedId={selectedContactId}
+                  onSelect={handleSelect}
+                />
+              )}
+
+              {/*Mobile Mode: Chat Box*/}
+              {isMobile && mobileView === 'chat' && selectedContact && (
+                <Box display="flex" flexDirection="column" width="100%" height="100%">
+                  {/*Contact Information*/}
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="space-between"
+                    flexDirection="row-reverse"
+                    px={2}
+                    py={1}
+                    borderBottom="1px solid #ddd"
+                    sx={{position: 'sticky', top: 0, zIndex: 10, backgroundColor: '#fff'}}
+                  >
+                    <IconButton onClick={() => setMobileView('contactsList')}>
+                      <ArrowBackIcon />
+                    </IconButton>
+                    <Typography fontWeight="bold">{selectedContact.name}</Typography>
+                    <Avatar src={selectedContact.profilePicture} />
+                  </Box>
+
+                  {/*Chat*/}
+                  <ChatBox
+                    messages={messages[selectedContactId] || []}
+                    newMessage={newMessage}
+                    setNewMessage={setNewMessage}
+                    handleSend={handleSend}
+                    isActive={isSelectedMentorshipActive}
+                  />
+                </Box>
+              )}
             </Box>
           )}
         </ContentContainer>
