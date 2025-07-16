@@ -3,7 +3,7 @@ import { Box, List, ListItem, ListItemAvatar, Avatar, ListItemText, Badge, Typog
 
 const ContactList = ({ contacts, selectedId, onSelect }) => {
   return (
-    <Box width="25%" mr={2} overflow="auto">
+    <Box sx={{width: '25%', mr: 2, overflow: 'auto', '@media (max-width:600px)': {width: '100%', mr: 0}}}>
       <List>
         {contacts.map(contact => (
           <ListItem
