@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-import React, { useState, useEffect } from 'react';
-import { Box, InputBase, Typography, Avatar, Divider, Chip ,useMediaQuery} from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import EmailIcon from '@mui/icons-material/Email';
-import EditIcon from '@mui/icons-material/Edit';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import axios from 'axios';
-import Header from '../components/Header';
-import ContentContainer from '../components/ContentContainer';
-import Sidebar from '../components/TrainerSidebar';
-import config from '../config';
-=======
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -30,7 +17,6 @@ import ContentContainer from "../components/ContentContainer";
 import Sidebar from "../components/TrainerSidebar";
 import config from "../config";
 import { useNavigate } from "react-router-dom";
->>>>>>> edit_workoutplan_branch
 
 
 const TrainerStudentsPage = () => {
@@ -131,17 +117,9 @@ const TrainerStudentsPage = () => {
   console.log(filteredStudents);
 
   return (
-<<<<<<< HEAD
     <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: '#F5F5F5' }}>
       <Sidebar onSidebarToggle={handleSidebarToggle} />
       
-=======
-    <Box
-      sx={{ display: "flex", minHeight: "100vh", backgroundColor: "#F5F5F5" }}
-    >
-      <Sidebar />
-
->>>>>>> edit_workoutplan_branch
       <Box sx={{ flexGrow: 1 }}>
         <Header isSidebarOpen={isSidebarOpen}  pageTitle="صفحه مربی" />
         <ContentContainer isSidebarOpen={isSidebarOpen}>
