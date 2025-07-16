@@ -20,10 +20,53 @@ const GreenChip = styled(Chip)(({ theme }) => ({
   margin:'2px',
 }));
 
-const GoalTimelineCard = ({ weeks = 12, days = 90 }) => {
-  // Convert numbers to Persian format
-  const persianWeeks = weeks.toLocaleString('fa-IR');
-  const persianDays = days.toLocaleString('fa-IR');
+// Helper to convert numbers to Persian format
+const toPersianDigits = (num) => {
+  if (num === null || num === undefined) return '';
+  return num.toString().replace(/\d/g, (digit) => "۰۱۲۳۴۵۶۷۸۹"[digit]);
+};
+
+// Function to estimate goal timeline based on workout days and goal
+const estimateGoalTimeline = (workoutDays, goal) => {
+  let baseWeeks = 12; // Base for moderate activity
+  let weeklyWorkoutFactor = 1; // Factor for adjusting time
+
+  switch (workoutDays) {
+    case "۱ الی ۲ روز":
+      weeklyWorkoutFactor = 1.5; // Longer time for less frequent workouts
+      break;
+    case "۳ الی ۴ روز":
+      weeklyWorkoutFactor = 1; // Base time
+      break;
+    case "۵ الی ۶ روز":
+      weeklyWorkoutFactor = 0.8; // Shorter time for more frequent workouts
+      break;
+    default:
+      weeklyWorkoutFactor = 1;
+  }
+
+  let goalFactor = 1;
+  // Adjust goal factor for specific goals (example: "کاهش سایز" might need more time than "افزایش وزن")
+  if (goal === "کاهش وزن" || goal === "کاهش سایز") {
+    goalFactor = 1.2; // Slightly longer
+  } else if (goal === "افزایش وزن" || goal === "افزایش عضله") {
+    goalFactor = 1; // No change
+  } else if (goal === "افزایش استقامت") {
+    goalFactor = 0.9; // Potentially shorter
+  }
+
+
+  const estimatedWeeks = Math.round(baseWeeks * weeklyWorkoutFactor * goalFactor);
+  const estimatedDays = estimatedWeeks * 7;
+
+  return {
+    weeks: estimatedWeeks,
+    days: estimatedDays,
+  };
+};
+
+const GoalTimelineCard = ({ workoutDays, goal }) => {
+  const { weeks, days } = estimateGoalTimeline(workoutDays, goal);
 
   return (
     <GreenCard>
@@ -33,15 +76,15 @@ const GoalTimelineCard = ({ weeks = 12, days = 90 }) => {
         </Typography>
         
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-          <GreenChip label={`${persianWeeks} هفته`} />
+          <GreenChip label={`${toPersianDigits(weeks)} هفته`} />
         </Box>
         
         <Typography variant="body1" align="center" sx={{ mt: 2 }}>
-          {persianDays} روز
+          {toPersianDigits(days)} روز
         </Typography>
         
         <Typography variant="body2" align="right" sx={{ mt: 2, fontSize: '0.9rem' }}>
-          به طور کلی برای رسیدن به هدفی که تعیین کردی به {weeks.toLocaleString('fa-IR')} هفته نیاز داری ولی با توجه به روند ورزش کردن و شرایط این مقدار میتونه کمی بیشتر یا کمتر بشه.
+          به طور کلی برای رسیدن به هدفی که تعیین کردی به {toPersianDigits(weeks)} هفته نیاز داری ولی با توجه به روند ورزش کردن و شرایط این مقدار میتونه کمی بیشتر یا کمتر بشه.
         </Typography>
       </CardContent>
     </GreenCard>

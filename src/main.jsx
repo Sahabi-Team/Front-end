@@ -30,6 +30,7 @@ import ContactUs from './pages/ContactUs.jsx';
 import InternalServerErrorPage from "./pages/InternalServerErrorPage";
 import TrainerProfile from './pages/TrainerProfile.jsx';
 import ChangePasswordTrainer from './pages/ChangePasswordTrainer.jsx';
+import Chat from './pages/Chat.jsx';
 
 import CreateWorkoutPlan from './pages/CreateWorkoutPlan.jsx';
 import WorkoutPreview from './components/CreateWorkoutPlan/WorkoutPreview.jsx'
@@ -114,7 +115,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="/editprofile" element={<EditProfile />} />
               <Route path="/FAQ" element={<FAQPage />} />
               <Route path="/exercises" element={<ExercisesPage />} />
-              <Route path="/changepassword" element={<ChangePasswordClient />} />
+              <Route path="/changepasswordtrainee" element={<ChangePasswordClient />} />
               <Route path="/exercisedetail/:id" element={<ExerciseDetail />} />
               <Route path="/trainereditprofile" element={<TrainerEditProfile />} />
               <Route path="/test_result" element={<TestResultPage />} />
@@ -131,6 +132,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="/workoutpreview" element={<WorkoutPreview />} />
               <Route path="/trainer_profile/:trainerID" element={<TrainerProfile />} />
               <Route path="/changepasswordtrainer" element={<ChangePasswordTrainer />} />
+              <Route path="/chat" element={<Chat />} />
             </Routes>
           </AuthProvider>
         </BrowserRouter>

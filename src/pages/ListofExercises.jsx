@@ -1,5 +1,5 @@
 import React, { useState, useEffect, } from "react";
-import { Box, Container, Typography, Grid, Stack, Pagination, useMediaQuery, useTheme  } from "@mui/material";
+import { Box, Container, Typography, Grid, Stack, Pagination, useMediaQuery, useTheme ,CssBaseline } from "@mui/material";
 import SearchBar from "../components/ListOfExercises/SearchBar";
 import ExerciseFilters from "../components/ListOfExercises/FiltersSidebar";
 import ExerciseCard from "../components/ListOfExercises/ExerciseCard";
@@ -26,7 +26,7 @@ const ExercisesPage = () => {
     equipment: [],
   });
 
-  // حالت صفحه‌بندی
+
   const [currentPage, setCurrentPage] = useState(1);
   const exercisesPerPage = 12;
 
@@ -49,7 +49,7 @@ const ExercisesPage = () => {
   }, [location.state]);
 
 
-  // دریافت تمام تمرینات از بک‌اند
+
   const fetchAllExercises = async (customFilters = filters) => {
     setIsLoading(true);
     try {
@@ -82,14 +82,14 @@ const ExercisesPage = () => {
     }
   };
  
-  // محاسبه تمرینات صفحه جاری
+
   const updateDisplayedExercises = () => {
     const indexOfLastExercise = currentPage * exercisesPerPage;
     const indexOfFirstExercise = indexOfLastExercise - exercisesPerPage;
     setDisplayedExercises(allExercises.slice(indexOfFirstExercise, indexOfLastExercise));
   };
 
-  // هر بار که فیلترها یا عبارت جستجو تغییر می‌کند، داده‌ها را مجدداً دریافت کنید
+ 
   useEffect(() => {
     fetchAllExercises();
   }, [filters, searchTerm]);
@@ -101,245 +101,171 @@ useEffect(() => {
 }, [serverError, navigate]);
 
 
-  // هر بار که تمام تمرینات یا صفحه فعلی تغییر کرد، لیست نمایش داده شده را به‌روز کنید
+  
   useEffect(() => {
     updateDisplayedExercises();
   }, [allExercises, currentPage]);
 
-  // تابع جستجو
+ 
   const handleSearchResults = (term) => {
     setSearchTerm(term);
   };
 
-  // تابع اعمال فیلترها
+
   const applyFilters = () => {
     setCurrentPage(1);
   };
 
-  // تغییر صفحه
+
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
 
-  
-  // حالت دسکتاپ
-  const DesktopView = () => (
-    <>
-      <Box
-        sx={{
-          backgroundColor: "white",
-          height: "250vh",
-         // minHeight:"100vh",
-          pt: 15,
-          pb: 6,
-         
-        }}
-      >
-        <Container maxWidth="lg" sx={{ px: 0 }}>
-          <Typography 
-            variant="h4"
-            sx={{
-              color: "black",
-              mb: 4,
-              textAlign: "center"
-            }}
-          >
-            چطوری این حرکت رو بزنم؟ جوابش این پایینه!
-          </Typography>
 
+
+  const isScreenBelow700 = useMediaQuery("(max-width:700px)");
+  const isScreenBelow1050 = useMediaQuery("(max-width:1050px)");
+
+
+  return (
+    <Box sx={{ minHeight: { sm :"450vh",md:"450vh",lg:"280vh"}, display: "flex", flexDirection: "column", backgroundColor: "white" }}>
+      <NavBar />
+      <CssBaseline enableColorScheme />
+      <Container maxWidth="lg" sx={{ flex: 1, mt: 6, p: 10}}>
+        <Typography variant="h4" sx={{ color: "black", mb: 4, textAlign: "center" }}>
+          چطوری این حرکت رو بزنم؟ جوابش این پایینه!
+        </Typography>
+
+       
+        {!isScreenBelow700 && (
           <Box sx={{
             backgroundColor: "#00A359",
-            height: "100px",
+            height: "150px",
             borderRadius: "8px",
-            mb: 8,
-            padding: 3,
+            //mb:{ sm :250,md:250,lg:150},
+            p: 3,
             width: "100%",
-            position: 'relative',
-            alignItems: "center",
-              display: "flex",
+            display: "flex",
             justifyContent: "center",
-          
+            alignItems: "flex-start"
           }}>
-            <Stack 
-              direction="row"
-              sx={{
-                width: "100%",
-                height: "100%",
-                justifyContent: "space-between",
-                mt: 25
-              }}
-            >
-              <Box sx={{ 
-                width: "250px",
-                //marginRight: 0.1,
-                marginLeft: -2 
-              }}>
+            <Box sx={{ 
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+              mt:9,
+              
+             // alignItems: "flex-end"
+            }}>
+              <Box sx={{ width: "25%", minWidth: "240px" }}>
                 <ExerciseFilters 
                   filters={filters}
                   setFilters={setFilters}
                   onApply={applyFilters}
                 />
               </Box>
-              <Box sx={{ 
-                flexGrow: 1,
-                maxWidth: "80%", 
-              }}>
+              <Box sx={{ flexGrow: 1, maxWidth: "70%" ,ml:5}}>
                 <SearchBar onResults={handleSearchResults} />
+
+                  {isLoading ? (
+                    <Typography textAlign="center" my={4}>در حال دریافت تمرینات...</Typography>
+                  ) : (
+                    <Grid container spacing={2}   >
+                      {displayedExercises.map((exercise) => (
+                        <Grid item xs={12} sm={12} md={12} lg={6} key={exercise.id}>
+                          <ExerciseCard {...exercise} />
+                        </Grid>
+                      ))}
+                    </Grid>
+                  )}
+
+              
+                  {allExercises.length > 0 && (
+                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 6 }}>
+                      <Pagination
+                        count={Math.ceil(allExercises.length / exercisesPerPage)}
+                        page={currentPage}
+                        onChange={handlePageChange}
+                        color="primary"
+                        sx={{
+                          '& .MuiPaginationItem-root': {
+                            color: '#00A359',
+                            '&.Mui-selected': {
+                              backgroundColor: '#00A359',
+                              color: 'white',
+                            },
+                          }
+                        }}
+                      />
+                    </Box>
+                  )}
+
               </Box>
-            </Stack>
-          </Box>
-
-          {isLoading && (
-            <Typography textAlign="center" my={4}>در حال دریافت تمرینات...</Typography>
-          )}
-
-          <Grid container spacing={0.1} sx={{ 
-            marginTop: 4,
-            marginLeft: 40,
-            width: "80%"
-          }}>
-            {displayedExercises.map((exercise) => (
-              <Grid item xs={12} sm={6} md={6}key={exercise.id} sx={{ marginBottom: 1, marginTop: 6 }} >
-                <ExerciseCard {...exercise} sx={{ 
-                  width: "100%",
-                  borderRadius: 0,
-                  borderLeft: "none"
-                }} />
-              </Grid>
-            ))}
-          </Grid>
-
-          {allExercises.length > 0 && (
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 6, ml: 45 }}>
-              <Pagination
-                count={Math.ceil(allExercises.length / exercisesPerPage)}
-                page={currentPage}
-                onChange={handlePageChange}
-                color="primary"
-                sx={{
-                  '& .MuiPaginationItem-root': {
-                    color: '#00A359',
-                    '&.Mui-selected': {
-                      backgroundColor: '#00A359',
-                      color: 'white',
-                    },
-                  }
-                }}
-              />
             </Box>
-          )}
-        </Container>
-      </Box>
-    </>
-  );
-
-  // حالت موبایل
-  const MobileView = () => (
-    <>
-      <Box
-        sx={{
-          
-          backgroundColor: "white",
-          minHeight: "100vh",
-          maxHeight: "300vh",
-          pt: { xs: 12, sm: 15 },
-          pb: 6,
-          overflowX: "hidden",
-        }}
-      >
-        <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3 } }}>
-          <Typography 
-            variant="h4"
-            sx={{
-              color: "black",
-              mb: 4,
-              textAlign: "center"
-            }}
-          >
-            چطوری این حرکت رو بزنم؟ جوابش این پایینه!
-          </Typography>
-
-          <Box
-            sx={{
-              backgroundColor: "#00A359",
-              borderRadius: "8px",
-              mb: 4,
-              p: { xs: 2, sm: 4 },
-              width: '100%',
-              mx: 'auto',
-              minHeight: '0px',
-            }}
-          >
-            <Stack
-              direction="column-reverse"
-              spacing={2}
-              alignItems="stretch"
-            >
-              <Box sx={{ width: "100%" }}>
-                <ExerciseFilters
-                  filters={filters}
-                  setFilters={setFilters}
-                  onApply={applyFilters}
-                />
-              </Box>
-
-              <Box sx={{ flex: 1 ,width: "95%"}}>
-                <SearchBar onResults={handleSearchResults} />
-              </Box>
-            </Stack>
           </Box>
+        )}
 
-          {isLoading && (
-            <Typography textAlign="center" my={4}>در حال دریافت تمرینات...</Typography>
-          )}
-
-          <Grid
-            container
-            spacing={3}
-            sx={{
-              justifyContent: 'center',
-              mt: 2,
-             // ml:5
-            }}
-          >
-            {displayedExercises.map((exercise) => (
-              <Grid item xs={12}  key={exercise.id}>
-                <ExerciseCard {...exercise} />
-              </Grid>
-            ))}
-          </Grid>
-
-          {allExercises.length > 0 && (
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5, width: '100%' }}>
-              <Pagination
-                count={Math.ceil(allExercises.length / exercisesPerPage)}
-                page={currentPage}
-                onChange={handlePageChange}
-                color="primary"
-                sx={{
-                  '& .MuiPaginationItem-root': {
-                    color: '#00A359',
-                    '&.Mui-selected': {
-                      backgroundColor: '#00A359',
-                      color: 'white',
-                    },
-                  }
-                }}
-              />
+            
+        {isScreenBelow700 && (
+          <Box sx={{ mb: 4 }}>
+            <Box sx={{ mb: 3 }}>
+              <SearchBar onResults={handleSearchResults} />
             </Box>
-          )}
-        </Container>
-      </Box>
-    </>
-  );
+            <Box>
+              <ExerciseFilters 
+                filters={filters}
+                setFilters={setFilters}
+                onApply={applyFilters}
+              />
+              
+             
+              <Box sx={{ height: 30 }} />
+              
+              
+              {isLoading ? (
+                <Typography textAlign="center" my={4}>در حال دریافت تمرینات...</Typography>
+              ) : (
+                <Grid container spacing={2}>
+                  {displayedExercises.map((exercise) => (
+                    <Grid item xs={12} key={exercise.id}>
+                      <ExerciseCard {...exercise} />
+                    </Grid>
+                  ))}
+                </Grid>
+              )}
 
+              
+              {allExercises.length > 0 && (
+                <Box sx={{ 
+                  display: 'flex', 
+                  justifyContent: 'center', 
+                  mt: 6,
+                  mb: 4
+                }}>
+                  <Pagination
+                    count={Math.ceil(allExercises.length / exercisesPerPage)}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                    color="primary"
+                    sx={{
+                      '& .MuiPaginationItem-root': {
+                        color: '#00A359',
+                        '&.Mui-selected': {
+                          backgroundColor: '#00A359',
+                          color: 'white',
+                        },
+                      }
+                    }}
+                  />
+                </Box>
+              )}
+            </Box>
+          </Box>
+        )}
 
-  return (
-    <>
-      <NavBar />
-      {isMobile ? <MobileView /> : <DesktopView />}
+      </Container>
       <Footer />
-    </>
+    </Box>
   );
 };
 

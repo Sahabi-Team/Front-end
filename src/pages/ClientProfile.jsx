@@ -12,6 +12,15 @@ import Header from '../components/Header';
 import ContentContainer from '../components/ContentContainer';
 import config from '../config';
 
+
+
+const toPersianDigits = (str) => {
+  return str.replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
+};
+const toEnglishDigits = (str) => {
+  return str.replace(/[۰-۹]/g, (d) => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));
+};
+
 const EditProfile = () => { 
    const { userInfo } = useContext(AuthContext);
         const navigate = useNavigate();
@@ -20,17 +29,17 @@ const EditProfile = () => {
             username: "",  
             email: "",  
             phone: "",  
-            password: "********",  // رمز عبور پیش‌فرض نمایش داده نمی‌شود
+            password: "********",  
         });  
         const [profileImage, setProfileImage] = useState(null);
         const [errors, setErrors] = useState({});
         const [isLoading, setIsLoading] = useState(false);
         const [apiError, setApiError] = useState(null);
         const [successMessage, setSuccessMessage] = useState(null);
-        const [profileImageUrl, setProfileImageUrl] = useState(null); // برای نمایش
+        const [profileImageUrl, setProfileImageUrl] = useState(null); 
 
       
-        // دریافت اطلاعات اولیه کاربر
+      
       useEffect(() => {
           const fetchUserProfile = async () => {
             try {
@@ -63,18 +72,29 @@ const EditProfile = () => {
             if (!userInfo) {
               navigate('/signin');
             }
+            if (userInfo.usertype !=="trainee")
+            {
+            navigate ('/404');
+            }
           }, [userInfo, navigate]);
             
     
         const handleChange = (e) => {  
-            const { name, value } = e.target;  
-            setUserData({ ...userData, [name]: value });  
+            const { name, value } = e.target;
+
+            let processedValue = value;
+
+            if (name === "phone") {
+                processedValue = toEnglishDigits(value);
+            }
+
+            setUserData({ ...userData, [name]: processedValue }); 
         };  
         
         useEffect(() => {
             document.body.style.background = "#F5F5F5";
             return () => {
-                document.body.style.background = "#F5F5F5"; // پس‌زمینه‌ی پیش‌فرض برمی‌گردد
+                document.body.style.background = "#F5F5F5"; 
             };
         }, []);
         
@@ -117,7 +137,7 @@ const EditProfile = () => {
               formData.append('name', userData.fullName);
               
               if (profileImage) {
-                formData.append('profile_picture', profileImage); // اینجا فایل باید فرستاده بشه
+                formData.append('profile_picture', profileImage); 
               } else if (profileImageUrl === null) {
                 formData.append('delete_profile_picture', true);
               }
@@ -128,7 +148,7 @@ const EditProfile = () => {
               setSuccessMessage("اطلاعات با موفقیت به‌روزرسانی شد");
               setTimeout(() => setSuccessMessage(null), 3000);
             } catch (error) {
-                let tempErrors = { ...errors }; // ⬅️ این خط حتماً باید اول داخل catch باشه
+                let tempErrors = { ...errors }; 
             
                 if (error.response) {
                     console.log("Status:", error.response.status);
@@ -174,21 +194,21 @@ const EditProfile = () => {
           const handleFileChange =async (e) => {  
             const file = e.target.files[0];
             if (file) {
-              setProfileImage(file); // فایل برای آپلود
-              setProfileImageUrl(URL.createObjectURL(file)); // نمایش پیش‌نمایش
+              setProfileImage(file);
+              setProfileImageUrl(URL.createObjectURL(file)); 
               await profileAPI.uploadAvatar(file);
             }
           };
           
         const handleRemoveImage = async () => {
             try {
-              // 1. حذف عکس از سرور
+            
               await profileAPI.deleteAvatar();
               
-              // 2. به‌روزرسانی وضعیت محلی
+              
               setProfileImage(null);
-              setProfileImageUrl(null); // حذف نمایشی
-              // 3. نمایش پیام موفقیت
+              setProfileImageUrl(null); 
+             
               setSuccessMessage("عکس پروفایل با موفقیت حذف شد");
               setTimeout(() => setSuccessMessage(null), 3000);
               
@@ -226,18 +246,11 @@ const EditProfile = () => {
                     }} >
                 
                  {/* متن ویرایش اطلاعات در سمت راست */}
-                 <Typography variant="h5" color="black" fontWeight="bold">
+                 <Typography variant="h4" color="black" fontWeight="bold">
                             ویرایش اطلاعات
                  </Typography>
-                 {/* دکمه در سمت چپ */}
-                 <Button 
-                            variant="contained" 
-                            sx={{ backgroundColor: '#00A359', color: 'white', width: '150px',
-                                height: '50px', borderRadius: "10px" }} 
-                            onClick={handleSubmit}
-                        >
-                            ویرایش
-                        </Button>
+                
+                 
                 
             </div>
         
@@ -271,11 +284,11 @@ const EditProfile = () => {
                     <div style={{ 
                        display: 'flex', 
                        flexDirection: 'column', 
-                       alignItems: 'center', // آواتار وسط چین افقی
-                       justifyContent: 'center', // آواتار وسط چین عمودی اگر لازم شد
+                       alignItems: 'center', 
+                       justifyContent: 'center', 
                        width: '250px',
                        marginLeft:"100px",
-                       marginTop:"70px"
+                       marginTop:"20px"
                        
                       
                     }}>
@@ -343,18 +356,17 @@ const EditProfile = () => {
                             helperText={errors.fullName}
                             variant="outlined"
                             sx={{
-                            backgroundColor: "#f0f0f0", // پس‌زمینه طوسی روشن
-                            borderRadius: "8px", // گوشه‌های گرد
+                            backgroundColor: "#f0f0f0", 
+                            borderRadius: "8px", 
                             marginTop:'10px',
                             marginBottom: "20px", 
                             textAlign: 'right',
                             
                             "& .MuiOutlinedInput-root": {
-                                "& fieldset": { border: "none" }, // حذف حاشیه
-                               
+                                "& fieldset": { border: "none" }, 
                             },
                             "& .MuiInputBase-input": {
-                                // متن راست‌چین
+                               
                                 padding: "12px",
                             },
                             }}
@@ -379,12 +391,12 @@ const EditProfile = () => {
                             helperText={errors.username}
                             variant="outlined"
                             sx={{
-                            backgroundColor: "#f0f0f0", // پس‌زمینه طوسی روشن
-                            borderRadius: "8px", // گوشه‌های گرد
+                            backgroundColor: "#f0f0f0",
+                            borderRadius: "8px",
                             marginTop:'10px',
                             marginBottom: "20px", 
                             "& .MuiOutlinedInput-root": {
-                                "& fieldset": { border: "none" }, // حذف حاشیه
+                                "& fieldset": { border: "none" }, 
                                 
                             },
                             "& .MuiInputBase-input": {
@@ -413,12 +425,12 @@ const EditProfile = () => {
                              helperText={errors.email}
                             variant="outlined"
                             sx={{
-                            backgroundColor: "#f0f0f0", // پس‌زمینه طوسی روشن
-                            borderRadius: "8px", // گوشه‌های گرد
+                            backgroundColor: "#f0f0f0", 
+                            borderRadius: "8px", 
                             marginTop:'10px',
                             marginBottom: "20px", 
                             "& .MuiOutlinedInput-root": {
-                                "& fieldset": { border: "none" }, // حذف حاشیه
+                                "& fieldset": { border: "none" }, 
                               
                             },
                             "& .MuiInputBase-input": {
@@ -444,65 +456,36 @@ const EditProfile = () => {
                             placeholder="تلفن خود را وارد کنید"
                             name="phone"
                             type="tel"
-                            value={userData.phone} 
+                            value={toPersianDigits(userData.phone)} 
                             onChange={handleChange}
                             error={!!errors.phone} 
                             helperText={errors.phone}
                             variant="outlined"
                             sx={{
-                            backgroundColor: "#f0f0f0", // پس‌زمینه طوسی روشن
-                            borderRadius: "8px", // گوشه‌های گرد
+                            backgroundColor: "#f0f0f0", 
+                            borderRadius: "8px", 
                             marginTop:'10px',
                             marginBottom: "20px", 
                             "& .MuiOutlinedInput-root": {
-                                "& fieldset": { border: "none" }, // حذف حاشیه
+                                "& fieldset": { border: "none" }, 
                                 textAlign: "left",
                             },
                             "& .MuiInputBase-input": {
-                                textAlign: "left", // متن راست‌چین
+                                textAlign: "left", 
                                 padding: "12px",
                             },
                             }}
                         />
-                        <label style={{
-                            fontSize: "16px",
-                            color: "black",
-                            marginBottom: "5px",
-                            textAlign: "right"
-                              , display: "block"
-                        }}>
-                                    رمز عبور
-
-                        </label>
-                        <TextField
-                            fullWidth
-                            placeholder=" رمز عبور خود را وارد کنید"
-                            name="password" 
-                            type="password"
-                            value={userData.password} 
-                            onChange={handleChange}
-                            disabled
-                            variant="outlined"
-                            sx={{
-                            backgroundColor: "#f0f0f0", // پس‌زمینه طوسی روشن
-                            borderRadius: "8px", // گوشه‌های گرد
-                            marginTop:'10px',
-                            marginBottom: "20px", 
-                            "& .MuiOutlinedInput-root": {
-                                "& fieldset": { border: "none" }, // حذف حاشیه
-                               
-                            },
-                            "& .MuiInputBase-input": {
-                              
-                                padding: "12px",
-                            },
-                            }}
-                        />
+                       
                            
-                            <Button type="submit" variant="contained" sx={{ backgroundColor: "#D9F1DE", color: "#00A359", marginTop: 2 }} 
-                            onClick={() => window.location.href = "/changepassword"}> 
-                                تغییر رمز عبور  
-                            </Button>  
+                           <Button 
+                            variant="contained" 
+                            sx={{ backgroundColor: '#00A359', color: 'white', width: '150px',
+                                height: '50px', borderRadius: "10px" , fontSize: "20px"}} 
+                            onClick={handleSubmit}
+                        >
+                            ویرایش
+                        </Button>  
                         </form>  
                     </div>
                     </div>

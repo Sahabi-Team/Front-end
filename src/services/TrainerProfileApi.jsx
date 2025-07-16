@@ -14,7 +14,7 @@ api.interceptors.request.use(config => {
   return config;
 });
 
-// ریدایرکت به صفحه ارور 500 در صورت دریافت خطای 500
+
 api.interceptors.response.use(
   response => response,
   error => {
@@ -26,21 +26,21 @@ api.interceptors.response.use(
 );
 
 export const trainerProfileAPI = {
-  // دریافت اطلاعات پروفایل مربی
+
   getProfile: () => api.get('/trainer/info/'),
 
-  // آپدیت اطلاعات پروفایل مربی
+ 
   updateProfile: (data) => api.put('/trainer/update/', data),
 
   
-  // آپلود عکس پروفایل
+ 
   uploadAvatar: (file) => {
     const formData = new FormData();
-    formData.append('profile_picture', file); // اسم دقیق فیلد
+    formData.append('profile_picture', file); 
     return api.put('/trainer/update/', formData);
   },
 
-  // حذف عکس پروفایل
+
   deleteAvatar: () => {
     const formData = new FormData();
     formData.append('delete_profile_picture', 'true');

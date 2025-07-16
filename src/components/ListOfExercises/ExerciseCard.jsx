@@ -1,18 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Card,
-  CardActionArea,
-  CardContent,
-  CardMedia,
-  Chip,
-  Stack,
-  Typography,
-  Box,
-} from "@mui/material";
+import { Card, CardActionArea, CardContent, CardMedia, Chip, Stack, Typography, Box, useMediaQuery } from "@mui/material";
 
 const ExerciseCard = ({ id, name, images, equipments, tags, muscle_groups }) => {
   const navigate = useNavigate();
+  const isSmallScreen = useMediaQuery("(max-width:600px)");
 
   const handleClick = () => {
     navigate(`/exercisedetail/${id}`);
@@ -27,8 +19,9 @@ const ExerciseCard = ({ id, name, images, equipments, tags, muscle_groups }) => 
     <Card
       onClick={handleClick}
       sx={{
-        width: 420,
-        height: 150,
+        width: "100%",
+        maxWidth: 420,
+        height: isSmallScreen ? 130 : 160,
         borderRadius: 2,
         border: "2.5px solid #00A359",
         boxShadow: 1,
@@ -42,7 +35,7 @@ const ExerciseCard = ({ id, name, images, equipments, tags, muscle_groups }) => 
         "&::before": {
           content: '""',
           position: "absolute",
-          left: "40%",
+          left: isSmallScreen ? "35%" : "40%",
           top: 0,
           bottom: 0,
           width: "3px",
@@ -54,32 +47,32 @@ const ExerciseCard = ({ id, name, images, equipments, tags, muscle_groups }) => 
       <CardMedia
         component="img"
         sx={{
-          width: "40%",
+          width: isSmallScreen ? "35%" : "40%",
           height: "100%",
           objectFit: "cover",
-          position: "relative",
-          zIndex: 0,
         }}
         image={imageUrl}
         alt={name}
       />
       
       <Box sx={{ 
-        width: "60%",
+        width: isSmallScreen ? "65%" : "60%",
         display: "flex",
         flexDirection: "column",
+        p: 1,
       }}>
-        <CardContent sx={{ 
-          p: 2,
-          pb: 0,
-          textAlign: "left",
-        }}>
+        <CardContent sx={{ p: 0, pb: "0!important" }}>
           <Typography 
-            variant="h5" 
+            variant={isSmallScreen ? "subtitle1" : "h6"}
             fontWeight="bold"
             sx={{ 
-              mb: 1.5,
+              mb: 0.5,
               lineHeight: 1.3,
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
             }}
           >
             {name}
@@ -87,21 +80,20 @@ const ExerciseCard = ({ id, name, images, equipments, tags, muscle_groups }) => 
         </CardContent>
 
         <Box sx={{ 
-          px: 2,
-          pb: 2,
           display: "flex",
           flexDirection: "column",
-          gap: 1,
+          gap: 0.7,
+          overflow: "hidden",
         }}>
-          {/* نمایش تجهیزات */}
-          {equipmentNames.length > 0 && (
-            <Stack direction="row" spacing={0.5} flexWrap="wrap">
-              {equipmentNames.map((name, index) => (
-                <Chip 
-                  key={`equip-${index}`} 
-                  label={name} 
+        
+          {tagNames.length > 0 && (
+            <Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
+              {tagNames.slice(0, 2).map((type, index) => (
+                <Chip
+                  key={`tag-${index}`}
+                  label={type}
                   size="small"
-                  sx={{ 
+                  sx={{
                     backgroundColor: "#e0e0e0",
                     color: "#424242",
                   }}
@@ -110,15 +102,15 @@ const ExerciseCard = ({ id, name, images, equipments, tags, muscle_groups }) => 
             </Stack>
           )}
 
-          {/* نمایش تگ‌ها */}
-          {tagNames.length > 0 && (
-            <Stack direction="row" spacing={0.5} flexWrap="wrap">
-              {tagNames.map((type, index) => (
-                <Chip
-                  key={`tag-${index}`}
-                  label={type}
+         
+          {equipmentNames.length > 0 && (
+            <Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
+              {equipmentNames.slice(0, 2).map((name, index) => (
+                <Chip 
+                  key={`equip-${index}`} 
+                  label={name} 
                   size="small"
-                  sx={{
+                  sx={{ 
                     backgroundColor: "#00A359",
                     color: "white",
                   }}
@@ -127,10 +119,10 @@ const ExerciseCard = ({ id, name, images, equipments, tags, muscle_groups }) => 
             </Stack>
           )}
 
-          {/* نمایش گروه‌های عضلانی */}
+         
           {muscleGroupNames.length > 0 && (
-            <Stack direction="row" spacing={0.5} flexWrap="wrap">
-              {muscleGroupNames.map((name, index) => (
+            <Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
+              {muscleGroupNames.slice(0, 2).map((name, index) => (
                 <Chip 
                   key={`muscle-${index}`} 
                   label={name} 

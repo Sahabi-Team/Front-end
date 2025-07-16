@@ -19,6 +19,7 @@
     "@mui/x-date-pickers": "^7.28.3",
     "axios": "^1.8.3",
     "framer-motion": "^12.7.3",
+    "jalali-moment": "^3.3.11",
     "moment-jalaali": "^0.10.4",
     "react": "^19.0.0",
     "react-circular-progressbar": "^2.2.0",
