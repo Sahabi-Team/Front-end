@@ -244,6 +244,7 @@ const ComboBox = ({
   setShowWorkoutPlan,
   initialSessions,
   setInitialsession,
+  updating,
 }) => {
   const [sessions, setSessions] = useState(
     initialSessions ?? [{ moves: [], note: "" }]
@@ -318,16 +319,29 @@ const ComboBox = ({
   };
 
   const handleCancel = () => {
+    if(updating){
+      navigate("/trainer_students");
+    }
+    else{
     setSelectedUserId(null);
     showtest(false);
     setInitialsession(null);
     setShowWorkoutPlan(false);
+    }
   };
+
 
   // console.log(selectedUserId);
   // console.log(sessions);
   
   const handleSubmit = async () => {
+    
+    if(updating==true){
+      // firt delete the workoutPlan
+      // then submit the program
+    }
+    else{
+
     let error_occured = false;
     const workoutData = {
       mentorship: mentorshipId,
@@ -413,6 +427,9 @@ console.log(token);
         handleshowpreview();
       }, 1500); // 60000 میلی‌ثانیه = 60 ثانیه
     }
+  }
+
+
   };
 
   const handleshowpreview = () => {

@@ -185,11 +185,12 @@ export default function Home() {
         sx={{
           width: "100vw",
           padding: "0",
-          height: "40rem",
+          height: {xs:'20rem',md:'30rem',lg:'40rem'},
           position: "absolute", // تغییر از fixed به absolute
           top: 0,
           left: 0,
           zIndex: 0,
+          mt:3,
         }}
       >
         <BannerCard />
@@ -200,7 +201,7 @@ export default function Home() {
       <Box
         sx={{
           position: "relative",
-          mt: { xs: "15rem", md: "15rem" },
+          mt: { xs: "9rem", md: "15rem" },
           ml: { xs: "55%", md: "55%", lg: "65%", xl: "75%" },
           maxWidth: { xs: "90%", md: "30%" },
           textAlign: { xs: "center", md: "left" },
@@ -247,7 +248,7 @@ export default function Home() {
           height: "4px",
           width: "40%",
           ml: "30%",
-          mt: 37,
+          mt: {xs:15,md:35},
           backgroundImage:
             "linear-gradient(to right, transparent, #009e57, #009e57, #009e57, transparent)",
           borderRadius: "3px",

@@ -33,7 +33,8 @@ import ChangePasswordTrainer from './pages/ChangePasswordTrainer.jsx';
 import Chat from './pages/Chat.jsx';
 
 import CreateWorkoutPlan from './pages/CreateWorkoutPlan.jsx';
-import WorkoutPreview from './components/CreateWorkoutPlan/WorkoutPreview.jsx'
+import WorkoutPreview from './components/CreateWorkoutPlan/WorkoutPreview.jsx';
+import UpdateWorkoutPlan from './pages/Update_WorkoutPlan.jsx';
 
 const theme = createTheme({
   direction: "rtl",
@@ -133,6 +134,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="/trainer_profile/:trainerID" element={<TrainerProfile />} />
               <Route path="/changepasswordtrainer" element={<ChangePasswordTrainer />} />
               <Route path="/chat" element={<Chat />} />
+              <Route path="/Update_WorkoutPlan/:traineeID" element={< UpdateWorkoutPlan/>}/>
             </Routes>
           </AuthProvider>
         </BrowserRouter>

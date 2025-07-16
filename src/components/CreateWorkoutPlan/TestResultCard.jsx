@@ -50,6 +50,7 @@ const TestResultCard = ({
   setMentorshipId,
   selectedUserId,
   isreadonly,
+  updating,
 }) => {
   const theme = useTheme();
   const isLg = useMediaQuery(theme.breakpoints.only("lg"));
@@ -59,12 +60,17 @@ const TestResultCard = ({
   const [traineestests, setTraineestests] = useState([]);
   const [loading, setLoading] = useState(true);
   const { userInfo } = useContext(AuthContext);
-  const selectedUser = traineestests.find((user) => user.id === selectedUserId);
+  const selectedUser = traineestests.find(
+    (user) => user.trainee_username === selectedUserId
+  );
+  if (selectedUser) setMentorshipId(selectedUser.mentorship_id);
   let access_token = localStorage.getItem("access_token");
   const navigate = useNavigate();
 
-  console.log(access_token);
+  // console.log(access_token);
+  // console.log("sss",selectedUser);
   // console.log(traineestests);
+  // console.log(selectedUserId);
 
   function calculateAge(birthDate) {
     const today = new Date();
@@ -142,14 +148,17 @@ const TestResultCard = ({
                 onChange={(e) => {
                   setSelectedUserId(e.target.value);
                   const selectedUser = traineestests.find(
-                    (user) => user.id === e.target.value
+                    (user) => user.trainee_username === e.target.value
                   );
                   setMentorshipId(selectedUser.mentorship_id);
                 }}
                 sx={{ width: 250 }}
               >
                 {traineestests.map((user) => (
-                  <MenuItem key={user.mentorship_id} value={user.id}>
+                  <MenuItem
+                    key={user.mentorship_id}
+                    value={user.trainee_username}
+                  >
                     {user.trainee_name}
                   </MenuItem>
                 ))}
@@ -280,7 +289,11 @@ const TestResultCard = ({
               size="large"
               onClick={onStartWritingPlan}
             >
-              {isreadonly ? "ادامه نوشتن برنامه" : "شروع نوشتن برنامه"}
+              {updating
+                ? "ویرایش برنامه"
+                : isreadonly
+                ? "ادامه نوشتن برنامه"
+                : "شروع نوشتن برنامه"}
             </Button>
           </Box>
         </Box>
@@ -312,14 +325,17 @@ const TestResultCard = ({
                 onChange={(e) => {
                   setSelectedUserId(e.target.value);
                   const selectedUser = traineestests.find(
-                    (user) => user.id === e.target.value
+                    (user) => user.trainee_username === e.target.value
                   );
                   setMentorshipId(selectedUser.mentorship_id);
                 }}
                 sx={{ width: 300 }}
               >
                 {traineestests.map((user) => (
-                  <MenuItem key={user.mentorship_id} value={user.id}>
+                  <MenuItem
+                    key={user.mentorship_id}
+                    value={user.trainee_username}
+                  >
                     {user.trainee_name}
                   </MenuItem>
                 ))}
@@ -469,7 +485,11 @@ const TestResultCard = ({
               size="large"
               onClick={onStartWritingPlan}
             >
-              {isreadonly ? "ادامه نوشتن برنامه" : "شروع نوشتن برنامه"}
+              {updating
+                ? "ویرایش برنامه"
+                : isreadonly
+                ? "ادامه نوشتن برنامه"
+                : "شروع نوشتن برنامه"}
             </Button>
           </Box>
         </Box>
@@ -501,14 +521,17 @@ const TestResultCard = ({
                 onChange={(e) => {
                   setSelectedUserId(e.target.value);
                   const selectedUser = traineestests.find(
-                    (user) => user.id === e.target.value
+                    (user) => user.trainee_username === e.target.value
                   );
                   setMentorshipId(selectedUser.mentorship_id);
                 }}
                 sx={{ width: 300 }}
               >
                 {traineestests.map((user) => (
-                  <MenuItem key={user.mentorship_id} value={user.id}>
+                  <MenuItem
+                    key={user.mentorship_id}
+                    value={user.trainee_username}
+                  >
                     {user.trainee_name}
                   </MenuItem>
                 ))}
@@ -666,7 +689,11 @@ const TestResultCard = ({
               size="large"
               onClick={onStartWritingPlan}
             >
-              {isreadonly ? "ادامه نوشتن برنامه" : "شروع نوشتن برنامه"}
+              {updating
+                ? "ویرایش برنامه"
+                : isreadonly
+                ? "ادامه نوشتن برنامه"
+                : "شروع نوشتن برنامه"}
             </Button>
           </Box>
         </Box>
@@ -698,14 +725,17 @@ const TestResultCard = ({
                 onChange={(e) => {
                   setSelectedUserId(e.target.value);
                   const selectedUser = traineestests.find(
-                    (user) => user.id === e.target.value
+                    (user) => user.trainee_username === e.target.value
                   );
                   setMentorshipId(selectedUser.mentorship_id);
                 }}
                 sx={{ width: 300 }}
               >
                 {traineestests.map((user) => (
-                  <MenuItem key={user.mentorship_id} value={user.id}>
+                  <MenuItem
+                    key={user.mentorship_id}
+                    value={user.trainee_username}
+                  >
                     {user.trainee_name}
                   </MenuItem>
                 ))}
@@ -866,7 +896,11 @@ const TestResultCard = ({
               size="large"
               onClick={onStartWritingPlan}
             >
-              {isreadonly ? "ادامه نوشتن برنامه" : "شروع نوشتن برنامه"}
+              {updating
+                ? "ویرایش برنامه"
+                : isreadonly
+                ? "ادامه نوشتن برنامه"
+                : "شروع نوشتن برنامه"}
             </Button>
           </Box>
         </Box>
