@@ -43,6 +43,10 @@ const TrainerStudentsPage = () => {
     navigate(`/Update_WorkoutPlan/${username}`);
   };
 
+  const handleChatClick = (username) => {
+    navigate(`/chat/`);
+  };
+
   // Fetch trainees from API
   useEffect(() => {
     const fetchTrainees = async () => {
@@ -273,8 +277,9 @@ const TrainerStudentsPage = () => {
                             height: 40,
                             mr: 2,
                             border: "1px solid #00AF66",
-                            padding: "2px",
                             boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.2)", // Stronger shadow
+                            objectFit: 'cover',
+                            
                           }}
                         />
                         <Box
@@ -397,6 +402,9 @@ const TrainerStudentsPage = () => {
                           </Box>
                         )}
                         <Box
+                          onClick={() =>
+                            handleChatClick(student.username)
+                          }
                           sx={{
                             display: "flex",
                             alignItems: "center",
