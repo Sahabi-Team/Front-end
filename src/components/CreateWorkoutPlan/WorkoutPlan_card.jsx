@@ -65,27 +65,24 @@ const options = ["پرس سینه", "اسکات", "ددلیفت", "شنا", "ب�
 const MoveBlock = ({ index, moveData, onUpdate, onDelete }) => {
   const [exercises, setExercises] = useState([]);
 
+  // 🟡 Fetch list of exercises from the backend
   useEffect(() => {
     axios
       .get(`${config.API_BASE_URL}/api/exercises/`)
       .then((response) => {
         setExercises(response.data);
-        // setLoading(false);
       })
       .catch((error) => {
-        // setError(error.message || "خطا در دریافت داده‌ها");
-        // setLoading(false);
+        console.error("خطا در دریافت لیست حرکات:", error.message);
       });
   }, []);
 
-  // console.log(exercises);
-  const exerciseNames = exercises.map((exercise) => exercise.name);
-  // console.log(exerciseNames);
-   console.log(exercises);
+  // 🟢 Update exercise ID and label when changed
   const handleNameChange = (selectedId, movename) => {
     onUpdate({ ...moveData, name: selectedId, realname: movename });
   };
 
+  // 🔧 Update the value of a specific set
   const handleSetValueChange = (setIndex, newValue) => {
     const updatedSets = moveData.sets.map((v, i) =>
       i === setIndex ? parseInt(newValue || 0, 10) : v
@@ -93,10 +90,12 @@ const MoveBlock = ({ index, moveData, onUpdate, onDelete }) => {
     onUpdate({ ...moveData, sets: updatedSets });
   };
 
+  // ➕ Add a new set (default 1 rep)
   const handleAddSet = () => {
     onUpdate({ ...moveData, sets: [...moveData.sets, 1] });
   };
 
+  // ➖ Remove the last set
   const handleRemoveLastSet = () => {
     if (moveData.sets.length > 1) {
       onUpdate({ ...moveData, sets: moveData.sets.slice(0, -1) });
@@ -114,6 +113,7 @@ const MoveBlock = ({ index, moveData, onUpdate, onDelete }) => {
         position: "relative",
       }}
     >
+      {/* ❌ Delete button */}
       <IconButton
         onClick={onDelete}
         size="small"
@@ -132,6 +132,7 @@ const MoveBlock = ({ index, moveData, onUpdate, onDelete }) => {
         <Close fontSize="small" />
       </IconButton>
 
+      {/* 🔤 Title */}
       <Typography
         variant="subtitle1"
         fontWeight="bold"
@@ -141,6 +142,7 @@ const MoveBlock = ({ index, moveData, onUpdate, onDelete }) => {
         حرکت {index + 1}
       </Typography>
 
+      {/* 🔍 Exercise Selector */}
       <Stack
         direction={{ xs: "column", sm: "row" }}
         gap={2}
@@ -153,11 +155,11 @@ const MoveBlock = ({ index, moveData, onUpdate, onDelete }) => {
         </Typography>
         <Autocomplete
           options={exercises}
-          getOptionLabel={(option) => option.name} // نمایش نام تمرین
-          value={exercises.find((e) => e.id === moveData.name) || null} // مقدار انتخاب‌شده بر اساس id
+          getOptionLabel={(option) => option.name}
+          value={exercises.find((e) => e.id === moveData.name) || null}
           onChange={(e, newValue) =>
             handleNameChange(newValue?.id || null, newValue?.name)
-          } // ذخیره id در state
+          }
           renderInput={(params) => (
             <StyledTextField {...params} placeholder="جستجو و انتخاب..." />
           )}
@@ -167,6 +169,7 @@ const MoveBlock = ({ index, moveData, onUpdate, onDelete }) => {
         />
       </Stack>
 
+      {/* 🧱 Sets Editor */}
       {moveData.name && (
         <Stack
           direction="row"
@@ -194,6 +197,7 @@ const MoveBlock = ({ index, moveData, onUpdate, onDelete }) => {
             flexWrap="wrap"
             justifyContent={{ xs: "start", sm: "center" }}
           >
+            {/* ➕ Add Set Button */}
             <IconButton
               onClick={handleAddSet}
               sx={{
@@ -211,6 +215,7 @@ const MoveBlock = ({ index, moveData, onUpdate, onDelete }) => {
               <Add fontSize="small" />
             </IconButton>
 
+            {/* ➖ Remove Set Button */}
             <IconButton
               onClick={handleRemoveLastSet}
               disabled={moveData.sets.length === 1}
@@ -245,6 +250,7 @@ const ComboBox = ({
   initialSessions,
   setInitialsession,
   updating,
+  workoutplanidonupdate,
 }) => {
   const [sessions, setSessions] = useState(
     initialSessions ?? [{ moves: [], note: "" }]
@@ -265,6 +271,8 @@ const ComboBox = ({
   // console.log(userInfo);
   // console.log(localStorage.getItem("access_token"));
      console.log(mentorshipId ,"  MID");
+
+     console.log("sessionssssssss  ",sessions);
 
   const handleshowtest = () => {
     showtest(true);
@@ -333,14 +341,43 @@ const ComboBox = ({
 
   // console.log(selectedUserId);
   // console.log(sessions);
-  
+  // console.log('rrr  ',workoutplanidonupdate)
+
+  const deleteWorkoutPlanById = async (planId) => {
+  const token = localStorage.getItem("access_token");
+
+  if (!token) {
+    console.error("❌ توکن یافت نشد.");
+    return;
+  }
+
+  try {
+    await axios.delete(
+      `http://45.144.50.12:8000/api/workout/workout-plans/${planId}/`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      }
+    );
+
+    console.log(`✅ Workout plan با ID ${planId} با موفقیت حذف شد.`);
+  } catch (error) {
+    console.error("❌ خطا در حذف workout plan:", error.response?.data || error.message);
+  }
+};
+
+
   const handleSubmit = async () => {
     
     if(updating==true){
       // firt delete the workoutPlan
       // then submit the program
+      await deleteWorkoutPlanById(workoutplanidonupdate);
+      alert("deleted");
     }
-    else{
+   
 
     let error_occured = false;
     const workoutData = {
@@ -369,6 +406,7 @@ console.log(token);
 
       // console.log("برنامه با موفقیت ذخیره شد:", response.data);
       const workoutPlanId = response.data.id;
+      alert(workoutPlanId);
       // console.log("شناسه برنامه ورزشی:", workoutPlanId);
 
       // ⬇️⬇️⬇️ place the code hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
@@ -378,7 +416,7 @@ console.log(token);
 
         for (let moveIndex = 0; moveIndex < day.moves.length; moveIndex++) {
           const move = day.moves[moveIndex];
-          console.log(move.name,"     salam");
+          console.log(move.name,"     salamas");
           const exercisePayload = {
             exercise_id: move.name, // چون ما در Autocomplete شناسه تمرین رو در name ذخیره کردیم
             workout_plan_id: workoutPlanId,
@@ -427,7 +465,7 @@ console.log(token);
         handleshowpreview();
       }, 1500); // 60000 میلی‌ثانیه = 60 ثانیه
     }
-  }
+  
 
 
   };

@@ -42,6 +42,9 @@ const TrainerStudentsPage = () => {
   const handleEditProgramClick = (username) => {
     navigate(`/Update_WorkoutPlan/${username}`);
   };
+   const handleCreateProgramClick = () => {
+    navigate(`/createworkoutplan`);
+  };
 
   const handleChatClick = (username) => {
     navigate(`/chat/`);
@@ -368,6 +371,9 @@ const TrainerStudentsPage = () => {
                           </Box>
                         ) : (
                           <Box
+                          onClick={() =>
+                              handleCreateProgramClick()
+                            }
                             sx={{
                               display: "flex",
                               alignItems: "center",
