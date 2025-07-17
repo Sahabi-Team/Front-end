@@ -11,8 +11,10 @@ const Header = ({ pageTitle, isSidebarOpen }) => {
     <Box 
       sx={{ 
         // This is the core logic, just like your ContentContainer
-        marginLeft: isSidebarOpen ? `${drawerWidth}px` : `${closedDrawerWidth}px`,
-        transition: 'margin-left 0.3s ease-in-out',
+        marginLeft: {
+          xs: 0, // 👈 no margin on mobile
+          sm: isSidebarOpen ? `${drawerWidth}px` : `${closedDrawerWidth}px`
+        },        transition: 'margin-left 0.3s ease-in-out',
 
         // Styling for the header itself
         height: '85px',
@@ -38,6 +40,11 @@ const Header = ({ pageTitle, isSidebarOpen }) => {
         {pageTitle}
       </Typography>
 
+      <a 
+        href="http://gym-bato.ir" 
+        style={{ textDecoration: 'none' }}
+        rel="noopener noreferrer"
+      >
       <Box sx={{ display: 'flex',flexDirection : 'column' ,alignItems: 'center', gap: 1 }}>
 
         <img 
@@ -52,6 +59,7 @@ const Header = ({ pageTitle, isSidebarOpen }) => {
           جیمباتو
         </Typography>
       </Box>
+      </a>
     </Box>
   );
 };

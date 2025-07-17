@@ -127,10 +127,10 @@ const TrainerStudentsPage = () => {
           <Box
             sx={{
               display: "flex",
-              flexDirection: { xs: "column", sm: "row" }, // Stack on mobile, row on desktop
+              flexDirection: { xs: "column", sm: "column" }, // Stack on mobile, row on desktop
               justifyContent: "space-between",
               alignItems: { xs: "stretch", sm: "center" }, // Stretch on mobile, center on desktop
-              gap: { xs: 2, sm: 0 }, // Add gap on mobile
+              gap: { xs: 2, sm: 2 }, // Add gap on mobile
               mt: 2,
               mb: 3,
             }}
@@ -257,6 +257,7 @@ const TrainerStudentsPage = () => {
                         alignItems: "center",
                         py: 2,
                         px: 1, // Add horizontal padding to the student box
+                        gap: { xs: 2, sm: 2, md: 0 },
                         "&:hover": {
                           backgroundColor: "rgba(0, 0, 0, 0.01)", // Subtle hover effect
                         },
@@ -278,8 +279,9 @@ const TrainerStudentsPage = () => {
                         <Box
                           sx={{
                             display: "flex",
-                            flexDirection: "column",
-                            gap: 1,
+                            flexDirection: { xs: "column", sm: "column" },
+                            alignItems: "center",
+                            gap: { xs: 1, sm: 2 },
                           }}
                         >
                           <Typography
@@ -349,7 +351,11 @@ const TrainerStudentsPage = () => {
                             />
                             <Typography
                               className="text"
-                              sx={{ fontSize: "0.875rem", color: "#757575" }}
+                              sx={{
+                                fontSize: "0.875rem",
+                                color: "#757575",
+                                whiteSpace: "nowrap",
+                              }}
                             >
                               ویرایش برنامه
                             </Typography>
@@ -379,7 +385,11 @@ const TrainerStudentsPage = () => {
                             />
                             <Typography
                               className="text"
-                              sx={{ fontSize: "0.875rem", color: "#757575" }}
+                              sx={{
+                                fontSize: "0.875rem",
+                                color: "#757575",
+                                whiteSpace: "nowrap",
+                              }}
                             >
                               نوشتن برنامه
                             </Typography>

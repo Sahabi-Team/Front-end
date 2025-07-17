@@ -255,7 +255,7 @@ const ClientSidebar = ({ onSidebarToggle }) => {
   };
 
   useEffect(() => {
-    axios.get("http://45.144.50.12:8000/api/auth/whoami/", {
+    axios.get(`${config.API_BASE_URL}/api/auth/whoami/`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access")}`
       }
