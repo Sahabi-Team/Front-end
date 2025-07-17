@@ -127,7 +127,7 @@ const TrainerStudentsPage = () => {
           <Box
             sx={{
               display: "flex",
-              flexDirection: { xs: "column", sm: "column" }, // Stack on mobile, row on desktop
+              flexDirection: { xs: "column", sm: "row" }, 
               justifyContent: "space-between",
               alignItems: { xs: "stretch", sm: "center" }, // Stretch on mobile, center on desktop
               gap: { xs: 2, sm: 2 }, // Add gap on mobile
@@ -142,6 +142,7 @@ const TrainerStudentsPage = () => {
                 color: "#000",
                 mb: { xs: 1, sm: 0 }, // Bottom margin only on mobile
                 ml: 2,
+                whiteSpace: "nowrap",
               }}
             >
               لیست شاگرد ها

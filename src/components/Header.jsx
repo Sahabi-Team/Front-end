@@ -11,10 +11,8 @@ const Header = ({ pageTitle, isSidebarOpen }) => {
     <Box 
       sx={{ 
         // This is the core logic, just like your ContentContainer
-        marginLeft: {
-          xs: 0, // 👈 no margin on mobile
-          sm: isSidebarOpen ? `${drawerWidth}px` : `${closedDrawerWidth}px`
-        },        transition: 'margin-left 0.3s ease-in-out',
+        marginLeft: isSidebarOpen ? `${drawerWidth}px` : `${closedDrawerWidth}px`,
+        transition: 'margin-left 0.3s ease-in-out',
 
         // Styling for the header itself
         height: '85px',

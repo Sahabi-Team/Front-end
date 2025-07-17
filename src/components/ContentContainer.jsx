@@ -14,10 +14,8 @@ const ContentContainer = ({ children, isSidebarOpen }) => {
         minHeight: 'calc(100vh - 32px)',
         padding: '16px',
         // The key change is here:
-        marginLeft: {
-          xs: 0,
-          sm: isSidebarOpen ? `${drawerWidth}px` : `${closedDrawerWidth}px`,
-        },        transition: 'margin-left 0.3s ease', // Smooth transition for margin
+        marginLeft: isSidebarOpen ? `${drawerWidth}px` : `${closedDrawerWidth}px`,
+        transition: 'margin-left 0.3s ease', // Smooth transition for margin
       }}
     >
       <Box
@@ -31,8 +29,6 @@ const ContentContainer = ({ children, isSidebarOpen }) => {
           maxWidth: '1300px',
           padding: '24px',
           margin: 'auto',
-          padding: { xs: 2, sm: 3 }, 
-          mx: 1, 
         }}
       >
         {children}
