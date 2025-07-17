@@ -53,7 +53,7 @@ export default function NotificationsList() {
         }
       );
       
-      navigate(`/write-program/${notif.trainee_info.user_id}`);
+      navigate("/createworkoutplan");
     }
     catch (error) {
       console.error('Error for making the notification mark as read:', error);

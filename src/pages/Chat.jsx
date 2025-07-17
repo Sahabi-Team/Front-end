@@ -281,7 +281,7 @@ const ChatApp = () => {
                     px={2}
                     py={1}
                     borderBottom="1px solid #ddd"
-                    sx={{position: 'sticky', top: 0, zIndex: 10, backgroundColor: '#fff'}}
+                    //sx={{position: 'sticky', top: 0, zIndex: 10, backgroundColor: '#fff'}}
                   >
                     <IconButton onClick={() => setMobileView('contactsList')}>
                       <ArrowBackIcon />
