@@ -42,6 +42,9 @@ const TrainerStudentsPage = () => {
   const handleEditProgramClick = (username) => {
     navigate(`/Update_WorkoutPlan/${username}`);
   };
+   const handleCreateProgramClick = () => {
+    navigate(`/createworkoutplan`);
+  };
 
   // Fetch trainees from API
   useEffect(() => {
@@ -356,6 +359,9 @@ const TrainerStudentsPage = () => {
                           </Box>
                         ) : (
                           <Box
+                          onClick={() =>
+                              handleCreateProgramClick()
+                            }
                             sx={{
                               display: "flex",
                               alignItems: "center",
