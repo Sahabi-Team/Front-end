@@ -10,8 +10,8 @@ const Header = ({ pageTitle, isSidebarOpen }) => {
     <Box 
       sx={{ 
         marginLeft: {
-          xs: 0, // No margin on extra-small screens (mobile)
-          sm: isSidebarOpen ? `${drawerWidth}px` : `${closedDrawerWidth}px`, // Keep original logic for tablet and desktop
+          xs: 0,
+          sm: isSidebarOpen ? `${drawerWidth}px` : `${closedDrawerWidth}px`,
         },
         transition: 'margin-left 0.3s ease-in-out',
         height: '85px',

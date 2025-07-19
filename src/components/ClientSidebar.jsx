@@ -99,7 +99,7 @@ const SidebarContent = ({
             px: 1
           }}>
             <Avatar
-              src={`${config.API_BASE_URL}${userInfo?.profile_picture || ""}`}
+              src={`${config.API_BASE_URL}:8000${userInfo?.profile_picture || ""}`}
               sx={{ 
                 width: 56,
                 height: 56,

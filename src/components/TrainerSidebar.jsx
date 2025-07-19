@@ -13,24 +13,14 @@ import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import CloseIcon from '@mui/icons-material/Close';
 import MailIcon from '@mui/icons-material/Mail';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { useTheme, useMediaQuery } from "@mui/material";
 import { AuthContext } from '../contexts/AuthContext.jsx';
 import { useLocation, useNavigate } from "react-router-dom";
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import config from "../config.js";
 import axios from "axios";
-
-const menuItems = [
-  { text: "صفحه اصلی", icon: <HomeIcon />, link: "/" },
-  { text: "مشاهده شاگرد ها", icon: <ArticleIcon />, link: "/trainer_students" },
-  { text: "نوشتن برنامه جدید", icon: <AddIcon />, link: "/createworkoutplan" },
-  { text: "اعلانات", icon: <NotificationsNoneIcon />, link: "/notifications" },
-  { text: "تغییر اطلاعات کاربری", icon: <EditIcon />, link: "/trainereditprofile" },
-  { text: "تغییر رمز عبور", icon: <VpnKeyIcon />, link: "/changepasswordtrainer" },
-  { text: "پیام‌ها", icon: <MailIcon />, link: "/chat" }, 
-
-];
-
 
 const drawerWidth = 240;
 const closedDrawerWidth = 60;
@@ -45,7 +35,26 @@ const SidebarContent = ({
   isMobile,
   currentPath
 }) => {
-  const role = "مربی";
+  const role = userInfo?.usertype === "trainer" ? "مربی" : "شاگرد";
+
+  const menuItems = userInfo?.usertype === "trainer" ? [
+    { text: "صفحه اصلی", icon: <HomeIcon />, link: "/" },
+    { text: "مشاهده شاگرد ها", icon: <ArticleIcon />, link: "/trainer_students" },
+    { text: "نوشتن برنامه جدید", icon: <AddIcon />, link: "/createworkoutplan" },
+    { text: "اعلانات", icon: <NotificationsNoneIcon />, link: "/notifications" },
+    { text: "تغییر اطلاعات کاربری", icon: <EditIcon />, link: "/trainereditprofile" },
+    { text: "تغییر رمز عبور", icon: <VpnKeyIcon />, link: "/changepasswordtrainer" },
+    { text: "پیام‌ها", icon: <MailIcon />, link: "/chat" }, 
+  ] : [
+    { text: "صفحه اصلی", icon: <HomeIcon />, link: "/" },
+    { text: "مشاهده برنامه", icon: <ArticleIcon />, link: "/workoutplans" },
+    { text: "دریافت برنامه جدید", icon: <AddIcon />, link: "/new-program" },
+    { text: "نتایج تست ها", icon: <BarChartIcon />, link: "/test_result" },
+    { text: "آنالیز دوره", icon: <AccessTimeIcon />, link: "/analysis" },
+    { text: "تغییر اطلاعات کاربری", icon: <EditIcon />, link: "/editprofile" },
+    { text: "تغییر رمز عبور", icon: <VpnKeyIcon />, link: "/change-password" },
+    { text: "پیام‌ها", icon: <MailIcon />, link: "/chat" }, 
+  ];
 
   return (
     <Box
@@ -99,7 +108,7 @@ const SidebarContent = ({
             px: 1
           }}>
             <Avatar
-              src={`${config.API_BASE_URL}${userInfo?.profile_picture || ""}`}
+              src={`${config.API_BASE_URL}:8000${userInfo?.profile_picture || ""}`}              
               sx={{ 
                 width: 56,
                 height: 56,
@@ -180,51 +189,98 @@ const SidebarContent = ({
 
       {/* Logout */}
       <Box sx={{ mt: "auto", mb: 1, px: isMobile ? 0.5 : 0 }}>
-        <ListItem
-          button
-          onClick={() => {
-            logout();
-            if (isMobile) onClose();
-          }}
-          sx={{
-            px: (open || isMobile) ? 1.5 : 0.5,
-            py: 1,
-            borderRadius: isMobile ? 1 : 0,
-            justifyContent: (open || isMobile) ? "flex-start" : "center",
-            '&:hover': {
-              background: isMobile ? "#f8f9fa" : "#f5f5f5",
-              color: green,
-              '& .MuiListItemIcon-root': { color: green },
-              '& .MuiTypography-root': { color: green }
-            },
-            transition: "all 0.2s ease"
-          }}
-        >
-          <ListItemIcon sx={{ 
-            minWidth: 0, 
-            mr: (open || isMobile) ? 1.5 : 0, 
-            justifyContent: "center",
-            color: "#666"
-          }}>
-            <ExitToAppIcon />
-          </ListItemIcon>
-          {(open || isMobile) && (
-            <ListItemText 
-              primary="خروج" 
-              sx={{ 
-                '.MuiTypography-root': { 
-                  fontSize: 14, 
-                  color: "#333",
-                  fontWeight: "normal"
-                } 
-              }} 
-            />
-          )}
-        </ListItem>
+        {(open || isMobile) ? (
+          <ListItem
+            button
+            onClick={() => {
+              logout();
+              if (isMobile) onClose();
+            }}
+            sx={{
+              px: (open || isMobile) ? 1.5 : 0.5,
+              py: 1,
+              borderRadius: isMobile ? 1 : 0,
+              justifyContent: (open || isMobile) ? "flex-start" : "center",
+              '&:hover': {
+                background: isMobile ? "#f8f9fa" : "#f5f5f5",
+                color: green,
+                '& .MuiListItemIcon-root': { color: green },
+                '& .MuiTypography-root': { color: green }
+              },
+              transition: "all 0.2s ease"
+            }}
+          >
+            <ListItemIcon sx={{ 
+              minWidth: 0, 
+              mr: (open || isMobile) ? 1.5 : 0, 
+              justifyContent: "center",
+              color: "#666"
+            }}>
+              <ExitToAppIcon />
+            </ListItemIcon>
+            {(open || isMobile) && (
+              <ListItemText 
+                primary="خروج" 
+                sx={{ 
+                  '.MuiTypography-root': { 
+                    fontSize: 14, 
+                    color: "#333",
+                    fontWeight: "normal"
+                  } 
+                }} 
+              />
+            )}
+          </ListItem>
+        ) : (
+          <Tooltip title="خروج" placement="left">
+            <ListItem
+              button
+              onClick={() => {
+                logout();
+                if (isMobile) onClose();
+              }}
+              sx={{
+                px: (open || isMobile) ? 1.5 : 0.5,
+                py: 1,
+                borderRadius: isMobile ? 1 : 0,
+                justifyContent: (open || isMobile) ? "flex-start" : "center",
+                '&:hover': {
+                  background: isMobile ? "#f8f9fa" : "#f5f5f5",
+                  color: green,
+                  '& .MuiListItemIcon-root': { color: green },
+                  '& .MuiTypography-root': { color: green }
+                },
+                transition: "all 0.2s ease"
+              }}
+            >
+              <ListItemIcon sx={{ 
+                minWidth: 0, 
+                mr: (open || isMobile) ? 1.5 : 0, 
+                justifyContent: "center",
+                color: "#666"
+              }}>
+                <ExitToAppIcon />
+              </ListItemIcon>
+              {(open || isMobile) && (
+                <ListItemText 
+                  primary="خروج" 
+                  sx={{ 
+                    '.MuiTypography-root': { 
+                      fontSize: 14, 
+                      color: "#333",
+                      fontWeight: "normal"
+                    } 
+                  }} 
+                />
+              )}
+            </ListItem>
+          </Tooltip>
+        )}
       </Box>
     </Box>
   );
 };
+
 
 const TrainerSidebar = ({ onSidebarToggle }) => {
   const theme = useTheme();
