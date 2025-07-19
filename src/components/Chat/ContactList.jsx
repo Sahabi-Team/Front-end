@@ -3,7 +3,7 @@ import { Box, List, ListItem, ListItemAvatar, Avatar, ListItemText, Badge, Typog
 
 const ContactList = ({ contacts, selectedId, onSelect }) => {
   return (
-    <Box sx={{width: '25%', mr: 2, overflow: 'auto', '@media (max-width:600px)': {width: '100%', mr: 0}}}>
+    <Box sx={{width: '25%', mr: 2, overflow: 'auto', '@media (max-width:900px)': {width: '100%', mr: 0}}}>
       <List>
         {contacts.map(contact => (
           <ListItem
@@ -33,7 +33,7 @@ const ContactList = ({ contacts, selectedId, onSelect }) => {
             </ListItemAvatar>
             <ListItemText
               primary={
-                <Typography fontWeight={contact.unread ? 'bold' : 'normal'}>
+                <Typography fontWeight={contact.unread ? 'bold' : 'normal'} sx={{textWrap: "nowrap"}}>
                   {contact.name}
                 </Typography>
               }

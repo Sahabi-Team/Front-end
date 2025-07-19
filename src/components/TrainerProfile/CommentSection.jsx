@@ -36,7 +36,7 @@ const CommentSection = ({ comments, onSubmitComment }) => {
                   {comment.trainee_name}
                 </Typography>
                 <Typography component="span" fontSize={14} variant="caption" color="text.secondary" ml={2}>
-                  {comment.created_at}
+                  {comment.created_at_humanized}
                 </Typography>
               </Typography>
               <Rating value={comment.rating} readOnly size="small" />

@@ -16,7 +16,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBackRounded';
 
 const ChatApp = () => {
   const messageEndRef = useRef(null);
-  const isMobile = useMediaQuery('(max-width:600px)');
+  const isMobile = useMediaQuery('(max-width:900px)');
   const [mobileView, setMobileView] = useState('contactsList'); // 'contactsList' | 'chatbox'
   const [currentUserId, setCurrentUserId] = useState(null);
   const [contacts, setContacts] = useState([]);
@@ -281,7 +281,7 @@ const ChatApp = () => {
                     px={2}
                     py={1}
                     borderBottom="1px solid #ddd"
-                    sx={{position: 'sticky', top: 0, zIndex: 10, backgroundColor: '#fff'}}
+                    //sx={{position: 'sticky', top: 0, zIndex: 10, backgroundColor: '#fff'}}
                   >
                     <IconButton onClick={() => setMobileView('contactsList')}>
                       <ArrowBackIcon />
