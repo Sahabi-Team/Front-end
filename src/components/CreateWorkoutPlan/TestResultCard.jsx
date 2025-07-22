@@ -107,7 +107,7 @@ const TestResultCard = ({
     fetchTrainees();
   }, []);
 
-  console.log(traineestests);
+  // console.log(traineestests);
 
   if (loading) {
     return (

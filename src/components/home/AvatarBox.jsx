@@ -43,7 +43,7 @@ const AvatarBox = () => {
   };
 
   const handleProfile = () => {
-    console.log(userInfo);
+    // console.log(userInfo);
     if (userInfo.usertype == "trainee") {
       navigate("/workoutplans");
     } else {

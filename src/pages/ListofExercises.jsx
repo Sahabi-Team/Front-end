@@ -67,9 +67,9 @@ const ExercisesPage = () => {
       if (customFilters.equipment.length > 0) {
         params.equipments = customFilters.equipment.map(e => e.id || e).join(',');
       }
-      console.log(params);
+      // console.log(params);
       const response = await axios.get(`${config.API_BASE_URL}/api/exercises/filter`, { params });
-     console.log(response);
+    //  console.log(response);
       setAllExercises(response.data || []);
       setCurrentPage(1);
     } catch (error) {

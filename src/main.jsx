@@ -129,7 +129,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="/contact_us" element={< ContactUs />} />              
               <Route path="*" element={<NotFoundPage />} />
               <Route path="/500" element={<InternalServerErrorPage />} />
-              <Route path="/createworkoutplan" element={<CreateWorkoutPlan />} />
+              <Route path="/createworkoutplan/:traineeID?" element={<CreateWorkoutPlan />} />
               <Route path="/workoutpreview" element={<WorkoutPreview />} />
               <Route path="/trainer_profile/:trainerID" element={<TrainerProfile />} />
               <Route path="/changepasswordtrainer" element={<ChangePasswordTrainer />} />

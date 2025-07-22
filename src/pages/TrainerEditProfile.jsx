@@ -43,7 +43,7 @@ const EditProfile = () => {
         try {
           const response = await trainerProfileAPI.getProfile();
           const trainerData = response.data;
-          console.log(response.data);
+          // console.log(response.data);
           setUserData({
             firstName: trainerData.user.first_name || "",
             lastName: trainerData.user.last_name || "",

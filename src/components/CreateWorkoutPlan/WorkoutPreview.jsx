@@ -428,13 +428,13 @@ export default function WorkoutDetails() {
 
 
 
-  console.log(dayPrograms);
+  // console.log(dayPrograms);
 
    
    
     
     const handleBackClick = () => {
-      navigate("/createworkoutplan");
+      navigate("/trainer_students");
     };
    
 

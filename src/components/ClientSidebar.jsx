@@ -24,7 +24,7 @@ import axios from "axios";
 const menuItems = [
   { text: "صفحه اصلی", icon: <HomeIcon />, link: "/" },
   { text: "مشاهده برنامه", icon: <ArticleIcon />, link: "/workoutplans" },
-  { text: "دریافت برنامه جدید", icon: <AddIcon />, link: "/new-program" },
+  { text: "دریافت برنامه جدید", icon: <AddIcon />, link: "/trainers" },
   { text: "نتایج تست ها", icon: <BarChartIcon />, link: "/test_result" },
   { text: "آنالیز دوره", icon: <AccessTimeIcon />, link: "/analysis" },
   { text: "تغییر اطلاعات کاربری", icon: <EditIcon />, link: "/editprofile" },

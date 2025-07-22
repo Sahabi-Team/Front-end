@@ -29,11 +29,11 @@ export default function CoachSlider() {
   const [coaches, setCoaches] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  console.log(coaches);
+  // console.log(coaches);
 
   // داده‌ها رو از API می‌گیریم
   useEffect(() => {
-    fetch(`${config.API_BASE_URL}/api/trainer/trainers/filter/`)
+    fetch(`${config.API_BASE_URL}/api/trainer/trainers/top-rated/?top=7`)
       .then((res) => res.json())
       .then((data) => {
         // console.log(data," m");

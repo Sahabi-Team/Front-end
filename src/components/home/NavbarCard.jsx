@@ -184,7 +184,7 @@ const BeautifulAppBar = ({ showInitialBorder = false }) => {
   const { userInfo, logout } = useContext(AuthContext);
 
   const [isLoggedIn, setIsLoggedIn] = useState(null);
-  console.log(localStorage.getItem("access_token"));
+  // console.log(localStorage.getItem("access_token"));
   useEffect(() => {
     async function check() {
       setIsLoggedIn(userInfo ? true : false);

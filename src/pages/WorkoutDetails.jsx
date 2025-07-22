@@ -86,7 +86,7 @@ export default function WorkoutDetails() {
     const dayMap = {};
 
     exercises.forEach((exercise) => {
-      console.log(exercise,"  edef");
+      // console.log(exercise,"  edef");
       const { day, exercise_id_display,exercise_name, reps, sets} = exercise;
 
       // اگر روز هنوز در dayMap تعریف نشده، ایجادش کن

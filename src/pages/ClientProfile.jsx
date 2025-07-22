@@ -46,7 +46,7 @@ const EditProfile = () => {
             
 
             const response = await profileAPI.getProfile();
-              console.log(response.data);
+            //   console.log(response.data);
               setUserData({
                 fullName: response.data.user.name || "",
                 username: response.data.user.username || "",
@@ -151,9 +151,9 @@ const EditProfile = () => {
                 let tempErrors = { ...errors }; 
             
                 if (error.response) {
-                    console.log("Status:", error.response.status);
-                    console.log("Data:", error.response.data);
-                    console.log("Headers:", error.response.headers);
+                    // console.log("Status:", error.response.status);
+                    // console.log("Data:", error.response.data);
+                    // console.log("Headers:", error.response.headers);
             
                     // بررسی خطاهای مربوط به فیلدها
                     if (error.response.status === 400) {
@@ -176,10 +176,10 @@ const EditProfile = () => {
                         tempErrors.apiError = "خطای ناشناخته‌ای رخ داده است";
                     }
                 } else if (error.request) {
-                    console.log("No response received:", error.request);
+                    // console.log("No response received:", error.request);
                     tempErrors.apiError = "پاسخی از سرور دریافت نشد";
                 } else {
-                    console.log("Error setting up request:", error.message);
+                    // console.log("Error setting up request:", error.message);
                     tempErrors.apiError = "خطا در تنظیم درخواست";
                 }
             

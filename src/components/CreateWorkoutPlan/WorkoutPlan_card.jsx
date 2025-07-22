@@ -270,9 +270,9 @@ const ComboBox = ({
 
   // console.log(userInfo);
   // console.log(localStorage.getItem("access_token"));
-     console.log(mentorshipId ,"  MID");
+    //  console.log(mentorshipId ,"  MID");
 
-     console.log("sessionssssssss  ",sessions);
+    //  console.log("sessionssssssss  ",sessions);
 
   const handleshowtest = () => {
     showtest(true);
@@ -362,7 +362,7 @@ const ComboBox = ({
       }
     );
 
-    console.log(`✅ Workout plan با ID ${planId} با موفقیت حذف شد.`);
+    // console.log(`✅ Workout plan با ID ${planId} با موفقیت حذف شد.`);
   } catch (error) {
     console.error("❌ خطا در حذف workout plan:", error.response?.data || error.message);
   }
@@ -375,21 +375,22 @@ const ComboBox = ({
       // firt delete the workoutPlan
       // then submit the program
       await deleteWorkoutPlanById(workoutplanidonupdate);
-      alert("deleted");
+      // alert("deleted");
+
     }
    
 
     let error_occured = false;
     const workoutData = {
       mentorship: mentorshipId,
-      status: "شروع نشده",
+      status: "در حال انجام", 
       name: "برنامه یک ماهه",
       description: "برنامه",
     };
     // console.log(workoutData);
 
     const token = localStorage.getItem("access_token");
-console.log(token);
+// console.log(token);
 
     try {
       const response = await axios.post(
@@ -406,7 +407,7 @@ console.log(token);
 
       // console.log("برنامه با موفقیت ذخیره شد:", response.data);
       const workoutPlanId = response.data.id;
-      alert(workoutPlanId);
+      // alert(workoutPlanId);
       // console.log("شناسه برنامه ورزشی:", workoutPlanId);
 
       // ⬇️⬇️⬇️ place the code hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
@@ -416,7 +417,7 @@ console.log(token);
 
         for (let moveIndex = 0; moveIndex < day.moves.length; moveIndex++) {
           const move = day.moves[moveIndex];
-          console.log(move.name,"     salamas");
+          // console.log(move.name,"     salamas");
           const exercisePayload = {
             exercise_id: move.name, // چون ما در Autocomplete شناسه تمرین رو در name ذخیره کردیم
             workout_plan_id: workoutPlanId,
@@ -427,6 +428,7 @@ console.log(token);
             order: moveIndex + 1,
             day: dayIndex + 1,
           };
+          // alert(move.sets[0].type);
 
           // console.log("در حال ارسال:", exercisePayload);
 

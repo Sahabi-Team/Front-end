@@ -57,7 +57,7 @@ export default function WorkoutPlans() {
   const [workoutplanIdonUpdate, setWorkoutplanIdonUpdate] =
     React.useState(null);
 
-  console.log(selectedUserId);
+  // console.log(selectedUserId);
   const handleStartWritingPlan = () => {
     if (istestreadonly) {
       setIstestreadonly(false);
@@ -84,7 +84,7 @@ export default function WorkoutPlans() {
 
   const fetchLatestWorkoutPlanAsSessions = async (mentorshipId) => {
     const token = localStorage.getItem("access_token");
-
+    // alert(token);
     try {
       const response = await axios.get(
         `http://45.144.50.12:8000/api/mentorship/mentorships/${mentorshipId}/last_workout_plan/`,
@@ -99,12 +99,13 @@ export default function WorkoutPlans() {
       // console.log("ddd ",response.data);
       setWorkoutplanIdonUpdate(response.data.id);
       const exercises = response.data.exercises;
+      // alert(response.data.exercises);
 
       function generateDayProgramsFromExercises(exercises) {
         const dayMap = {};
 
         exercises.forEach((exercise) => {
-          console.log(exercise, "  edef");
+          // console.log(exercise, "  edef");
           const { day, exercise_id_display, exercise_name, reps, sets } =
             exercise;
 
@@ -124,7 +125,7 @@ export default function WorkoutPlans() {
 
           // اضافه کردن تمرین به لیست تمرین‌های آن روز
           dayMap[day].exercises.push({
-            exercise_id_display,
+            id: exercise_id_display,
             name: exercise_name, // یا اگر نام واقعی از API داری، اینجا جایگزین کن
             sets: setsArray,
           });
@@ -143,9 +144,7 @@ export default function WorkoutPlans() {
             return {
               name: exercise.id,
               realname: exercise.name,
-              sets: exercise.sets.map((set) => ({
-                reps: set.reps,
-              })),
+              sets: exercise.sets.map((set) => parseInt(set.reps)),
             };
           });
 
@@ -155,10 +154,9 @@ export default function WorkoutPlans() {
           };
         });
       }
-
+      if(dayprograms.length!=0){
       setInitialsession(generateSessionsFromDayPrograms(dayprograms));
-      
-
+      }
     } catch (error) {
       console.error(
         "❌ خطا در دریافت برنامه از mentorship API:",
@@ -167,7 +165,7 @@ export default function WorkoutPlans() {
     }
   };
 
-  console.log(mentorshipId);
+  // console.log(mentorshipId);
 
   const navigate = useNavigate();
 
@@ -181,7 +179,7 @@ export default function WorkoutPlans() {
       loadSessions();
     }, []);
 
-    console.log("lll  ", initialsession);
+    // console.log("lll  ", initialsession);
     if (loading) {
       return (
         <Fade in={loadingVisible} timeout={800}>
