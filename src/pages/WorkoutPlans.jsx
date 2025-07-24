@@ -20,7 +20,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import config from "../config.js";
 import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
-import noWorkoutPlan from "../assets/imgs/NoWorkoutPlan.png"
+import noWorkoutPlan from "../assets/imgs/NoWorkoutPlan.png";
+import MainLayout from "../components/MainLayout.jsx";
 
 const LogoImage = styled("img")(({ theme }) => ({
   height: "70px",
@@ -93,239 +94,168 @@ export default function WorkoutPlans() {
       setTimeout(() => setLoadingVisible(false), 800);
     }
   }, [userInfo]);
-  
-  if(userInfo.usertype=="trainee"){
 
-  if (loading) {
+  if (userInfo.usertype == "trainee") {
+    if (loading) {
+      return (
+        <Fade in={loadingVisible} timeout={800}>
+          <Box
+            sx={{
+              height: "100vh",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              backdropFilter: "blur(12px)",
+              background: "rgba(255, 255, 255, 0.1)",
+              boxShadow: "inset 0 0 80px rgba(0,0,0,0.1)",
+              textAlign: "center",
+            }}
+          >
+            <CircularProgress size={70} thickness={4.5} color="primary" />
+            <Typography
+              variant="h6"
+              mt={4}
+              fontWeight="600"
+              color="text.primary"
+            >
+              در حال بارگذاری برنامه ورزشی شما...
+            </Typography>
+          </Box>
+        </Fade>
+      );
+    }
+
     return (
-      <Fade in={loadingVisible} timeout={800}>
-        <Box
+      <MainLayout>
+        <Paper
+          elevation={0}
           sx={{
-            height: "100vh",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            backdropFilter: "blur(12px)",
-            background: "rgba(255, 255, 255, 0.1)",
-            boxShadow: "inset 0 0 80px rgba(0,0,0,0.1)",
-            textAlign: "center",
+            p: 1,
+            borderRadius: 4,
+            maxWidth: 1300,
+            height: "80vh",
+            maxHeight: "80vh",
+            mx: "auto",
+            mt: 0,
+            overflowY: "auto",
           }}
         >
-          <CircularProgress size={70} thickness={4.5} color="primary" />
-          <Typography variant="h6" mt={4} fontWeight="600" color="text.primary">
-            در حال بارگذاری برنامه ورزشی شما...
-          </Typography>
-        </Box>
-      </Fade>
-    );
-  }
-
-  return (
-    <>
-      <CssBaseline />
-      <Stack direction={"column"}>
-        <Box>
-          <Paper elevation={50}>
-            <ClientSidebar />
-          </Paper>
-        </Box>
-        <Box
-          sx={{
-            width: {
-              xs: "87.67%",
-              sm: "89.67%",
-              md: "75.67%",
-              lg: "82.67%",
-              xl: "86.67%",
-            },
-            marginLeft: { xs: 7.5, md: 25.9 },
-            padding: 2,
-            marginTop: 3,
-          }}
-        >
-          <Stack direction={"column"}>
-            <Box>
-              <Stack
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-                sx={{
-                  direction: "rtl",
-                  pl: { sm: 2.5, lg: 1.5, xl: 9.5 },
-                  pr: { sm: 2.5, lg: 1.5, xl: 9.5 },
-                }}
-              >
-                <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
-                  <LogoImage src={Vazneh} alt="لوگو وزنه" />
-                </Box>
-                <Box>
-                  <Typography
-                    variant="h5"
-                    fontWeight="bold"
+          {workoutPlans && workoutPlans.length > 0 ? (
+            <>
+              <Stack spacing={3}>
+                {workoutPlans.map((program, index) => (
+                  <Box
+                    key={index}
                     sx={{
-                      fontSize: {
-                        xs: "1.2rem",
-                        sm: "1.5rem",
-                        md: "1.7rem",
-                        lg: "2rem",
-                      },
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      p: 2,
+                      bgcolor: "#f9f9f9",
+                      borderRadius: 2,
+                      boxShadow: 1,
+                      gap: 1,
                     }}
                   >
-                    صفحه کاربر
-                  </Typography>
-                </Box>
-              </Stack>
-            </Box>
-
-            <Box>
-              <Paper
-                elevation={7}
-                sx={{
-                  p: 1,
-                  borderRadius: 4,
-                  maxWidth: 1300,
-                  height: "80vh",
-                  maxHeight: "80vh",
-                  mx: "auto",
-                  mt: 0,
-                  overflowY: "auto",
-                }}
-              >
-                {workoutPlans && workoutPlans.length > 0 ?
-                (
-                    <>
-                     <Stack spacing={3}>
-                   
-                    
-                      {workoutPlans.map((program, index) => (
-                        <Box
-                          key={index}
-                          sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            p: 2,
-                            bgcolor: "#f9f9f9",
-                            borderRadius: 2,
-                            boxShadow: 1,
-                            gap: 1,
-                          }}
-                        >
-                          <Box sx={{ textAlign: "left" }}>
-                            <Typography
-                              variant="h6"
-                              fontWeight="bold"
-                              sx={{
-                                fontSize: {
-                                  xs: "1rem",
-                                  sm: "1.2rem",
-                                  md: "1.3rem",
-                                  lg: "1.5rem",
-                                },
-                              }}
-                            >
-                              {program.name}
-                            </Typography>
-                            <Typography
-                              variant="body2"
-                              color="text.secondary"
-                              sx={{
-                                fontSize: {
-                                  xs: "0.7rem",
-                                  sm: "0.8rem",
-                                  md: "0.9rem",
-                                  lg: "1rem",
-                                },
-                              }}
-                            >
-                              (شروع از {toPersianDate(program.created_at)})
-                            </Typography>
-                          </Box>
-                          <Chip
-                            label={program.status}
-                            color={statusColor(program.status)}
-                            variant="filled"
-                            sx={{
-                              fontSize: {
-                                xs: "0.5rem",
-                                sm: "0.8rem",
-                                md: "0.9rem",
-                                lg: "1rem",
-                              },
-                            }}
-                          />
-                          <Button
-                            variant="contained"
-                            color="success"
-                            sx={{
-                              borderRadius: 2,
-                              fontSize: {
-                                xs: "0.7rem",
-                                sm: "0.8rem",
-                                md: "0.9rem",
-                                lg: "1rem",
-                              },
-                            }}
-                            onClick={() =>
-                              handleShowWorkoutPlanClick(program.id)
-                            }
-                          >
-                            مشاهده برنامه
-                          </Button>
-                        </Box>
-                      ))}
-                   
-                  
-                </Stack>
-                    </>
-                ) : 
-                 (
-                     <Box
-                      sx={{
-                        // display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        minHeight: "200px",
-                        // bgcolor: "#f5f5f5",
-                        // borderRadius: 2,
-                        // boxShadow: 1,
-                        textAlign: "center",
-                        // p: 4,
-                        // mt: 5,
-                        marginTop:33
-                      }}
-                    >
-                      <img
-                        src={noWorkoutPlan} // اگه تصویر خاصی نداری می‌تونم برات یک SVG ساده تولید کنم
-                        alt="No program"
-                        style={{
-                          width: "200px",
-                          marginBottom: "5px",
-                          opacity: 0.9,
-                        }}
-                      />
+                    <Box sx={{ textAlign: "left" }}>
                       <Typography
                         variant="h6"
-                        color="text.secondary"
                         fontWeight="bold"
+                        sx={{
+                          fontSize: {
+                            xs: "1rem",
+                            sm: "1.2rem",
+                            md: "1.3rem",
+                            lg: "1.5rem",
+                          },
+                        }}
                       >
-                        برنامه‌ای برای شما تعریف نشده است
+                        {program.name}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{
+                          fontSize: {
+                            xs: "0.7rem",
+                            sm: "0.8rem",
+                            md: "0.9rem",
+                            lg: "1rem",
+                          },
+                        }}
+                      >
+                        (شروع از {toPersianDate(program.created_at)})
                       </Typography>
                     </Box>
-
-                 )}
-               
-              </Paper>
+                    <Chip
+                      label={program.status}
+                      color={statusColor(program.status)}
+                      variant="filled"
+                      sx={{
+                        fontSize: {
+                          xs: "0.5rem",
+                          sm: "0.8rem",
+                          md: "0.9rem",
+                          lg: "1rem",
+                        },
+                      }}
+                    />
+                    <Button
+                      variant="contained"
+                      color="success"
+                      sx={{
+                        borderRadius: 2,
+                        fontSize: {
+                          xs: "0.7rem",
+                          sm: "0.8rem",
+                          md: "0.9rem",
+                          lg: "1rem",
+                        },
+                      }}
+                      onClick={() => handleShowWorkoutPlanClick(program.id)}
+                    >
+                      مشاهده برنامه
+                    </Button>
+                  </Box>
+                ))}
+              </Stack>
+            </>
+          ) : (
+            <Box
+              sx={{
+                // display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                minHeight: "200px",
+                // bgcolor: "#f5f5f5",
+                // borderRadius: 2,
+                // boxShadow: 1,
+                textAlign: "center",
+                // p: 4,
+                // mt: 5,
+                marginTop: 33,
+              }}
+            >
+              <img
+                src={noWorkoutPlan} // اگه تصویر خاصی نداری می‌تونم برات یک SVG ساده تولید کنم
+                alt="No program"
+                style={{
+                  width: "200px",
+                  marginBottom: "5px",
+                  opacity: 0.9,
+                }}
+              />
+              <Typography variant="h6" color="text.secondary" fontWeight="bold">
+                برنامه‌ای برای شما تعریف نشده است
+              </Typography>
             </Box>
-          </Stack>
-        </Box>
-      </Stack>
-    </>
-  );
-}
-else{
-  navigate("/404")
-}
+          )}
+        </Paper>
+      </MainLayout>
+    );
+  } else {
+    navigate("/404");
+  }
 }

@@ -129,6 +129,7 @@ export default function WorkoutPlans() {
                 setShowWorkoutPlan={setShowWorkoutPlan}
                 initialSessions={initialsession}
                 setInitialsession={setInitialsession}
+                updating={false}
               />
             ) : (
               <>
@@ -137,6 +138,7 @@ export default function WorkoutPlans() {
                   setSelectedUserId={setSelectedUserId}
                   selectedUserId={selectedUserId}
                   isreadonly={istestreadonly}
+                  updating={false}
                 />
                 {setErrorMessage("کاربری انتخاب نشده است.")}
                 {setOpenErrorModal(true)}
@@ -150,6 +152,7 @@ export default function WorkoutPlans() {
               setMentorshipId={setMentorshipId}
               selectedUserId={selectedUserId}
               isreadonly={istestreadonly}
+              updating={false}
             />
           )}
         </Paper>

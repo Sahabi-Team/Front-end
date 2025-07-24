@@ -22,6 +22,8 @@ import TestResultCard from "../components/CreateWorkoutPlan/TestResultCard.jsx";
 import WorkoutPlanCard from "../components/CreateWorkoutPlan/WorkoutPlan_card.jsx";
 import ErrorModal from "../components/modals/ErrorModal.jsx";
 import MainLayout from "../components/MainLayout.jsx";
+import config from "../config.js";
+
 
 const LogoImage = styled("img")(({ theme }) => ({
   height: "70px",
@@ -88,7 +90,7 @@ export default function WorkoutPlans() {
     // alert(token);
     try {
       const response = await axios.get(
-        `http://45.144.50.12:8000/api/mentorship/mentorships/${mentorshipId}/last_workout_plan/`,
+        `${config.API_BASE_URL}/api/mentorship/mentorships/${mentorshipId}/last_workout_plan/`,
         {
           headers: {
             Accept: "application/json",
@@ -250,7 +252,7 @@ export default function WorkoutPlans() {
                           setSelectedUserId={setSelectedUserId}
                           selectedUserId={selectedUserId}
                           isreadonly={istestreadonly}
-                          updaring={true}
+                          updating={true}
                         />
                         {setErrorMessage("کاربری انتخاب نشده است.")}
                         {setOpenErrorModal(true)}

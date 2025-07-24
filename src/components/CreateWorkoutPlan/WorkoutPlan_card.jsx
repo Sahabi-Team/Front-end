@@ -353,7 +353,7 @@ const ComboBox = ({
 
   try {
     await axios.delete(
-      `http://45.144.50.12:8000/api/workout/workout-plans/${planId}/`,
+      `${config.API_BASE_URL}/api/workout/workout-plans/${planId}/`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -361,8 +361,7 @@ const ComboBox = ({
         },
       }
     );
-
-    // console.log(`✅ Workout plan با ID ${planId} با موفقیت حذف شد.`);
+    
   } catch (error) {
     console.error("❌ خطا در حذف workout plan:", error.response?.data || error.message);
   }

@@ -35,6 +35,7 @@ import Chat from './pages/Chat.jsx';
 import CreateWorkoutPlan from './pages/CreateWorkoutPlan.jsx';
 import WorkoutPreview from './components/CreateWorkoutPlan/WorkoutPreview.jsx';
 import UpdateWorkoutPlan from './pages/Update_WorkoutPlan.jsx';
+import SwitchtoProfile from './pages/SwitchtoProfile.jsx';
 
 const theme = createTheme({
   direction: "rtl",
@@ -135,6 +136,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="/changepasswordtrainer" element={<ChangePasswordTrainer />} />
               <Route path="/chat" element={<Chat />} />
               <Route path="/Update_WorkoutPlan/:traineeID" element={< UpdateWorkoutPlan/>}/>
+              <Route path="/profile" element={<SwitchtoProfile/>}/>
             </Routes>
           </AuthProvider>
         </BrowserRouter>

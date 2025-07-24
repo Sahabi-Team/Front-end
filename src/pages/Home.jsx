@@ -1,7 +1,7 @@
 import { useInView } from "react-intersection-observer";
 import CountUp from "react-countup";
 import { CssBaseline, Box, Typography, Divider, Stack } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useContext, useDebugValue } from "react";
 import BannerCard from "../components/home/BannerCard";
 import NavBar from "../components/home/NavbarCard";
 //  import NavBar from "../components/Navbar";
@@ -22,7 +22,7 @@ import Footer from "../components/Footer";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import config from "../config";
-
+import { AuthContext } from "../contexts/AuthContext.jsx";
 
 const toPersianDigits = (num) => {
   return num.toString().replace(/\d/g, (digit) => "۰۱۲۳۴۵۶۷۸۹"[digit]);
@@ -81,8 +81,7 @@ const AnimatedCounter = ({ end, duration = 2 }) => {
   if (end > 500) step = 50;
   if (end > 1000) step = 100;
 
-  const adjustedDuration =
-    end > 500 ? Math.min(duration, end / 500) : duration;
+  const adjustedDuration = end > 500 ? Math.min(duration, end / 500) : duration;
 
   return (
     <CountUp
@@ -138,7 +137,9 @@ export default function Home() {
   const [total_trainers, setNum2] = useState(null);
   const [total_wp, setNum3] = useState(null);
   const [loading, setLoading] = useState(true);
- 
+  const { userInfo } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   // this font size is for stat part
   const responsiveFontSize = {
     fontSize: {
@@ -185,12 +186,12 @@ export default function Home() {
         sx={{
           width: "100vw",
           padding: "0",
-          height: {xs:'20rem',md:'30rem',lg:'40rem'},
+          height: { xs: "20rem", md: "30rem", lg: "40rem" },
           position: "absolute", // تغییر از fixed به absolute
           top: 0,
           left: 0,
           zIndex: 0,
-          mt:3,
+          mt: 3,
         }}
       >
         <BannerCard />
@@ -248,7 +249,7 @@ export default function Home() {
           height: "4px",
           width: "40%",
           ml: "30%",
-          mt: {xs:15,md:35},
+          mt: { xs: 15, md: 35 },
           backgroundImage:
             "linear-gradient(to right, transparent, #009e57, #009e57, #009e57, transparent)",
           borderRadius: "3px",
@@ -446,7 +447,7 @@ export default function Home() {
               <Typography
                 variant="h4"
                 sx={{
-                  mt:{xs:"4.5rem",md:"1rem"},
+                  mt: { xs: "4.5rem", md: "1rem" },
                   fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" }, // تغییر سایز فونت
                   fontWeight: "bold", // در صورت نیاز
                   textAlign: "center", // برای اطمینان از وسطچین بودن متن
