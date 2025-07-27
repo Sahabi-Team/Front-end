@@ -17,6 +17,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import ErrorModal from "../modals/ErrorModal";
 import SuccessfulModal from "../modals/SuccessfulModal";
+import CircularProgress from "@mui/material/CircularProgress"; // MUI spinner
 
 const StyledTextField = styled(TextField)(() => ({
   "& .MuiOutlinedInput-root": {
@@ -267,12 +268,13 @@ const ComboBox = ({
   const [opensuccessfulmodal, setOpenSuccessfulModal] = React.useState(false);
   const [openErrorModal, setOpenErrorModal] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
+  const [loading, setLoading] = useState(false);
 
   // console.log(userInfo);
   // console.log(localStorage.getItem("access_token"));
-    //  console.log(mentorshipId ,"  MID");
+  //  console.log(mentorshipId ,"  MID");
 
-    //  console.log("sessionssssssss  ",sessions);
+  //  console.log("sessionssssssss  ",sessions);
 
   const handleshowtest = () => {
     showtest(true);
@@ -327,69 +329,67 @@ const ComboBox = ({
   };
 
   const handleCancel = () => {
-    if(updating){
+    if (updating) {
       navigate("/trainer_students");
-    }
-    else{
-    setSelectedUserId(null);
-    showtest(false);
-    setInitialsession(null);
-    setShowWorkoutPlan(false);
+    } else {
+      setSelectedUserId(null);
+      showtest(false);
+      setInitialsession(null);
+      setShowWorkoutPlan(false);
     }
   };
-
 
   // console.log(selectedUserId);
   // console.log(sessions);
   // console.log('rrr  ',workoutplanidonupdate)
 
   const deleteWorkoutPlanById = async (planId) => {
-  const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("access_token");
 
-  if (!token) {
-    console.error("❌ توکن یافت نشد.");
-    return;
-  }
+    if (!token) {
+      console.error("❌ توکن یافت نشد.");
+      return;
+    }
 
-  try {
-    await axios.delete(
-      `${config.API_BASE_URL}/api/workout/workout-plans/${planId}/`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-        },
-      }
-    );
-    
-  } catch (error) {
-    console.error("❌ خطا در حذف workout plan:", error.response?.data || error.message);
-  }
-};
-
+    try {
+      await axios.delete(
+        `${config.API_BASE_URL}/api/workout/workout-plans/${planId}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+        }
+      );
+    } catch (error) {
+      console.error(
+        "❌ خطا در حذف workout plan:",
+        error.response?.data || error.message
+      );
+    }
+  };
 
   const handleSubmit = async () => {
-    
-    if(updating==true){
+    setLoading(true); // شروع حالت لودینگ
+
+    if (updating == true) {
       // firt delete the workoutPlan
       // then submit the program
       await deleteWorkoutPlanById(workoutplanidonupdate);
       // alert("deleted");
-
     }
-   
 
     let error_occured = false;
     const workoutData = {
       mentorship: mentorshipId,
-      status: "در حال انجام", 
+      status: "در حال انجام",
       name: "برنامه یک ماهه",
       description: "برنامه",
     };
     // console.log(workoutData);
 
     const token = localStorage.getItem("access_token");
-// console.log(token);
+    // console.log(token);
 
     try {
       const response = await axios.post(
@@ -459,16 +459,15 @@ const ComboBox = ({
       setErrorMessage("خطا در ساختن برنامه");
       setOpenErrorModal(true);
     } else {
-      setSuccessMessage("برنامه با موفقیت ساخته شد");
+      setSuccessMessage("برنامه با موفقیت ذخیره شد.");
       setOpenSuccessfulModal(true);
 
       setTimeout(() => {
         handleshowpreview();
       }, 1500); // 60000 میلی‌ثانیه = 60 ثانیه
     }
-  
 
-
+    setLoading(false); // پایان حالت لودینگ
   };
 
   const handleshowpreview = () => {
@@ -645,9 +644,17 @@ const ComboBox = ({
             variant="contained"
             color="primary"
             onClick={handleSubmit}
-            fullWidth={true}
+            fullWidth
+            disabled={loading}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 1,
+            }}
           >
-            ذخیره برنامه
+            {loading && <CircularProgress size={20} sx={{ color: "white" }} />}
+            {loading ? "در حال ذخیره..." : "ذخیره برنامه"}
           </Button>
         </Stack>
       </Box>
