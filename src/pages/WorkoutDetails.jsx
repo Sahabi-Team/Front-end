@@ -207,7 +207,7 @@ const WorkoutDetails = () => {
                             display: "flex",
                             alignItems: "center",
                             gap: 1,
-                            color: "#1976d2",
+                            color: "primary.main",
                             fontWeight: "bold",
                             cursor: "pointer",
                             "&:hover": {
