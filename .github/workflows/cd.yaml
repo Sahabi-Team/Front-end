@@ -52,3 +52,5 @@ jobs:
           docker compose down
           
           docker compose up -d
+
+          yes y | docker image prune -a
