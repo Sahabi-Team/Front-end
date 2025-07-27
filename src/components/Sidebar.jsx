@@ -52,7 +52,7 @@ const SidebarContent = ({
     { text: "دریافت برنامه جدید", icon: <AddIcon />, link: "/trainers" },
     { text: "نتایج تست ها", icon: <BarChartIcon />, link: "/test_result" },
     { text: "تغییر اطلاعات کاربری", icon: <EditIcon />, link: "/editprofile" },
-    { text: "تغییر رمز عبور", icon: <VpnKeyIcon />, link: "/change-password" },
+    { text: "تغییر رمز عبور", icon: <VpnKeyIcon />, link: "/changepasswordtrainee" },
     { text: "پیام‌ها", icon: <MailIcon />, link: "/chat" },
   ];
 

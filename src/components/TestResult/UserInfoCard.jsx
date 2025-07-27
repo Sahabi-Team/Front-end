@@ -29,11 +29,12 @@ const InfoItemWrapper = styled(Box)(() => ({
   display: 'flex',
   alignItems: 'center',
   whiteSpace: 'nowrap',
+  gap: '4px',
 }));
 
 const InfoItem = ({ label, value, unit }) => (
   <InfoItemWrapper>
-    <Typography fontWeight="bold">{label}:</Typography>
+    <Typography fontWeight="bold">{label}: </Typography>
     <Box display="flex" gap={0.5} alignItems="center" sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
       <Typography>{value}</Typography>
       {unit && <Typography>{unit}</Typography>}
