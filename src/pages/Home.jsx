@@ -144,9 +144,9 @@ export default function Home() {
   const responsiveFontSize = {
     fontSize: {
       xs: "1.4rem",
-      sm: "1.6rem",
-      md: "1.8rem",
-      lg: "2rem",
+      sm: "1.5rem",
+      md: "1.6rem",
+      lg: "1.8rem",
     },
   };
 
