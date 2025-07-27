@@ -59,7 +59,7 @@ const UserInfoCard = ({ userInfo }) => {
       age--;
     }
     
-    return toPersianDigits(age);
+    return toPersianDigits(age-621);
   };
 
   const maleImages = [male1, male2, male3, male4, male5, male6];
