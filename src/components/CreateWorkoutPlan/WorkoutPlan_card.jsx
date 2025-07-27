@@ -66,6 +66,9 @@ const options = ["پرس سینه", "اسکات", "ددلیفت", "شنا", "ب�
 const MoveBlock = ({ index, moveData, onUpdate, onDelete }) => {
   const [exercises, setExercises] = useState([]);
 
+  const toPersianNumber = (num) =>
+    num?.toString().replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
+
   // 🟡 Fetch list of exercises from the backend
   useEffect(() => {
     axios
@@ -140,7 +143,7 @@ const MoveBlock = ({ index, moveData, onUpdate, onDelete }) => {
         gutterBottom
         sx={{ color: "#333" }}
       >
-        حرکت {index + 1}
+        حرکت {toPersianNumber(index + 1)}
       </Typography>
 
       {/* 🔍 Exercise Selector */}
@@ -182,10 +185,10 @@ const MoveBlock = ({ index, moveData, onUpdate, onDelete }) => {
           {moveData.sets.map((rep, i) => (
             <Stack key={i} direction="column" alignItems="center" spacing={1}>
               <Typography variant="caption" color="text.secondary">
-                ست {i + 1}
+                ست {toPersianNumber(i + 1)}
               </Typography>
               <NumberBox
-                value={rep}
+                value={toPersianNumber(rep)}
                 onChange={(e) => handleSetValueChange(i, e.target.value)}
               />
             </Stack>
@@ -263,6 +266,9 @@ const ComboBox = ({
   const { userInfo, logout } = useContext(AuthContext);
 
   const navigate = useNavigate();
+
+  const toPersianNumber = (num) =>
+    num?.toString().replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
 
   const [successmessage, setSuccessMessage] = React.useState("");
   const [opensuccessfulmodal, setOpenSuccessfulModal] = React.useState(false);
@@ -525,7 +531,7 @@ const ComboBox = ({
   return (
     <Box px={{ xs: 2, sm: 3, md: 4 }} pb={14}>
       <Typography variant="h6" color="primary" mb={3} textAlign="left">
-        جلسه تمرینی {sessionIndex + 1}
+        جلسه تمرینی {toPersianNumber(sessionIndex + 1)}
       </Typography>
 
       {currentSession.moves.map((move, index) => (

@@ -13,6 +13,7 @@ import {
   Divider,
   CircularProgress,
   Fade,
+  useMediaQuery,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
@@ -36,392 +37,18 @@ const LogoImage = styled("img")(({ theme }) => ({
   },
 }));
 
-// const dayPrograms = [
-//   {
-//     title: "برنامه روز اول",
-//     exercises: [
-//       {
-//         id: "1",
-//         name: "جلو پا دستگاه نشسته",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//           { setNumber: 4, reps: 12 },
-//         ],
-//       },
-//     ],
-//   },
-//   {
-//     title: "برنامه روز دوم",
-//     exercises: [
-//       {
-//         id: "2",
-//         name: "پشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "پشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "dsfپشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "dscdپشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "dsvcsdپشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 10 },
-//         ],
-//       },
-//     ],
-//   },
-//   {
-//     title: "برنامه روز سوم",
-//     exercises: [
-//       {
-//         id: "2",
-//         name: "پشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "پشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "dsfپشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "dscdپشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "dsvcsdپشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 10 },
-//         ],
-//       },
-//     ],
-//   },
-//   {
-//     title: "برنامه روز چهارم",
-//     exercises: [
-//       {
-//         id: "2",
-//         name: "پشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "پشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "dsfپشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "dscdپشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "dsvcsdپشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 10 },
-//         ],
-//       },
-//     ],
-//   },
-//   {
-//     title: "برنامه روز پنجم",
-//     exercises: [
-//       {
-//         id: "2",
-//         name: "پشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "پشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "dsfپشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "dscdپشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "dsvcsdپشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 10 },
-//         ],
-//       },
-//     ],
-//   },
-//   {
-//     title: "برنامه روز ششم",
-//     exercises: [
-//       {
-//         id: "2",
-//         name: "پشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "پشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "dsfپشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "dscdپشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "dsvcsdپشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 10 },
-//         ],
-//       },
-//     ],
-//   },
-//   {
-//     title: "برنامه روز هفتم",
-//     exercises: [
-//       {
-//         id: "2",
-//         name: "پشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "پشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "dsfپشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "dscdپشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "dsvcsdپشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 10 },
-//         ],
-//       },
-//     ],
-//   },
-//   {
-//     title: "برنامه روز هشتم",
-//     exercises: [
-//       {
-//         id: "2",
-//         name: "پشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "پشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "dsfپشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "dscdپشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 12 },
-//         ],
-//       },
-//       {
-//         id: "2",
-//         name: "dsvcsdپشت پا دستگاه",
-//         sets: [
-//           { setNumber: 1, reps: 12 },
-//           { setNumber: 2, reps: 12 },
-//           { setNumber: 3, reps: 10 },
-//         ],
-//       },
-//     ],
-//   },
-// ];
-
 export default function WorkoutDetails() {
   const navigate = useNavigate();
   const theme = useTheme();
   const { userInfo } = useContext(AuthContext);
-
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [loadingVisible, setLoadingVisible] = useState(false);
   let access_token = localStorage.getItem("access_token");
   const location = useLocation();
   const dayPrograms = location.state?.dayPrograms || [];
 
-  //   const selectedUserId = location.state?.selectedUserId;
-  //   const setSelectedUserId=  location.state?.setSelectedUserId;
-  //   const showtest = location.state?.showtest;
-  //   const setShowWorkoutPlan = location.state?.setShowWorkoutPlan;
-  //   const sessions = location.state?.sessions;
-  //   const setInitialsession = location.state?.setInitialsession;
-
-  // console.log(dayPrograms);
+  const toPersianNumber = (num) =>
+    num?.toString().replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
 
   const handleBackClick = () => {
     navigate("/trainer_students");
@@ -455,67 +82,69 @@ export default function WorkoutDetails() {
   return (
     <MainLayout>
       <Paper
-        elevation={0}
+        elevation={3}
         sx={{
-          p: 2,
+          p: isMobile ? 2 : 4,
           borderRadius: 4,
-          maxWidth: 1300,
-          height: "80vh",
-          maxHeight: "80vh",
+          maxWidth: 1100,
           mx: "auto",
-          mt: 0,
-          // maxHeight: "70vh",
+          mt: 2,
+          mb: 2,
+          height: "78vh",
           overflowY: "auto",
+          bgcolor: "#F8F8F8",
         }}
       >
         <Stack spacing={3}>
+          {/* Title and Back */}
           <Stack
             direction="row"
             justifyContent="space-between"
             alignItems="center"
           >
-            <Typography variant="h6" fontWeight="bold">
-              {/* {workout.name} */}
-              پیش نمایش برنامه :
+            <Typography
+              variant={isMobile ? "subtitle1" : "h6"}
+              fontWeight="bold"
+            >
+              {"پیش نمایش برنامه : "}
             </Typography>
 
             <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-              <Typography variant="h6" color="text.secondary">
+              <Typography variant="body1" color="text.secondary">
                 بازگشت
               </Typography>
               <IconButton
                 onClick={handleBackClick}
                 sx={{
-                  backgroundColor: "#f5f5f5",
+                  backgroundColor: "#eeeeee",
                   color: "#333",
-                  boxShadow: 2,
                   "&:hover": {
-                    backgroundColor: "#e0e0e0",
+                    backgroundColor: "#dddddd",
                     transform: "scale(1.05)",
                   },
                 }}
               >
-                <ArrowBackIosNewIcon fontSize="inherit" />
+                <ArrowBackIosNewIcon fontSize="small" />
               </IconButton>
             </Box>
           </Stack>
 
-          <Stack direction="column" spacing={3}>
+          {/* Workout Accordion */}
+          <Stack spacing={2}>
             {dayPrograms.map((program, index) => (
-              <Accordion key={index} sx={{ borderRadius: 3 }}>
+              <Accordion key={index} sx={{ borderRadius: 2, boxShadow: 1 }}>
                 <AccordionSummary
-                  expandIcon={<ExpandMoreIcon sx={{ color: "primary.main" }} />}
+                  expandIcon={<ExpandMoreIcon sx={{ color: "#666" }} />}
                   sx={{
                     flexDirection: "row-reverse",
-                    justifyContent: "space-between",
-                    background: `linear-gradient(135deg, ${theme.palette.primary.light}, ${theme.palette.background.default})`,
+                    backgroundColor: "#e0e0e0",
                   }}
                 >
                   <Typography fontWeight="bold">{program.title}</Typography>
                 </AccordionSummary>
 
-                <AccordionDetails sx={{ bgcolor: "background.default" }}>
-                  <Stack spacing={4}>
+                <AccordionDetails sx={{ bgcolor: "#fafafa" }}>
+                  <Stack spacing={3}>
                     {program.exercises.map((exercise, i) => (
                       <Box key={i}>
                         <Typography
@@ -539,44 +168,56 @@ export default function WorkoutDetails() {
                           {exercise.name}
                         </Typography>
 
+                        {/* Sets */}
                         <Box
                           sx={{
                             display: "flex",
                             gap: 2,
                             flexWrap: "wrap",
-                            mt: 3,
+                            mt: 2,
                           }}
                         >
                           {exercise.sets.map((set, j) => (
                             <Box
                               key={j}
                               sx={{
-                                width: 120,
-                                borderRadius: 3,
-                                p: 2,
+                                minWidth: 100,
+                                borderRadius: 2,
+                                p: 1.5,
                                 textAlign: "center",
-                                background: `linear-gradient(135deg, ${theme.palette.success.light}, ${theme.palette.background.paper})`,
+                                backgroundColor: "#ececec",
                               }}
                             >
                               <Typography variant="body2" fontWeight="bold">
                                 ست{" "}
                                 {
-                                  ["اول", "دوم", "سوم", "چهارم", "پنجم"][
-                                    set.setNumber - 1
-                                  ]
+                                  [
+                                    "اول",
+                                    "دوم",
+                                    "سوم",
+                                    "چهارم",
+                                    "پنجم",
+                                    "ششم",
+                                    "هفتم",
+                                    "هشتم",
+                                    "نهم",
+                                    "دهم",
+                                    "یازدهم",
+                                    "دوازدهم",
+                                  ][set.setNumber - 1]
                                 }
                               </Typography>
                               <Typography
                                 variant="body2"
                                 color="text.secondary"
                               >
-                                {set.reps} تکرار
+                                {toPersianNumber(set.reps)} تکرار
                               </Typography>
                             </Box>
                           ))}
                         </Box>
 
-                        <Divider sx={{ my: 3 }} />
+                        <Divider sx={{ my: 2 }} />
                       </Box>
                     ))}
                   </Stack>
