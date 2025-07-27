@@ -261,7 +261,7 @@ const TestResultCard = ({
                   <img
                     src={
                       BodyForms[selectedUser.gender == "male" ? 0 : 1][
-                        selectedUser.body_form
+                        selectedUser.body_form-1
                       ]
                     }
                   />
@@ -456,7 +456,7 @@ const TestResultCard = ({
                     <img
                       src={
                         BodyForms[selectedUser.gender == "male" ? 0 : 1][
-                          selectedUser.body_form
+                          selectedUser.body_form-1
                         ]
                       }
                     />
@@ -660,7 +660,7 @@ const TestResultCard = ({
                     <img
                       src={
                         BodyForms[selectedUser.gender == "male" ? 0 : 1][
-                          selectedUser.body_form
+                          selectedUser.body_form-1
                         ]
                       }
                     />
@@ -864,7 +864,7 @@ const TestResultCard = ({
                     <img
                       src={
                         BodyForms[selectedUser.gender == "male" ? 0 : 1][
-                          selectedUser.body_form
+                          selectedUser.body_form-1
                         ]
                       }
                     />
