@@ -49,9 +49,8 @@ const SidebarContent = ({
   ] : [
     { text: "صفحه اصلی", icon: <HomeIcon />, link: "/" },
     { text: "مشاهده برنامه", icon: <ArticleIcon />, link: "/workoutplans" },
-    { text: "دریافت برنامه جدید", icon: <AddIcon />, link: "/new-program" },
+    { text: "دریافت برنامه جدید", icon: <AddIcon />, link: "/trainers" },
     { text: "نتایج تست ها", icon: <BarChartIcon />, link: "/test_result" },
-    { text: "آنالیز دوره", icon: <AccessTimeIcon />, link: "/analysis" },
     { text: "تغییر اطلاعات کاربری", icon: <EditIcon />, link: "/editprofile" },
     { text: "تغییر رمز عبور", icon: <VpnKeyIcon />, link: "/change-password" },
     { text: "پیام‌ها", icon: <MailIcon />, link: "/chat" },
