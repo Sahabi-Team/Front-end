@@ -108,14 +108,23 @@ const TestResultPage = () => {
     fetchData();
   }, []);
 
-  if (loading) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
 
+if (loading) {
+  return (
+    <Box sx={{ 
+      display: 'flex', 
+      flexDirection: 'column', 
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      height: '100vh' 
+    }}>
+      <CircularProgress sx={{ mb: 2 }} />
+      <Typography variant="h6" color="green">
+        در حال دریافت اطلاعات...
+      </Typography>
+    </Box>
+  );
+}
 
   if (error |  !testData) {
     return (

@@ -28,9 +28,9 @@ const TransparentAppBar = styled(AppBar, {
 })(({ theme, isScrolled, showInitialBorder }) => ({
   width: "100%",
   background: isScrolled
-    ? "rgba(0, 68, 27, 0.75)"
+    ? "rgba(243, 243, 243, 0.75)"
     : "linear-gradient(to right, rgba(255,255,255,0.2), rgba(255,255,255,0.1))",
-  backdropFilter: isScrolled ? "blur(12px)" : "blur(8px)",
+  backdropFilter: isScrolled ? "blur(11px)" : "blur(7px)",
   boxShadow: isScrolled ? "0 8px 20px rgba(0, 0, 0, 0.2)" : "0 4px 12px rgba(0,0,0,0.1)",
   borderRadius: "0 0 20px 20px",
   direction: "rtl",

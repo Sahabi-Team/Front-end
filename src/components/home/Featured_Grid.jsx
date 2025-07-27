@@ -20,25 +20,25 @@ const features = [
   },
   {
     title: "تست بدنسازی",
-    text: "با چند تا سوال ساده و تستی که به صورت رایگان میدی از   BMI، BFP  و مدت زمان رسیدن به هدفت با خبر شو وضعیت بدنت رو سریع و دقیق ببین. فقط چند کلیک کافیه تا بدونی کجای مسیر هستی و چه هدفی برات مناسبه!",
+    text: "با چند تا سوال ساده  که به صورت رایگان میدی از وضعیت بدنی و مدت زمان رسیدن به هدفت با خبر شو.",
     image: analyticsImg,
   },
 ];
 
 const responsiveFontSize = {
   fontSize: {
-    xs: "1.3rem",
-    sm: "1.5rem",
-    md: "1.9rem",
-    lg: "2.1rem",
+    xs: "1.2rem",
+    sm: "1.4rem",
+    md: "1.7rem",
+    lg: "1.9rem",
   },
 };
 const responsiveFontSize2 = {
   fontSize: {
     xs: "1rem",
-    sm: "1.1rem",
-    md: "1.5rem",
-    lg: "1.5rem",
+    sm: "1.2rem",
+    md: "1.3rem",
+    lg: "1.4rem",
   },
 };
 

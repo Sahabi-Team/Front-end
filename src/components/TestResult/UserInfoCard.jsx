@@ -29,11 +29,12 @@ const InfoItemWrapper = styled(Box)(() => ({
   display: 'flex',
   alignItems: 'center',
   whiteSpace: 'nowrap',
+  gap: '4px',
 }));
 
 const InfoItem = ({ label, value, unit }) => (
   <InfoItemWrapper>
-    <Typography fontWeight="bold">{label}:</Typography>
+    <Typography fontWeight="bold">{label}: </Typography>
     <Box display="flex" gap={0.5} alignItems="center" sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
       <Typography>{value}</Typography>
       {unit && <Typography>{unit}</Typography>}
@@ -59,7 +60,7 @@ const UserInfoCard = ({ userInfo }) => {
       age--;
     }
     
-    return toPersianDigits(age);
+    return toPersianDigits(age-621);
   };
 
   const maleImages = [male1, male2, male3, male4, male5, male6];

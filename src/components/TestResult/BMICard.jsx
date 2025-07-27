@@ -65,6 +65,11 @@ const BMICard = ({ bmiValue, height }) => {
     }
   }, []);
 
+
+  const toPersianDigits = (strOrNum) => {
+  return String(strOrNum).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
+  };
+
   const calculatePosition = (bmi) => {
     const minBMI = 15;
     const maxBMI = 40;
@@ -146,7 +151,7 @@ const BMICard = ({ bmiValue, height }) => {
           >
             <NorthIcon sx={{ color: bmiStatus.color, fontSize: 32 }} />
             <StatusChip
-              label={bmiValue.toLocaleString('fa-IR')}
+              label={toPersianDigits(bmiValue)}
               size="small"
               color="primary"
               sx={{
@@ -168,7 +173,7 @@ const BMICard = ({ bmiValue, height }) => {
             direction: 'rtl',
           }}
         >
-          شاخص توده بدنی شما {bmiValue.toLocaleString('fa-IR')} هست و وزن شما در حالت {bmiStatus.label} قرار داره
+          شاخص توده بدنی شما {toPersianDigits(bmiValue)} هست و وزن شما در حالت {bmiStatus.label} قرار داره
         </Typography>
 
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
