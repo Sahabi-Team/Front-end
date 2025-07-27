@@ -53,7 +53,7 @@ const OrangeBar = ({ position, alignFarRight = false }) => {
     circleTop = "calc(50% - 7px)";
   }
   if (position === "bottom") {
-    top = isMdUp ? "110%" : "150%";
+    top = isMdUp ? "110%" : "100%";
     circleTop = isMdUp ? "calc(100% - 14px)" : "calc(100% - 14px)"; // این می‌تونه همون باشه چون تغییر نمیکنه
   }
 

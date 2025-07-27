@@ -95,7 +95,7 @@ export default function WorkoutPlans() {
     }
   }, [userInfo]);
 
-  if (userInfo.usertype == "trainee") {
+  if (userInfo!=null&& userInfo.usertype == "trainee") {
     if (loading) {
       return (
         <Fade in={loadingVisible} timeout={800}>

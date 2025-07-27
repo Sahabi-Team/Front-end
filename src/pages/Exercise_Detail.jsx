@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext} from "react";
 import ExerciseCard from "../components/Exercise_Detail/ExerciseCard";
 import Navbar from "../components/home/NavbarCard";
 import { CssBaseline, Box, Typography, Stack } from "@mui/material";
@@ -7,18 +7,34 @@ import Footer from "../components/Footer";
 import { IconButton, CircularProgress } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useNavigate } from "react-router-dom"; // import useNavigate
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import config from '../config';
+import config from "../config";
+import { AuthContext } from "../contexts/AuthContext";
 
 export default function Exercise_Detail() {
   const navigate = useNavigate(); // استفاده از useNavigate برای هدایت به صفحه جدید
   const { id } = useParams();
   const [exerciseData, setExerciseData] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const location = useLocation();
+  const { returndata } = location.state || {};
+  const { userInfo, logout } = useContext(AuthContext);
+//  console.log(location.state)
   const handleBackClick = () => {
-    navigate("/exercises"); // هدایت به صفحه /exercises
+    if (userInfo.usertype == "trainer") {
+      navigate("/exercises");
+    } else if (userInfo.usertype == "trainee") {
+      // console.log("salam");
+      if (returndata == null) {
+        navigate("/exercises");
+      } else {
+        // alert(returndata);
+        navigate(returndata);
+      }
+    } else {
+      navigate("/exercises");
+    }
   };
 
   useEffect(() => {
@@ -108,11 +124,13 @@ export default function Exercise_Detail() {
                   <CircularProgress />
                 </Box>
               ) : (
-                <Typography variant="h6" fontWeight="bold">{exerciseData.name}</Typography>
+                <Typography variant="h6" fontWeight="bold">
+                  {exerciseData.name}
+                </Typography>
               )}
-              <Box sx={{width:10}}></Box>
+              <Box sx={{ width: 10 }}></Box>
               <Typography variant="h6" fontWeight="bold">
-              :   عنوان حرکت  
+                : عنوان حرکت
               </Typography>
             </Stack>
           </Stack>
