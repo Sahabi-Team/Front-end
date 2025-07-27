@@ -13,47 +13,32 @@ import {
   Divider,
   CircularProgress,
   Fade,
+  useMediaQuery,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import ClientSidebar from "../components/ClientSidebar";
-import Vazneh from "../assets/imgs/home/vazneh.png";
+import { useNavigate, useParams } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import { AuthContext } from "../contexts/AuthContext.jsx";
 import axios from "axios";
 import config from "../config.js";
 import MainLayout from "../components/MainLayout.jsx";
 
-const LogoImage = styled("img")(({ theme }) => ({
-  height: "70px",
-  width: "auto",
-  marginRight: theme.spacing(2),
-  [theme.breakpoints.down("sm")]: {
-    height: "50px",
-  },
-}));
-
-export default function WorkoutDetails() {
+const WorkoutDetails = () => {
   const navigate = useNavigate();
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { userInfo } = useContext(AuthContext);
   const { workoutId } = useParams();
 
   const [workout, setWorkout] = useState(null);
   const [workoutPlans, setWorkoutPlans] = useState([]);
   const [loadingVisible, setLoadingVisible] = useState(false);
-  let access_token = localStorage.getItem("access_token");
-  const [arr, setArr] = useState(null);
+  const access_token = localStorage.getItem("access_token");
 
-  const handleExerciseClick = (exercise_id) => {
-    navigate(`/exercisedetail/${exercise_id}`, {
-      state: {
-        returndata: `/workoutDetails/${workoutId}`,
-      },
-    });
-  };
+  const toPersianNumber = (num) =>
+  num?.toString().replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
 
   useEffect(() => {
     const fetchWorkoutPlans = async (access) => {
@@ -91,225 +76,191 @@ export default function WorkoutDetails() {
     navigate("/workoutplans");
   };
 
-  function generateDayProgramsFromExercises(exercises) {
+  const handleExerciseClick = (exercise_id) => {
+    navigate(`/exercisedetail/${exercise_id}`, {
+      state: {
+        returndata: `/workoutDetails/${workoutId}`,
+      },
+    });
+  };
+
+  const generateDayProgramsFromExercises = (exercises) => {
     const dayMap = {};
-
     exercises.forEach((exercise) => {
-      // console.log(exercise,"  edef");
       const { day, exercise_id_display, exercise_name, reps, sets } = exercise;
-
-      // اگر روز هنوز در dayMap تعریف نشده، ایجادش کن
       if (!dayMap[day]) {
         dayMap[day] = {
-          title: `برنامه روز ${day}`,
+          title: `برنامه روز ${toPersianNumber(day)}`,
           exercises: [],
         };
       }
-
-      // ایجاد آرایه ست‌ها بر اساس تعداد sets
       const setsArray = Array.from({ length: sets }, (_, index) => ({
         setNumber: index + 1,
-        reps: reps,
+        reps,
       }));
 
-      // اضافه کردن تمرین به لیست تمرین‌های آن روز
       dayMap[day].exercises.push({
         exercise_id_display,
-        name: exercise_name, // یا اگر نام واقعی از API داری، اینجا جایگزین کن
+        name: exercise_name,
         sets: setsArray,
       });
     });
 
-    // تبدیل dayMap به آرایه dayPrograms
-    const dayPrograms = Object.values(dayMap);
-    return dayPrograms;
+    return Object.values(dayMap);
+  };
+
+  if (userInfo.usertype !== "trainee") {
+    navigate("/404");
+    return null;
   }
-  if (userInfo.usertype == "trainee") {
-    if (!workout) {
-      return (
-        <Fade in={loadingVisible} timeout={800}>
-          <Box
-            sx={{
-              height: "100vh",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              backdropFilter: "blur(12px)",
-              background: "rgba(255, 255, 255, 0.1)",
-              boxShadow: "inset 0 0 80px rgba(0,0,0,0.1)",
-              textAlign: "center",
-            }}
-          >
-            <CircularProgress size={70} thickness={4.5} color="primary" />
-            <Typography
-              variant="h6"
-              mt={4}
-              fontWeight="600"
-              color="text.primary"
-            >
-              در حال بارگذاری برنامه ورزشی شما...
-            </Typography>
-          </Box>
-        </Fade>
-      );
-    }
 
-    //console.log(workout);
-    const dayPrograms = generateDayProgramsFromExercises(workout.exercises);
-
+  if (!workout) {
     return (
-      <MainLayout>
-        <Paper
-          elevation={0}
+      <Fade in={loadingVisible} timeout={800}>
+        <Box
           sx={{
-            p: 2,
-            borderRadius: 4,
-            maxWidth: 1300,
-            height: "80vh",
-            maxHeight: "80vh",
-            mx: "auto",
-            mt: 0,
-            // maxHeight: "70vh",
-            overflowY: "auto",
+            height: "100vh",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            backdropFilter: "blur(12px)",
+            background: "rgba(255, 255, 255, 0.1)",
+            textAlign: "center",
           }}
         >
-          <Stack spacing={3}>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Typography variant="h6" fontWeight="bold">
-                {workout.name}
-              </Typography>
+          <CircularProgress size={70} thickness={4.5} color="primary" />
+          <Typography variant="h6" mt={4} fontWeight={600}>
+            در حال بارگذاری برنامه ورزشی شما...
+          </Typography>
+        </Box>
+      </Fade>
+    );
+  }
 
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                <Typography variant="h6" color="text.secondary">
-                  بازگشت
-                </Typography>
-                <IconButton
-                  onClick={handleBackClick}
+  const dayPrograms = generateDayProgramsFromExercises(workout.exercises);
+
+  return (
+    <MainLayout>
+      <Paper
+        elevation={3}
+        sx={{
+          p: isMobile ? 2 : 4,
+          borderRadius: 4,
+          maxWidth: 1100,
+          mx: "auto",
+          mt: 2,
+          mb: 2,
+          height: "78vh",
+          overflowY: "auto",
+          bgcolor: "#F8F8F8",
+        }}
+      >
+        <Stack spacing={3}>
+          {/* Title and Back */}
+          <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <Typography variant={isMobile ? "subtitle1" : "h6"} fontWeight="bold">
+              {workout.name}
+            </Typography>
+
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+              <Typography variant="body1" color="text.secondary">
+                بازگشت
+              </Typography>
+              <IconButton
+                onClick={handleBackClick}
+                sx={{
+                  backgroundColor: "#eeeeee",
+                  color: "#333",
+                  "&:hover": {
+                    backgroundColor: "#dddddd",
+                    transform: "scale(1.05)",
+                  },
+                }}
+              >
+                <ArrowBackIosNewIcon fontSize="small" />
+              </IconButton>
+            </Box>
+          </Stack>
+
+          {/* Workout Accordion */}
+          <Stack spacing={2}>
+            {dayPrograms.map((program, index) => (
+              <Accordion key={index} sx={{ borderRadius: 2, boxShadow: 1 }}>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon sx={{ color: "#666" }} />}
                   sx={{
-                    backgroundColor: "#f5f5f5",
-                    color: "#333",
-                    boxShadow: 2,
-                    "&:hover": {
-                      backgroundColor: "#e0e0e0",
-                      transform: "scale(1.05)",
-                    },
+                    flexDirection: "row-reverse",
+                    backgroundColor: "#e0e0e0",
                   }}
                 >
-                  <ArrowBackIosNewIcon fontSize="inherit" />
-                </IconButton>
-              </Box>
-            </Stack>
+                  <Typography fontWeight="bold">{program.title}</Typography>
+                </AccordionSummary>
 
-            <Stack direction="column" spacing={3}>
-              {dayPrograms.map((program, index) => (
-                <Accordion key={index} sx={{ borderRadius: 3 }}>
-                  <AccordionSummary
-                    expandIcon={
-                      <ExpandMoreIcon sx={{ color: "primary.main" }} />
-                    }
-                    sx={{
-                      flexDirection: "row-reverse",
-                      justifyContent: "space-between",
-                      background: `linear-gradient(135deg, ${theme.palette.primary.light}, ${theme.palette.background.default})`,
-                    }}
-                  >
-                    <Typography fontWeight="bold">{program.title}</Typography>
-                  </AccordionSummary>
+                <AccordionDetails sx={{ bgcolor: "#fafafa" }}>
+                  <Stack spacing={3}>
+                    {program.exercises.map((exercise, i) => (
+                      <Box key={i}>
+                        <Typography
+                          onClick={() => handleExerciseClick(exercise.exercise_id_display)}
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
+                            color: "#1976d2",
+                            fontWeight: "bold",
+                            cursor: "pointer",
+                            "&:hover": {
+                              textDecoration: "underline",
+                              transform: "translateX(4px)",
+                            },
+                          }}
+                        >
+                          <PlayArrowIcon fontSize="small" />
+                          {exercise.name}
+                        </Typography>
 
-                  <AccordionDetails sx={{ bgcolor: "background.default" }}>
-                    <Stack spacing={4}>
-                      {program.exercises.map((exercise, i) => (
-                        <Box key={i}>
-                          <Typography
-                            fontWeight="bold"
-                            gutterBottom
-                            // component={Link}
-                            onClick={() =>
-                              handleExerciseClick(exercise.exercise_id_display)
-                            }
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 1,
-                              color: "primary.main",
-                              cursor: "pointer",
-                              "&:hover": {
-                                textDecoration: "underline",
-                                transform: "translateX(4px)",
-                              },
-                            }}
-                          >
-                            <PlayArrowIcon fontSize="small" />
-                            {exercise.name}
-                          </Typography>
-
-                          <Box
-                            sx={{
-                              display: "flex",
-                              gap: 2,
-                              flexWrap: "wrap",
-                              mt: 3,
-                            }}
-                          >
-                            {exercise.sets.map((set, j) => (
-                              <Box
-                                key={j}
-                                sx={{
-                                  width: 120,
-                                  borderRadius: 3,
-                                  p: 2,
-                                  textAlign: "center",
-                                  background: `linear-gradient(135deg, ${theme.palette.success.light}, ${theme.palette.background.paper})`,
-                                }}
-                              >
-                                <Typography variant="body2" fontWeight="bold">
-                                  ست{" "}
-                                  {
-                                    [
-                                      "اول",
-                                      "دوم",
-                                      "سوم",
-                                      "چهارم",
-                                      "پنجم",
-                                      "ششم",
-                                      "هفتم",
-                                      "هشتم",
-                                      "نهم",
-                                      "دهم",
-                                      "یازدهم",
-                                      "دوازدهم",
-                                      "سیزدهم",
-                                    ][set.setNumber - 1]
-                                  }
-                                </Typography>
-                                <Typography
-                                  variant="body2"
-                                  color="text.secondary"
-                                >
-                                  {set.reps} تکرار
-                                </Typography>
-                              </Box>
-                            ))}
-                          </Box>
-
-                          <Divider sx={{ my: 3 }} />
+                        {/* Sets */}
+                        <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", mt: 2 }}>
+                          {exercise.sets.map((set, j) => (
+                            <Box
+                              key={j}
+                              sx={{
+                                minWidth: 100,
+                                borderRadius: 2,
+                                p: 1.5,
+                                textAlign: "center",
+                                backgroundColor: "#ececec",
+                              }}
+                            >
+                              <Typography variant="body2" fontWeight="bold">
+                                ست{" "}
+                                {
+                                  [
+                                    "اول", "دوم", "سوم", "چهارم", "پنجم", "ششم",
+                                    "هفتم", "هشتم", "نهم", "دهم", "یازدهم", "دوازدهم",
+                                  ][set.setNumber - 1]
+                                }
+                              </Typography>
+                              <Typography variant="body2" color="text.secondary">
+                                {toPersianNumber(set.reps)} تکرار
+                              </Typography>
+                            </Box>
+                          ))}
                         </Box>
-                      ))}
-                    </Stack>
-                  </AccordionDetails>
-                </Accordion>
-              ))}
-            </Stack>
+
+                        <Divider sx={{ my: 2 }} />
+                      </Box>
+                    ))}
+                  </Stack>
+                </AccordionDetails>
+              </Accordion>
+            ))}
           </Stack>
-        </Paper>
-      </MainLayout>
-    );
-  } else {
-    navigate("/404");
-  }
-}
+        </Stack>
+      </Paper>
+    </MainLayout>
+  );
+};
+
+export default WorkoutDetails;
