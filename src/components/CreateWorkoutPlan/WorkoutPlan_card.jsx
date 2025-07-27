@@ -188,7 +188,7 @@ const MoveBlock = ({ index, moveData, onUpdate, onDelete }) => {
                 ست {toPersianNumber(i + 1)}
               </Typography>
               <NumberBox
-                value={toPersianNumber(rep)}
+                value={rep}
                 onChange={(e) => handleSetValueChange(i, e.target.value)}
               />
             </Stack>
