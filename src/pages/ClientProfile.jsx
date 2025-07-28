@@ -2,17 +2,10 @@
 import React, { useState,useEffect ,useContext } from "react";  
 import { TextField, Button, Avatar, Paper, Typography ,Box} from "@mui/material";  
 import { Routes, Route,useNavigate } from "react-router-dom";
-//import Navbar from '../components/Navbar.jsx';
-//import Footer from '../components/Footer.jsx';
 import { profileAPI } from '../services/ClientProfileApi.jsx';
 import { AuthContext } from '../contexts/AuthContext.jsx';
-//import NavBar from "../components/home/NavbarCard";
-import ClientSidebar from "../components/ClientSidebar.jsx";
-import Header from '../components/Header';
-import ContentContainer from '../components/ContentContainer';
 import config from '../config';
-
-
+import MainLayout from "../components/MainLayout";
 
 const toPersianDigits = (str) => {
   return str.replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
@@ -98,7 +91,7 @@ const EditProfile = () => {
             };
         }, []);
         
-        // ✅ تابع اعتبارسنجی  
+       
         const validate = () => {
             let tempErrors = {};
             
@@ -155,7 +148,7 @@ const EditProfile = () => {
                     // console.log("Data:", error.response.data);
                     // console.log("Headers:", error.response.headers);
             
-                    // بررسی خطاهای مربوط به فیلدها
+                  
                     if (error.response.status === 400) {
                         if (error.response.data.username) {
                             tempErrors.username = "نام کاربری تکراری است !";
@@ -228,13 +221,10 @@ const EditProfile = () => {
 
     return ( 
        
-        <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: '#F5F5F5' }}>
-    <ClientSidebar />
-
-    <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-      <Header pageTitle="صفحه کاربر" />  
-
-            <ContentContainer>
+       
+   
+     <MainLayout>
+   
             <div style={{ 
                       
                         padding: '10px', 
@@ -245,7 +235,7 @@ const EditProfile = () => {
                          
                     }} >
                 
-                 {/* متن ویرایش اطلاعات در سمت راست */}
+                 
                  <Typography variant="h4" color="black" fontWeight="bold">
                             ویرایش اطلاعات
                  </Typography>
@@ -254,8 +244,7 @@ const EditProfile = () => {
                 
             </div>
         
-               
-               {/* فریم بالا با دو رنگ: سبز و نارنجی */}
+        
                <div style={{ 
                         background: 'linear-gradient(to bottom, #009451 0%, #D07C28 100%)',
                         padding: '30px', 
@@ -266,7 +255,7 @@ const EditProfile = () => {
                 </div>
                     
                   
-                 {/* ✅ چیدمان فرم */}
+                
                  <div style={{ 
                     display: 'flex', 
                     flexDirection: 'row-reverse', 
@@ -280,7 +269,7 @@ const EditProfile = () => {
                 }}>
                     
 
-                    {/* ✅ قسمت آپلود عکس (سمت چپ) */}
+                   
                     <div style={{ 
                        display: 'flex', 
                        flexDirection: 'column', 
@@ -334,7 +323,7 @@ const EditProfile = () => {
                         </Button>
                     </div>
 
-                    {/* ✅ فرم اطلاعات (سمت راست) */}
+                 
                     <div style={{ flex: 1, flexDirection: "column", display: "flex"  }}>
                         <form onSubmit={handleSubmit}style={{ width: "80%" }} >  
                           <label style={{
@@ -489,9 +478,10 @@ const EditProfile = () => {
                         </form>  
                     </div>
                     </div>
-                    </ContentContainer>
-             </Box> 
-          </Box>
+                   
+           
+             </MainLayout>
+       
         
   
         

@@ -3,14 +3,12 @@ import React, { useState, useEffect ,useContext} from "react";
 import { useNavigate } from "react-router-dom";
 import {Box,  Typography } from "@mui/material";
 import { trainerProfileAPI } from '../services/TrainerProfileApi.jsx';
-import Footer from '../components/Footer.jsx';
-//import NavBar from "../components/home/NavbarCard.jsx";
-import Sidebar from "../components/TrainerSidebar.jsx";
 import EditProfileLayout from "../components/TrainerEditProfile/EditProfileLayout.jsx";
 import ProfileImageUpload from "../components/TrainerEditProfile/ProfileImageUpload.jsx";
 import EditProfileForm from "../components/TrainerEditProfile/EditProfileForm.jsx";
 import { AuthContext } from '../contexts/AuthContext.jsx';
 import Header from '../components/Header';
+import MainLayout from "../components/MainLayout";
 import config from '../config';
 import { observeTimeline } from "framer-motion";
 
@@ -205,13 +203,10 @@ const EditProfile = () => {
     }
   
     return (
-      <Box sx={{ display: 'flex', minHeight: '100vh', backgroundColor: '#F5F5F5' }}>
-        <Sidebar />
-      
-      <Box sx={{ flexGrow: 1 }}>
-        <Header pageTitle="صفحه مربی" />
+      <MainLayout>
+     
        
-        <EditProfileLayout>
+        
           <div style={{ 
             display: 'flex',
             flexDirection: 'column',
@@ -220,7 +215,7 @@ const EditProfile = () => {
             maxWidth: '1200px',
             margin: '0 auto'
           }}>
-            {/* عنوان در سمت راست بالا */}
+           
             <Typography 
           variant="h4" 
           component="h1" 
@@ -237,7 +232,7 @@ const EditProfile = () => {
           ویرایش اطلاعات
         </Typography>
     
-            {/* تصویر پروفایل در وسط */}
+          
             <div style={{
               margin: '0px 0'
             }}>
@@ -248,7 +243,7 @@ const EditProfile = () => {
               />
             </div>
     
-            {/* فرم در وسط صفحه */}
+          
             <div style={{
              width: '100%',
              display: 'flex',
@@ -263,10 +258,11 @@ const EditProfile = () => {
               />
             </div>
           </div>
-        </EditProfileLayout>
+     
        
-        </Box>
-    </Box>
+       
+        </MainLayout>
+   
     );
   };  
   
