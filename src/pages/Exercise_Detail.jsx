@@ -22,9 +22,11 @@ export default function Exercise_Detail() {
   const { userInfo, logout } = useContext(AuthContext);
 //  console.log(location.state)
   const handleBackClick = () => {
+   if(userInfo!=null){
     if (userInfo.usertype == "trainer") {
       navigate("/exercises");
-    } else if (userInfo.usertype == "trainee") {
+    } 
+    else if (userInfo.usertype == "trainee") {
       // console.log("salam");
       if (returndata == null) {
         navigate("/exercises");
@@ -32,7 +34,9 @@ export default function Exercise_Detail() {
         // alert(returndata);
         navigate(returndata);
       }
-    } else {
+    } 
+  }
+    else {
       navigate("/exercises");
     }
   };
