@@ -159,7 +159,7 @@ const TrainersList = () => {
     <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column"}}>
       <Navbar />
       <CssBaseline enableColorScheme />
-      <Container maxWidth="lg" sx={{flexGrow: 1, mt: 6, p: 10}}>
+      <Container maxWidth="lg" sx={{flexGrow: 1, mt: 6, py: 10}}>
         <Typography fontSize={32} mb={4}>
           بیا بهترین مربی رو انتخاب کنیم!
         </Typography>
