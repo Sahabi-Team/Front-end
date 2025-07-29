@@ -415,13 +415,13 @@ const ComboBox = ({
       if (updating == true) {
         await deleteWorkoutPlanById(workoutplanidonupdate);
       }
-
+  
       const workoutData = {
         mentorship: mentorshipId,
         status: "در حال انجام",
         name: workoutname == null ? "برنامه یک ماهه" : workoutname,
         description:
-          workoutdescription == null
+          (workoutdescription == null||workoutdescription=="")
             ? "هیچ یادداشتی اضافه نشده است."
             : workoutdescription,
       };
