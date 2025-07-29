@@ -10,6 +10,9 @@ const GreenCard = styled(Card)(({ theme }) => ({
   padding: '8px',
   backgroundColor: '#fff',
   direction: 'rtl',
+  display: 'flex',               
+  flexDirection: 'column',
+  flexGrow: 1,  
 }));
 
 const StatusChip = styled(Chip)(({ color }) => ({
@@ -129,16 +132,16 @@ const BMICard = ({ bmiValue, height }) => {
               direction: 'rtl',
             }}
           >
-            <Typography variant="body2" sx={{ color: '#00BCD4', position: 'relative', left: { xs: '10px', sm: '-65px' } }}>
+            <Typography variant="body2" sx={{ color: '#00BCD4', position: 'relative', left: { xs: '-45px', sm: '-140px' , md: '-65px'} }}>
               ۱۸.۵
             </Typography>
-            <Typography variant="body2" sx={{ color: '#4CAF50', position: 'relative', left: { xs: '-33px', sm: '-120px' } }}>
+            <Typography variant="body2" sx={{ color: '#4CAF50', position: 'relative', left: { xs: '-83px', sm: '-280px' , md: '-120px' } }}>
               ۲۵.۰
             </Typography>
-            <Typography variant="body2" sx={{ color: '#FF9800', position: 'relative', left: { xs: '-75px', sm: '-180px' } }}>
+            <Typography variant="body2" sx={{ color: '#FF9800', position: 'relative', left: { xs: '-125px', sm: '-410px' , md: '-180px' } }}>
               ۳۰.۰
             </Typography>
-            <Typography variant="body2" sx={{ color: '#F44336', position: 'relative', left: { xs: '-125px', sm: '-240px' } }}>
+            <Typography variant="body2" sx={{ color: '#F44336', position: 'relative', left: { xs: '-170px', sm: '-540px' , md: '-240px' } }}>
               +۴۰
             </Typography>
           </Box>
