@@ -78,6 +78,7 @@ export default function WorkoutPlans() {
           }
         );
         setWorkoutPlans(response.data);
+
       } catch (error) {
         console.error("خطا در گرفتن workout plans:", error);
       } finally {
@@ -95,6 +96,8 @@ export default function WorkoutPlans() {
     }
   }, [userInfo]);
 
+
+   
   if (userInfo!=null&& userInfo.usertype == "trainee") {
     if (loading) {
       return (

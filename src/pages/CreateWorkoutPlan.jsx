@@ -130,6 +130,8 @@ export default function WorkoutPlans() {
                 initialSessions={initialsession}
                 setInitialsession={setInitialsession}
                 updating={false}
+                initialworkoutname={null}
+
               />
             ) : (
               <>

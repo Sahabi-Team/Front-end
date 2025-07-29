@@ -60,6 +60,8 @@ export default function WorkoutPlans() {
   const [workoutplanIdonUpdate, setWorkoutplanIdonUpdate] =
     React.useState(null);
 
+  const[initialworkoutname,setInitialworkoutname] = useState(null);
+
   // console.log(selectedUserId);
   const handleStartWritingPlan = () => {
     if (istestreadonly) {
@@ -101,6 +103,7 @@ export default function WorkoutPlans() {
 
       // console.log("ddd ",response.data);
       setWorkoutplanIdonUpdate(response.data.id);
+      setInitialworkoutname(response.data.name);
       const exercises = response.data.exercises;
       // alert(response.data.exercises);
 
@@ -244,6 +247,7 @@ export default function WorkoutPlans() {
                         setShowWorkoutPlan={setShowWorkoutPlan}
                         initialSessions={initialsession}
                         setInitialsession={setInitialsession}
+                        initialworkoutname={initialworkoutname}
                       />
                     ) : (
                       <>

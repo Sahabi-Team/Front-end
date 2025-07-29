@@ -132,8 +132,8 @@ const TestResultCard = ({
         <Box paddingRight={9} paddingLeft={9} paddingTop={9}>
           <Stack direction={"column"} gap={1}>
             <Box display="flex" alignItems="center" mb={3}>
-              <Typography variant="h6" fontWeight="bold">
-                نوشتن برنامه برای شاگرد:
+              <Typography variant="h6" fontWeight="bold" whiteSpace={'nowrap'}>
+                نام شاگرد : 
               </Typography>
               {/* <PersonOutlineIcon sx={{ color: '#1976d2', ml: 1 }} /> */}
             </Box>
@@ -152,7 +152,7 @@ const TestResultCard = ({
                   );
                   setMentorshipId(selectedUser.mentorship_id);
                 }}
-                sx={{ width: 250 }}
+                sx={{ width: { xs: "100%",sm:"70%", md: "30%" }, }}
               >
                 {traineestests.map((user) => (
                   <MenuItem
@@ -310,7 +310,7 @@ const TestResultCard = ({
                 fontWeight="bold"
                 sx={{ whiteSpace: "nowrap" }}
               >
-                نوشتن برنامه برای شاگرد:
+                نام شاگرد : 
               </Typography>
               {/* <PersonOutlineIcon sx={{ color: '#1976d2', ml: 1 }} /> */}
             </Box>
@@ -506,7 +506,7 @@ const TestResultCard = ({
                 fontWeight="bold"
                 sx={{ whiteSpace: "nowrap" }}
               >
-                نوشتن برنامه برای شاگرد:
+                نام شاگرد : 
               </Typography>
               {/* <PersonOutlineIcon sx={{ color: '#1976d2', ml: 1 }} /> */}
             </Box>
@@ -710,7 +710,7 @@ const TestResultCard = ({
                 fontWeight="bold"
                 sx={{ whiteSpace: "nowrap" }}
               >
-                نوشتن برنامه برای شاگرد:
+                نام شاگرد : 
               </Typography>
               {/* <PersonOutlineIcon sx={{ color: '#1976d2', ml: 1 }} /> */}
             </Box>

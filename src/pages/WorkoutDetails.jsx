@@ -24,6 +24,12 @@ import { AuthContext } from "../contexts/AuthContext.jsx";
 import axios from "axios";
 import config from "../config.js";
 import MainLayout from "../components/MainLayout.jsx";
+import {
+  differenceInDays,
+  addDays,
+  parseISO,
+  formatDistanceToNow,
+} from "date-fns";
 
 const WorkoutDetails = () => {
   const navigate = useNavigate();
@@ -38,7 +44,7 @@ const WorkoutDetails = () => {
   const access_token = localStorage.getItem("access_token");
 
   const toPersianNumber = (num) =>
-  num?.toString().replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
+    num?.toString().replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
 
   useEffect(() => {
     const fetchWorkoutPlans = async (access) => {
@@ -68,7 +74,9 @@ const WorkoutDetails = () => {
         (plan) => plan.id === parseInt(workoutId)
       );
       if (!targetPlan) navigate("/400");
-      else setWorkout(targetPlan);
+      else {
+        setWorkout(targetPlan);
+      }
     }
   }, [workoutPlans, workout, workoutId]);
 
@@ -158,8 +166,15 @@ const WorkoutDetails = () => {
       >
         <Stack spacing={3}>
           {/* Title and Back */}
-          <Stack direction="row" justifyContent="space-between" alignItems="center">
-            <Typography variant={isMobile ? "subtitle1" : "h6"} fontWeight="bold">
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Typography
+              variant={isMobile ? "subtitle1" : "h6"}
+              fontWeight="bold"
+            >
               {workout.name}
             </Typography>
 
@@ -183,6 +198,26 @@ const WorkoutDetails = () => {
             </Box>
           </Stack>
 
+          <Stack direction={"row"} sx={{ mt: 0 }}>
+            <Typography
+              variant={isMobile ? "subtitle1" : "h6"}
+              fontWeight="bold"
+              sx={{ mr: 1 }}
+            >
+              مربی :
+            </Typography>
+            <Typography>رضا یزدی</Typography>
+          </Stack>
+
+          <Divider
+            sx={{
+              my: 3,
+              borderColor: "#ddd",
+              borderWidth: "1px",
+              width: "50%",
+              mx: "auto 0",
+            }}
+          />
           {/* Workout Accordion */}
           <Stack spacing={2}>
             {dayPrograms.map((program, index) => (
@@ -202,7 +237,9 @@ const WorkoutDetails = () => {
                     {program.exercises.map((exercise, i) => (
                       <Box key={i}>
                         <Typography
-                          onClick={() => handleExerciseClick(exercise.exercise_id_display)}
+                          onClick={() =>
+                            handleExerciseClick(exercise.exercise_id_display)
+                          }
                           sx={{
                             display: "flex",
                             alignItems: "center",
@@ -221,7 +258,14 @@ const WorkoutDetails = () => {
                         </Typography>
 
                         {/* Sets */}
-                        <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", mt: 2 }}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            gap: 2,
+                            flexWrap: "wrap",
+                            mt: 2,
+                          }}
+                        >
                           {exercise.sets.map((set, j) => (
                             <Box
                               key={j}
@@ -237,12 +281,25 @@ const WorkoutDetails = () => {
                                 ست{" "}
                                 {
                                   [
-                                    "اول", "دوم", "سوم", "چهارم", "پنجم", "ششم",
-                                    "هفتم", "هشتم", "نهم", "دهم", "یازدهم", "دوازدهم",
+                                    "اول",
+                                    "دوم",
+                                    "سوم",
+                                    "چهارم",
+                                    "پنجم",
+                                    "ششم",
+                                    "هفتم",
+                                    "هشتم",
+                                    "نهم",
+                                    "دهم",
+                                    "یازدهم",
+                                    "دوازدهم",
                                   ][set.setNumber - 1]
                                 }
                               </Typography>
-                              <Typography variant="body2" color="text.secondary">
+                              <Typography
+                                variant="body2"
+                                color="text.secondary"
+                              >
                                 {toPersianNumber(set.reps)} تکرار
                               </Typography>
                             </Box>

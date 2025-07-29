@@ -8,6 +8,8 @@ import {
   IconButton,
   Paper,
   Button,
+  Input,
+  Divider,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Add, Remove, Close } from "@mui/icons-material";
@@ -255,6 +257,7 @@ const ComboBox = ({
   setInitialsession,
   updating,
   workoutplanidonupdate,
+  initialworkoutname,
 }) => {
   const [sessions, setSessions] = useState(
     initialSessions ?? [{ moves: [], note: "" }]
@@ -266,6 +269,10 @@ const ComboBox = ({
   const { userInfo, logout } = useContext(AuthContext);
 
   const navigate = useNavigate();
+
+  const [workoutname, setWorkoutname] = useState(
+    initialworkoutname == null ? null : initialworkoutname
+  );
 
   const toPersianNumber = (num) =>
     num?.toString().replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
@@ -345,16 +352,14 @@ const ComboBox = ({
     }
   };
 
-  // console.log(selectedUserId);
-  // console.log(sessions);
-  // console.log('rrr  ',workoutplanidonupdate)
+ 
 
   const deleteWorkoutPlanById = async (planId) => {
     const token = localStorage.getItem("access_token");
 
     if (!token) {
       console.error("❌ توکن یافت نشد.");
-      return;
+      // return 1;
     }
 
     try {
@@ -374,95 +379,112 @@ const ComboBox = ({
       );
     }
   };
-
+  
   const handleSubmit = async () => {
-    setLoading(true); // شروع حالت لودینگ
-
-    if (updating == true) {
-      // firt delete the workoutPlan
-      // then submit the program
-      await deleteWorkoutPlanById(workoutplanidonupdate);
-      // alert("deleted");
-    }
-
+    setLoading(true);
     let error_occured = false;
-    const workoutData = {
-      mentorship: mentorshipId,
-      status: "در حال انجام",
-      name: "برنامه یک ماهه",
-      description: "برنامه",
-    };
-    // console.log(workoutData);
 
-    const token = localStorage.getItem("access_token");
-    // console.log(token);
+    for (let dayIndex = sessions.length - 1; dayIndex >= 0; dayIndex--) {
+      const day = sessions[dayIndex];
 
-    try {
-      const response = await axios.post(
-        `${config.API_BASE_URL}/api/workout/workout-plans/`,
-        workoutData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      // console.log("برنامه با موفقیت ذخیره شد:", response.data);
-      const workoutPlanId = response.data.id;
-      // alert(workoutPlanId);
-      // console.log("شناسه برنامه ورزشی:", workoutPlanId);
-
-      // ⬇️⬇️⬇️ place the code hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-      // console.log(sessions);
-      for (let dayIndex = 0; dayIndex < sessions.length; dayIndex++) {
-        const day = sessions[dayIndex]; // یک روز خاص
-
-        for (let moveIndex = 0; moveIndex < day.moves.length; moveIndex++) {
-          const move = day.moves[moveIndex];
-          // console.log(move.name,"     salamas");
-          const exercisePayload = {
-            exercise_id: move.name, // چون ما در Autocomplete شناسه تمرین رو در name ذخیره کردیم
-            workout_plan_id: workoutPlanId,
-            sets: move.sets.length,
-            reps: move.sets[0] || 0, // مقدار اولین ست
-            // duration: , // اگر داشتی اضافه کن
-            description: "تمرین اختصاصی این روز",
-            order: moveIndex + 1,
-            day: dayIndex + 1,
-          };
-          // alert(move.sets[0].type);
-
-          // console.log("در حال ارسال:", exercisePayload);
-
-          try {
-            const res = await axios.post(
-              `${config.API_BASE_URL}/api/workout/workout-plans/${workoutPlanId}/add_exercise/`,
-              exercisePayload,
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                  Accept: "application/json",
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
-          } catch (exErr) {
-            // console.error(
-            //   `❌ خطا در ثبت تمرین ${moveIndex + 1} از روز ${dayIndex + 1}:`,
-            //   exErr.response?.data || exErr.message
-            // );
-            error_occured = true;
-          }
+      // حذف حرکاتی که name ندارند
+      for (let moveIndex = day.moves.length - 1; moveIndex >= 0; moveIndex--) {
+        const move = day.moves[moveIndex];
+        if (move.name == null) {
+          day.moves.splice(moveIndex, 1);
         }
       }
-    } catch (error) {
-      error_occured = true;
+
+      // اگر پس از فیلتر، حرکتی باقی نماند، کل روز را حذف کن
+      if (day.moves.length === 0) {
+        sessions.splice(dayIndex, 1);
+      }
     }
+    setSessionIndex(sessions.length == 0 ? 0 : sessions.length - 1);
+
+    if (
+      !(
+        sessions.length == 0 ||
+        (sessions.length == 1 && sessions[0].moves.length == 0)
+      )
+    ) {
+      if (updating == true) {
+        await deleteWorkoutPlanById(workoutplanidonupdate);
+      }
+
+      const workoutData = {
+        mentorship: mentorshipId,
+        status: "در حال انجام",
+        name: workoutname == null ? "برنامه یک ماهه" : workoutname,
+        description: "این برنامه یک ماهه است.",
+      };
+
+      const token = localStorage.getItem("access_token");
+
+      let workoutPlanId = null;
+      try {
+        const response = await axios.post(
+          `${config.API_BASE_URL}/api/workout/workout-plans/`,
+          workoutData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        workoutPlanId = response.data.id;
+
+        for (let dayIndex = 0; dayIndex < sessions.length; dayIndex++) {
+          const day = sessions[dayIndex]; // یک روز خاص
+
+          for (let moveIndex = 0; moveIndex < day.moves.length; moveIndex++) {
+            const move = day.moves[moveIndex];
+            // console.log(move.name,"     salamas");
+            const exercisePayload = {
+              exercise_id: move.name, // چون ما در Autocomplete شناسه تمرین رو در name ذخیره کردیم
+              workout_plan_id: workoutPlanId,
+              sets: move.sets.length,
+              reps: move.sets[0] || 0, // مقدار اولین ست
+              // duration: , // اگر داشتی اضافه کن
+              description: "تمرین اختصاصی این روز",
+              order: moveIndex + 1,
+              day: dayIndex + 1,
+            };
+
+            try {
+              const res = await axios.post(
+                `${config.API_BASE_URL}/api/workout/workout-plans/${workoutPlanId}/add_exercise/`,
+                exercisePayload,
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    Authorization: `Bearer ${token}`,
+                  },
+                }
+              );
+            } catch (exErr) {
+              error_occured = true;
+            }
+          }
+        }
+      } catch (error) {
+        error_occured = true;
+        await deleteWorkoutPlanById(workoutPlanId);
+        setErrorMessage("خطا در ساختن برنامه");
+      }
+    } else {
+      setSessions([{ moves: [], note: "" }]);
+      setErrorMessage("هیچ حرکتی انتخاب نشده است.");
+      // setOpenErrorModal(true);
+      error_occured = true;
+      setLoading(false);
+    }
+
     if (error_occured) {
-      setErrorMessage("خطا در ساختن برنامه");
       setOpenErrorModal(true);
     } else {
       setSuccessMessage("برنامه با موفقیت ذخیره شد.");
@@ -475,6 +497,30 @@ const ComboBox = ({
 
     setLoading(false); // پایان حالت لودینگ
   };
+
+  const delete_programs = async() =>{
+     const token = localStorage.getItem("access_token");
+    // alert(token);
+    try {
+      const response = await axios.get(
+        `${config.API_BASE_URL}/api/mentorship/mentorships/${mentorshipId}/last_workout_plan/`,
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // console.log("ddd ",response.data);
+      let x = response.data.id;
+      deleteWorkoutPlanById(x);
+    }
+    catch{
+        alert("eeror");
+    }
+  }
+  
 
   const handleshowpreview = () => {
     let dayPrograms = generateDayProgramsFromSessions();
@@ -526,111 +572,189 @@ const ComboBox = ({
     setOpenSuccessfulModal(false); // بستن مودال
   };
 
+  const handlechangeworkoutname = (e) => {
+    setWorkoutname(e.target.value);
+  };
   // console.log(userInfo);
 
   return (
-    <Box px={{ xs: 2, sm: 3, md: 4 }} pb={14}>
-      <Typography variant="h6" color="primary" mb={3} textAlign="left">
-        جلسه تمرینی {toPersianNumber(sessionIndex + 1)}
-      </Typography>
-
-      {currentSession.moves.map((move, index) => (
-        <MoveBlock
-          key={index}
-          index={index}
-          moveData={move}
-          onUpdate={(data) => handleUpdateMove(index, data)}
-          onDelete={() => handleDeleteMove(index)}
-        />
-      ))}
-
-      <Box display="flex" justifyContent="center" mt={2}>
-        <Paper
-          onClick={handleAddMove}
-          elevation={2}
-          sx={{
-            borderRadius: 3,
-            padding: "8px 20px",
-            display: "flex",
-            alignItems: "center",
-            gap: 1,
-            cursor: "pointer",
-            border: "1px dashed #aaa",
-            backgroundColor: "#fefefe",
-            transition: "0.2s",
-            "&:hover": {
-              backgroundColor: "#e3f2fd",
-              borderColor: "#1976d2",
-            },
-          }}
-        >
-          <Add fontSize="small" />
-          <Typography variant="body2">افزودن حرکت</Typography>
-        </Paper>
-      </Box>
-
-      <Box mt={4}>
-        <Typography variant="subtitle1" gutterBottom>
-          توضیحات جلسه:
-        </Typography>
-        <TextField
-          multiline
-          minRows={3}
-          fullWidth
-          value={currentSession.note}
-          onChange={handleNoteChange}
-          placeholder="توضیحات بیشتری بنویسید..."
-          sx={{
-            backgroundColor: "#fafafa",
-            borderRadius: 2,
-          }}
-        />
-      </Box>
-
-      {/* Footer */}
+    <Stack>
       <Box
-        bottom={0}
-        left={0}
-        width="100%"
-        bgcolor="#ffffffee"
-        boxShadow="0 -2px 10px rgba(0,0,0,0.1)"
-        py={2}
-        px={3}
-        zIndex={1300}
-        mt={3}
+        px={{ xs: 2, sm: 3, md: 4 }}
+        sx={{
+          width: "90%",
+          // maxWidth: 400,
+          mx: "auto 0",
+          mt: 5,
+          mb: 1,
+          // ml:5,
+          // backgroundColor:'red',
+        }}
       >
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          justifyContent="center"
-          alignItems="center"
-          gap={2}
+        <Stack direction={"row"}>
+          <Typography
+            variant="subtitle1"
+            sx={{
+              mt: 2,
+              mr: 1,
+              // ml: 4.5,
+              fontWeight: 500,
+              whiteSpace: "nowrap",
+              fontSize: 19,
+            }}
+          >
+            نام برنامه:
+          </Typography>
+
+          <TextField
+            placeholder="مثلاً: برنامه تمرینی قدرتی"
+            variant="outlined"
+            value={workoutname}
+            onChange={handlechangeworkoutname}
+            sx={{
+              width: { xs: "70%", md: "40%" },
+              bgcolor: "#f9f9f9",
+              borderRadius: 2,
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "#ccc",
+                },
+                "&:hover fieldset": {
+                  borderColor: "#1976d2",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#1976d2",
+                },
+              },
+            }}
+          />
+        </Stack>
+        <Divider
+          sx={{
+            my: 3,
+            borderColor: "#ddd",
+            borderWidth: "1px",
+            width: "50%",
+            mx: "auto 0",
+          }}
+        />
+      </Box>
+
+      <Box px={{ xs: 2, sm: 3, md: 4 }} pb={14}>
+        <Typography variant="h6" color="primary" mb={3} textAlign="left">
+          جلسه تمرینی {toPersianNumber(sessionIndex + 1)}
+        </Typography>
+
+        {currentSession.moves.map((move, index) => (
+          <MoveBlock
+            key={index}
+            index={index}
+            moveData={move}
+            onUpdate={(data) => handleUpdateMove(index, data)}
+            onDelete={() => handleDeleteMove(index)}
+          />
+        ))}
+
+        <Box display="flex" justifyContent="center" mt={2}>
+          <Paper
+            onClick={handleAddMove}
+            elevation={2}
+            sx={{
+              borderRadius: 3,
+              padding: "8px 20px",
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+              cursor: "pointer",
+              border: "1px dashed #aaa",
+              backgroundColor: "#fefefe",
+              transition: "0.2s",
+              "&:hover": {
+                backgroundColor: "#e3f2fd",
+                borderColor: "#1976d2",
+              },
+            }}
+          >
+            <Add fontSize="small" />
+            <Typography variant="body2">افزودن حرکت</Typography>
+          </Paper>
+        </Box>
+
+        <Box mt={4}>
+          <Typography variant="subtitle1" gutterBottom>
+            توضیحات جلسه:
+          </Typography>
+          <TextField
+            multiline
+            minRows={3}
+            fullWidth
+            value={currentSession.note}
+            onChange={handleNoteChange}
+            placeholder="توضیحات بیشتری بنویسید..."
+            sx={{
+              backgroundColor: "#fafafa",
+              borderRadius: 2,
+            }}
+          />
+        </Box>
+
+        {/* Footer */}
+        <Box
+          bottom={0}
+          left={0}
+          width={{xs:"50%",md:"80%"}}
+          bgcolor="#ffffffee"
+          boxShadow="0 -2px 10px rgba(0,0,0,0.1)"
+          py={2}
+          px={3}
+          zIndex={1300}
+          mt={3}
+          sx={{
+            mx: "auto", // این خط باعث می‌شود باکس به صورت افقی وسط‌چین شود
+          }}
         >
-          <Button
-            variant="contained"
-            onClick={goToPreviousDay}
-            disabled={sessionIndex === 0}
-            color="primary"
-            fullWidth={true}
+          <Stack
+            direction={{ xs: "column",md:'row' }}
+            justifyContent="center"
+            alignItems="center"
+            gap={2}
           >
-            روز قبل
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={goToNextDay}
-            fullWidth={true}
-          >
-            روز بعد
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth={true}
-            onClick={handleshowtest}
-          >
-            نتیجه تست
-          </Button>
-          {/* <Button
+            <Button
+              variant="contained"
+              onClick={goToPreviousDay}
+              disabled={sessionIndex === 0}
+              color="primary"
+              sx={{
+                width: { xs: "100%", md: 300 },
+                whiteSpace:'nowrap'
+              }}
+            >
+              روز قبل
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={goToNextDay}
+              sx={{
+                width: { xs: "100%", md: 300 },
+                whiteSpace:'nowrap'
+              }}
+            >
+              روز بعد
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleshowtest}
+              sx={{
+                width: { xs: "100%", md: 300 },
+                whiteSpace:'nowrap'
+              }}
+            
+            >
+              نتیجه تست
+            </Button>
+            {/* <Button
             variant="contained"
             color="primary"
             onClick={handleshowpreview}
@@ -638,43 +762,50 @@ const ComboBox = ({
           >
             پیش نمایش
           </Button> */}
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleCancel}
-            fullWidth={true}
-          >
-            انصراف
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleSubmit}
-            fullWidth
-            disabled={loading}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 1,
-            }}
-          >
-            {loading && <CircularProgress size={20} sx={{ color: "white" }} />}
-            {loading ? "در حال ذخیره..." : "ذخیره برنامه"}
-          </Button>
-        </Stack>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleCancel}
+              sx={{
+                width: { xs: "100%", md: 300 },
+              }}
+              
+            >
+              انصراف
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleSubmit}
+              disabled={loading}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 1,
+                width: { xs: "100%", md: 350 },
+                whiteSpace:'nowrap'
+              }}
+            >
+              {loading && (
+                <CircularProgress size={20} sx={{ color: "white" }} />
+              )}
+              {loading ? "در حال ذخیره..." : "ذخیره برنامه"}
+            </Button>
+          </Stack>
+        </Box>
+        <ErrorModal
+          open={openErrorModal}
+          onClose={handleCloseErrorModal}
+          errorMessage={errorMessage}
+        />
+        <SuccessfulModal
+          open={opensuccessfulmodal}
+          onClose={handleCloseSuccessfulModal}
+          successMessage={successmessage}
+        />
       </Box>
-      <ErrorModal
-        open={openErrorModal}
-        onClose={handleCloseErrorModal}
-        errorMessage={errorMessage}
-      />
-      <SuccessfulModal
-        open={opensuccessfulmodal}
-        onClose={handleCloseSuccessfulModal}
-        successMessage={successmessage}
-      />
-    </Box>
+    </Stack>
   );
 };
 
