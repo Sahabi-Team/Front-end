@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import PlayArrowIcon from "@mui/icons-material/PlayCircleFilled";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import { AuthContext } from "../contexts/AuthContext.jsx";
@@ -151,7 +151,7 @@ const WorkoutDetails = () => {
   return (
     <MainLayout>
       <Paper
-        elevation={3}
+        elevation={1}
         sx={{
           p: isMobile ? 2 : 4,
           borderRadius: 4,
@@ -171,11 +171,12 @@ const WorkoutDetails = () => {
             justifyContent="space-between"
             alignItems="center"
           >
+            
             <Typography
               variant={isMobile ? "subtitle1" : "h6"}
               fontWeight="bold"
             >
-              {workout.name}
+              نام برنامه : {workout.name}
             </Typography>
 
             <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
@@ -206,7 +207,7 @@ const WorkoutDetails = () => {
             >
               مربی :
             </Typography>
-            <Typography>رضا یزدی</Typography>
+            <Typography >رضا یزدی</Typography>
           </Stack>
 
           <Divider
@@ -221,15 +222,16 @@ const WorkoutDetails = () => {
           {/* Workout Accordion */}
           <Stack spacing={2}>
             {dayPrograms.map((program, index) => (
-              <Accordion key={index} sx={{ borderRadius: 2, boxShadow: 1 }}>
+              <Accordion key={index} sx={{ borderRadius: 2, boxShadow: 3 }}>
                 <AccordionSummary
-                  expandIcon={<ExpandMoreIcon sx={{ color: "#666" }} />}
+                  expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
                   sx={{
                     flexDirection: "row-reverse",
-                    backgroundColor: "#e0e0e0",
+                    backgroundColor: "rgb(87, 168, 101)",
+                    borderRadius : "5px",
                   }}
                 >
-                  <Typography fontWeight="bold">{program.title}</Typography>
+                  <Typography fontWeight="bold" color="white">{program.title}</Typography>
                 </AccordionSummary>
 
                 <AccordionDetails sx={{ bgcolor: "#fafafa" }}>

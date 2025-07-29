@@ -301,7 +301,8 @@ const ExerciseCard = ({ exerciseId }) => {
                 item
                 xs={6}
                 sx={{
-                  bgcolor: "#e0f7fa",
+                  color : "rgb(250, 250, 250)",
+                  bgcolor: "rgb(92, 165, 85)",
                   p: 1,
                   borderBottom: "1px solid #ccc",
                   fontWeight: "bold",
@@ -433,7 +434,8 @@ const ExerciseCard = ({ exerciseId }) => {
                   item
                   xs={6}
                   sx={{
-                    bgcolor: "#e0f7fa",
+                    color : "rgb(250, 250, 250)",
+                    bgcolor: "rgb(92, 165, 85)",
                     p: 1,
                     borderBottom: "1px solid #ccc",
                     fontWeight: "bold",
