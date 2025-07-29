@@ -118,7 +118,7 @@ export default function Exercise_Detail() {
                 <ArrowBackIosNewIcon fontSize="small" />
               </IconButton>
 
-              <Typography variant="h6" color="text.secondary">
+              <Typography fontSize={{xs:17,md:22}} color="text.secondary">
                 بازگشت
               </Typography>
             </Box>
@@ -128,12 +128,12 @@ export default function Exercise_Detail() {
                   <CircularProgress />
                 </Box>
               ) : (
-                <Typography variant="h6" fontWeight="bold">
+                <Typography fontSize={{xs:17,md:22}} fontWeight="bold">
                   {exerciseData.name}
                 </Typography>
               )}
               <Box sx={{ width: 10 }}></Box>
-              <Typography variant="h6" fontWeight="bold">
+              <Typography fontSize={{xs:17,md:22}} fontWeight="bold">
                 : عنوان حرکت
               </Typography>
             </Stack>

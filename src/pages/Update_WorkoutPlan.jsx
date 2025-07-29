@@ -106,6 +106,7 @@ export default function WorkoutPlans() {
       // console.log("ddd ",response.data);
       setWorkoutplanIdonUpdate(response.data.id);
       setInitialworkoutname(response.data.name);
+      setInitialworkoutdescription(response.data.description);
       const exercises = response.data.exercises;
       // alert(response.data.exercises);
 

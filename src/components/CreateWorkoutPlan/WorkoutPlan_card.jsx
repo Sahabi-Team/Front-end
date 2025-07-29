@@ -276,7 +276,7 @@ const ComboBox = ({
   );
 
   const [workoutdescription, setWorkoutdescription] = useState(
-    initialworkoutdescription == null ? null : initialworkoutdescription
+    initialworkoutdescription == null ? "" : initialworkoutdescription
   );
 
   const toPersianNumber = (num) =>
@@ -420,7 +420,10 @@ const ComboBox = ({
         mentorship: mentorshipId,
         status: "در حال انجام",
         name: workoutname == null ? "برنامه یک ماهه" : workoutname,
-        description: (workoutdescription==null)? "هیچ یادداشتی اضافه نشده است." :workoutdescription,
+        description:
+          workoutdescription == null
+            ? "هیچ یادداشتی اضافه نشده است."
+            : workoutdescription,
       };
 
       const token = localStorage.getItem("access_token");
@@ -502,7 +505,6 @@ const ComboBox = ({
     setLoading(false); // پایان حالت لودینگ
   };
 
-
   // just for debugging purpose
   const delete_programs = async () => {
     const token = localStorage.getItem("access_token");
@@ -529,7 +531,7 @@ const ComboBox = ({
   const handleshowpreview = () => {
     let dayPrograms = generateDayProgramsFromSessions();
     // console.log(dayPrograms);
-    navigate("/workoutpreview", { state: { dayPrograms,workoutdescription } });
+    navigate("/workoutpreview", { state: { dayPrograms, workoutdescription } });
   };
 
   function generateDayProgramsFromSessions() {
@@ -686,7 +688,7 @@ const ComboBox = ({
 
         <Box mt={4}>
           <Typography variant="subtitle1" gutterBottom>
-            توضیحات برنامه 
+            توضیحات برنامه
           </Typography>
           <TextField
             multiline
