@@ -57,6 +57,9 @@ export default function WorkoutPlans() {
   const [istestreadonly, setIstestreadonly] = React.useState(false);
   const [initialsession, setInitialsession] = React.useState(null);
   const [mentorshipId, setMentorshipId] = React.useState(null);
+  const [initialworkoutname, setInitialworkoutname] = useState(null);
+  const [initialworkoutdescription, setInitialworkoutdescription] =
+    useState(null);
 
   //  console.log(selectedUserId);
   const handleStartWritingPlan = () => {
@@ -71,7 +74,7 @@ export default function WorkoutPlans() {
 
   const navigate = useNavigate();
 
-  if (userInfo!=null&&userInfo.usertype == "trainer") {
+  if (userInfo != null && userInfo.usertype == "trainer") {
     if (loading) {
       return (
         <Fade in={loadingVisible} timeout={800}>
@@ -130,9 +133,10 @@ export default function WorkoutPlans() {
                 initialSessions={initialsession}
                 setInitialsession={setInitialsession}
                 updating={false}
-                initialworkoutname={null}
-                initialworkoutdescription={null}
-
+                initialworkoutname={initialworkoutname}
+                initialworkoutdescription={initialworkoutdescription}
+                setInitialworkoutname={setInitialworkoutname}
+                setInitialworkoutdescription={setInitialworkoutdescription}
               />
             ) : (
               <>

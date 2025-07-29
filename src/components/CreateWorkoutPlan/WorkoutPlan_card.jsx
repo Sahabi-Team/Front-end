@@ -258,7 +258,10 @@ const ComboBox = ({
   updating,
   workoutplanidonupdate,
   initialworkoutname,
+  setInitialworkoutname,
   initialworkoutdescription,
+  setInitialworkoutdescription,
+
 }) => {
   const [sessions, setSessions] = useState(
     initialSessions ?? [{ moves: [], note: "" }]
@@ -298,6 +301,8 @@ const ComboBox = ({
     showtest(true);
     setShowWorkoutPlan(false);
     setInitialsession(sessions);
+    setInitialworkoutname(workoutname)
+    setInitialworkoutdescription(workoutdescription)
   };
 
   const handleAddMove = () => {

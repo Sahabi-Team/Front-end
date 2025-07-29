@@ -86,7 +86,7 @@ const TestResultCard = ({
       age--;
     }
 
-    return age;
+    return age-621;
   }
 
   useEffect(() => {
@@ -845,7 +845,7 @@ const TestResultCard = ({
                           <Chip
                             key={index}
                             label={issue.trim()}
-                            color={(issue.trim()=="ندارد")? primary: 'red'} 
+                            color="error"
                             variant="outlined"
                           />
                         )
