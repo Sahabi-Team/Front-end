@@ -104,6 +104,8 @@ export default function Exercise_Detail() {
               <IconButton
                 onClick={handleBackClick} // فراخوانی تابع برای هدایت
                 sx={{
+                  width:'35%',
+                  height:'35%',
                   backgroundColor: "#f5f5f5",
                   color: "#333",
                   boxShadow: 2,
@@ -118,7 +120,7 @@ export default function Exercise_Detail() {
                 <ArrowBackIosNewIcon fontSize="small" />
               </IconButton>
 
-              <Typography variant="h6" color="text.secondary">
+              <Typography fontSize={{xs:13,sm:17,md:20}} color="text.secondary">
                 بازگشت
               </Typography>
             </Box>
@@ -128,12 +130,12 @@ export default function Exercise_Detail() {
                   <CircularProgress />
                 </Box>
               ) : (
-                <Typography variant="h6" fontWeight="bold">
+                <Typography fontSize={{xs:13,sm:17,md:20}} fontWeight="bold">
                   {exerciseData.name}
                 </Typography>
               )}
               <Box sx={{ width: 10 }}></Box>
-              <Typography variant="h6" fontWeight="bold">
+              <Typography fontSize={{xs:13,sm:17,md:20}} fontWeight="bold">
                 : عنوان حرکت
               </Typography>
             </Stack>
