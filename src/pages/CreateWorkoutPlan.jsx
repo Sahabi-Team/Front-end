@@ -71,7 +71,7 @@ export default function WorkoutPlans() {
 
   const navigate = useNavigate();
 
-  if (userInfo.usertype == "trainer") {
+  if (userInfo!=null&&userInfo.usertype == "trainer") {
     if (loading) {
       return (
         <Fade in={loadingVisible} timeout={800}>
@@ -131,6 +131,7 @@ export default function WorkoutPlans() {
                 setInitialsession={setInitialsession}
                 updating={false}
                 initialworkoutname={null}
+                initialworkoutdescription={null}
 
               />
             ) : (

@@ -258,6 +258,7 @@ const ComboBox = ({
   updating,
   workoutplanidonupdate,
   initialworkoutname,
+  initialworkoutdescription,
 }) => {
   const [sessions, setSessions] = useState(
     initialSessions ?? [{ moves: [], note: "" }]
@@ -272,6 +273,10 @@ const ComboBox = ({
 
   const [workoutname, setWorkoutname] = useState(
     initialworkoutname == null ? null : initialworkoutname
+  );
+
+  const [workoutdescription, setWorkoutdescription] = useState(
+    initialworkoutdescription == null ? null : initialworkoutdescription
   );
 
   const toPersianNumber = (num) =>
@@ -318,8 +323,9 @@ const ComboBox = ({
   };
 
   const handleNoteChange = (e) => {
-    const updatedSession = { ...currentSession, note: e.target.value };
-    updateSession(sessionIndex, updatedSession);
+    // const updatedSession = { ...currentSession, note: e.target.value };
+    // updateSession(sessionIndex, updatedSession);
+    setWorkoutdescription(e.target.value);
   };
 
   const updateSession = (index, updatedSession) => {
@@ -352,8 +358,6 @@ const ComboBox = ({
     }
   };
 
- 
-
   const deleteWorkoutPlanById = async (planId) => {
     const token = localStorage.getItem("access_token");
 
@@ -379,7 +383,7 @@ const ComboBox = ({
       );
     }
   };
-  
+
   const handleSubmit = async () => {
     setLoading(true);
     let error_occured = false;
@@ -416,7 +420,7 @@ const ComboBox = ({
         mentorship: mentorshipId,
         status: "در حال انجام",
         name: workoutname == null ? "برنامه یک ماهه" : workoutname,
-        description: "این برنامه یک ماهه است.",
+        description: (workoutdescription==null)? "هیچ یادداشتی اضافه نشده است." :workoutdescription,
       };
 
       const token = localStorage.getItem("access_token");
@@ -498,8 +502,10 @@ const ComboBox = ({
     setLoading(false); // پایان حالت لودینگ
   };
 
-  const delete_programs = async() =>{
-     const token = localStorage.getItem("access_token");
+
+  // just for debugging purpose
+  const delete_programs = async () => {
+    const token = localStorage.getItem("access_token");
     // alert(token);
     try {
       const response = await axios.get(
@@ -515,17 +521,15 @@ const ComboBox = ({
       // console.log("ddd ",response.data);
       let x = response.data.id;
       deleteWorkoutPlanById(x);
+    } catch {
+      alert("eeror");
     }
-    catch{
-        alert("eeror");
-    }
-  }
-  
+  };
 
   const handleshowpreview = () => {
     let dayPrograms = generateDayProgramsFromSessions();
     // console.log(dayPrograms);
-    navigate("/workoutpreview", { state: { dayPrograms } });
+    navigate("/workoutpreview", { state: { dayPrograms,workoutdescription } });
   };
 
   function generateDayProgramsFromSessions() {
@@ -682,13 +686,13 @@ const ComboBox = ({
 
         <Box mt={4}>
           <Typography variant="subtitle1" gutterBottom>
-            توضیحات جلسه:
+            توضیحات برنامه 
           </Typography>
           <TextField
             multiline
             minRows={3}
             fullWidth
-            value={currentSession.note}
+            value={workoutdescription}
             onChange={handleNoteChange}
             placeholder="توضیحات بیشتری بنویسید..."
             sx={{
@@ -702,7 +706,7 @@ const ComboBox = ({
         <Box
           bottom={0}
           left={0}
-          width={{xs:"50%",md:"80%"}}
+          width={{ xs: "50%", md: "80%" }}
           bgcolor="#ffffffee"
           boxShadow="0 -2px 10px rgba(0,0,0,0.1)"
           py={2}
@@ -714,7 +718,7 @@ const ComboBox = ({
           }}
         >
           <Stack
-            direction={{ xs: "column",md:'row' }}
+            direction={{ xs: "column", md: "row" }}
             justifyContent="center"
             alignItems="center"
             gap={2}
@@ -726,7 +730,7 @@ const ComboBox = ({
               color="primary"
               sx={{
                 width: { xs: "100%", md: 300 },
-                whiteSpace:'nowrap'
+                whiteSpace: "nowrap",
               }}
             >
               روز قبل
@@ -737,7 +741,7 @@ const ComboBox = ({
               onClick={goToNextDay}
               sx={{
                 width: { xs: "100%", md: 300 },
-                whiteSpace:'nowrap'
+                whiteSpace: "nowrap",
               }}
             >
               روز بعد
@@ -748,9 +752,8 @@ const ComboBox = ({
               onClick={handleshowtest}
               sx={{
                 width: { xs: "100%", md: 300 },
-                whiteSpace:'nowrap'
+                whiteSpace: "nowrap",
               }}
-            
             >
               نتیجه تست
             </Button>
@@ -769,7 +772,6 @@ const ComboBox = ({
               sx={{
                 width: { xs: "100%", md: 300 },
               }}
-              
             >
               انصراف
             </Button>
@@ -784,7 +786,7 @@ const ComboBox = ({
                 justifyContent: "center",
                 gap: 1,
                 width: { xs: "100%", md: 350 },
-                whiteSpace:'nowrap'
+                whiteSpace: "nowrap",
               }}
             >
               {loading && (

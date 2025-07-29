@@ -14,6 +14,7 @@ import {
   CircularProgress,
   Fade,
   useMediaQuery,
+  TextField,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
@@ -46,6 +47,7 @@ export default function WorkoutDetails() {
   let access_token = localStorage.getItem("access_token");
   const location = useLocation();
   const dayPrograms = location.state?.dayPrograms || [];
+  const workoutdescription = location.state?.workoutdescription || "هیچ یادداشتی اضافه نشده است."
 
   const toPersianNumber = (num) =>
     num?.toString().replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
@@ -226,6 +228,27 @@ export default function WorkoutDetails() {
             ))}
           </Stack>
         </Stack>
+        <Box mt={3}>
+          <Typography
+            variant="subtitle1"
+            gutterBottom
+            sx={{ textAlign: "center", fontWeight: "bold" }}
+          >
+            توضیحات برنامه
+          </Typography>
+          <TextField
+            readOnly={true}
+            multiline
+            minRows={3}
+            fullWidth
+            value={workoutdescription}
+            placeholder=""
+            sx={{
+              backgroundColor: "#fafafa",
+              borderRadius: 2,
+            }}
+          />
+        </Box>
       </Paper>
     </MainLayout>
   );

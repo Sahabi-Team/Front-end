@@ -14,6 +14,7 @@ import {
   CircularProgress,
   Fade,
   useMediaQuery,
+  TextField,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
@@ -117,7 +118,7 @@ const WorkoutDetails = () => {
     return Object.values(dayMap);
   };
 
-  if (userInfo.usertype !== "trainee") {
+  if (userInfo == null || userInfo.usertype !== "trainee") {
     navigate("/404");
     return null;
   }
@@ -147,7 +148,7 @@ const WorkoutDetails = () => {
   }
 
   const dayPrograms = generateDayProgramsFromExercises(workout.exercises);
-
+ 
   return (
     <MainLayout>
       <Paper
@@ -207,7 +208,12 @@ const WorkoutDetails = () => {
             >
               مربی :
             </Typography>
-            <Typography >رضا یزدی</Typography>
+            <Typography
+              variant={isMobile ? "subtitle1" : "h6"}
+              fontWeight="bold"
+            >
+             {workout.trainer_namee}
+            </Typography>
           </Stack>
 
           <Divider
@@ -316,7 +322,26 @@ const WorkoutDetails = () => {
               </Accordion>
             ))}
           </Stack>
+      
+          
         </Stack>
+        <Box mt={3} >
+            <Typography variant="subtitle1" gutterBottom sx={{textAlign:'center', fontWeight:"bold"}}>
+              توضیحات برنامه
+            </Typography>
+            <TextField
+              readOnly={true}
+              multiline
+              minRows={3}
+              fullWidth
+              value={workout.description}
+              placeholder=""
+              sx={{
+                backgroundColor: "#fafafa",
+                borderRadius: 2,
+              }}
+            />
+          </Box>
       </Paper>
     </MainLayout>
   );

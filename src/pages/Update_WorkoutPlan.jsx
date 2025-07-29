@@ -59,8 +59,10 @@ export default function WorkoutPlans() {
   const [mentorshipId, setMentorshipId] = React.useState(null);
   const [workoutplanIdonUpdate, setWorkoutplanIdonUpdate] =
     React.useState(null);
+  
 
   const[initialworkoutname,setInitialworkoutname] = useState(null);
+  const[initialworkoutdescription,setInitialworkoutdescription] = useState(null);
 
   // console.log(selectedUserId);
   const handleStartWritingPlan = () => {
@@ -175,7 +177,7 @@ export default function WorkoutPlans() {
 
   const navigate = useNavigate();
 
-  if (userInfo.usertype == "trainer") {
+  if (userInfo!=null&&userInfo.usertype == "trainer") {
     useEffect(() => {
       const loadSessions = async () => {
         const loadedSessions = await fetchLatestWorkoutPlanAsSessions();
@@ -248,6 +250,7 @@ export default function WorkoutPlans() {
                         initialSessions={initialsession}
                         setInitialsession={setInitialsession}
                         initialworkoutname={initialworkoutname}
+                        initialworkoutdescription={initialworkoutdescription}
                       />
                     ) : (
                       <>
