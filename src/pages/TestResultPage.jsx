@@ -280,18 +280,31 @@ if (loading) {
           <Stack 
             direction={{ xs: 'column', md: 'row' }} 
             spacing={2} 
-            sx={{ mb: 2, border: 'none' }}
+            sx={{ mb: 2, border: 'none', alignItems: 'stretch' }} 
           >
-            <Box sx={{ width: { xs: '100%', md: '50%' }, border: 'none' }}>
-              <BFPCard bfpValue={bfp} />
+            <Box 
+              sx={{ 
+                width: { xs: '100%', md: '50%' }, 
+                border: 'none', 
+                display: 'flex' 
+              }}
+            >
+              <BFPCard bfpValue={bfp} sx={{ flexGrow: 1 }} /> {/* ← Make child fill height */}
             </Box>
-            <Box sx={{ width: { xs: '100%', md: '50%' }, border: 'none' }}>
-              <BMICard bmiValue={bmi} height={userInfo.height} />
+            <Box 
+              sx={{ 
+                width: { xs: '100%', md: '50%' }, 
+                border: 'none', 
+                display: 'flex' 
+              }}
+            >
+              <BMICard bmiValue={bmi} height={userInfo.height} sx={{ flexGrow: 1 }} />
             </Box>
           </Stack>
+
           
           {/* Goal Timeline*/}
-          <GoalTimelineCard weeks={weeks} days={days} />
+          <GoalTimelineCard workoutDays={userInfo.workout_days} goal={userInfo.goal} />
           
           {/* Community section */}
           <CommunityCard memberCount={memberCount} />

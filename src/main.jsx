@@ -31,7 +31,6 @@ import InternalServerErrorPage from "./pages/InternalServerErrorPage";
 import TrainerProfile from './pages/TrainerProfile.jsx';
 import ChangePasswordTrainer from './pages/ChangePasswordTrainer.jsx';
 import Chat from './pages/Chat.jsx';
-
 import CreateWorkoutPlan from './pages/CreateWorkoutPlan.jsx';
 import WorkoutPreview from './components/CreateWorkoutPlan/WorkoutPreview.jsx';
 import UpdateWorkoutPlan from './pages/Update_WorkoutPlan.jsx';
@@ -66,40 +65,6 @@ const theme = createTheme({
   },
 });
 
-
-/*const MainApp = () => {
-  const { userInfo } = useContext(AuthContext); // استفاده از اطلاعات کاربری از Context
-
-  const renderSidebar = () => {
-    if (userInfo?.usertype === 'trainer') {
-      return <TreinerSidebar />;
-    } else if (userInfo?.usertype === 'trainee') {
-      return <ClientSidebar />;
-    } else {
-      return <GuestSidebar />;
-    }
-  };
-
-  return (
-    <div className="main-layout">
-      {renderSidebar()}
-      <div className="content">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/signin" element={<SignInSide />} />
-          <Route path="/askforemail" element={<AskforEmail />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/resetpassword" element={<ResetPassword />} />
-          <Route path="/test" element={<BodyBuildingTest />} />
-          <Route path="/editprofile" element={<EditProfile />} />
-          <Route path="/FAQ" element={<FAQPage />} />
-          <Route path='/exercises' element={<ExercisesPage />} />
-          <Route path='/changepassword' element={<ChangePasswordClient />} />
-        </Routes>
-      </div>
-    </div>
-  );
-};*/
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

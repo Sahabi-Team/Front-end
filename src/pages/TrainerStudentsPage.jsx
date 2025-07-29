@@ -35,7 +35,7 @@ const TrainerStudentsPage = () => {
   };
 
   const handleChatClick = (username) => {
-    navigate(`/chat/`);
+    navigate(`/chat`);
   };
 
   // Fetch trainees from API

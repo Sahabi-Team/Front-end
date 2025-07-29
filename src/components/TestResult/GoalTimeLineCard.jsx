@@ -26,8 +26,15 @@ const toPersianDigits = (num) => {
   return num.toString().replace(/\d/g, (digit) => "۰۱۲۳۴۵۶۷۸۹"[digit]);
 };
 
+const normalizePersianDigits = (str) => {
+  if (!str) return '';
+  return str.replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
+};
+
 // Function to estimate goal timeline based on workout days and goal
 const estimateGoalTimeline = (workoutDays, goal) => {
+  workoutDays = normalizePersianDigits(workoutDays); 
+  goal = normalizePersianDigits(goal);
   let baseWeeks = 12; // Base for moderate activity
   let weeklyWorkoutFactor = 1; // Factor for adjusting time
 
