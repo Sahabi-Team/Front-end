@@ -1,4 +1,4 @@
-import React, { useContext} from "react";
+import React, { useContext } from "react";
 import ExerciseCard from "../components/Exercise_Detail/ExerciseCard";
 import Navbar from "../components/home/NavbarCard";
 import { CssBaseline, Box, Typography, Stack } from "@mui/material";
@@ -20,23 +20,27 @@ export default function Exercise_Detail() {
   const location = useLocation();
   const { returndata } = location.state || {};
   const { userInfo, logout } = useContext(AuthContext);
-//  console.log(location.state)
+  //  console.log(location.state)
   const handleBackClick = () => {
-   if(userInfo!=null){
-    if (userInfo.usertype == "trainer") {
-      navigate("/exercises");
-    } 
-    else if (userInfo.usertype == "trainee") {
-      // console.log("salam");
-      if (returndata == null) {
-        navigate("/exercises");
-      } else {
-        // alert(returndata);
-        navigate(returndata);
+    if (userInfo != null) {
+      if (userInfo.usertype == "trainer") {
+        // navigate("/exercises");
+        if (returndata == null) {
+          navigate("/exercises");
+        }
+        else{
+           navigate("/workoutpreview", { state: returndata });
+        }
+      } else if (userInfo.usertype == "trainee") {
+        // console.log("salam");
+        if (returndata == null) {
+          navigate("/exercises");
+        } else {
+          // alert(returndata);
+          navigate(returndata);
+        }
       }
-    } 
-  }
-    else {
+    } else {
       navigate("/exercises");
     }
   };
@@ -104,8 +108,8 @@ export default function Exercise_Detail() {
               <IconButton
                 onClick={handleBackClick} // فراخوانی تابع برای هدایت
                 sx={{
-                  width:'35%',
-                  height:'35%',
+                  width: "35%",
+                  height: "35%",
                   backgroundColor: "#f5f5f5",
                   color: "#333",
                   boxShadow: 2,
@@ -120,7 +124,10 @@ export default function Exercise_Detail() {
                 <ArrowBackIosNewIcon fontSize="small" />
               </IconButton>
 
-              <Typography fontSize={{xs:13,sm:17,md:20}} color="text.secondary">
+              <Typography
+                fontSize={{ xs: 13, sm: 17, md: 20 }}
+                color="text.secondary"
+              >
                 بازگشت
               </Typography>
             </Box>
@@ -130,12 +137,18 @@ export default function Exercise_Detail() {
                   <CircularProgress />
                 </Box>
               ) : (
-                <Typography fontSize={{xs:13,sm:17,md:20}} fontWeight="bold">
+                <Typography
+                  fontSize={{ xs: 13, sm: 17, md: 20 }}
+                  fontWeight="bold"
+                >
                   {exerciseData.name}
                 </Typography>
               )}
               <Box sx={{ width: 10 }}></Box>
-              <Typography fontSize={{xs:13,sm:17,md:20}} fontWeight="bold">
+              <Typography
+                fontSize={{ xs: 13, sm: 17, md: 20 }}
+                fontWeight="bold"
+              >
                 : عنوان حرکت
               </Typography>
             </Stack>

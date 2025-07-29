@@ -60,10 +60,14 @@ const TestResultCard = ({
   const [traineestests, setTraineestests] = useState([]);
   const [loading, setLoading] = useState(true);
   const { userInfo } = useContext(AuthContext);
-  const selectedUser = traineestests.find(
+  let selectedUser = traineestests.find(
     (user) => user.trainee_username === selectedUserId
   );
   if (selectedUser) setMentorshipId(selectedUser.mentorship_id);
+  
+  if(selectedUser&&selectedUser.diseases=="")selectedUser.diseases=null;
+  if(selectedUser&&selectedUser.focus_area=="")selectedUser.focus_area=null;
+
   let access_token = localStorage.getItem("access_token");
   const navigate = useNavigate();
 
@@ -97,6 +101,7 @@ const TestResultCard = ({
           }
         );
         setTraineestests(response.data);
+        console.log(response.data);
       } catch (error) {
         navigate("/500");
       } finally {
@@ -108,6 +113,10 @@ const TestResultCard = ({
   }, []);
 
   // console.log(traineestests);
+     
+  // console.log(selectedUser.diseases?.split(","));
+     
+    
 
   if (loading) {
     return (
@@ -125,6 +134,9 @@ const TestResultCard = ({
       </Box>
     );
   }
+  
+
+  // console.log(selectedUser?.diseases==null);
 
   if (isSm || isXs) {
     return (
@@ -132,8 +144,8 @@ const TestResultCard = ({
         <Box paddingRight={9} paddingLeft={9} paddingTop={9}>
           <Stack direction={"column"} gap={1}>
             <Box display="flex" alignItems="center" mb={3}>
-              <Typography variant="h6" fontWeight="bold" whiteSpace={'nowrap'}>
-                نام شاگرد : 
+              <Typography variant="h6" fontWeight="bold" whiteSpace={"nowrap"}>
+                نام شاگرد :
               </Typography>
               {/* <PersonOutlineIcon sx={{ color: '#1976d2', ml: 1 }} /> */}
             </Box>
@@ -152,7 +164,7 @@ const TestResultCard = ({
                   );
                   setMentorshipId(selectedUser.mentorship_id);
                 }}
-                sx={{ width: { xs: "100%",sm:"70%", md: "30%" }, }}
+                sx={{ width: { xs: "100%", sm: "70%", md: "30%" } }}
               >
                 {traineestests.map((user) => (
                   <MenuItem
@@ -261,7 +273,7 @@ const TestResultCard = ({
                   <img
                     src={
                       BodyForms[selectedUser.gender == "male" ? 0 : 1][
-                        selectedUser.body_form-1
+                        selectedUser.body_form - 1
                       ]
                     }
                   />
@@ -310,7 +322,7 @@ const TestResultCard = ({
                 fontWeight="bold"
                 sx={{ whiteSpace: "nowrap" }}
               >
-                نام شاگرد : 
+                نام شاگرد :
               </Typography>
               {/* <PersonOutlineIcon sx={{ color: '#1976d2', ml: 1 }} /> */}
             </Box>
@@ -456,7 +468,7 @@ const TestResultCard = ({
                     <img
                       src={
                         BodyForms[selectedUser.gender == "male" ? 0 : 1][
-                          selectedUser.body_form-1
+                          selectedUser.body_form - 1
                         ]
                       }
                     />
@@ -506,7 +518,7 @@ const TestResultCard = ({
                 fontWeight="bold"
                 sx={{ whiteSpace: "nowrap" }}
               >
-                نام شاگرد : 
+                نام شاگرد :
               </Typography>
               {/* <PersonOutlineIcon sx={{ color: '#1976d2', ml: 1 }} /> */}
             </Box>
@@ -592,16 +604,21 @@ const TestResultCard = ({
                       gap={1}
                       sx={{ maxWidth: 300 }} // یا هر عرضی که تقریبا برای 3 چیپ کافیه
                     >
-                      {(selectedUser.focus_area.split(",") || []).map(
-                        (muscle, index) => (
-                          <Chip
-                            key={index}
-                            label={muscle.trim()}
-                            color="primary"
-                            variant="outlined"
-                          />
-                        )
-                      )}
+                      {selectedUser.focus_area &&
+                        selectedUser.focus_area
+                          .split(",")
+                          .filter((item) => item.trim() !== "").length > 0 &&
+                        selectedUser.focus_area
+                          .split(",")
+                          .filter((item) => item.trim() !== "")
+                          .map((muscle, index) => (
+                            <Chip
+                              key={index}
+                              label={muscle.trim()}
+                              color="primary"
+                              variant="outlined"
+                            />
+                          ))}
                     </Stack>
                   </Stack>
 
@@ -615,16 +632,18 @@ const TestResultCard = ({
                       gap={1}
                       sx={{ maxWidth: 300 }}
                     >
-                      {(selectedUser.diseases?.split(",") || []).map(
-                        (issue, index) => (
-                          <Chip
-                            key={index}
-                            label={issue.trim()}
-                            color="error"
-                            variant="outlined"
-                          />
-                        )
-                      )}
+                    
+                      {selectedUser.diseases?.split(",") && selectedUser.diseases?.split(",").length!==0 && selectedUser.diseases?.split(",")[0]!=" " &&
+                        selectedUser.diseases
+                          .split(",")
+                          .map((issue, index) => (
+                            <Chip
+                              key={index}
+                              label={issue.trim()}
+                              color="error"
+                              variant="outlined"
+                            />
+                          ))}
                     </Stack>
                     {/* <Typography>{selectedUser.diseases}</Typography> */}
                   </Stack>
@@ -660,7 +679,7 @@ const TestResultCard = ({
                     <img
                       src={
                         BodyForms[selectedUser.gender == "male" ? 0 : 1][
-                          selectedUser.body_form-1
+                          selectedUser.body_form - 1
                         ]
                       }
                     />
@@ -700,6 +719,8 @@ const TestResultCard = ({
       </>
     );
   } else {
+  
+
     return (
       <>
         <Box paddingRight={9} paddingLeft={9} paddingTop={9}>
@@ -710,7 +731,7 @@ const TestResultCard = ({
                 fontWeight="bold"
                 sx={{ whiteSpace: "nowrap" }}
               >
-                نام شاگرد : 
+                نام شاگرد :
               </Typography>
               {/* <PersonOutlineIcon sx={{ color: '#1976d2', ml: 1 }} /> */}
             </Box>
@@ -824,7 +845,7 @@ const TestResultCard = ({
                           <Chip
                             key={index}
                             label={issue.trim()}
-                            color="error"
+                            color={(issue.trim()=="ندارد")? primary: 'red'} 
                             variant="outlined"
                           />
                         )
@@ -864,7 +885,7 @@ const TestResultCard = ({
                     <img
                       src={
                         BodyForms[selectedUser.gender == "male" ? 0 : 1][
-                          selectedUser.body_form-1
+                          selectedUser.body_form - 1
                         ]
                       }
                     />

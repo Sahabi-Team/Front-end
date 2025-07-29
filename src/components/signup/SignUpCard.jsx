@@ -201,7 +201,10 @@ export default function SignUpCard() {
       if (response.status === 201) {
         setSuccessMessage("تبریک\nشما با موفقیت ثبت نام شدید.");
         setOpenSuccessfulModal(true);
-        // navigate("/signin");
+
+        setTimeout(() => {
+          navigate("/signin");
+        }, 1500); // 60000 میلی‌ثانیه = 60 ثانیه
         // console.log("User registered successfully:", response.data.user);
       }
     } catch (error) {
@@ -246,15 +249,15 @@ export default function SignUpCard() {
           onClick={handleHomeClick}
           sx={{
             position: "absolute",
-            mr:-2.8,
-            mt:-3.3,
+            mr: -2.8,
+            mt: -3.3,
             color: "primary.main",
             "&:hover": {
               backgroundColor: "rgba(0, 163, 89, 0.1)",
             },
           }}
         >
-          <HomeIcon/>
+          <HomeIcon />
         </IconButton>
 
         <Typography
@@ -268,7 +271,6 @@ export default function SignUpCard() {
         >
           ثبت نام در سایت
         </Typography>
-
       </Stack>
 
       <Box

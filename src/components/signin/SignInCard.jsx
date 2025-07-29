@@ -88,7 +88,9 @@ export default function SignInCard() {
 
       localStorage.setItem("access_token", response.data.tokens.access);
       localStorage.setItem("refresh_token", response.data.tokens.refresh);
-      window.location.href = "/profile";
+      setTimeout(() => {
+        window.location.href = "/profile";
+      }, 1200); // 60000 میلی‌ثانیه = 60 ثانیه
 
       // ذخیره اطلاعات ورود در localStorage اگر "مرا به خاطر بسپار" فعال باشد
       if (rememberMe) {
@@ -117,10 +119,6 @@ export default function SignInCard() {
       }
     }
   };
-
-  
- 
- 
 
   const handleCloseErrorModal = () => {
     setOpenErrorModal(false); // بستن مودال
