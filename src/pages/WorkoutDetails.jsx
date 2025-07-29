@@ -117,7 +117,7 @@ const WorkoutDetails = () => {
     return Object.values(dayMap);
   };
 
-  if (userInfo==null||userInfo.usertype !== "trainee") {
+  if (userInfo == null || userInfo.usertype !== "trainee") {
     navigate("/404");
     return null;
   }
@@ -206,7 +206,12 @@ const WorkoutDetails = () => {
             >
               مربی :
             </Typography>
-            <Typography>رضا یزدی</Typography>
+            <Typography
+              variant={isMobile ? "subtitle1" : "h6"}
+              fontWeight="bold"
+            >
+              رضا یزدی
+            </Typography>
           </Stack>
 
           <Divider
@@ -314,6 +319,23 @@ const WorkoutDetails = () => {
               </Accordion>
             ))}
           </Stack>
+          <Box mt={4}>
+            <Typography variant="subtitle1" gutterBottom>
+              توضیحات برنامه :
+            </Typography>
+            <TextField
+              readOnly={true}
+              multiline
+              minRows={3}
+              fullWidth
+              value={workout.description}
+              placeholder=""
+              sx={{
+                backgroundColor: "#fafafa",
+                borderRadius: 2,
+              }}
+            />
+          </Box>
         </Stack>
       </Paper>
     </MainLayout>
