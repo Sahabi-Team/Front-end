@@ -55,7 +55,8 @@ const TestRequiredModal = ({ open, onClose, onConfirm }) => {
             backgroundColor: "white",
             color: "black",
             "&:hover": {
-              backgroundColor: "#d32f2f",
+              backgroundColor: "rgb(0, 148, 81)",
+              color : "white",
             },
           }}
         >
@@ -72,6 +73,7 @@ const TestRequiredModal = ({ open, onClose, onConfirm }) => {
             backgroundColor: "white",
             "&:hover": {
               backgroundColor: "#d32f2f",
+              color : "white",
             },
           }}
         >

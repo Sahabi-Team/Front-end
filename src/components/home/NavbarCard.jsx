@@ -45,13 +45,33 @@ const CustomTextButton = styled(Button)(({ theme }) => ({
   fontWeight: "bold",
   padding: "6px 16px",
   borderRadius: "12px",
+  position: "relative", // required for the underline to be positioned correctly
   transition: "all 0.3s ease",
+
+  "&::after": {
+    content: '""',
+    position: "absolute",
+    bottom: 0,
+    right: "20%", // adjust to control width and alignment
+    width: "60%",
+    height: "2px",
+    backgroundColor: "#00A359", // green underline
+    transform: "scaleX(0)",
+    transformOrigin: "center",
+    transition: "transform 0.3s ease",
+  },
+
   "&:hover": {
-    backgroundColor: "rgba(76, 175, 80, 0.1)",
-    transform: "translateY(-2px)",
-    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+    backgroundColor: "rgba(255, 255, 255, 0.0)",
+    transform: "translateY(-3px)",
+    // boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+  },
+
+  "&:hover::after": {
+    transform: "scaleX(1)", // show the underline
   },
 }));
+
 
 const GradientButton = styled(Button)(({ theme }) => ({
   background: "linear-gradient(120deg, #4CAF50, #2E7D32)",
@@ -68,7 +88,7 @@ const GradientButton = styled(Button)(({ theme }) => ({
   },
   "&:hover": {
     background: "linear-gradient(120deg, #3e8e41, #1B5E20)",
-    transform: "scale(1.05)",
+    transform: "scale(1.02)",
   },
 }));
 
@@ -100,15 +120,7 @@ const LogoImage = styled("img")(({ theme }) => ({
   cursor: "pointer",
   borderRadius: "12px",
   transition: "all 0.3s ease",
-  boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-  "&:hover": {
-    transform: "scale(1.08) rotate(-1deg)",
-    opacity: 0.9,
-    boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-  },
-  [theme.breakpoints.down("sm")]: {
-    height: "42px",
-  },
+  // boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
 }));
 
 
