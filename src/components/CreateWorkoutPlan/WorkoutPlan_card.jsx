@@ -624,10 +624,10 @@ const ComboBox = ({
                   borderColor: "#ccc",
                 },
                 "&:hover fieldset": {
-                  borderColor: "#1976d2",
+                  borderColor: "rgb(101, 183, 100)",
                 },
                 "&.Mui-focused fieldset": {
-                  borderColor: "#1976d2",
+                  borderColor: "rgb(101, 183, 100)",
                 },
               },
             }}
@@ -645,7 +645,7 @@ const ComboBox = ({
       </Box>
 
       <Box px={{ xs: 2, sm: 3, md: 4 }} pb={14}>
-        <Typography variant="h6" color="primary" mb={3} textAlign="left">
+        <Typography variant="h6" color="black" mb={3} textAlign="left">
           جلسه تمرینی {toPersianNumber(sessionIndex + 1)}
         </Typography>
 

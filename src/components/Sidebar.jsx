@@ -48,12 +48,12 @@ const SidebarContent = ({
     { text: "پیام‌ها", icon: <MailIcon />, link: "/chat" },
   ] : [
     { text: "صفحه اصلی", icon: <HomeIcon />, link: "/" },
-    { text: "مشاهده برنامه", icon: <ArticleIcon />, link: "/workoutplans" },
+    { text: "مشاهده برنامه", icon: <ArticleIcon />, link: "/workoutplans" ,matchRoutes: ['/workoutplans', '/workoutDetails']},
     { text: "دریافت برنامه جدید", icon: <AddIcon />, link: "/trainers" },
     { text: "نتایج تست ها", icon: <BarChartIcon />, link: "/test_result" },
     { text: "تغییر اطلاعات کاربری", icon: <EditIcon />, link: "/editprofile" },
     { text: "تغییر رمز عبور", icon: <VpnKeyIcon />, link: "/changepasswordtrainee" },
-    { text: "پیام‌ها", icon: <MailIcon />, link: "/chat" },
+    { text: "پیام‌ها", icon: <MailIcon />, link: "/chat",matchRoutes: ['/chat'] },
   ];
 
   return (
@@ -134,7 +134,11 @@ const SidebarContent = ({
       {/* Main menu items including messages */}
       <List sx={{ p: 0, flex: 1 }}>
         {menuItems.map((item) => {
-          const isActive = currentPath === item.link;
+          const isActive = item.matchRoutes
+          ? item.matchRoutes.some(route => currentPath.startsWith(route))
+          : item.link === '/'
+            ? currentPath === '/'
+            : currentPath.startsWith(item.link);
           const listItem = (
             <ListItem
               button
