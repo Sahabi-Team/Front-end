@@ -63,7 +63,7 @@ const Header = ({ isSidebarOpen }) => {
       </Typography>
 
       <a
-        href="http://gym-bato.ir"
+        href="/"
         style={{ textDecoration: 'none' }}
         rel="noopener noreferrer"
       >
