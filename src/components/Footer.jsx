@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Grid, Typography, Divider, Link, IconButton } from '@mui/material';
 import { LocationOn, Phone } from '@mui/icons-material';
-import { Instagram, Telegram, LinkedIn, Twitter } from '@mui/icons-material';
+import { Instagram, Telegram, LinkedIn, Twitter , Email } from '@mui/icons-material';
 import logo from '../assets/Logo/Logo3.svg';
 
 const Footer = () => {
@@ -52,12 +52,18 @@ const Footer = () => {
             order: { xs: 2, md: 1 },
             mt: { xs: 2, md: 0 }
           }}>
-            <Typography>
+            <Typography sx={{ marginTop: 0, display: 'flex', alignItems: 'center', justifyContent: { xs: 'center', md: 'start' }, textAlign: { xs: 'center', md: 'right' } }}>
               <LocationOn sx={{ marginRight: 1 }} />
               نشانی: دانشگاه علم و صنعت - دپارتمان مهندسی کامپیوتر
             </Typography>
-            <Typography sx={{ marginTop: 2, textAlign: "left" }}>
-              <Phone sx={{ marginRight: 1 }} /> 021-12345678
+            <Typography sx={{ marginTop: 2, display: 'flex', alignItems: 'center', justifyContent: { xs: 'center', md: 'start' }, textAlign: { xs: 'center', md: 'right' } }}>
+              <Phone sx={{ marginRight: 1 }} /> ۰۲۱-۱۲۳۴۵۶۷۸
+            </Typography>
+            <Typography sx={{ marginTop: 2, display: 'flex', alignItems: 'center', justifyContent: { xs: 'center', md: 'start' }, textAlign: { xs: 'center', md: 'right' } }}>
+              <Box component="span" sx={{ display: 'flex', alignItems: 'center', mr: 1 }}>
+                <Email />
+              </Box>
+              info@gymbato.com
             </Typography>
           </Box>
           <Box sx={{ 

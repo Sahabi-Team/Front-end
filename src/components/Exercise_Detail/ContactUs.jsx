@@ -43,7 +43,7 @@ export default function ShareCard() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <TelegramIcon />
+            <TelegramIcon sx={{ color: "white" }}/>
           </IconButton>
         </Box>
         <Box mx={1}>
@@ -54,7 +54,7 @@ export default function ShareCard() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <TwitterIcon />
+            <TwitterIcon sx={{ color: "white" }}/>
           </IconButton>
         </Box>
         <Box mx={1}>
@@ -65,7 +65,7 @@ export default function ShareCard() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <LinkedInIcon />
+            <LinkedInIcon sx={{ color: "white" }}/>
           </IconButton>
         </Box>
         <Box mx={1}>
@@ -76,7 +76,7 @@ export default function ShareCard() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <InstagramIcon />
+            <InstagramIcon sx={{ color: "white" }}/>
           </IconButton>
         </Box>
       </Box>
