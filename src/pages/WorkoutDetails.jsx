@@ -117,7 +117,7 @@ const WorkoutDetails = () => {
     return Object.values(dayMap);
   };
 
-  if (userInfo.usertype !== "trainee") {
+  if (userInfo==null||userInfo.usertype !== "trainee") {
     navigate("/404");
     return null;
   }

@@ -175,7 +175,7 @@ export default function WorkoutPlans() {
 
   const navigate = useNavigate();
 
-  if (userInfo.usertype == "trainer") {
+  if (userInfo!=null&&userInfo.usertype == "trainer") {
     useEffect(() => {
       const loadSessions = async () => {
         const loadedSessions = await fetchLatestWorkoutPlanAsSessions();
