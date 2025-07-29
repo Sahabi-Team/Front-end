@@ -246,8 +246,8 @@ const EditProfile = () => {
         
         
                <div style={{ 
-                        background: 'linear-gradient(to bottom, #009451 0%, #D07C28 100%)',
-                        padding: '30px', 
+                        background: 'linear-gradient(to bottom,rgb(0, 184, 101) 0%,rgb(1, 112, 62) 100%)',
+                        padding: '15px', 
                         borderRadius: '8px 8px 8px 8px', 
                         textAlign: 'center' 
                     }}>
