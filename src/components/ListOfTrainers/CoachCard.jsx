@@ -58,7 +58,7 @@ const CoachCard = ({ coach, onViewProfile, onOrder }) => {
           نام مربی: {coach.user.name}
         </Typography>
         <Typography align="right" mb={1}>
-          تخصص: {coach.specialties}
+          تخصص: {coach.specialties.replace(/,/g, "")}
         </Typography>
         <Typography align="right" mb={1}>
           سطح تجربه: {toPersianDigits(coach.experience)} سال

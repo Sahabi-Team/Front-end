@@ -3,9 +3,7 @@ import { Box, Divider, CssBaseline, CircularProgress, Typography, IconButton, Av
 import moment from 'jalali-moment';
 import ContactList from '../components/Chat/ContactList';
 import ChatBox from '../components/Chat/ChatBox';
-import Header from '../components/Header';
-import Sidebar from '../components/TrainerSidebar';
-import ContentContainer from '../components/ContentContainer';
+import MainLayout from "../components/MainLayout";
 import ErrorModal from "../components/modals/ErrorModal";
 import axios from 'axios';
 import config from '../config';
@@ -223,91 +221,84 @@ const ChatApp = () => {
 
   const selectedContact = contacts.find(contact => contact.id === selectedContactId);
   return (
-    <Box sx={{ minHeight: "100vh", display: "flex"}}>
-      <Sidebar />
+    <MainLayout>
       <CssBaseline enableColorScheme />
 
-      <Box sx={{flexGrow: 1}}>
-        <Header pageTitle="صفحه مربی" />
-        <ContentContainer>
-          {loading ? (
-            <>
-              <CircularProgress />
-              <Typography fontSize={20} mt={2}>در حال دریافت پیام ها...</Typography>
-            </>
-          ) : contacts.length === 0 ? (
-            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-              <Typography fontSize={32}>هیچ گفت‌وگویی وجود ندارد!</Typography>
-            </Box>
-          ) : (
-            <Box display="flex" height="90vh">
-              {/*Desktop Mode*/}
-              {!isMobile && (
-              <>
-                <ContactList
-                  contacts={contacts}
-                  selectedId={selectedContactId}
-                  onSelect={handleSelect}
-                />
-                <Divider orientation="vertical" flexItem />
-                <ChatBox
-                  messages={messages[selectedContactId] || []}
-                  newMessage={newMessage}
-                  setNewMessage={setNewMessage}
-                  handleSend={handleSend}
-                  isActive={isSelectedMentorshipActive}
-                />
-              </>
-              )}
+      {loading ? (
+        <>
+          <CircularProgress />
+          <Typography fontSize={20} mt={2}>در حال دریافت پیام ها...</Typography>
+        </>
+      ) : contacts.length === 0 ? (
+        <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+          <Typography fontSize={32}>هیچ گفت‌وگویی وجود ندارد!</Typography>
+        </Box>
+      ) : (
+        <Box display="flex" height="90vh">
+          {/*Desktop Mode*/}
+          {!isMobile && (
+          <>
+            <ContactList
+              contacts={contacts}
+              selectedId={selectedContactId}
+              onSelect={handleSelect}
+            />
+            <Divider orientation="vertical" flexItem />
+            <ChatBox
+              messages={messages[selectedContactId] || []}
+              newMessage={newMessage}
+              setNewMessage={setNewMessage}
+              handleSend={handleSend}
+              isActive={isSelectedMentorshipActive}
+            />
+          </>
+          )}
 
-              {/*Mobile Mode: Contacts List*/}
-              {isMobile && mobileView === 'contactsList' && (
-                <ContactList
-                  contacts={contacts}
-                  selectedId={selectedContactId}
-                  onSelect={handleSelect}
-                />
-              )}
+          {/*Mobile Mode: Contacts List*/}
+          {isMobile && mobileView === 'contactsList' && (
+            <ContactList
+              contacts={contacts}
+              selectedId={selectedContactId}
+              onSelect={handleSelect}
+            />
+          )}
 
-              {/*Mobile Mode: Chat Box*/}
-              {isMobile && mobileView === 'chat' && selectedContact && (
-                <Box display="flex" flexDirection="column" width="100%" height="100%">
-                  {/*Contact Information*/}
-                  <Box
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="space-between"
-                    flexDirection="row-reverse"
-                    px={2}
-                    py={1}
-                    borderBottom="1px solid #ddd"
-                    //sx={{position: 'sticky', top: 0, zIndex: 10, backgroundColor: '#fff'}}
-                  >
-                    <IconButton onClick={() => setMobileView('contactsList')}>
-                      <ArrowBackIcon />
-                    </IconButton>
-                    <Typography fontWeight="bold">{selectedContact.name}</Typography>
-                    <Avatar src={selectedContact.profilePicture} />
-                  </Box>
+          {/*Mobile Mode: Chat Box*/}
+          {isMobile && mobileView === 'chat' && selectedContact && (
+            <Box display="flex" flexDirection="column" width="100%" height="100%">
+              {/*Contact Information*/}
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+                flexDirection="row-reverse"
+                px={2}
+                py={1}
+                borderBottom="1px solid #ddd"
+                //sx={{position: 'sticky', top: 0, zIndex: 10, backgroundColor: '#fff'}}
+              >
+                <IconButton onClick={() => setMobileView('contactsList')}>
+                  <ArrowBackIcon />
+                </IconButton>
+                <Typography fontWeight="bold">{selectedContact.name}</Typography>
+                <Avatar src={selectedContact.profilePicture} />
+              </Box>
 
-                  {/*Chat*/}
-                  <ChatBox
-                    messages={messages[selectedContactId] || []}
-                    newMessage={newMessage}
-                    setNewMessage={setNewMessage}
-                    handleSend={handleSend}
-                    isActive={isSelectedMentorshipActive}
-                  />
-                </Box>
-              )}
+              {/*Chat*/}
+              <ChatBox
+                messages={messages[selectedContactId] || []}
+                newMessage={newMessage}
+                setNewMessage={setNewMessage}
+                handleSend={handleSend}
+                isActive={isSelectedMentorshipActive}
+              />
             </Box>
           )}
-        </ContentContainer>
-        
-        <ErrorModal open={openErrorModal} onClose={() => {setOpenErrorModal(false); if(errorMessage === "لطفاً ابتدا وارد حساب کاربری خود شوید."){navigate("/signin")} }} errorMessage={errorMessage} />
-      </Box>
-    </Box>
-    
+        </Box>
+      )}
+
+      <ErrorModal open={openErrorModal} onClose={() => {setOpenErrorModal(false); if(errorMessage === "لطفاً ابتدا وارد حساب کاربری خود شوید."){navigate("/signin")} }} errorMessage={errorMessage} />
+    </MainLayout>
   );
 };
 
