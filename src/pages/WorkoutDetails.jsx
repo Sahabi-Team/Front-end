@@ -14,6 +14,7 @@ import {
   CircularProgress,
   Fade,
   useMediaQuery,
+  TextField,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
@@ -147,7 +148,7 @@ const WorkoutDetails = () => {
   }
 
   const dayPrograms = generateDayProgramsFromExercises(workout.exercises);
-
+ 
   return (
     <MainLayout>
       <Paper
@@ -210,7 +211,7 @@ const WorkoutDetails = () => {
               variant={isMobile ? "subtitle1" : "h6"}
               fontWeight="bold"
             >
-              رضا یزدی
+             {workout.trainer_namee}
             </Typography>
           </Stack>
 
@@ -319,9 +320,12 @@ const WorkoutDetails = () => {
               </Accordion>
             ))}
           </Stack>
-          <Box mt={4}>
-            <Typography variant="subtitle1" gutterBottom>
-              توضیحات برنامه :
+      
+          
+        </Stack>
+        <Box mt={3} >
+            <Typography variant="subtitle1" gutterBottom sx={{textAlign:'center', fontWeight:"bold"}}>
+              توضیحات برنامه
             </Typography>
             <TextField
               readOnly={true}
@@ -336,7 +340,6 @@ const WorkoutDetails = () => {
               }}
             />
           </Box>
-        </Stack>
       </Paper>
     </MainLayout>
   );

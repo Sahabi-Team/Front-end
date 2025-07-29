@@ -529,7 +529,7 @@ const ComboBox = ({
   const handleshowpreview = () => {
     let dayPrograms = generateDayProgramsFromSessions();
     // console.log(dayPrograms);
-    navigate("/workoutpreview", { state: { dayPrograms } });
+    navigate("/workoutpreview", { state: { dayPrograms,workoutdescription } });
   };
 
   function generateDayProgramsFromSessions() {
@@ -686,7 +686,7 @@ const ComboBox = ({
 
         <Box mt={4}>
           <Typography variant="subtitle1" gutterBottom>
-            توضیحات برنامه :
+            توضیحات برنامه 
           </Typography>
           <TextField
             multiline
