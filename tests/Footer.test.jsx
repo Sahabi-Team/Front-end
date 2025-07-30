@@ -12,7 +12,7 @@ describe('Footer Component', () => {
   it('renders address and phone number', () => {
     render(<Footer />);
     expect(screen.getByText(/نشانی: دانشگاه علم و صنعت/i)).toBeInTheDocument();
-    expect(screen.getByText(/021-12345678/i)).toBeInTheDocument();
+    expect(screen.getByText(/۰۲۱-۱۲۳۴۵۶۷۸/i)).toBeInTheDocument();
   });
 
   it('should render all social media icons', () => {
