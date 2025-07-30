@@ -157,7 +157,7 @@ const ChatApp = () => {
     fetchChatHistory();
 
     //Connect to WebSocket
-    const ws = new WebSocket(`wss://api.gym-bato.ir/ws/chat/${m}/?token=${z}`);
+    const ws = new WebSocket(`wss://api.gym-bato.ir/ws/chat/${selectedContactId}/?token=${token}`);
     ws.onopen = () => {
       console.log("WebSocket connected");
       setSocket(ws); // فقط بعد از اتصال موفق ذخیره می‌شود
