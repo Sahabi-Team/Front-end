@@ -221,7 +221,7 @@ const BFPCard = ({ bfpValue = 15.3, gender = 'male' }) => {
             direction:'rtl',
             textAlign:'left'
           }}>
-            :وضعیت شاخص BFP 
+            :BFP شاخص وضعیت
           </Typography>
           
           <Typography variant="body2" color="text.secondary" sx={{ textAlign:'left',mb: 2 }}>
