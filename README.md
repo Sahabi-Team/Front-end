@@ -37,9 +37,9 @@
 ## 🧑‍🏫 Roles and Credits
 
 ### 👨‍🎨 UI/Frontend Development
-- Mohammad Mahdi Sharafbayani  
+- Mohammad Mahdi Sharafbayani
 - Ali Kargar
-- Moein Khanmohamadi  
+- Mohamad Moein Khanmohamadi
 - Nazanin Sharifi
 
 ### 🛠 Backend Development
